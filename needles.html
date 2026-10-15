@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Needles Catalogue | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+<style>
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+.logo span{color:var(--fawz-red)}
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+.hero p{color:#666;max-width:900px;line-height:1.6}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.toolbar input{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:280px;font-size:1rem;background:#fff}
+
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+.category-main-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:25px;margin-top:20px;}
+.category-main-card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,.05);transition:.3s ease;text-align:center;}
+.category-main-card:hover{transform:translateY(-5px);border-color:var(--fawz-red);box-shadow:0 18px 36px rgba(0,0,0,.12)}
+.category-main-card .img-wrap{height:220px;background:#fcfcfc;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);padding:20px}
+.category-main-card img{max-width:100%;max-height:100%;object-fit:contain}
+.category-main-card h3{margin:18px 0 18px;font-size:1.3rem;text-transform:uppercase;color:var(--fawz-dark)}
+
+/* Modal Structures */
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(5px);padding:30px 12px;overflow-y:auto}
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:10;line-height:1}
+.close-x:hover{color:var(--fawz-red)}
+
+/* Category Selection Grid Modal */
+.category-modal-content{background:#fff;margin:auto;max-width:1100px;border-radius:20px;padding:35px 25px 40px;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+.category-modal-header{margin-bottom:25px;border-left:6px solid var(--fawz-red);padding-left:15px}
+.category-modal-header h2{margin:0;font-size:1.8rem;text-transform:uppercase}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;max-height:70vh;overflow-y:auto;padding-right:5px}
+
+/* Product Cards inside Category Modal */
+.sub-product-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.04);transition:.2s ease}
+.sub-product-card:hover{transform:translateY(-3px);border-color:var(--fawz-red);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.sub-product-img{height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);padding:12px}
+.sub-product-img img{width:100%;height:100%;object-fit:contain}
+.sub-product-info{padding:12px}
+.sub-product-info h4{font-size:0.95rem;margin:0;line-height:1.25}
+
+/* Detailed Option Selection Modal */
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:500px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border);position:relative}
+.modal-left img{width:100%;height:100%;max-height:430px;object-fit:contain}
+.modal-right{padding:42px 36px}
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all}
+label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px;margin-top:20px;}
+.btn-add:hover{background:#b3161a}
+
+@media(max-width:760px){
+  header{align-items:flex-start;flex-direction:column} 
+  nav a{margin:0 14px 0 0}
+  .modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+  .modal-left{min-height:240px;border-right:0;border-bottom:1px solid var(--border)}
+}
+</style>
+
+
+
+<link rel="stylesheet" href="fawz-packing-info.css">
+</head>
+<body>
+<header>
+  <div class="logo">Fawz <span>Haberdashery</span></div>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="all-products.html">All Products</a>
+    <a href="demo_cart.html">View Cart</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Needles Catalogue</h1>
+  <p>Select a needle category to view all available variants, needle specs, and sizes.</p>
+  <div class="toolbar">
+    <input id="searchBox" placeholder="Search needle types or product IDs...">
+  </div>
+</section>
+
+<div id="imageBank" style="display:none;">
+    <img data-asset-key="butterfly-p1" src="images/Butterfly needles/0001.jpg" alt="Butterfly Needles Page 1">
+    <img data-asset-key="butterfly-p2" src="images/Butterfly needles/0002.jpg" alt="Butterfly Needles Page 2">
+    <img data-asset-key="butterfly-p3" src="images/Butterfly needles/0003.jpg" alt="Butterfly Needles Page 3">
+    <img data-asset-key="butterfly-p4" src="images/Butterfly needles/0004.jpg" alt="Butterfly Needles Page 4">
+
+    <img data-asset-key="gemsy-dbx1-size-11" src="images/Gemsy/0003.jpg" alt="Gemsy DBX1 Size 11">
+    <img data-asset-key="gemsy-dbx1-size-14" src="images/Gemsy/0001.jpg" alt="Gemsy DBX1 Size 14">
+    <img data-asset-key="gemsy-dbx1-size-16" src="images/Gemsy/0002.jpg" alt="Gemsy DBX1 Size 16">
+    <img data-asset-key="gemsy-dbx1-size-18" src="images/Gemsy/0004.jpg" alt="Gemsy DBX1 Size 18">
+    <img data-asset-key="gemsy-dbx1-size-21" src="images/Gemsy/0005.jpg" alt="Gemsy DBX1 Size 21">
+
+    <img data-asset-key="gemsy-dcx1-size-11" src="images/Gemsy/0006.jpg" alt="Gemsy DCX1 Size 11">
+    <img data-asset-key="gemsy-dcx1-size-12" src="images/Gemsy/0007.jpg" alt="Gemsy DCX1 Size 12">
+    <img data-asset-key="gemsy-dcx1-size-14" src="images/Gemsy/0008.jpg" alt="Gemsy DCX1 Size 14">
+    <img data-asset-key="gemsy-dcx1-size-16" src="images/Gemsy/0009.jpg" alt="Gemsy DCX1 Size 16">
+
+    <img data-asset-key="gemsy-dbxk5-size-9" src="images/Gemsy/0010.jpg" alt="Gemsy DBXK5 Size 9">
+    <img data-asset-key="gemsy-dbxk5-size-10" src="images/Gemsy/0011.jpg" alt="Gemsy DBXK5 Size 10">
+    <img data-asset-key="gemsy-dbxk5-size-11" src="images/Gemsy/0012.jpg" alt="Gemsy DBXK5 Size 11">
+    <img data-asset-key="gemsy-dbxk5-size-12" src="images/Gemsy/0013.jpg" alt="Gemsy DBXK5 Size 12">
+
+    <img data-asset-key="gemsy-dpxk17-size-20" src="images/Gemsy/0017.jpg" alt="Gemsy DPXK17 Size 20">
+    <img data-asset-key="gemsy-dpxk17-size-22" src="images/Gemsy/0015.jpg" alt="Gemsy DPXK17 Size 22">
+    <img data-asset-key="gemsy-dpxk17-size-23" src="images/Gemsy/0016.jpg" alt="Gemsy DPXK17 Size 23">
+    <img data-asset-key="gemsy-dpxk17-size-24" src="images/Gemsy/0014.jpg" alt="Gemsy DPXK17 Size 24">
+
+    <img data-asset-key="gemsy-uxx113gs-size-20" src="images/Gemsy/0019.jpg" alt="Gemsy UxX113GS Size 20">
+    <img data-asset-key="gemsy-fallback" src="images/Gemsy/0001.jpg" alt="Gemsy Needle Fallback">
+
+    <img data-asset-key="hands-p1" src="images/Hand/0001.jpg" alt="Hands Page 1">
+    <img data-asset-key="hands-p2" src="images/Hand/0002.jpg" alt="Hands Page 2">
+    <img data-asset-key="hands-p3" src="images/Hand/0010.jpg" alt="Hands Page 3">
+    <img data-asset-key="hands-p4" src="images/Hand/0009.jpg" alt="Hands Page 4">
+    <img data-asset-key="hands-p5" src="images/Hand/0004.jpg" alt="Hands Page 5">
+    <img data-asset-key="hands-p6" src="images/Hand/0006.jpg" alt="Hands Page 6">
+    <img data-asset-key="hands-p7" src="images/Hand/0003.jpg" alt="Hands Page 7">
+    <img data-asset-key="hands-p8" src="images/Hand/0007.jpg" alt="Hands Page 8">
+    <img data-asset-key="hands-p9" src="images/Hand/0005.jpg" alt="Hands Page 9">
+    <img data-asset-key="hands-p10" src="images/Hand/0014.jpg" alt="Hands Page 10">
+    <img data-asset-key="hands-p11" src="images/Hand/0013.jpg" alt="Hands Page 11">
+    <img data-asset-key="hands-p12" src="images/Hand/0012.jpg" alt="Hands Page 12">
+    <img data-asset-key="hands-p13" src="images/Hand/0011.jpg" alt="Hands Page 13">
+    <img data-asset-key="hands-p14" src="images/Hand/0016.jpg" alt="Packing Needles">
+    <img data-asset-key="hands-p16" src="images/Hand/0015.jpg" alt="Circular Needles">
+    <img data-asset-key="hands-p17" src="images/Hand/0018.jpg" alt="Hands Page 17">
+    <img data-asset-key="hands-p18" src="images/Hand/0020.jpg" alt="Hands Page 18">
+
+    <img data-asset-key="singer-p1" src="images/Singer/0001.jpg" alt="Singer 2020 70/10">
+    <img data-asset-key="singer-p2" src="images/Singer/0002.jpg" alt="Singer 2020 90/14">
+    <img data-asset-key="singer-p3" src="images/Singer/0003.jpg" alt="Singer 2020 110/18">
+    <img data-asset-key="singer-p4" src="images/Singer/0004.jpg" alt="Singer 2020 100/16">
+    <img data-asset-key="singer-p5" src="images/Singer/0005.jpg" alt="Singer 2020 80/12">
+    <img data-asset-key="singer-p6" src="images/Singer/0006.jpg" alt="Singer 2045 80/11">
+    <img data-asset-key="singer-p7" src="images/Singer/0007.jpg" alt="Singer 2045 90/14">
+    <img data-asset-key="singer-p8" src="images/Singer/0008.jpg" alt="Singer 2045 80/11 (page 2)">
+    <img data-asset-key="singer-p9" src="images/Singer/0009.jpg" alt="Singer 2045 110/18">
+    <img data-asset-key="singer-p11" src="images/Singer/0011.jpg" alt="Singer Oil">
+
+    <img data-img-key="mach-overlocker-14" src="images/Machine/0001.jpg" alt="Overlocker Size 14">
+    <img data-img-key="mach-overlocker-16" src="images/Machine/0002.jpg" alt="Overlocker Size 16">
+    <img data-img-key="mach-overlocker-18" src="images/Machine/0003.jpg" alt="Overlocker Size 18">
+
+    <img data-img-key="mach-embroidery-14" src="images/Machine/0007.jpg" alt="Embroidery Size 14">
+    <img data-img-key="mach-embroidery-16" src="images/Machine/0006.jpg" alt="Embroidery Size 16">
+    <img data-img-key="mach-embroidery-18" src="images/Machine/0004.jpg" alt="Embroidery Size 18">
+
+    <img data-img-key="mach-universal-11" src="images/Machine/0009.jpg" alt="Universal Size 11">
+    <img data-img-key="mach-universal-14" src="images/Machine/0008.jpg" alt="Universal Size 14">
+    <img data-img-key="mach-universal-16" src="images/Machine/0010.jpg" alt="Universal Size 16">
+    <img data-img-key="mach-universal-18" src="images/Machine/0011.jpg" alt="Universal Size 18">
+
+    <img data-img-key="mach-ballpoint-10" src="images/Machine/0014.jpg" alt="Ballpoint Size 10">
+    <img data-img-key="mach-ballpoint-12" src="images/Machine/0015.jpg" alt="Ballpoint Size 12">
+    <img data-img-key="mach-ballpoint-14" src="images/Machine/0013.jpg" alt="Ballpoint Size 14">
+    <img data-img-key="mach-ballpoint-16" src="images/Machine/0016.jpg" alt="Ballpoint Size 16">
+
+    <img data-img-key="mach-topstitch-12" src="images/Machine/0018.jpg" alt="Topstitch Size 12">
+    <img data-img-key="mach-topstitch-14" src="images/Machine/0017.jpg" alt="Topstitch Size 14">
+    <img data-img-key="mach-topstitch-16" src="images/Machine/0019.jpg" alt="Topstitch Size 16">
+
+    <img data-img-key="mach-microtex-8" src="images/Machine/0021.jpg" alt="Microtex Size 8">
+    <img data-img-key="mach-microtex-10" src="images/Machine/0024.jpg" alt="Microtex Size 10">
+    <img data-img-key="mach-microtex-12" src="images/Machine/0023.jpg" alt="Microtex Size 12">
+    <img data-img-key="mach-microtex-14" src="images/Machine/0022.jpg" alt="Microtex Size 14">
+
+    <img data-img-key="mach-industrial-11" src="images/Machine/0028.jpg" alt="Industrial Size 11">
+    <img data-img-key="mach-industrial-14" src="images/Machine/0027.jpg" alt="Industrial Size 14">
+    <img data-img-key="mach-industrial-16" src="images/Machine/0026.jpg" alt="Industrial Size 16">
+    <img data-img-key="mach-industrial-18" src="images/Machine/0025.jpg" alt="Industrial Size 18">
+    <img data-img-key="mach-industrial-21" src="images/Machine/0029.jpg" alt="Industrial Size 21">
+
+    <img data-img-key="mach-twin-3-00" src="images/Machine/0031.jpg" alt="Twin Size 3">
+    <img data-img-key="mach-twin-2-00" src="images/Machine/0030.jpg" alt="Twin Size 2">
+
+    <img data-img-key="mach-stretch-14" src="images/Machine/0032.jpg" alt="Stretch Size 14">
+    <img data-img-key="mach-stretch-11" src="images/Machine/0033.jpg" alt="Stretch Size 11">
+
+    <img data-img-key="mach-leather-16" src="images/Machine/0034.jpg" alt="Leather Size 16">
+
+    <img data-img-key="mach-jeans-16" src="images/Machine/0029.jpg" alt="Denim Size 16">
+
+    <img data-img-key="mach-quilting-11" src="images/Machine/0037.jpg" alt="Quilting Size 11">
+    <img data-img-key="mach-quilting-14" src="images/Machine/0036.jpg" alt="Quilting Size 14">
+
+    <img data-asset-key="mach-violin-db11" src="images/Violin/0001.jpg" alt="Violin DB 11">
+    <img data-asset-key="mach-violin-db14" src="images/Violin/0002.jpg" alt="Violin DB 14">
+    <img data-asset-key="mach-violin-db16" src="images/Violin/0003.jpg" alt="Violin DB 16">
+    <img data-asset-key="mach-violin-db18" src="images/Violin/0004.jpg" alt="Violin DB 18">
+    <img data-asset-key="mach-violin-db21" src="images/Violin/0005.jpg" alt="Violin DB 21">
+    <img data-asset-key="mach-violin-db23" src="images/Violin/0006.jpg" alt="Violin DB 23">
+
+    <img data-asset-key="mach-violin-dc11" src="images/Violin/0008.jpg" alt="Violin DC 11">
+    <img data-asset-key="mach-violin-dc14" src="images/Violin/0009.jpg" alt="Violin DC 14">
+    <img data-asset-key="mach-violin-dc16" src="images/Violin/0010.jpg" alt="Violin DC 16">
+    <img data-asset-key="mach-violin-dc18" src="images/Violin/0011.jpg" alt="Violin DC 18">
+    <img data-asset-key="mach-violin-dc21" src="images/Violin/0012.jpg" alt="Violin DC 21">
+    <img data-asset-key="mach-violin-dc23" src="images/Violin/0013.jpg" alt="Violin DC 23">
+
+    <img data-asset-key="mach-violin-dp14" src="images/Violin/0014.jpg" alt="Violin DP 14">
+    <img data-asset-key="mach-violin-dp16" src="images/Violin/0015.jpg" alt="Violin DP 16">
+    <img data-asset-key="mach-violin-dp18" src="images/Violin/0016.jpg" alt="Violin DP 18">
+</div>
+
+<main>
+  <!-- 6 MAIN CATEGORY BLOCKS -->
+  <div class="category-main-grid">
+    <div class="category-main-card" onclick="openCategoryModal('hand-sewing')">
+      <div class="img-wrap"><img data-image-key="hands-p1" src="images/Hand/0001.jpg" alt="Hand Sewing Needles"></div>
+      <h3>Hand Sewing Needles</h3>
+    </div>
+
+    <div class="category-main-card" onclick="openCategoryModal('machine-needles')">
+      <div class="img-wrap"><img data-image-key="mach-universal-11" src="images/Machine/0008.jpg" alt="Machine Needles"></div>
+      <h3>Machine Needles</h3>
+    </div>
+
+    <div class="category-main-card" onclick="openCategoryModal('violin-needles')">
+      <div class="img-wrap"><img data-image-key="mach-violin-db11" src="images/Violin/0001.jpg" alt="Violin Needles"></div>
+      <h3>Violin Needles</h3>
+    </div>
+
+    <div class="category-main-card" onclick="openCategoryModal('butterfly-needles')">
+      <div class="img-wrap"><img data-image-key="butterfly-p1" src="images/Butterfly needles/0001.jpg" alt="Butterfly Needles"></div>
+      <h3>Butterfly Needles</h3>
+    </div>
+
+    <div class="category-main-card" onclick="openCategoryModal('singer-needles')">
+      <div class="img-wrap"><img data-image-key="singer-p1" src="images/Singer/0001.jpg" alt="SINGER Needles"></div>
+      <h3>SINGER Needles</h3>
+    </div>
+
+    <div class="category-main-card" onclick="openCategoryModal('gemsy-needles')">
+      <div class="img-wrap"><img data-image-key="gemsy-dbx1-size-11" src="images/Gemsy/0003.jpg" alt="Gemsy Needles"></div>
+      <h3>Gemsy Needles</h3>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL 1: CATEGORY GRID OVERVIEW -->
+<div id="categoryGridModal" class="modal">
+  <div class="category-modal-content">
+    <span class="close-x" onclick="closeCategoryModal()">&times;</span>
+    <div class="category-modal-header">
+      <h2 id="catModalTitle">Category Needles</h2>
+    </div>
+    <div class="category-grid" id="categoryGridContainer">
+      <!-- Sub product blocks inject dynamically -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2: ITEM OPTION SELECTOR & QUANTITY -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close-x" onclick="closeProductModal()">&times;</span>
+    <div class="modal-left">
+      <img id="modalImg" src="" alt="Product Detail Image">
+    </div>
+    <div class="modal-right">
+      <h2 id="modalTitle">Product Title</h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+      <p class="modal-meta" id="modalMeta">Product ID details</p>
+      <label for="variantSelect">Choose Option / Size:</label>
+      <select id="variantSelect" class="option-select" onchange="updateVariant()"></select>
+      <label for="qtyInput">Quantity:</label>
+      <input type="number" id="qtyInput" value="1" min="1" style="margin-bottom:20px;">
+      <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+      <button class="btn-add" onclick="addToCart()">Add to Order</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const categoryData = {
+  "hand-sewing": {
+    title: "Hand Sewing Needles",
+    groups: [
+      "hand-sewing-darner", "hand-sewing-wool", "hand-sewing-beading", "hand-sewing-easythreading",
+      "hand-sewing-household", "hand-sewing-sharps", "hand-sewing-chenille", "hand-sewing-embroidery",
+      "hand-sewing-tapestry", "hand-sewing-goldeye", "hand-sewing-armynavy", "hand-sewing-happy",
+      "hand-sewing-rnp27", "hand-sewing-packing", "hand-sewing-circular", "hand-sewing-upholstery-straight",
+      "hand-sewing-upholstery-curved"
+    ]
+  },
+  "machine-needles": {
+    title: "Machine Needles",
+    groups: [
+      "mach-overlocker", "mach-embroidery", "mach-universal", "mach-ballpoint",
+      "mach-topstitch", "mach-microtex", "mach-industrial-dbx1", "mach-twin",
+      "mach-stretch", "mach-leather", "mach-jeans", "mach-quilting"
+    ]
+  },
+  "violin-needles": {
+    title: "Violin Needles",
+    groups: ["mach-violin-db", "mach-violin-dc", "mach-violin-dp"]
+  },
+  "butterfly-needles": {
+    title: "Butterfly Needles",
+    groups: ["mach-butterfly"]
+  },
+  "singer-needles": {
+    title: "SINGER Needles",
+    groups: ["singer-2020", "singer-2045", "singer-oil"]
+  },
+  "gemsy-needles": {
+    title: "Gemsy Needles",
+    groups: ["gemsy-dbx1", "gemsy-dcx1", "gemsy-dbxk5", "gemsy-dpx17", "gemsy-uox113", "gemsy-uyx128gas"]
+  }
+};
+
+const productGroups = {
+  "hand-sewing-darner": {
+    title: "Darner 5/10",
+    packingInfo: ["20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p1",
+    options: [{ name: "Darner 5/10 Pack", productId: "hand-sewing-darner-5-10", imgKey: "hands-p1" }]
+  },
+  "hand-sewing-wool": {
+    title: "Wool Needles",
+    packingInfo: ["24 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p2",
+    options: [{ name: "Wool Needles Pack", productId: "hand-sewing-wool", imgKey: "hands-p2" }]
+  },
+  "hand-sewing-beading": {
+    title: "Beading 10/13",
+    packingInfo: ["20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p3",
+    options: [{ name: "Beading 10/13 Pack", productId: "hand-sewing-beading-10-13", imgKey: "hands-p3" }]
+  },
+  "hand-sewing-easythreading": {
+    title: "Easy Threading 4/8",
+    packingInfo: ["20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p4",
+    options: [{ name: "Easy Threading 4/8 Pack", productId: "hand-sewing-easythreading-4-8", imgKey: "hands-p4" }]
+  },
+  "hand-sewing-household": {
+    title: "Household Assorted",
+    packingInfo: ["20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p5",
+    options: [{ name: "Household Assorted Pack", productId: "hand-sewing-household-assorted", imgKey: "hands-p5" }]
+  },
+  "hand-sewing-sharps": {
+    title: "Sharp's 5/10",
+    packingInfo: ["20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p6",
+    options: [{ name: "Sharp's 5/10 Pack", productId: "hand-sewing-sharps-5-10", imgKey: "hands-p6" }]
+  },
+  "hand-sewing-chenille": {
+    title: "Chenille 18/24",
+    packingInfo: ["20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p7",
+    options: [{ name: "Chenille 18/24 Pack", productId: "hand-sewing-chenille-18-24", imgKey: "hands-p7" }]
+  },
+  "hand-sewing-embroidery": {
+    title: "Embroidery",
+    packingInfo: ["3/9 and 5/10: 20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p8",
+    options: [{ name: "Embroidery Pack", productId: "hand-sewing-embroidery", imgKey: "hands-p8" }]
+  },
+  "hand-sewing-tapestry": {
+    title: "Tapestry 18/24",
+    packingInfo: ["20 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p9",
+    options: [{ name: "Tapestry 18/24 Pack", productId: "hand-sewing-tapestry-18-24", imgKey: "hands-p9" }]
+  },
+  "hand-sewing-goldeye": {
+    title: "Gold Eye Needle Compacts",
+    packingInfo: ["12 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p10",
+    options: [{ name: "Gold Eye Compact Pack", productId: "hand-sewing-goldeye-compact", imgKey: "hands-p10" }]
+  },
+  "hand-sewing-armynavy": {
+    title: "Army & Navy",
+    packingInfo: ["36 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p11",
+    options: [{ name: "Army & Navy Pack", productId: "hand-sewing-armynavy", imgKey: "hands-p11" }]
+  },
+  "hand-sewing-happy": {
+    title: "Happy Needles",
+    packingInfo: ["36 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p12",
+    options: [{ name: "Happy Pack", productId: "hand-sewing-happy", imgKey: "hands-p12" }]
+  },
+  "hand-sewing-rnp27": {
+    title: "RNP27",
+    packingInfo: ["36 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p13",
+    options: [{ name: "RNP27 Pack", productId: "hand-sewing-rnp27", imgKey: "hands-p13" }]
+  },
+  "hand-sewing-packing": {
+    title: "Packing Needles",
+    packingInfo: ["24 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p14",
+    options: [{ name: "Packing Needles Pack", productId: "hand-sewing-packing", imgKey: "hands-p14" }]
+  },
+  "hand-sewing-circular": {
+    title: "Circular Needles",
+    packingInfo: ["24 cards per box"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p16",
+    options: [{ name: "Circular Needles Pack", productId: "hand-sewing-circular", imgKey: "hands-p16" }]
+  },
+  "hand-sewing-upholstery-straight": {
+    title: "Upholstery Straight Needles",
+    packingInfo: ["12 cards per pack"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p17",
+    options: [
+      { name: "Straight 5\"", productId: "hand-sewing-upholstery-straight-5", imgKey: "hands-p17" },
+      { name: "Straight 6\"", productId: "hand-sewing-upholstery-straight-6", imgKey: "hands-p17" },
+      { name: "Straight 7\"", productId: "hand-sewing-upholstery-straight-7", imgKey: "hands-p17" },
+      { name: "Straight 10\"", productId: "hand-sewing-upholstery-straight-10", imgKey: "hands-p17" }
+    ]
+  },
+  "hand-sewing-upholstery-curved": {
+    title: "Upholstery Curved Needles",
+    packingInfo: ["12 cards per pack"],
+    category: "Hand Sewing Needles",
+    imgKey: "hands-p18",
+    options: [
+      { name: "Curved 3\"", productId: "hand-sewing-upholstery-curved-3", imgKey: "hands-p18" },
+      { name: "Curved 4\"", productId: "hand-sewing-upholstery-curved-4", imgKey: "hands-p18" },
+      { name: "Curved 5\"", productId: "hand-sewing-upholstery-curved-5", imgKey: "hands-p18" },
+      { name: "Curved 6\"", productId: "hand-sewing-upholstery-curved-6", imgKey: "hands-p18" }
+    ]
+  },
+  "mach-butterfly": {
+    title: "Butterfly Needles",
+    packingInfo: ["500 needles per box"],
+    category: "Machine Needles",
+    imgKey: "butterfly-p1",
+    options: [
+      { name: "Butterfly 11", productId: "machine-needles-butterfly-11", imgKey: "butterfly-p1" },
+      { name: "Butterfly 14", productId: "machine-needles-butterfly-14", imgKey: "butterfly-p2" },
+      { name: "Butterfly 16", productId: "machine-needles-butterfly-16", imgKey: "butterfly-p3" },
+      { name: "Butterfly 18", productId: "machine-needles-butterfly-18", imgKey: "butterfly-p4" }
+    ]
+  },
+  "mach-overlocker": {
+    title: "Overlocker",
+    packingInfo: ["20 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-overlocker-14",
+    options: [
+      { name: "Overlocker 14", productId: "machine-needles-overlocker-14", imgKey: "mach-overlocker-14" },
+      { name: "Overlocker 16", productId: "machine-needles-overlocker-16", imgKey: "mach-overlocker-16" },
+      { name: "Overlocker 18", productId: "machine-needles-overlocker-18", imgKey: "mach-overlocker-18" }
+    ]
+  },
+  "mach-embroidery": {
+    title: "Embroidery Machine Needles",
+    packingInfo: ["10 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-embroidery-14",
+    options: [
+      { name: "Embroidery 14", productId: "machine-needles-embroidery-14", imgKey: "mach-embroidery-14" },
+      { name: "Embroidery 16", productId: "machine-needles-embroidery-16", imgKey: "mach-embroidery-16" },
+      { name: "Embroidery 18", productId: "machine-needles-embroidery-18", imgKey: "mach-embroidery-18" }
+    ]
+  },
+  "mach-universal": {
+    title: "Universal",
+    packingInfo: ["20 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-universal-11",
+    options: [
+      { name: "Universal 11", productId: "machine-needles-universal-11", imgKey: "mach-universal-11" },
+      { name: "Universal 14", productId: "machine-needles-universal-14", imgKey: "mach-universal-14" },
+      { name: "Universal 16", productId: "machine-needles-universal-16", imgKey: "mach-universal-16" },
+      { name: "Universal 18", productId: "machine-needles-universal-18", imgKey: "mach-universal-18" }
+    ]
+  },
+  "mach-ballpoint": {
+    title: "Ball Point (Jersey)",
+    packingInfo: ["10 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-ballpoint-10",
+    options: [
+      { name: "Ball Point 10", productId: "machine-needles-ballpoint-10", imgKey: "mach-ballpoint-10" },
+      { name: "Ball Point 12", productId: "machine-needles-ballpoint-12", imgKey: "mach-ballpoint-12" },
+      { name: "Ball Point 14", productId: "machine-needles-ballpoint-14", imgKey: "mach-ballpoint-14" },
+      { name: "Ball Point 16", productId: "machine-needles-ballpoint-16", imgKey: "mach-ballpoint-16" }
+    ]
+  },
+  "mach-topstitch": {
+    title: "Top Stitch",
+    packingInfo: ["20 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-topstitch-12",
+    options: [
+      { name: "Top Stitch 12", productId: "machine-needles-topstitch-12", imgKey: "mach-topstitch-12" },
+      { name: "Top Stitch 14", productId: "machine-needles-topstitch-14", imgKey: "mach-topstitch-14" },
+      { name: "Top Stitch 16", productId: "machine-needles-topstitch-16", imgKey: "mach-topstitch-16" }
+    ]
+  },
+  "mach-microtex": {
+    title: "Microtex",
+    packingInfo: ["10 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-microtex-8",
+    options: [
+      { name: "Microtex 8", productId: "machine-needles-microtex-8", imgKey: "mach-microtex-8" },
+      { name: "Microtex 10", productId: "machine-needles-microtex-10", imgKey: "mach-microtex-10" },
+      { name: "Microtex 12", productId: "machine-needles-microtex-12", imgKey: "mach-microtex-12" },
+      { name: "Microtex 14", productId: "machine-needles-microtex-14", imgKey: "mach-microtex-14" }
+    ]
+  },
+  "mach-industrial-dbx1": {
+    title: "Industrial DBX1",
+    packingInfo: ["20 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-industrial-11",
+    options: [
+      { name: "Industrial DBX1 11", productId: "machine-needles-inds-dbx1-11", imgKey: "mach-industrial-11" },
+      { name: "Industrial DBX1 14", productId: "machine-needles-inds-dbx1-14", imgKey: "mach-industrial-14" },
+      { name: "Industrial DBX1 16", productId: "machine-needles-inds-dbx1-16", imgKey: "mach-industrial-16" },
+      { name: "Industrial DBX1 18", productId: "machine-needles-inds-dbx1-18", imgKey: "mach-industrial-18" },
+      { name: "Industrial DBX1 21", productId: "machine-needles-inds-dbx1-21", imgKey: "mach-industrial-21" }
+    ]
+  },
+  "mach-twin": {
+    title: "Twin Needles",
+    packingInfo: ["10 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-twin-3-00",
+    options: [
+      { name: "Twin 3.00", productId: "machine-needles-twin-3-00", imgKey: "mach-twin-3-00" },
+      { name: "Twin 2.00", productId: "machine-needles-twin-2-00", imgKey: "mach-twin-2-00" }
+    ]
+  },
+  "mach-stretch": {
+    title: "Stretch",
+    packingInfo: ["10 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-stretch-14",
+    options: [
+      { name: "Stretch 14", productId: "machine-needles-stretch-14", imgKey: "mach-stretch-14" },
+      { name: "Stretch 11", productId: "machine-needles-stretch-11", imgKey: "mach-stretch-11" }
+    ]
+  },
+  "mach-leather": {
+    title: "Leather",
+    packingInfo: ["10 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-leather-16",
+    options: [
+      { name: "Leather 16", productId: "machine-needles-leather-16", imgKey: "mach-leather-16" }
+    ]
+  },
+  "mach-jeans": {
+    title: "Jeans (Denim)",
+    packingInfo: ["20 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-jeans-16",
+    options: [
+      { name: "Jeans 16", productId: "machine-needles-jeans-16", imgKey: "mach-jeans-16" }
+    ]
+  },
+  "mach-quilting": {
+    title: "Quilting",
+    packingInfo: ["20 cards per box"],
+    category: "Machine Needles",
+    imgKey: "mach-quilting-11",
+    options: [
+      { name: "Quilting 11", productId: "machine-needles-quilting-11", imgKey: "mach-quilting-11" },
+      { name: "Quilting 14", productId: "machine-needles-quilting-14", imgKey: "mach-quilting-14" }
+    ]
+  },
+  "mach-violin-db": {
+    title: "Violin DB Needles",
+    packingInfo: ["500 needles per box"],
+    category: "Violin Needles",
+    imgKey: "mach-violin-db11",
+    options: [
+      { name: "Violin DB 11", productId: "violin-db-11", imgKey: "mach-violin-db11" },
+      { name: "Violin DB 14", productId: "violin-db-14", imgKey: "mach-violin-db14" },
+      { name: "Violin DB 16", productId: "violin-db-16", imgKey: "mach-violin-db16" },
+      { name: "Violin DB 18", productId: "violin-db-18", imgKey: "mach-violin-db18" },
+      { name: "Violin DB 21", productId: "violin-db-21", imgKey: "mach-violin-db21" },
+      { name: "Violin DB 23", productId: "violin-db-23", imgKey: "mach-violin-db23" }
+    ]
+  },
+  "mach-violin-dc": {
+    title: "Violin DC Needles",
+    packingInfo: ["500 needles per box"],
+    category: "Violin Needles",
+    imgKey: "mach-violin-dc11",
+    options: [
+      { name: "Violin DC 11", productId: "violin-dc-11", imgKey: "mach-violin-dc11" },
+      { name: "Violin DC 14", productId: "violin-dc-14", imgKey: "mach-violin-dc14" },
+      { name: "Violin DC 16", productId: "violin-dc-16", imgKey: "mach-violin-dc16" },
+      { name: "Violin DC 18", productId: "violin-dc-18", imgKey: "mach-violin-dc18" },
+      { name: "Violin DC 21", productId: "violin-dc-21", imgKey: "mach-violin-dc21" },
+      { name: "Violin DC 23", productId: "violin-dc-23", imgKey: "mach-violin-dc23" }
+    ]
+  },
+  "mach-violin-dp": {
+    title: "Violin DP Needles",
+    packingInfo: ["500 needles per box"],
+    category: "Violin Needles",
+    imgKey: "mach-violin-dp14",
+    options: [
+      { name: "Violin DP 14", productId: "violin-dp-14", imgKey: "mach-violin-dp14" },
+      { name: "Violin DP 16", productId: "violin-dp-16", imgKey: "mach-violin-dp16" },
+      { name: "Violin DP 18", productId: "violin-dp-18", imgKey: "mach-violin-dp18" }
+    ]
+  },
+  "gemsy-dbx1": {
+    title: "Gemsy DBX1",
+    packingInfo: ["10 needles per card", "100 needles per box", "1,000 needles per brick"],
+    category: "Gemsy Needles",
+    imgKey: "gemsy-dbx1-size-11",
+    options: [
+      { name: "Gemsy DBX1 Size 11", productId: "gemsy-dbx1-11", imgKey: "gemsy-dbx1-size-11" },
+      { name: "Gemsy DBX1 Size 14", productId: "gemsy-dbx1-14", imgKey: "gemsy-dbx1-size-14" },
+      { name: "Gemsy DBX1 Size 16", productId: "gemsy-dbx1-16", imgKey: "gemsy-dbx1-size-16" },
+      { name: "Gemsy DBX1 Size 18", productId: "gemsy-dbx1-18", imgKey: "gemsy-dbx1-size-18" },
+      { name: "Gemsy DBX1 Size 21", productId: "gemsy-dbx1-21", imgKey: "gemsy-dbx1-size-21" }
+    ]
+  },
+  "gemsy-dcx1": {
+    title: "Gemsy DCX1",
+    packingInfo: ["10 needles per card", "100 needles per box", "1,000 needles per brick"],
+    category: "Gemsy Needles",
+    imgKey: "gemsy-dcx1-size-11",
+    options: [
+      { name: "Gemsy DCX1 Size 11", productId: "gemsy-dcx1-11", imgKey: "gemsy-dcx1-size-11" },
+      { name: "Gemsy DCX1 Size 12", productId: "gemsy-dcx1-12", imgKey: "gemsy-dcx1-size-12" },
+      { name: "Gemsy DCX1 Size 14", productId: "gemsy-dcx1-14", imgKey: "gemsy-dcx1-size-14" },
+      { name: "Gemsy DCX1 Size 16", productId: "gemsy-dcx1-16", imgKey: "gemsy-dcx1-size-16" }
+    ]
+  },
+  "gemsy-dbxk5": {
+    title: "Gemsy DBXK5",
+    packingInfo: ["10 needles per card", "100 needles per box", "1,000 needles per brick"],
+    category: "Gemsy Needles",
+    imgKey: "gemsy-dbxk5-size-9",
+    options: [
+      { name: "Gemsy DBXK5 Size 9", productId: "gemsy-dbxk5-9", imgKey: "gemsy-dbxk5-size-9" },
+      { name: "Gemsy DBXK5 Size 10", productId: "gemsy-dbxk5-10", imgKey: "gemsy-dbxk5-size-10" },
+      { name: "Gemsy DBXK5 Size 11", productId: "gemsy-dbxk5-11", imgKey: "gemsy-dbxk5-size-11" },
+      { name: "Gemsy DBXK5 Size 12", productId: "gemsy-dbxk5-12", imgKey: "gemsy-dbxk5-size-12" }
+    ]
+  },
+  "gemsy-dpx17": {
+    title: "Gemsy DPX17",
+    packingInfo: ["10 needles per card", "100 needles per box", "1,000 needles per brick"],
+    category: "Gemsy Needles",
+    imgKey: "gemsy-dpxk17-size-20",
+    options: [
+      { name: "Gemsy DPXK17 Size 20", productId: "gemsy-dpx17-20", imgKey: "gemsy-dpxk17-size-20" },
+      { name: "Gemsy DPXK17 Size 22", productId: "gemsy-dpx17-22", imgKey: "gemsy-dpxk17-size-22" },
+      { name: "Gemsy DPXK17 Size 23", productId: "gemsy-dpx17-23", imgKey: "gemsy-dpxk17-size-23" },
+      { name: "Gemsy DPXK17 Size 24", productId: "gemsy-dpx17-24", imgKey: "gemsy-dpxk17-size-24" }
+    ]
+  },
+  "gemsy-uox113": {
+    title: "Gemsy UOX113",
+    packingInfo: ["10 needles per card", "100 needles per box", "1,000 needles per brick"],
+    category: "Gemsy Needles",
+    imgKey: "gemsy-uxx113gs-size-20",
+    options: [
+      { name: "Gemsy UxX113GS Size 20", productId: "gemsy-uox113-20", imgKey: "gemsy-uxx113gs-size-20" }
+    ]
+  },
+  "gemsy-uyx128gas": {
+    title: "Gemsy UYX128GAS",
+    packingInfo: ["10 needles per card", "100 needles per box", "1,000 needles per brick"],
+    category: "Gemsy Needles",
+    imgKey: "gemsy-fallback",
+    options: [
+      { name: "Gemsy UYX128GAS Default", productId: "gemsy-uyx128gas-default", imgKey: "gemsy-fallback" }
+    ]
+  },
+  "singer-2020": {
+    title: "Singer 2020",
+    packingInfo: ["24 cards per box"],
+    category: "SINGER",
+    imgKey: "singer-p1",
+    options: [
+      { name: "Singer 2020 10", productId: "singer-2020-10", imgKey: "singer-p1" },
+      { name: "Singer 2020 12", productId: "singer-2020-12", imgKey: "singer-p5" },
+      { name: "Singer 2020 14", productId: "singer-2020-14", imgKey: "singer-p2" },
+      { name: "Singer 2020 16", productId: "singer-2020-16", imgKey: "singer-p4" },
+      { name: "Singer 2020 18", productId: "singer-2020-18", imgKey: "singer-p3" }
+    ]
+  },
+  "singer-2045": {
+    title: "Singer 2045",
+    packingInfo: ["24 cards per box"],
+    category: "SINGER",
+    imgKey: "singer-p6",
+    options: [
+      { name: "Singer 2045 11", productId: "singer-2045-11", imgKey: "singer-p6" },
+      { name: "Singer 2045 14", productId: "singer-2045-14", imgKey: "singer-p7" },
+      { name: "Singer 2045 16", productId: "singer-2045-16", imgKey: "singer-p8" },
+      { name: "Singer 2045 18", productId: "singer-2045-18", imgKey: "singer-p9" }
+    ]
+  },
+  "singer-oil": {
+    title: "Singer Machine Oil",
+    category: "SINGER",
+    imgKey: "singer-p11",
+    options: [
+      { name: "Singer Machine Oil 125ml", productId: "singer-machine-oil-125", imgKey: "singer-p11" }
+    ]
+  }
+};
+
+let currentGroup = null;
+let selectedProduct = null;
+
+function getBankImageSrc(key) {
+  const bankImg = document.querySelector(`#imageBank img[data-img-key="${key}"], #imageBank img[data-asset-key="${key}"]`);
+  return bankImg ? bankImg.src : 'images/fallback-placeholder.jpg';
+}
+
+function applyCardImages() {
+  document.querySelectorAll('.category-main-card').forEach(card => {
+    const imgEl = card.querySelector('img');
+    if (imgEl) {
+      const key = imgEl.getAttribute('data-image-key');
+      if (key) imgEl.src = getBankImageSrc(key);
+    }
+  });
+}
+
+function openCategoryModal(catKey) {
+  const cat = categoryData[catKey];
+  if (!cat) return;
+
+  document.getElementById('catModalTitle').textContent = cat.title;
+  const container = document.getElementById('categoryGridContainer');
+  container.innerHTML = '';
+
+  cat.groups.forEach(groupId => {
+    const group = productGroups[groupId];
+    if (!group) return;
+
+    const subCard = document.createElement('div');
+    subCard.className = 'sub-product-card';
+    subCard.onclick = () => openProductModal(groupId);
+    
+    subCard.innerHTML = `
+      <div class="sub-product-img">
+        <img src="${getBankImageSrc(group.imgKey)}" alt="${group.title}">
+      </div>
+      <div class="sub-product-info">
+        <h4>${group.title}</h4>
+      </div>
+    `;
+    container.appendChild(subCard);
+  });
+
+  document.getElementById('categoryGridModal').style.display = 'block';
+}
+
+function closeCategoryModal() {
+  document.getElementById('categoryGridModal').style.display = 'none';
+}
+
+function openProductModal(groupId) {
+  closeCategoryModal();
+  currentGroup = productGroups[groupId];
+  if (!currentGroup) return;
+
+  document.getElementById('modalTitle').textContent = currentGroup.title;
+  document.getElementById('modalMeta').textContent = `Category: ${currentGroup.category}`;
+  
+  const select = document.getElementById('variantSelect');
+  select.innerHTML = '';
+  
+  currentGroup.options.forEach((opt, idx) => {
+    const option = document.createElement('option');
+    option.value = idx;
+    option.textContent = opt.name;
+    select.appendChild(option);
+  });
+
+  select.selectedIndex = 0;
+  updateVariant();
+  document.getElementById('productModal').style.display = 'block';
+}
+
+function updateVariant() {
+  const select = document.getElementById('variantSelect');
+  const idx = select.value;
+  selectedProduct = currentGroup.options[idx];
+  
+  if (selectedProduct) {
+    document.getElementById('modalImg').src = getBankImageSrc(selectedProduct.imgKey);
+    window.fawzCurrentProductId = selectedProduct.productId;
+    renderPackingInfo();
+  }
+}
+
+function renderPackingInfo() {
+  const block = document.getElementById('fawzPackingInfo');
+  const lines = selectedProduct.packingInfo || currentGroup.packingInfo || [];
+  block.replaceChildren();
+  lines.forEach((line, index) => {
+    if (index) block.appendChild(document.createElement('br'));
+    block.appendChild(document.createTextNode(line));
+  });
+  block.hidden = lines.length === 0;
+}
+
+function closeProductModal() {
+  document.getElementById('productModal').style.display = 'none';
+}
+
+function addToCart() {
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  cart.push({
+    name: selectedProduct.name,
+    productId: selectedProduct.productId,
+    category: currentGroup.category,
+    qty: qty,
+    image: getBankImageSrc(selectedProduct.imgKey)
+  });
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert(`Added ${qty} x ${selectedProduct.name} to your cart successfully!`);
+  closeProductModal();
+}
+
+function filterProducts(){
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  document.querySelectorAll('.category-main-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = (!q || text.includes(q)) ? 'block' : 'none';
+  });
+}
+
+document.getElementById('searchBox').addEventListener('input', filterProducts);
+
+window.addEventListener('click', e => { 
+  if(e.target === document.getElementById('categoryGridModal')) closeCategoryModal();
+  if(e.target === document.getElementById('productModal')) closeProductModal(); 
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyCardImages();
+});
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

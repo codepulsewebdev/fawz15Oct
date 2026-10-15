@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About Us | FAWZ Haberdashery</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Open+Sans:wght@400;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --fawz-red: #e31e24;
+      --fawz-red-dark: #b3161a;
+      --fawz-dark: #1a1a1a;
+      --page-background: #f7f8fa;
+      --story-color: #f39c12;
+      --range-color: #3498db;
+      --sourcing-color: #e31e24;
+      --quality-color: #2ecc71;
+      --focus-color: #e84393;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+    }
+
+    body {
+      min-height: 100%;
+      overflow-x: hidden;
+      font-family: "Open Sans", sans-serif;
+      color: var(--fawz-dark);
+      background: var(--page-background);
+    }
+
+    /* Full-screen sections */
+
+    .snap-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 40px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      overflow: hidden;
+    }
+
+    .snap-section::before,
+    .snap-section::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .snap-section::before {
+      top: -140px;
+      right: -140px;
+      width: 340px;
+      height: 340px;
+      background: rgba(227, 30, 36, 0.04);
+    }
+
+    .snap-section::after {
+      bottom: -170px;
+      left: -170px;
+      width: 390px;
+      height: 390px;
+      background: rgba(0, 0, 0, 0.025);
+    }
+
+    /* First-screen container */
+
+    .first-screen-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 950px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+
+    /* Main information cards */
+
+    .catalog-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 950px;
+      display: flex;
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid #dcdde1;
+      border-radius: 12px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      opacity: 0;
+      transform: translateY(35px);
+      transition:
+        opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .snap-section.active .catalog-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Coloured section title */
+
+    .badge-box {
+      position: relative;
+      flex: 0 0 300px;
+      min-height: 245px;
+      padding: 40px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ffffff;
+      border-bottom-right-radius: 60px;
+    }
+
+    .sec-story .badge-box {
+      color: #1a1a1a;
+      background: var(--story-color);
+    }
+
+    .sec-range .badge-box {
+      background: var(--range-color);
+    }
+
+    .sec-sourcing .badge-box {
+      background: var(--sourcing-color);
+    }
+
+    .sec-quality .badge-box {
+      color: #1a1a1a;
+      background: var(--quality-color);
+    }
+
+    .sec-focus .badge-box {
+      background: var(--focus-color);
+    }
+
+    /* Text content */
+
+    .text-content {
+      flex: 1;
+      padding: 40px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #2f3542;
+    }
+
+    .page-top-title {
+      width: fit-content;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1.2;
+      text-transform: uppercase;
+      color: var(--fawz-dark);
+      border-bottom: 3px solid var(--fawz-red);
+    }
+
+    /* First-screen login area */
+
+    .first-screen-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      opacity: 0;
+      transform: translateY(25px);
+      transition:
+        opacity 0.7s ease 0.15s,
+        transform 0.7s ease 0.15s;
+    }
+
+    .snap-section.active .first-screen-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-message {
+      font-size: 0.9rem;
+      color: #747d8c;
+      text-align: center;
+      opacity: 0;
+      animation: showScrollMessage 0.7s ease 0.5s forwards;
+    }
+
+    .scroll-arrow {
+      display: inline-block;
+      margin-left: 5px;
+      color: var(--fawz-red);
+      font-weight: 800;
+      animation: bounceArrow 1.6s infinite;
+    }
+
+    /* Buttons */
+
+    .btn {
+      display: inline-flex;
+      min-width: 175px;
+      min-height: 52px;
+      padding: 14px 30px;
+      align-items: center;
+      justify-content: center;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-align: center;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #ffffff;
+      background: var(--fawz-red);
+      border: 2px solid var(--fawz-red);
+      border-radius: 8px;
+      box-shadow: 0 5px 18px rgba(227, 30, 36, 0.3);
+      cursor: pointer;
+      transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .btn:hover {
+      background: var(--fawz-red-dark);
+      border-color: var(--fawz-red-dark);
+      box-shadow: 0 8px 22px rgba(227, 30, 36, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(227, 30, 36, 0.35);
+      outline-offset: 4px;
+    }
+
+    .btn-secondary {
+      background: #353b48;
+      border-color: #353b48;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: #191c24;
+      border-color: #191c24;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Final action section */
+
+    .sec-actions {
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(227, 30, 36, 0.18),
+          transparent 35%
+        ),
+        var(--fawz-dark);
+    }
+
+    .action-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 720px;
+      padding: 60px;
+      color: #ffffff;
+      text-align: center;
+      background: #222222;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(35px);
+      transition:
+        opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .snap-section.active .action-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .action-card h2 {
+      margin-bottom: 14px;
+      font-family: "Montserrat", sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      text-transform: uppercase;
+      color: var(--fawz-red);
+    }
+
+    .action-card p {
+      max-width: 560px;
+      margin: 0 auto 35px;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      color: #b2bec3;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    /* Animations */
+
+    @keyframes bounceArrow {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(5px);
+      }
+    }
+
+    @keyframes showScrollMessage {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Tablet and mobile */
+
+    @media (max-width: 850px) {
+      .snap-section {
+        padding: 28px 20px;
+      }
+
+      .catalog-card {
+        flex-direction: column;
+      }
+
+      .badge-box {
+        flex: auto;
+        min-height: auto;
+        padding: 25px;
+        font-size: 1.5rem;
+        border-bottom-right-radius: 0;
+        border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .text-content {
+        padding: 30px;
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .page-top-title {
+        font-size: 1.55rem;
+      }
+
+      .action-card {
+        padding: 45px 30px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      html {
+        scroll-snap-type: y proximity;
+      }
+
+      .snap-section {
+        min-height: 100svh;
+        height: auto;
+        padding: 24px 16px;
+      }
+
+      .first-screen-content {
+        gap: 16px;
+      }
+
+      .badge-box {
+        padding: 20px;
+        font-size: 1.3rem;
+      }
+
+      .text-content {
+        padding: 24px 22px;
+        font-size: 0.94rem;
+        line-height: 1.6;
+      }
+
+      .page-top-title {
+        margin-bottom: 12px;
+        font-size: 1.35rem;
+      }
+
+      .first-screen-actions,
+      .btn-group {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .action-card {
+        padding: 38px 22px;
+      }
+
+      .action-card p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-height: 720px) and (min-width: 851px) {
+      .snap-section {
+        padding-top: 24px;
+        padding-bottom: 24px;
+      }
+
+      .badge-box {
+        min-height: 210px;
+      }
+
+      .text-content {
+        padding: 30px 40px;
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .first-screen-content {
+        gap: 15px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .catalog-card,
+      .action-card,
+      .first-screen-actions,
+      .scroll-message,
+      .scroll-arrow {
+        opacity: 1;
+        transform: none;
+        animation: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 1. Our Story and immediate login option -->
+
+  <section class="snap-section sec-story active">
+    <div class="first-screen-content">
+
+      <div class="catalog-card">
+        <div class="badge-box">Our Story</div>
+
+        <div class="text-content">
+          <div class="page-top-title">About Us</div>
+
+          <p>
+            The FAWZ™ brand was established in 1981 as a family business.
+            From very humble beginnings and facing the usual challenges
+            experienced by many family businesses, by the grace of the
+            Almighty, the company has grown to become one of the leading
+            suppliers of haberdashery to the Southern African market.
+          </p>
+        </div>
+      </div>
+
+      <img src="images/logo/logo.png" alt="FAWZ Haberdashery" style="width:min(190px,48vw);height:auto;margin:0 auto 18px;display:block"><div class="first-screen-actions"><a href="home.html" class="btn">View Products</a><a href="login.html" class="btn btn-secondary">Customer Login</a></div>
+
+      <p class="scroll-message">
+        Scroll down to learn more about FAWZ
+        <span class="scroll-arrow" aria-hidden="true">↓</span>
+      </p>
+
+    </div>
+  </section>
+
+  <!-- 2. Product Range -->
+
+  <section class="snap-section sec-range">
+    <div class="catalog-card">
+
+      <div class="badge-box">Product Range</div>
+
+      <div class="text-content">
+        <p>
+          From our initial range, we have grown to offer an extensive
+          selection of haberdashery products. We continue striving to meet
+          market demands by expanding our range of items. Our products
+          include needles, elastics, threads, interlining, machine
+          accessories, sewing notions and much more.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. Sourcing -->
+
+  <section class="snap-section sec-sourcing">
+    <div class="catalog-card">
+
+      <div class="badge-box">Sourcing</div>
+
+      <div class="text-content">
+        <p>
+          All our products are imported from China. Through many years of
+          importing, we have built trusted relationships with our suppliers.
+          Each supplier is committed to providing quality products within
+          highly competitive pricing structures. We have also established
+          an office in China to support better sourcing and quality control.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. Quality -->
+
+  <section class="snap-section sec-quality">
+    <div class="catalog-card">
+
+      <div class="badge-box">Quality</div>
+
+      <div class="text-content">
+        <p>
+          Our quality standards are carefully balanced with affordable
+          pricing. As the global market becomes more competitive, consumers
+          continue to demand reasonably priced and dependable products. We
+          also offer a selection of premium-quality products and maintain
+          firm agreements with our suppliers regarding quality and quantity.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. Our Focus -->
+
+  <section class="snap-section sec-focus">
+    <div class="catalog-card">
+
+      <div class="badge-box">Our Focus</div>
+
+      <div class="text-content">
+        <p>
+          Our focus is to establish FAWZ as a trusted haberdashery brand
+          offering reasonable quality at competitive prices. Our target
+          market is the Southern African region, and our customers include
+          manufacturers, wholesalers and retailers. The market response has
+          been excellent and continues to guide our way forward. We remain
+          committed to offering the best possible service.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. Product and login options -->
+
+  <section class="snap-section sec-actions">
+    <div class="action-card">
+
+      <h2>Welcome to FAWZ Haberdashery</h2>
+
+      <p>
+        Browse our product range or log in to access your customer account
+        and available inventory.
+      </p>
+
+      <div class="btn-group">
+        <a href="home.html" class="btn">View Products</a>
+        <a href="login.html" class="btn btn-secondary">Customer Login</a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer style="background:#171717;color:#fff;padding:28px 20px;text-align:center">
+    <strong>FAWZ Haberdashery</strong>
+    <p style="margin:8px 0 0;color:#bbb">Trusted haberdashery since 1981 · Southern Africa</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const sections = document.querySelectorAll(".snap-section");
+
+      if (!("IntersectionObserver" in window)) {
+        sections.forEach(function (section) {
+          section.classList.add("active");
+        });
+
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              sections.forEach(function (section) {
+                section.classList.remove("active");
+              });
+
+              entry.target.classList.add("active");
+            }
+          });
+        },
+        {
+          threshold: 0.55
+        }
+      );
+
+      sections.forEach(function (section) {
+        observer.observe(section);
+      });
+    });
+  </script>
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script></body>
+</html>

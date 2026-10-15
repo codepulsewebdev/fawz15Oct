@@ -1,0 +1,11 @@
+/* Shared image defaults retained for catalogue pages that reference this file. */
+img {
+  max-width: 100%;
+}
+
+.product-card img,
+.sub-product-card img,
+.modal img,
+.modal-left img {
+  object-fit: contain;
+}

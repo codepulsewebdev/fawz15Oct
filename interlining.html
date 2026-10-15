@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interlining | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+<style>
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark);-webkit-user-select:none;user-select:none}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px;flex-wrap:wrap}
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+.logo span{color:var(--fawz-red)}
+nav{display:flex;gap:16px;flex-wrap:wrap}
+nav a{color:var(--fawz-dark);text-decoration:none;font-weight:700;font-size:.9rem}
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+.hero p{color:#666;max-width:900px;line-height:1.6;margin-top:10px}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.toolbar input{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:280px;font-size:1rem;background:#fff}
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+.category-main-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px;margin-top:20px;}
+.category-main-card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,.05);transition:.3s ease;text-align:center;}
+.category-main-card:hover{transform:translateY(-5px);border-color:var(--fawz-red);box-shadow:0 18px 36px rgba(0,0,0,.12)}
+.category-main-card .img-wrap{height:200px;background:#fcfcfc;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);padding:20px}
+.category-main-card img{max-width:100%;max-height:100%;object-fit:contain}
+.category-main-card h3{margin:18px 0 18px;font-size:1.1rem;text-transform:uppercase;color:var(--fawz-dark)}
+
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.65);padding:30px 12px;overflow-y:auto}
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:10;line-height:1}
+.close-x:hover{color:var(--fawz-red)}
+.category-modal-content{background:#fff;margin:auto;max-width:1100px;border-radius:20px;padding:35px 25px 40px;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+.category-modal-header{margin-bottom:25px;border-left:6px solid var(--fawz-red);padding-left:15px}
+.category-modal-header h2{margin:0;font-size:1.8rem;text-transform:uppercase}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;max-height:70vh;overflow-y:auto;padding-right:5px}
+.sub-product-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.04);transition:.2s ease}
+.sub-product-card:hover{transform:translateY(-3px);border-color:var(--fawz-red);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.sub-product-img{height:150px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);padding:12px}
+.sub-product-img img{width:100%;height:100%;object-fit:contain}
+.sub-product-info{padding:12px;text-align:center}
+.sub-product-info h4{font-size:0.9rem;margin:0;line-height:1.25}
+
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:500px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border);position:relative}
+.modal-left img{width:100%;height:100%;max-height:430px;object-fit:contain}
+.modal-left .no-image-icon{font-size:4rem;color:#ccc}
+.modal-right{padding:42px 36px;overflow-y:auto;max-height:88vh}
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all;line-height:1.6}
+label{display:block;margin:18px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px;margin-top:20px}
+.btn-add:hover{background:#b3161a}
+.hidden{display:none!important}
+#imageBank{display:none}
+
+@media(max-width:760px){
+  header{align-items:flex-start;flex-direction:column} 
+  nav a{margin:0 14px 0 0}
+  .category-main-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .category-main-card .img-wrap{height:140px}
+  .category-main-card h3{font-size:0.9rem;margin:12px 0}
+  .modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+  .modal-left{min-height:200px;border-right:0;border-bottom:1px solid var(--border)}
+  .category-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media print{body{display:none!important}}
+</style>
+<link rel="stylesheet" href="fawz-packing-info.css">
+</head>
+<body>
+<header>
+<div class="logo">Fawz <span>Haberdashery</span></div>
+<nav><a href="home.html">Home</a><a href="all-products.html">All Products</a><a href="demo_cart.html">View Cart</a></nav>
+</header>
+
+<section class="hero">
+<h1>Interlining</h1>
+<p>Select an interlining category to view all available options.</p>
+<div class="toolbar">
+<input id="searchBox" placeholder="Search interlining categories...">
+</div>
+</section>
+
+<div id="imageBank">
+<img data-img-key="interlining-non-woven" src="images/interlining/nonWoven.jpg" alt="interlining-non-woven">
+<img data-img-key="interlining-tracing-material" src="images/interlining/tracingMaterial.jpg" alt="interlining-tracing-material">
+<img data-img-key="interlining-water-soluble" src="images/interlining/waterSoluble.jpg" alt="interlining-water-soluble">
+<img data-img-key="interlining-pp-embroidery" src="images/interlining/PPEmbroidery.jpg" alt="interlining-pp-embroidery">
+<img data-img-key="interlining-spider" src="images/interlining/spider.jpg" alt="interlining-spider">
+<img data-img-key="interlining-stf" src="images/interlining/STFInterlining.jpg" alt="interlining-stf">
+<img data-img-key="interlining-microdot" src="images/interlining/microdot.webp" alt="interlining-microdot">
+<img data-img-key="interlining-dimension" src="images/interlining/dimension.jpg" alt="interlining-dimension">
+<img data-img-key="interlining-quala-fusing" src="images/interlining/collar.jpg" alt="interlining-quala-fusing">
+<img data-img-key="interlining-red-line" src="images/interlining/redLine.jpg" alt="interlining-red-line">
+<img data-img-key="interlining-jacket-lining" src="images/interlining/jacketLining.jpg" alt="interlining-jacket-lining">
+<img data-img-key="interlining-applique-paper" src="images/interlining/appliquePaper.jpg" alt="interlining-applique-paper">
+<img data-img-key="interlining-bukram" src="images/interlining/bukram.jpg" alt="interlining-bukram">
+</div>
+
+<main>
+  <div class="category-main-grid" id="categoryGrid">
+    <!-- Categories will be injected by JavaScript -->
+  </div>
+</main>
+
+<!-- MODAL 1: CATEGORY GRID OVERVIEW -->
+<div id="categoryGridModal" class="modal">
+  <div class="category-modal-content">
+    <span class="close-x" onclick="closeCategoryModal()">&times;</span>
+    <div class="category-modal-header">
+      <h2 id="catModalTitle">Category</h2>
+    </div>
+    <div class="category-grid" id="categoryGridContainer">
+      <!-- Sub product blocks inject dynamically -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2: ITEM OPTION SELECTOR & QUANTITY -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close-x" onclick="closeProductModal()">&times;</span>
+    <div class="modal-left" id="modalLeft">
+      <img id="modalImg" src="" alt="Product Detail Image" style="display:none;">
+    </div>
+    <div class="modal-right">
+      <h2 id="modalTitle">Product Title</h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+      <p class="modal-meta" id="modalMeta">Category: Interlining</p>
+      
+      <div id="rollWrap" class="hidden"><label for="rollSelect">Roll Size</label><select id="rollSelect" class="option-select" onchange="updateVariant()"></select></div>
+      <div id="itemWrap" class="hidden"><label for="itemSelect">Item Number</label><select id="itemSelect" class="option-select" onchange="updateVariant()"></select></div>
+      <div id="colourWrap" class="hidden"><label for="colourSelect">Colour</label><select id="colourSelect" class="option-select" onchange="updateVariant()"></select></div>
+      <div id="widthWrap" class="hidden"><label for="widthSelect">Width</label><select id="widthSelect" class="option-select" onchange="updateVariant()"></select></div>
+      <div id="gsmWrap" class="hidden"><label for="gsmSelect">GSM</label><select id="gsmSelect" class="option-select" onchange="updateVariant()"></select></div>
+      <div id="typeWrap" class="hidden"><label for="typeSelect">Type</label><select id="typeSelect" class="option-select" onchange="updateVariant()"></select></div>
+      <div id="optionWrap" class="hidden"><label for="optionSelect">Option</label><select id="optionSelect" class="option-select" onchange="updateVariant()"></select></div>
+      <div id="yardWrap" class="hidden"><label for="yardSelect">Yards</label><select id="yardSelect" class="option-select" onchange="updateVariant()"></select></div>
+
+      <label>Quantity</label>
+      <input type="number" id="qtyInput" value="1" min="1" style="margin-bottom:20px;">
+      <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+      <button class="btn-add" onclick="addToCart()">Add to Order</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== INTERLINING DATA ====================
+const categoryData = {
+  "interlining": {
+    title: "Interlining",
+    groups: [
+      "non-woven-interlining",
+      "tracing-material",
+      "water-soluble-interlining",
+      "pp-embroidery",
+      "spider-interlining",
+      "stf-interlining",
+      "microdot",
+      "dimension-interlining",
+      "quala-fusing",
+      "red-line-interlining",
+      "jacket-lining",
+      "applique-paper",
+      "bukram"
+    ]
+  }
+};
+
+const productGroups = {
+  "non-woven-interlining": {
+    title: "Non-Woven Interlining",
+    category: "Interlining",
+    img: "images/interlinning/Perlon White - 25 Yards/1025.jpg",
+    type: "nonwoven",
+    variants: {
+      "25 yards per roll": {
+        "White": ["1025","1030","1035","1050","1070","1090","1115","2016","4444"],
+        "Black": ["1025","1030","1035","1050","1070","1090","2016","4444"]
+      },
+      "100 yards per roll": {
+        "White": ["1025","1030","1035","1050","1070","1090","1115","2016","4444"],
+        "Black": ["1035","1050","2016"]
+      }
+    },
+    rollLengths: ["100 yards per roll","25 yards per roll"],
+    options: []
+  },
+  "tracing-material": {
+    title: "Tracing Material",
+    category: "Interlining",
+    img: "images/interlinning/Perlon - Poly Trace/green.jpg",
+    type: "simple",
+    options: [
+      {name:"Pink - 25 yards", productId:"tracing-pink", size:"25 yards", color:"Pink", img:"images/interlining/Perlon - Poly Trace/pink.jpg"},
+      {name:"Violet - 25 yards", productId:"tracing-violet", size:"25 yards", color:"Violet", img:"images/interlining/Perlon - Poly Trace/violet.jpg"},
+      {name:"Green - 25 yards", productId:"tracing-green", size:"25 yards", color:"Green", img:"images/interlining/Perlon - Poly Trace/green.jpg"}
+    ]
+  },
+  "water-soluble-interlining": {
+    title: "Water-Soluble Interlining",
+    category: "Interlining",
+    img: "images/interlining/waterSoluble.jpg",
+    type: "simple",
+    options: [
+      {name:"Water-Soluble - 30cm x 100 yards", productId:"water-soluble-30cm-100yds", size:"30cm x 100 yards", color:"White", img:"images/interlining/waterSoluble.jpg"}
+    ]
+  },
+  "pp-embroidery": {
+    title: "PP Embroidery",
+    category: "Interlining",
+    img: "images/interlining/PPEmbroidery.jpg",
+    type: "simple",
+    options: [
+      {name:"PP Embroidery - 40 inches x 50 yards", productId:"pp-embroidery-40x50", size:"40 inches x 50 yards", color:"White", img:"images/interlining/PPEmbroidery.jpg"}
+    ]
+  },
+  "spider-interlining": {
+    title: "Spider Interlining",
+    category: "Interlining",
+    img: "images/interlining/spider.jpg",
+    type: "simple",
+    options: [
+      {name:"Spider Interlining - 44 inches x 50 yards", productId:"spider-44x50", size:"44 inches x 50 yards", color:"White", img:"images/interlining/spider.jpg"}
+    ]
+  },
+  "stf-interlining": {
+    title: "STF Interlining",
+    category: "Interlining",
+    img: "images/interlining/STFInterlining.jpg",
+    type: "multi",
+    options: [
+      {name:"STF - 44 inches x 25m White", productId:"stf-44-25m-white", size:"44 inches x 25m", color:"White", img:"images/interlining/STFInterlining.jpg"},
+      {name:"STF - 44 inches x 25m Black", productId:"stf-44-25m-black", size:"44 inches x 25m", color:"Black", img:"images/interlining/STFInterlining.jpg"},
+      {name:"STF - 60 inches x 25m White", productId:"stf-60-25m-white", size:"60 inches x 25m", color:"White", img:"images/interlining/STFInterlining.jpg"},
+      {name:"STF - 60 inches x 25m Black", productId:"stf-60-25m-black", size:"60 inches x 25m", color:"Black", img:"images/interlining/STFInterlining.jpg"}
+    ]
+  },
+  "microdot": {
+    title: "Microdot",
+    category: "Interlining",
+    img: "images/interlining/microdot.webp",
+    type: "multi",
+    options: [
+      {name:"Microdot - 35 GSM White", productId:"microdot-35-white", size:"35 GSM - 100cm x 100m", color:"White", img:"images/interlining/microdot.webp"},
+      {name:"Microdot - 35 GSM Black", productId:"microdot-35-black", size:"35 GSM - 100cm x 100m", color:"Black", img:"images/interlining/microdot.webp"},
+      {name:"Microdot - 70 GSM White", productId:"microdot-70-white", size:"70 GSM - 100cm x 100m", color:"White", img:"images/interlining/microdot.webp"},
+      {name:"Microdot - 70 GSM Black", productId:"microdot-70-black", size:"70 GSM - 100cm x 100m", color:"Black", img:"images/interlining/microdot.webp"}
+    ]
+  },
+  "dimension-interlining": {
+    title: "Dimension Interlining",
+    category: "Interlining",
+    img: "images/interlining/dimension.jpg",
+    type: "simple",
+    options: [
+      {name:"Dimension - 60 inches x 25m White", productId:"dimension-60-25m-white", size:"60 inches x 25m", color:"White", img:"images/interlining/dimension.jpg"},
+      {name:"Dimension - 60 inches x 25m Black", productId:"dimension-60-25m-black", size:"60 inches x 25m", color:"Black", img:"images/interlining/dimension.jpg"}
+    ]
+  },
+  "quala-fusing": {
+    title: "Collar Fusing (Quala)",
+    category: "Interlining",
+    img: "images/interlining/collar.jpg",
+    type: "simple",
+    options: [
+      {name:"Standard (MVSA) - 25m per roll", productId:"quala-standard", size:"Standard - 25m", color:"White", img:"images/interlining/collar.jpg"},
+      {name:"Premium (JPSA) - 10m per roll", productId:"quala-premium", size:"Premium - 10m", color:"White", img:"images/interlining/collar.jpg"}
+    ]
+  },
+  "red-line-interlining": {
+    title: "Red Line Interlining",
+    category: "Interlining",
+    img: "images/interlining/redLine.jpg",
+    type: "simple",
+    options: [
+      {name:"Red Line - 44 inches x 50m", productId:"redline-44x50m", size:"44 inches x 50m", color:"White", img:"images/interlining/redLine.jpg"}
+    ]
+  },
+  "jacket-lining": {
+    title: "Jacket Lining",
+    category: "Interlining",
+    img: "images/interlining/jacketLining.jpg",
+    type: "simple",
+    options: [
+      {name:"Option 8001 - 85 GSM", productId:"jacket-8001-85gsm", size:"85 GSM", color:"Standard", img:"images/interlining/jacketLining.jpg"},
+      {name:"Option 8002 - 100 GSM", productId:"jacket-8002-100gsm", size:"100 GSM", color:"Standard", img:"images/interlining/jacketLining.jpg"}
+    ]
+  },
+  "applique-paper": {
+    title: "Applique Paper",
+    category: "Interlining",
+    img: "images/interlining/appliquePaper.jpg",
+    type: "multi",
+    options: [
+      {name:"Applique Paper - 30 GSM - 50 yards", productId:"applique-30gsm-50yds", size:"30 GSM - 50 yards", color:"White", img:"images/interlining/appliquePaper.jpg"},
+      {name:"Applique Paper - 30 GSM - 100 yards", productId:"applique-30gsm-100yds", size:"30 GSM - 100 yards", color:"White", img:"images/interlining/appliquePaper.jpg"},
+      {name:"Applique Paper - 100 GSM - 50 yards", productId:"applique-100gsm-50yds", size:"100 GSM - 50 yards", color:"White", img:"images/interlining/appliquePaper.jpg"},
+      {name:"Applique Paper - 100 GSM - 100 yards", productId:"applique-100gsm-100yds", size:"100 GSM - 100 yards", color:"White", img:"images/interlining/appliquePaper.jpg"}
+    ]
+  },
+  "bukram": {
+    title: "Bukram",
+    category: "Interlining",
+    img: "images/interlining/bukram.jpg",
+    type: "simple",
+    options: [
+      {name:"Bukram - 50 Yards", productId:"bukram-50yds", size:"50 Yards", color:"Standard", img:"images/interlining/bukram.jpg"}
+    ]
+  }
+};
+
+// The project folder is named "interlinning" (double n).
+// Keep every existing product filename intact while pointing it at the real folder.
+Object.values(productGroups).forEach(group => {
+  group.img = group.img.replace('images/interlining/', 'images/interlinning/');
+  if (group.options) {
+    group.options.forEach(option => {
+      option.img = option.img.replace('images/interlining/', 'images/interlinning/');
+    });
+  }
+});
+
+// ==================== SCRIPT LOGIC ====================
+let currentGroup = null;
+let selectedProduct = null;
+
+function getBankImage(key){
+  const img = document.querySelector(`#imageBank img[data-img-key="${CSS.escape(key)}"]`);
+  return img ? img.getAttribute('src') : '';
+}
+
+function tryImageExtension(img) {
+  const extensions = ['jpg', 'jpeg', 'png', 'webp'];
+  const base = img.dataset.imageBase || img.src.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+  const nextIndex = Number(img.dataset.extensionIndex || 0) + 1;
+  img.dataset.imageBase = base;
+  if (nextIndex < extensions.length) {
+    img.dataset.extensionIndex = nextIndex;
+    img.src = `${base}.${extensions[nextIndex]}`;
+  } else {
+    img.style.display = 'none';
+  }
+}
+
+function buildCategoryCards() {
+  const container = document.getElementById('categoryGrid');
+  container.innerHTML = '';
+  
+  const cat = categoryData["interlining"];
+  const card = document.createElement('div');
+  card.className = 'category-main-card';
+  card.onclick = () => openCategoryModal('interlining');
+  
+  const firstGroup = productGroups[cat.groups[0]];
+  const imgSrc = firstGroup ? firstGroup.img : 'images/interlining/STFInterlining.jpg';
+  
+  card.innerHTML = `
+    <div class="img-wrap">
+      <img src="${imgSrc}" alt="${cat.title}" onerror="tryImageExtension(this)">
+    </div>
+    <h3>${cat.title}</h3>
+  `;
+  container.appendChild(card);
+}
+
+function openCategoryModal(catKey) {
+  const cat = categoryData[catKey];
+  if (!cat) return;
+
+  document.getElementById('catModalTitle').textContent = cat.title;
+  const container = document.getElementById('categoryGridContainer');
+  container.innerHTML = '';
+
+  cat.groups.forEach(groupId => {
+    const group = productGroups[groupId];
+    if (!group) return;
+
+    const subCard = document.createElement('div');
+    subCard.className = 'sub-product-card';
+    subCard.onclick = () => openProductModal(groupId);
+    
+    subCard.innerHTML = `
+      <div class="sub-product-img">
+        <img src="${group.img}" alt="${group.title}" onerror="tryImageExtension(this)">
+      </div>
+      <div class="sub-product-info">
+        <h4>${group.title}</h4>
+      </div>
+    `;
+    container.appendChild(subCard);
+  });
+
+  document.getElementById('categoryGridModal').style.display = 'block';
+}
+
+function closeCategoryModal() {
+  document.getElementById('categoryGridModal').style.display = 'none';
+}
+
+function openProductModal(groupId) {
+  closeCategoryModal();
+  currentGroup = productGroups[groupId];
+  if (!currentGroup) return;
+
+  document.getElementById('modalTitle').textContent = currentGroup.title;
+  document.getElementById('modalMeta').textContent = `Category: ${currentGroup.category}`;
+  
+  // Reset all option wrappers
+  ['rollWrap','itemWrap','colourWrap','widthWrap','gsmWrap','typeWrap','optionWrap','yardWrap'].forEach(id => {
+    document.getElementById(id).classList.add('hidden');
+  });
+  
+  // Reset image - hide it until we have a valid src
+  const modalImg = document.getElementById('modalImg');
+  const modalLeft = document.getElementById('modalLeft');
+  // Remove any existing no-image icon
+  const existingIcon = modalLeft.querySelector('.no-image-icon');
+  if (existingIcon) existingIcon.remove();
+  modalImg.style.display = 'none';
+  
+  const select = document.getElementById('optionSelect');
+  select.innerHTML = '';
+  
+  if (currentGroup.type === 'nonwoven') {
+    document.getElementById('rollWrap').classList.remove('hidden');
+    document.getElementById('itemWrap').classList.remove('hidden');
+    
+    const rollSelect = document.getElementById('rollSelect');
+    rollSelect.innerHTML = currentGroup.rollLengths.map(r => `<option value="${r}">${r}</option>`).join('');
+    
+    document.getElementById('colourWrap').classList.remove('hidden');
+    const colourSelect = document.getElementById('colourSelect');
+    colourSelect.innerHTML = `<option value="White">White</option><option value="Black">Black</option>`;
+    updateNonWovenItems();
+    
+    document.getElementById('itemSelect').onchange = updateVariant;
+    document.getElementById('rollSelect').onchange = updateNonWovenItems;
+    document.getElementById('colourSelect').onchange = updateNonWovenItems;
+    
+    updateVariant();
+  } else {
+    if (currentGroup.options && currentGroup.options.length > 0) {
+      document.getElementById('optionWrap').classList.remove('hidden');
+      const optionSelect = document.getElementById('optionSelect');
+      optionSelect.innerHTML = currentGroup.options.map((opt, idx) => 
+        `<option value="${idx}">${opt.name}</option>`
+      ).join('');
+      optionSelect.onchange = updateVariant;
+      updateVariant();
+    } else {
+      document.getElementById('optionWrap').classList.remove('hidden');
+      document.getElementById('optionSelect').innerHTML = `<option value="0">Standard</option>`;
+      updateVariant();
+    }
+  }
+
+  document.getElementById('productModal').style.display = 'block';
+}
+
+function updateNonWovenItems() {
+  const roll = document.getElementById('rollSelect').value;
+  const colour = document.getElementById('colourSelect').value;
+  const items = currentGroup.variants[roll][colour];
+  document.getElementById('itemSelect').innerHTML = items.map(i => `<option value="${i}">${i}</option>`).join('');
+  updateVariant();
+}
+
+function updateVariant() {
+  if (!currentGroup) return;
+  
+  let name = currentGroup.title;
+  let img = currentGroup.img;
+  let productId = '';
+  let size = '';
+  let color = '';
+  
+  if (currentGroup.type === 'nonwoven') {
+    const roll = document.getElementById('rollSelect').value;
+    const item = document.getElementById('itemSelect').value;
+    const colour = document.getElementById('colourSelect').value;
+    name = `${currentGroup.title} - ${item} · ${roll} · ${colour}`;
+    productId = `nonwoven-${item}-${roll}-${colour}`.toLowerCase().replace(/\s/g,'-').replace(/[^a-z0-9-]/g,'');
+    size = `${item} · ${roll}`;
+    color = colour;
+    const folder = `Perlon ${colour} - ${roll.startsWith('25') ? '25 Yards' : '100y'}`;
+    img = `images/interlinning/${folder}/${item}.jpg`;
+  } else {
+    const optionSelect = document.getElementById('optionSelect');
+    const idx = parseInt(optionSelect.value);
+    const opt = currentGroup.options[idx];
+    if (opt) {
+      name = opt.name;
+      productId = opt.productId;
+      size = opt.size || '';
+      color = opt.color || '';
+      img = opt.img || currentGroup.img;
+    }
+  }
+  
+  selectedProduct = {
+    name: name,
+    productId: productId,
+    size: size,
+    color: color,
+    img: img,
+    category: currentGroup.category
+  };
+  window.fawzCurrentProductId = selectedProduct.productId;
+  
+  // Handle image display properly - no flashing
+  const modalImg = document.getElementById('modalImg');
+  const modalLeft = document.getElementById('modalLeft');
+  const existingIcon = modalLeft.querySelector('.no-image-icon');
+  if (existingIcon) existingIcon.remove();
+  
+  // Load the matching file, including projects where Windows hid a non-JPG extension.
+  const extensions = ['jpg', 'jpeg', 'png', 'webp'];
+  const base = img.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+  let extensionIndex = 0;
+  const loadSelectedImage = () => {
+    const candidate = `${base}.${extensions[extensionIndex]}`;
+    const imgTest = new Image();
+    imgTest.onload = function() {
+      modalImg.src = candidate;
+      modalImg.style.display = 'block';
+      selectedProduct.img = candidate;
+    };
+    imgTest.onerror = function() {
+      extensionIndex += 1;
+      if (extensionIndex < extensions.length) {
+        loadSelectedImage();
+      } else {
+        modalImg.style.display = 'none';
+        if (!modalLeft.querySelector('.no-image-icon')) {
+          const icon = document.createElement('div');
+          icon.className = 'no-image-icon';
+          icon.textContent = '📄';
+          modalLeft.appendChild(icon);
+        }
+      }
+    };
+    imgTest.src = candidate;
+  };
+  loadSelectedImage();
+}
+
+function closeProductModal() {
+  document.getElementById('productModal').style.display = 'none';
+}
+
+function addToCart() {
+  if (!selectedProduct) {
+    alert("Please select a product first.");
+    return;
+  }
+  
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  cart.push({
+    name: selectedProduct.name,
+    productId: selectedProduct.productId,
+    category: selectedProduct.category,
+    size: selectedProduct.size,
+    color: selectedProduct.color,
+    qty: qty,
+    image: selectedProduct.img
+  });
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  alert(`Added ${qty} x ${selectedProduct.name} to your cart successfully!`);
+  closeProductModal();
+}
+
+function filterProducts() {
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  document.querySelectorAll('.category-main-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = (!q || text.includes(q)) ? 'flex' : 'none';
+  });
+}
+
+document.getElementById('searchBox').addEventListener('input', filterProducts);
+
+window.addEventListener('click', e => { 
+  if(e.target === document.getElementById('categoryGridModal')) closeCategoryModal();
+  if(e.target === document.getElementById('productModal')) closeProductModal(); 
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildCategoryCards();
+});
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-packing-info.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

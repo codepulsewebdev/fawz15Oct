@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tassels | FAWZ Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+<!-- Firebase & Core Scripts -->
+
+
+
+
+
+<style>
+:root {
+    --fawz-red: #e31e24;
+    --fawz-dark: #1a1a1a;
+    --fawz-grey: #f8f8f8;
+    --border: #eeeeee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #fff;
+    color: var(--fawz-dark);
+    overflow-x: hidden;
+}
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--fawz-red);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.logo {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+}
+.logo span { color: var(--fawz-red); }
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+nav a {
+    color: var(--fawz-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.hero {
+    padding: 46px 5% 24px;
+    max-width: 1300px;
+    margin: auto;
+}
+.hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+.toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+.toolbar input {
+    padding: 13px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-width: 260px;
+    font-size: 1rem;
+    background: #fff;
+}
+main {
+    padding: 15px 5% 70px;
+    max-width: 1300px;
+    margin: auto;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+.product-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+    transition: 0.25s;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+}
+.product-img-wrap {
+    height: 240px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+}
+.product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.product-info {
+    padding: 20px;
+    text-align: center;
+}
+.product-info h4 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.product-info p {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+.hidden { display: none !important; }
+
+/* MODAL STRUCTURE */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(3px);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background: #fff;
+    margin: auto;
+    width: 90%;
+    max-width: 1100px;
+    height: 85%;
+    max-height: 85vh;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+}
+.close-x {
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #aaa;
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+.modal-left {
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+}
+.modal-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.modal-right {
+    padding: 28px 32px;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.modal-right h2 {
+    margin: 0 0 20px;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+    font-size: 1.6rem;
+    font-weight: 900;
+}
+.variant-group {
+    margin: 10px 0 16px;
+}
+.variant-group label {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #555;
+    letter-spacing: 1px;
+}
+.variant-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* VISUAL COLOR TABLE MATRIX LAYOUT */
+.color-table-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+.color-block-cell {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+.color-block-cell:hover {
+    border-color: #999;
+    background: #fcfcfc;
+}
+.color-block-cell.active {
+    border-color: var(--fawz-red);
+    background: #fff5f5;
+    box-shadow: 0 0 0 1px var(--fawz-red);
+}
+.color-swatch-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.15);
+    flex-shrink: 0;
+}
+.color-title-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--fawz-dark);
+}
+
+.qty-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f8f8f8;
+    margin: 6px 0 12px;
+}
+#price {
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 15px 0 20px;
+    color: var(--fawz-red);
+}
+.btn-add {
+    width: 100%;
+    background: var(--fawz-red);
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    transition: background 0.2s;
+    margin-top: auto;
+}
+.btn-add:hover { background: #c41a1f; }
+
+@media (max-width: 700px) {
+    .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; }
+    .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); }
+    .modal-right { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">FAWZ <span>Haberdashery</span></div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="category-index.html">Categories</a>
+        <a href="all-products.html">All Products</a>
+        <a href="demo_cart.html">View Cart</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Tassels</h1>
+    <div class="toolbar">
+        <input id="searchBox" placeholder="Search graduation tassels...">
+    </div>
+</section>
+
+<!-- IMAGE BANK SOURCE: Unique Image Key for Each Size & Color Combination -->
+<div id="imageBank" style="display:none;">
+    <!-- Default Fallback -->
+    <img data-img-key="grad-tassels-all" src="images/Tassels 12cm & 30cm/white.jpg" alt="Graduation Tassels">
+
+    <!-- Group 1 Sizes & Colors (5cm, 7.5cm, 15cm) -->
+    <!-- 5 cm -->
+    <img data-img-key="5cm-black" src="images/Tassels 5cm 7,5cm 12cm/black.jpg" alt="5 cm Black Tassel">
+    <img data-img-key="5cm-red" src="images/Tassels 5cm 7,5cm 12cm/red.jpg" alt="5 cm Red Tassel">
+    <img data-img-key="5cm-navy" src="images/Tassels 5cm 7,5cm 12cm/navy.jpg" alt="5 cm Navy Tassel">
+    <img data-img-key="5cm-gold" src="images/Tassels 5cm 7,5cm 12cm/gold.jpg" alt="5 cm Gold Tassel">
+    <img data-img-key="5cm-old-gold" src="images/Tassels 5cm 7,5cm 12cm/oldGold.jpg" alt="5 cm Old Gold Tassel">
+    <img data-img-key="5cm-white" src="images/Tassels 5cm 7,5cm 12cm/white.jpg" alt="5 cm White Tassel">
+
+    <!-- 7.5 cm -->
+    <img data-img-key="7.5cm-black" src="images/Tassels 5cm 7,5cm 12cm/black.jpg" alt="7.5 cm Black Tassel">
+    <img data-img-key="7.5cm-red" src="images/Tassels 5cm 7,5cm 12cm/red.jpg" alt="7.5 cm Red Tassel">
+    <img data-img-key="7.5cm-navy" src="images/Tassels 5cm 7,5cm 12cm/navy.jpg" alt="7.5 cm Navy Tassel">
+    <img data-img-key="7.5cm-gold" src="images/Tassels 5cm 7,5cm 12cm/gold.jpg" alt="7.5 cm Gold Tassel">
+    <img data-img-key="7.5cm-old-gold" src="images/Tassels 5cm 7,5cm 12cm/oldGold.jpg" alt="7.5 cm Old Gold Tassel">
+    <img data-img-key="7.5cm-white" src="images/Tassels 5cm 7,5cm 12cm/white.jpg" alt="7.5 cm White Tassel">
+
+    <!-- 15 cm -->
+    <img data-img-key="15cm-black" src="images/Tassels 5cm 7,5cm 12cm/black.jpg" alt="15 cm Black Tassel">
+    <img data-img-key="15cm-red" src="images/Tassels 5cm 7,5cm 12cm/red.jpg" alt="15 cm Red Tassel">
+    <img data-img-key="15cm-navy" src="images/Tassels 5cm 7,5cm 12cm/navy.jpg" alt="15 cm Navy Tassel">
+    <img data-img-key="15cm-gold" src="images/Tassels 5cm 7,5cm 12cm/gold.jpg" alt="15 cm Gold Tassel">
+    <img data-img-key="15cm-old-gold" src="images/Tassels 5cm 7,5cm 12cm/old-gold.jpg" alt="15 cm Old Gold Tassel">
+    <img data-img-key="15cm-white" src="images/Tassels 5cm 7,5cm 12cm/white.jpg" alt="15 cm White Tassel">
+
+    <!-- Group 2 Sizes & Colors (12cm, 30cm) -->
+    <!-- 12 cm -->
+    <img data-img-key="12cm-red" src="images/Tassels 12cm & 30cm/red.jpg" alt="12 cm Red Tassel">
+    <img data-img-key="12cm-bottle-green" src="images/Tassels 12cm & 30cm/bottle.jpg" alt="12 cm Bottle Green Tassel">
+    <img data-img-key="12cm-cerise-pink" src="images/Tassels 12cm & 30cm/cerise.jpg" alt="12 cm Cerise Pink Tassel">
+    <img data-img-key="12cm-yellow" src="images/Tassels 12cm & 30cm/yellow.jpg" alt="12 cm Yellow Tassel">
+    <img data-img-key="12cm-cream" src="images/Tassels 12cm & 30cm/cream.jpg" alt="12 cm Cream Tassel">
+    <img data-img-key="12cm-old-gold" src="images/Tassels 12cm & 30cm/oldGold.jpg" alt="12 cm Old Gold Tassel">
+    <img data-img-key="12cm-lilac" src="images/Tassels 12cm & 30cm/lillac.jpg" alt="12 cm Lilac Tassel">
+    <img data-img-key="12cm-purple" src="images/Tassels 12cm & 30cm/purple.jpg" alt="12 cm Purple Tassel">
+    <img data-img-key="12cm-powder" src="images/Tassels 12cm & 30cm/powder.jpg" alt="12 cm Powder Tassel">
+    <img data-img-key="12cm-black" src="images/Tassels 12cm & 30cm/black.jpg" alt="12 cm Black Tassel">
+    <img data-img-key="12cm-turquoise" src="images/Tassels 12cm & 30cm/turq.jpg" alt="12 cm Turquoise Tassel">
+    <img data-img-key="12cm-light-grey" src="images/Tassels 12cm & 30cm/ltGrey.jpg" alt="12 cm Light Grey Tassel">
+    <img data-img-key="12cm-white" src="images/Tassels 12cm & 30cm/white.jpg" alt="12 cm White Tassel">
+    <img data-img-key="12cm-royal-blue" src="images/Tassels 12cm & 30cm/royal.jpg" alt="12 cm Royal Blue Tassel">
+    <img data-img-key="12cm-maroon" src="images/Tassels 12cm & 30cm/maroon.jpg" alt="12 cm Maroon Tassel">
+    <img data-img-key="12cm-emerald-green" src="images/Tassels 12cm & 30cm/emerald.jpg" alt="12 cm Emerald Green Tassel">
+    <img data-img-key="12cm-baby-pink" src="images/Tassels 12cm & 30cm/" alt="12 cm Baby Pink Tassel">
+    <img data-img-key="12cm-navy" src="images/Tassels 12cm & 30cm/navy.jpg" alt="12 cm Navy Tassel">
+    <img data-img-key="12cm-brown" src="images/Tassels 12cm & 30cm/dkBrown.jpg" alt="12 cm Brown Tassel">
+
+    <!-- 30 cm -->
+    <img data-img-key="30cm-red" src="images/Tassels 12cm & 30cm/red.jpg" alt="30 cm Red Tassel">
+    <img data-img-key="30cm-bottle-green" src="images/Tassels 12cm & 30cm/bottle.jpg" alt="30 cm Bottle Green Tassel">
+    <img data-img-key="30cm-cerise-pink" src="images/Tassels 12cm & 30cm/cerise.jpg" alt="30 cm Cerise Pink Tassel">
+    <img data-img-key="30cm-yellow" src="images/Tassels 12cm & 30cm/yellow.jpg" alt="30 cm Yellow Tassel">
+    <img data-img-key="30cm-cream" src="images/Tassels 12cm & 30cm/cream.jpg" alt="30 cm Cream Tassel">
+    <img data-img-key="30cm-old-gold" src="images/Tassels 12cm & 30cm/oldGold.jpg" alt="30 cm Old Gold Tassel">
+    <img data-img-key="30cm-lilac" src="images/Tassels 12cm & 30cm/lillac.jpg" alt="30 cm Lilac Tassel">
+    <img data-img-key="30cm-purple" src="images/Tassels 12cm & 30cm/purple.jpg" alt="30 cm Purple Tassel">
+    <img data-img-key="30cm-powder" src="images/Tassels 12cm & 30cm/powder.jpg" alt="30 cm Powder Tassel">
+    <img data-img-key="30cm-black" src="images/Tassels 12cm & 30cm/black.jpg" alt="30 cm Black Tassel">
+    <img data-img-key="30cm-turquoise" src="images/Tassels 12cm & 30cm/turq.jpg" alt="30 cm Turquoise Tassel">
+    <img data-img-key="30cm-light-grey" src="images/Tassels 12cm & 30cm/ltGrey.jpg" alt="30 cm Light Grey Tassel">
+    <img data-img-key="30cm-white" src="images/Tassels 12cm & 30cm/white.jpg" alt="30 cm White Tassel">
+    <img data-img-key="30cm-royal-blue" src="images/Tassels 12cm & 30cm/royal.jpg" alt="30 cm Royal Blue Tassel">
+    <img data-img-key="30cm-maroon" src="images/Tassels 12cm & 30cm/maroon.jpg" alt="30 cm Maroon Tassel">
+    <img data-img-key="30cm-emerald-green" src="images/Tassels 12cm & 30cm/emerald.jpg" alt="30 cm Emerald Green Tassel">
+    <img data-img-key="30cm-baby-pink" src="images/Tassels 12cm & 30cm/" alt="30 cm Baby Pink Tassel">
+    <img data-img-key="30cm-navy" src="images/Tassels 12cm & 30cm/navy.jpg" alt="30 cm Navy Tassel">
+    <img data-img-key="30cm-brown" src="images/Tassels 12cm & 30cm/dkBrown.jpg" alt="30 cm Brown Tassel">
+</div>
+
+<main>
+    <div id="categorySectionsContainer" class="product-grid"></div>
+</main>
+
+<!-- Unified Interactive Setup Panel Drawer Window -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-x" onclick="closeModal()">&times;</span>
+        <div class="modal-left" id="modalLeft">
+            <img id="modalImg" src="" alt="">
+        </div>
+        <div class="modal-right">
+            <h2 id="modalTitle">Product Title</h2>
+            
+            <div class="variant-group">
+                <label>Select Length / Size</label>
+                <select id="sizeSelect" class="variant-select"></select>
+            </div>
+
+            <!-- Dynamic Color Block Matrix Array -->
+            <div class="variant-group">
+                <label>Select Colour</label>
+                <div id="colorTableGrid" class="color-table-grid"></div>
+            </div>
+
+            <label style="font-weight: 800; text-transform: uppercase; font-size: 0.75rem; color: #555; margin-top:10px; display:block;">Quantity</label>
+            <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="updatePrice()">
+            
+            <div id="price">R 0.00</div>
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function getImageSrc(imgKey) {
+    const bankImg = document.querySelector(`#imageBank img[data-img-key="${imgKey}"]`);
+    return bankImg ? bankImg.getAttribute('src') : '';
+}
+
+// Color palettes
+const colorPaletteGroup1 = [
+    { name: "Black", hex: "#111111" },
+    { name: "Red", hex: "#d32f2f" },
+    { name: "Navy", hex: "#000080" },
+    { name: "Gold", hex: "#ffd700" },
+    { name: "Old Gold", hex: "#cfb997" },
+    { name: "White", hex: "#ffffff" }
+];
+
+const colorPaletteGroup2 = [
+    { name: "Red", hex: "#d32f2f" },
+    { name: "Bottle Green", hex: "#006a4e" },
+    { name: "Cerise Pink", hex: "#de3163" },
+    { name: "Yellow", hex: "#ffff00" },
+    { name: "Cream", hex: "#fffdd0" },
+    { name: "Old Gold", hex: "#cfb997" },
+    { name: "Lilac", hex: "#c8a2c8" },
+    { name: "Purple", hex: "#800080" },
+    { name: "Powder", hex: "#b0e0e6" },
+    { name: "Black", hex: "#111111" },
+    { name: "Turquoise", hex: "#40e0d0" },
+    { name: "Light Grey", hex: "#d3d3d3" },
+    { name: "White", hex: "#ffffff" },
+    { name: "Royal Blue", hex: "#4169e1" },
+    { name: "Maroon", hex: "#800000" },
+    { name: "Emerald Green", hex: "#50c878" },
+    { name: "Baby Pink", hex: "#f4c2c2" },
+    { name: "Navy", hex: "#000080" },
+    { name: "Brown", hex: "#964b00" }
+];
+
+// Split into 2 product blocks as requested
+const productGroups = {
+  "graduation-tassels-group-1": {
+    "title": "Graduation Tassels (5cm / 7.5cm / 15cm)",
+    "imgKey": "grad-tassels-all",
+    "sizes": ["5 cm", "7.5 cm", "15 cm"],
+    "colorsBySize": {
+      "5 cm": colorPaletteGroup1,
+      "7.5 cm": colorPaletteGroup1,
+      "15 cm": colorPaletteGroup1
+    },
+    "pricing": {
+      "5 cm": 18.00,
+      "7.5 cm": 25.00,
+      "15 cm": 45.00
+    }
+  },
+  "graduation-tassels-group-2": {
+    "title": "Graduation Tassels (12cm / 30cm)",
+    "imgKey": "grad-tassels-all",
+    "sizes": ["12 cm", "30 cm"],
+    "colorsBySize": {
+      "12 cm": colorPaletteGroup2,
+      "30 cm": colorPaletteGroup2
+    },
+    "pricing": {
+      "12 cm": 35.00,
+      "30 cm": 65.00
+    }
+  }
+};
+
+let activeItem = null;
+let selectedSize = "";
+let selectedColorName = "";
+
+function buildPageGrid() {
+    const container = document.getElementById('categorySectionsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    for (const key in productGroups) {
+        const prod = productGroups[key];
+        const card = document.createElement('article');
+        card.className = 'product-card';
+        
+        const srcImg = getImageSrc(prod.imgKey);
+        const imageTemplate = srcImg ? `<img src="${srcImg}" alt="${prod.title}" loading="lazy">` : `<div style="font-size:3rem; padding: 50px 0;">🎓</div>`;
+
+        card.innerHTML = `
+            <div class="product-img-wrap">${imageTemplate}</div>
+            <div class="product-info">
+                <h4>${prod.title}</h4>
+                <p>${prod.sizes.length} Sizes Available • Select size for colors</p>
+            </div>
+        `;
+
+        card.onclick = () => openProductModal(prod);
+        container.appendChild(card);
+    }
+}
+
+function openProductModal(prod) {
+    activeItem = prod;
+    document.getElementById('modalTitle').innerText = prod.title;
+
+    const sizeSelect = document.getElementById('sizeSelect');
+    sizeSelect.innerHTML = '';
+
+    // Render Size Options
+    prod.sizes.forEach(size => {
+        const el = document.createElement('option');
+        el.value = size;
+        el.innerText = size;
+        sizeSelect.appendChild(el);
+    });
+
+    selectedSize = prod.sizes[0];
+    sizeSelect.value = selectedSize;
+
+    // Change colors and update image dynamically whenever a new size is selected
+    sizeSelect.onchange = (e) => {
+        selectedSize = e.target.value;
+        renderColorsForSize(selectedSize);
+        updateActiveImage();
+        updatePrice();
+    };
+
+    renderColorsForSize(selectedSize);
+    updateActiveImage();
+    document.getElementById('qty').value = 1;
+    updatePrice();
+    document.getElementById('productModal').style.display = 'flex';
+}
+
+function renderColorsForSize(size) {
+    const colorTableGrid = document.getElementById('colorTableGrid');
+    colorTableGrid.innerHTML = '';
+
+    const availableColors = activeItem.colorsBySize[size] || [];
+
+    availableColors.forEach((color, index) => {
+        const block = document.createElement('div');
+        block.className = `color-block-cell ${index === 0 ? 'active' : ''}`;
+        block.setAttribute('data-color-name', color.name);
+        
+        block.innerHTML = `
+            <div class="color-swatch-preview" style="background-color: ${color.hex};"></div>
+            <div class="color-title-label">${color.name}</div>
+        `;
+        
+        block.onclick = () => {
+            document.querySelectorAll('.color-block-cell').forEach(c => c.classList.remove('active'));
+            block.classList.add('active');
+            selectedColorName = color.name;
+            updateActiveImage();
+            updatePrice();
+        };
+
+        colorTableGrid.appendChild(block);
+    });
+
+    if (availableColors.length > 0) {
+        selectedColorName = availableColors[0].name;
+    }
+}
+
+function updateActiveImage() {
+    if (!selectedSize || !selectedColorName) return;
+    
+    // Format size and color into a clean image key format (e.g., "5cm-old-gold" or "12cm-bottle-green")
+    const sizeKeyPart = selectedSize.replace(/\s+/g, '').toLowerCase();
+    const colorKeyPart = selectedColorName.replace(/\s+/g, '-').toLowerCase();
+    const targetKey = `${sizeKeyPart}-${colorKeyPart}`;
+
+    const modalImg = document.getElementById('modalImg');
+    const matchedSrc = getImageSrc(targetKey);
+
+    // Fall back to general image if specific combination is missing
+    modalImg.src = matchedSrc ? matchedSrc : getImageSrc(activeItem.imgKey);
+}
+
+function updatePrice() {
+    if (!activeItem) return;
+    
+    const basePrice = activeItem.pricing[selectedSize] || 0;
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+    const computedPid = `tassel-${selectedSize.replace(' ', '')}-${selectedColorName}`.toLowerCase();
+    const baseUnit = (window.getFirebasePrice) ? window.getFirebasePrice(computedPid, basePrice) : basePrice;
+    const totalAmount = baseUnit * qty;
+
+    const priceBox = document.getElementById('price');
+    if (priceBox) {
+        priceBox.innerText = `R ${totalAmount.toFixed(2)}`;
+    }
+}
+
+function addToCart() {
+    if (!activeItem) return;
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+    const basePrice = activeItem.pricing[selectedSize] || 0;
+    const computedPid = `tassel-${selectedSize.replace(' ', '')}-${selectedColorName}`.toLowerCase();
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.push({
+        product: `${activeItem.title} (${selectedSize} - ${selectedColorName})`,
+        category: "Tassels",
+        size: selectedSize,
+        color: selectedColorName,
+        qty: qty,
+        price: basePrice * qty,
+        unitPrice: basePrice,
+        total: basePrice * qty,
+        productId: computedPid,
+        tier: window.userTier || 'tier_1'
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`Added: ${activeItem.title} (${selectedSize} - ${selectedColorName}) x${qty} to cart.`);
+    closeModal();
+}
+
+function closeModal() {
+    document.getElementById('productModal').style.display = 'none';
+}
+
+function handleSearch() {
+    const filter = document.getElementById('searchBox').value.toLowerCase();
+    const productCards = document.querySelectorAll('.product-card');
+    
+    productCards.forEach(card => {
+        const textValue = card.innerText.toLowerCase();
+        card.classList.toggle('hidden', !textValue.includes(filter));
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    buildPageGrid();
+    document.getElementById('searchBox')?.addEventListener('input', handleSearch);
+});
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

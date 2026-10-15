@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pins & Fasteners | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+
+
+
+
+<style>
+:root {
+    --fawz-red: #e31e24;
+    --fawz-dark: #1a1a1a;
+    --fawz-grey: #f8f8f8;
+    --border: #eeeeee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #fff;
+    color: var(--fawz-dark);
+    overflow-x: hidden;
+}
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--fawz-red);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.logo {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+}
+.logo span { color: var(--fawz-red); }
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+nav a {
+    color: var(--fawz-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.hero {
+    padding: 46px 5% 24px;
+    max-width: 1300px;
+    margin: auto;
+}
+.hero h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin: 0;
+    text-transform: uppercase;
+}
+.toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+.toolbar input {
+    padding: 13px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-width: 260px;
+    font-size: 1rem;
+    background: #fff;
+}
+main {
+    padding: 15px 5% 70px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+/* 3 MAIN CATEGORY BLOCKS GRID */
+.main-category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+.main-category-card {
+    background: var(--fawz-grey);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.main-category-card:hover {
+    border-color: var(--fawz-red);
+    transform: translateY(-5px);
+    box-shadow: 0 18px 35px rgba(227, 30, 36, 0.15);
+    background: #fff;
+}
+.main-category-cover {
+    width: 100%;
+    height: 200px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid var(--border);
+    overflow: hidden;
+}
+.main-category-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.main-category-card:hover .main-category-cover img {
+    transform: scale(1.05);
+}
+.main-category-info {
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
+.main-category-card h2 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: var(--fawz-dark);
+    margin: 0;
+}
+
+/* PRODUCT GRID WITHIN CATEGORY MODAL */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    padding-top: 15px;
+}
+.product-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+    transition: 0.25s;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+}
+.product-img-wrap {
+    height: 180px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+}
+.product-img-wrap img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+.no-image-icon {
+    font-size: 3rem;
+    color: #ccc;
+}
+.product-info {
+    padding: 16px;
+    text-align: center;
+}
+.product-info h4 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+}
+.hidden { display: none !important; }
+
+/* GENERAL MODAL STRUCTURE */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(3px);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CATEGORY PRODUCTS MODAL SPECIFIC */
+#categoryModal .modal-content-cat {
+    background: #fff;
+    margin: auto;
+    width: 95%;
+    max-width: 1200px;
+    height: 88vh;
+    border-radius: 20px;
+    overflow-y: auto;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+    padding: 30px 25px;
+}
+#categoryModalTitle {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* PRODUCT DETAIL MODAL SPECIFIC */
+#productModal { z-index: 2100; }
+.modal-content {
+    background: #fff;
+    margin: auto;
+    width: 90%;
+    max-width: 1100px;
+    height: 85%;
+    max-height: 85vh;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+}
+.close-x {
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #aaa;
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+.modal-left {
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+}
+.modal-left img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.modal-right {
+    padding: 28px 32px;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.modal-right h2 {
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+    font-size: 1.5rem;
+}
+.variant-group {
+    margin: 18px 0;
+}
+.variant-group label {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #555;
+    letter-spacing: 1px;
+}
+.variant-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    background: #fff;
+    cursor: pointer;
+}
+.qty-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f8f8f8;
+    margin: 8px 0 20px;
+}
+.btn-add {
+    width: 100%;
+    background: var(--fawz-red);
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    transition: background 0.2s;
+    margin-top: auto;
+}
+.btn-add:hover { background: #c41a1f; }
+
+@media (max-width: 700px) {
+    .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; }
+    .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; }
+    .modal-right { padding: 20px; }
+}
+</style>
+<link rel="stylesheet" href="fawz-packing-info.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Fawz <span>Haberdashery</span></div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="category-index.html">Categories</a>
+        <a href="all-products.html">All Products</a>
+        <a href="demo_cart.html">View Cart</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Pins</h1>
+    <div class="toolbar">
+        <input id="searchBox" placeholder="Search pins...">
+    </div>
+</section>
+
+<div id="imageBank" style="display:none;">
+    <div class="pdf-viewer">
+        <!-- COVER IMAGES FOR MAIN 3 BLOCKS -->
+        <img data-img-key="cover-dressmaker" src="images/Dressmaker/0001.jpg" alt="Dressmaker Pins Cover">
+        <img data-img-key="cover-head" src="images/Head/0001.jpg" alt="Head Pins Cover">
+        <img data-img-key="cover-safety" src="images/Saftey/0016.jpg" alt="Safety Pins Cover">
+
+        <!-- PRODUCT IMAGES -->
+        <img data-img-key="pins-b15-loose" src="images/Dressmaker/0002.jpg" alt="B15 Loose Pins">
+        <img data-img-key="pins-g20-loose" src="images/Dressmaker/0005.jpg" alt="G20 Loose Pins">
+        <img data-img-key="pins-b20-loose" src="images/Dressmaker/0004.jpg" alt="B20 Loose Pins">
+        <img data-img-key="pins-100g-bulk" src="images/Dressmaker/0007.jpg" alt="100g Bulk Tub Pins">
+        <img data-img-key="pins-b15-carded" src="images/Dressmaker/0001.jpg" alt="B15 Carded Pins">
+        <img data-img-key="pins-g20-carded" src="images/Dressmaker/0014.jpg" alt="G20 Carded Pins">
+        <img data-img-key="pins-b20-carded" src="images/Dressmaker/0003.jpg" alt="B20 Carded Pins">
+        <img data-img-key="pins-r40-extra-long" src="images/Dressmaker/0006.jpg" alt="R40 Extra Long Pins">
+        <img data-img-key="pins-brass-22mm-loose" src="images/Dressmaker/0010.jpg" alt="Brass Pins 22mm Loose">
+        <img data-img-key="pins-brass-22mm-carded" src="images/Dressmaker/0009.jpg" alt="Brass Pins 22mm Carded">
+        <img data-img-key="pins-ss-26mm-loose" src="images/Dressmaker/0011.jpg" alt="SS Pins 26mm Loose">
+        <img data-img-key="pins-ss-26mm-carded" src="images/Dressmaker/0008.jpg" alt="SS Pins 26mm Carded">
+        <img data-img-key="pins-draping-50mm" src="images/Dressmaker/0012.jpg" alt="Draping Pins 50mm">
+        <img data-img-key="pins-dressmaker-44mm" src="images/Dressmaker/0013.jpg" alt="Dressmaker Pins 44mm Box">
+
+        <img data-product-id="pins-b15-loose" src="images/Dressmaker/0002.jpg">
+        <img data-product-id="pins-g20-loose" src="images/Dressmaker/0005.jpg">
+        <img data-product-id="pins-b20-loose" src="images/Dressmaker/0004.jpg">
+        <img data-product-id="pins-100g-bulk" src="images/Dressmaker/0007.jpg">
+        <img data-product-id="pins-b15-carded" src="images/Dressmaker/0001.jpg">
+        <img data-product-id="pins-g20-carded" src="images/Dressmaker/0014.jpg">
+        <img data-product-id="pins-b20-carded" src="images/Dressmaker/0003.jpg">
+        <img data-product-id="pins-r40-extra-long" src="images/Dressmaker/0006.jpg">
+        <img data-product-id="pins-brass-22mm-loose" src="images/Dressmaker/0010.jpg">
+        <img data-product-id="pins-brass-22mm-carded" src="images/Dressmaker/0009.jpg">
+        <img data-product-id="pins-ss-26mm-loose" src="images/Dressmaker/0011.jpg">
+        <img data-product-id="pins-ss-26mm-carded" src="images/Dressmaker/0008.jpg">
+        <img data-product-id="pins-draping-50mm" src="images/Dressmaker/0012.jpg">
+        <img data-product-id="pins-dressmaker-44mm-box" src="images/Dressmaker/0013.jpg">
+
+        <img data-img-key="quilt-pins-45mm" src="images/Head/0001.jpg" alt="Quilting Pins 45mm">
+        <img data-img-key="glass-crystal-48mm" src="images/Head/0002.jpg" alt="Glass & Crystal Head Pins">
+        <img data-img-key="glass-pearl-pins" src="images/Head/0004.jpg" alt="Glass & Pearl Head Pins">
+        <img data-img-key="diamond-head-pins" src="images/Head/0006.jpg" alt="Diamond Head Pins">
+        <img data-img-key="berry-pins" src="images/Head/0013.jpg" alt="Berry Pins">
+        <img data-img-key="hat-pins" src="images/Head/0017.jpg" alt="Hat Pins">
+
+        <img data-product-id="quilt-pins-45mm-assorted" src="images/Head/0001.jpg">
+        <img data-product-id="glass-crystal-48mm-box" src="images/Head/0002.jpg">
+        <img data-product-id="glass-blue-48mm-box" src="images/Head/0002.jpg">
+        <img data-product-id="glass-head-pins" src="images/Head/0005.jpg">
+        <img data-product-id="pearl-head-pins" src="images/Head/0004.jpg">
+        <img data-product-id="diamond-38mm" src="images/Head/0006.jpg">
+        <img data-product-id="diamond-crystal-38mm" src="images/Head/0009.jpg">
+        <img data-product-id="diamond-crystal-55mm" src="images/Head/0008.jpg">
+        <img data-product-id="diamond-crystal-64mm" src="images/Head/0007.jpg">
+        
+        <img data-product-id="berry-loose-white" src="images/Head/0015.jpg">
+        <img data-product-id="berry-loose-assorted" src="images/Head/0013.jpg">
+        <img data-product-id="berry-loose-black" src="images/Head/0014.jpg">
+        <img data-product-id="berry-carded-white" src="images/Head/0010.jpg">
+        <img data-product-id="berry-carded-assorted" src="images/Head/0012.jpg">
+        <img data-product-id="berry-carded-black" src="images/Head/0011.jpg">
+        
+        <img data-product-id="variant-head-heart" src="images/Head/">
+        <img data-product-id="variant-head-leaf" src="images/Head/0016.jpg">
+        
+        <img data-product-id="hat-pins-small-white" src="images/Head/0019.jpg">
+        <img data-product-id="hat-pins-small-assorted" src="images/Head/0018.jpg">
+        <img data-product-id="hat-pins-large-white" src="images/Head/0023.jpg">
+        <img data-product-id="hat-pins-large-assorted" src="images/Head/0017.jpg">
+
+        <img data-img-key="silver-safety-pins-loose" src="images/Saftey/0007.jpg" alt="Silver Safety Pins Loose">
+        <img data-img-key="gold-safety-pins-loose" src="images/Saftey/0001.jpg" alt="Gold Safety Pins Loose">
+        <img data-img-key="silver-safety-pins-carded" src="images/Saftey/0016.jpg" alt="Silver Safety Pins Carded">
+        <img data-img-key="gold-safety-pins-carded" src="images/Saftey/0015.jpg" alt="Gold Safety Pins Carded">
+        <img data-img-key="blanket-pins" src="images/Saftey/0018.jpg" alt="Blanket Pins">
+
+        <img data-product-id="safety-loose-silver-000---19mm" src="images/Saftey/0006.jpg">
+        <img data-product-id="safety-loose-silver-00---23mm" src="images/Saftey/0007.jpg">
+        <img data-product-id="safety-loose-silver-0---28mm" src="images/Saftey/0010.jpg">
+        <img data-product-id="safety-loose-silver-1---32mm" src="images/Saftey/0011.jpg">
+        <img data-product-id="safety-loose-silver-2---38mm" src="images/Saftey/0012.jpg">
+        <img data-product-id="safety-loose-silver-3---48mm" src="images/Saftey/0013.jpg">
+        <img data-product-id="safety-loose-silver-4---50mm" src="images/Saftey/0014.jpg">
+
+        <img data-product-id="safety-loose-gold-000---19mm" src="images/Saftey/0001.jpg">
+        <img data-product-id="safety-loose-gold-00---23mm" src="images/Saftey/0002.jpg">
+        <img data-product-id="safety-loose-gold-0---28mm" src="images/Saftey/0003.jpg">
+        <img data-product-id="safety-loose-gold-1---32mm" src="images/Saftey/0008.jpg">
+        <img data-product-id="safety-loose-gold-2---38mm" src="images/Saftey/0009.jpg">
+        <img data-product-id="safety-loose-gold-3---48mm" src="images/Saftey/0004.jpg">
+        <img data-product-id="safety-loose-gold-4---50mm" src="images/Saftey/0005.jpg">
+
+        <img data-product-id="safety-carded-silver-assorted" src="images/Saftey/0016.jpg">
+        <img data-product-id="safety-carded-gold-assorted" src="images/Saftey/0015.jpg">
+
+        <img data-product-id="blanket-70-carded-silver" src="images/Saftey/0017.jpg">
+        <img data-product-id="blanket-70-carded-gold" src="images/Saftey/0018.jpg">
+        <img data-product-id="blanket-70-loose-silver" src="images/Saftey/0022.jpg">
+        <img data-product-id="blanket-70-loose-gold" src="images/Saftey/0021.jpg">
+        <img data-product-id="blanket-100-loose-gold" src="images/Saftey/0020.jpg">
+        <img data-product-id="blanket-100-loose-silver" src="images/Saftey/0019.jpg">
+    </div>
+</div>
+
+<main>
+    <!-- 3 MAIN BLOCKS WITH COVER PICS -->
+    <div class="main-category-grid">
+        <div class="main-category-card" onclick="openCategoryModal('Dressmakers Pins')">
+            <div class="main-category-cover">
+                <img src="images/Dressmaker/0001.jpg" alt="Dressmaker Pins">
+            </div>
+            <div class="main-category-info">
+                <h2>Dressmaker Pins</h2>
+            </div>
+        </div>
+        <div class="main-category-card" onclick="openCategoryModal('Head Pins')">
+            <div class="main-category-cover">
+                <img src="images/Head/0001.jpg" alt="Head Pins">
+            </div>
+            <div class="main-category-info">
+                <h2>Head Pins</h2>
+            </div>
+        </div>
+        <div class="main-category-card" onclick="openCategoryModal('Safety Pins')">
+            <div class="main-category-cover">
+                <img src="images/Saftey/0016.jpg" alt="Blanket & Safety Pins">
+            </div>
+            <div class="main-category-info">
+                <h2>Blanket & Safety Pins</h2>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL 1: CATEGORY PRODUCTS MODAL -->
+<div id="categoryModal" class="modal">
+    <div class="modal-content-cat">
+        <span class="close-x" onclick="closeCategoryModal()">&times;</span>
+        <h2 id="categoryModalTitle">Category Title</h2>
+        <div id="categoryProductGrid" class="product-grid"></div>
+    </div>
+</div>
+
+<!-- MODAL 2: PRODUCT DETAIL & VARIANT MODAL -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-x" onclick="closeModal()">&times;</span>
+        <div class="modal-left" id="modalLeft">
+            <img id="modalImg" src="" alt="">
+        </div>
+        <div class="modal-right">
+            <h2 id="modalTitle">Product Title</h2>
+            <div id="safetyPackingDescription" hidden style="
+                background:#f1f1f1;
+                color:#e31e24;
+                padding:14px 18px;
+                border-radius:10px;
+                margin:14px 0 28px;
+                font-size:0.95rem;
+                line-height:1.4;
+                font-weight:500;
+            "></div>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+            <div id="sizeGroup" class="variant-group">
+                <label id="sizeLabel">Select Option</label>
+                <select id="sizeSelect" class="variant-select"></select>
+            </div>
+            <div class="firebase-price" data-current-price aria-live="polite" style="font-size:1.45rem;font-weight:800;color:#b50914;margin:10px 0 18px">Loading price…</div>
+            <label>Quantity</label>
+            <input type="number" id="qty" class="qty-input" value="1" min="1">
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function getImageSrc(imgKey) {
+    const bankImg = document.querySelector(`#imageBank img[data-img-key="${imgKey}"]`);
+    return bankImg ? bankImg.getAttribute('src') : '';
+}
+
+function getVariantImage(productId, fallbackKey) {
+    const variantImg = document.querySelector(`#imageBank img[data-product-id="${productId}"]`);
+    if (variantImg) {
+        return variantImg.getAttribute('src');
+    }
+    return getImageSrc(fallbackKey);
+}
+
+function updateModalVariantImage() {
+    if (!activeItem) return;
+
+    const currentOpt = activeItem.options.find(o => o.name === activeSizeOrOption);
+    if (!currentOpt) return;
+
+    const targetSrc = getVariantImage(currentOpt.productId, activeItem.imgKey);
+    document.getElementById('modalImg').src = targetSrc;
+}
+
+const standardSafetySizes = [
+    { "name": "000 - 19mm" },
+    { "name": "00 - 23mm" },
+    { "name": "0 - 28mm" },
+    { "name": "1 - 32mm" },
+    { "name": "2 - 38mm" },
+    { "name": "3 - 48mm" },
+    { "name": "4 - 50mm" }
+];
+
+const productGroups = {
+  // SECTION 1: DRESSMAKERS PINS
+  "pins-b15": {
+    "title": "B15 Dressmakers Pins",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-b15-carded",
+    "options": [
+      { "name": "B15 Loose", "productId": "pins-b15-loose" },
+      { "name": "B15 Carded", "productId": "pins-b15-carded" }
+    ]
+  },
+  "pins-g20": {
+    "title": "G20 Dressmakers Pins",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-g20-carded",
+    "options": [
+      { "name": "G20 Loose", "productId": "pins-g20-loose" },
+      { "name": "G20 Carded", "productId": "pins-g20-carded" }
+    ]
+  },
+  "pins-b20": {
+    "title": "B20 Dressmakers Pins",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-b20-carded",
+    "options": [
+      { "name": "B20 Loose", "productId": "pins-b20-loose" },
+      { "name": "B20 Carded", "productId": "pins-b20-carded" }
+    ]
+  },
+  "pins-100g-bulk": {
+    "title": "100g Bulk Tub Pins",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-100g-bulk",
+    "options": [
+      { "name": "100g Bulk Tub", "productId": "pins-100g-bulk" }
+    ]
+  },
+  "pins-r40-extra-long": {
+    "title": "R40 Extra Long Pins (40mm)",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-r40-extra-long",
+    "options": [
+      { "name": "R40 Extra Long 40mm", "productId": "pins-r40-extra-long" }
+    ]
+  },
+  "pins-brass-22mm": {
+    "title": "Brass Pins 22mm",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-brass-22mm-carded",
+    "options": [
+      { "name": "Brass 22mm Loose", "productId": "pins-brass-22mm-loose" },
+      { "name": "Brass 22mm Carded", "productId": "pins-brass-22mm-carded" }
+    ]
+  },
+  "pins-ss-26mm": {
+    "title": "Stainless Steel Pins 26mm",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-ss-26mm-carded",
+    "options": [
+      { "name": "SS 26mm Loose", "productId": "pins-ss-26mm-loose" },
+      { "name": "SS 26mm Carded", "productId": "pins-ss-26mm-carded" }
+    ]
+  },
+  "pins-draping-50mm": {
+    "title": "Draping Pins 50mm",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-draping-50mm",
+    "options": [
+      { "name": "Draping Pins 50mm", "productId": "pins-draping-50mm" }
+    ]
+  },
+  "pins-dressmaker-44mm": {
+    "title": "Dressmaker Pins 44mm Box",
+    "category": "Dressmakers Pins",
+    "label": "Option",
+    "imgKey": "pins-dressmaker-44mm",
+    "options": [
+      { "name": "44mm Box Pins", "productId": "pins-dressmaker-44mm-box" }
+    ]
+  },
+
+  // SECTION 2: HEAD PINS
+  "quilt-pins-45mm": {
+    "title": "Quilting Pins 45mm",
+    "category": "Head Pins",
+    "label": "Option",
+    "imgKey": "quilt-pins-45mm",
+    "options": [{ "name": "45mm Assorted Colors", "productId": "quilt-pins-45mm-assorted" }]
+  },
+  "glass-crystal-48mm": {
+    "title": "Glass & Crystal Head Pins 48mm",
+    "category": "Head Pins",
+    "label": "Option",
+    "imgKey": "glass-crystal-48mm",
+    "options": [
+      { "name": "Crystal 48mm Boxed", "productId": "glass-crystal-48mm-box" },
+      { "name": "Blue Glass 48mm Boxed", "productId": "glass-blue-48mm-box" }
+    ]
+  },
+  "glass-pearl-pins": {
+    "title": "Glass & Pearl Head Pins",
+    "category": "Head Pins",
+    "label": "Option",
+    "imgKey": "glass-pearl-pins",
+    "options": [
+      { "name": "Glass Head Pins", "productId": "glass-head-pins" },
+      { "name": "Pearl Head Pins", "productId": "pearl-head-pins" }
+    ]
+  },
+  "diamond-head-pins-all": {
+    "title": "Diamond Head Pins",
+    "category": "Head Pins",
+    "label": "Size / Style Selection",
+    "imgKey": "diamond-head-pins",
+    "options": [
+      { "name": "Standard 38mm", "productId": "diamond-38mm" },
+      { "name": "Crystal 38mm", "productId": "diamond-crystal-38mm" },
+      { "name": "Crystal 55mm", "productId": "diamond-crystal-55mm" },
+      { "name": "Crystal 64mm", "productId": "diamond-crystal-64mm" }
+    ]
+  },
+  "berry-pins": {
+    "title": "Berry Pins",
+    "category": "Head Pins",
+    "label": "Style Selection",
+    "imgKey": "berry-pins",
+    "options": [
+      { "name": "Pearl White Loose", "productId": "berry-loose-white" },
+      { "name": "Pearl Assorted Loose", "productId": "berry-loose-assorted" },
+      { "name": "Black Loose", "productId": "berry-loose-black" },
+      { "name": "Pearl White Carded", "productId": "berry-carded-white" },
+      { "name": "Pearl Assorted Carded", "productId": "berry-carded-assorted" },
+      { "name": "Black Carded", "productId": "berry-carded-black" }
+    ]
+  },
+  "variant-head-pins": {
+    "title": "Berry Pins Heart/Leaf",
+    "category": "Head Pins",
+    "label": "Style Selection",
+    "imgKey": "berry-pins",
+    "options": [
+      { "name": "Heart Assorted", "productId": "variant-head-heart" },
+      { "name": "Leaf Assorted", "productId": "variant-head-leaf" }
+    ]
+  },
+  "hat-pins-small": {
+    "title": "Hat Pins - Small",
+    "category": "Head Pins",
+    "label": "Option",
+    "imgKey": "hat-pins",
+    "options": [
+      { "name": "Pearl White", "productId": "hat-pins-small-white" },
+      { "name": "Pearl Assorted", "productId": "hat-pins-small-assorted" }
+    ]
+  },
+  "hat-pins-large": {
+    "title": "Hat Pins - Large",
+    "category": "Head Pins",
+    "label": "Option",
+    "imgKey": "hat-pins",
+    "options": [
+      { "name": "Pearl White", "productId": "hat-pins-large-white" },
+      { "name": "Pearl Assorted", "productId": "hat-pins-large-assorted" }
+    ]
+  },
+
+  // SECTION 3: SAFETY PINS
+  "silver-safety-pins-loose": {
+    "title": "Silver Safety Pins Loose",
+    "category": "Safety Pins",
+    "label": "Size Selection",
+    "imgKey": "silver-safety-pins-loose",
+    "options": standardSafetySizes.map(size => ({
+        "name": size.name,
+        "productId": `safety-loose-silver-${size.name.replace(/\s+/g, '-').toLowerCase()}`
+    }))
+  },
+  "gold-safety-pins-loose": {
+    "title": "Gold Safety Pins Loose",
+    "category": "Safety Pins",
+    "label": "Size Selection",
+    "imgKey": "gold-safety-pins-loose",
+    "options": standardSafetySizes.map(size => ({
+        "name": size.name,
+        "productId": `safety-loose-gold-${size.name.replace(/\s+/g, '-').toLowerCase()}`
+    }))
+  },
+  "silver-safety-pins-carded": {
+    "title": "Silver Safety Pins Carded",
+    "category": "Safety Pins",
+    "label": "Option",
+    "imgKey": "silver-safety-pins-carded",
+    "options": [
+      { "name": "Assorted", "productId": "safety-carded-silver-assorted" }
+    ]
+  },
+  "gold-safety-pins-carded": {
+    "title": "Gold Safety Pins Carded",
+    "category": "Safety Pins",
+    "label": "Option",
+    "imgKey": "gold-safety-pins-carded",
+    "options": [
+      { "name": "Assorted", "productId": "safety-carded-gold-assorted" }
+    ]
+  },
+  "blanket-pins": {
+    "title": "Blanket Pins",
+    "category": "Safety Pins",
+    "label": "Option Selection",
+    "imgKey": "blanket-pins",
+    "options": [
+      { "name": "70mm Carded Silver", "productId": "blanket-70-carded-silver" },
+      { "name": "70mm Carded Gold", "productId": "blanket-70-carded-gold" },
+      { "name": "70mm Silver Loose", "productId": "blanket-70-loose-silver" },
+      { "name": "70mm Gold Loose", "productId": "blanket-70-loose-gold" },
+      { "name": "100mm Gold Loose", "productId": "blanket-100-loose-gold" },
+      { "name": "100mm Silver Loose", "productId": "blanket-100-loose-silver" }
+    ]
+  }
+};
+
+let activeItem = null;
+let activeSizeOrOption = "";
+
+// CATEGORY MODAL LOGIC
+function openCategoryModal(categoryName) {
+    const gridContainer = document.getElementById('categoryProductGrid');
+    gridContainer.innerHTML = '';
+
+    const categoryTitleEl = document.getElementById('categoryModalTitle');
+    categoryTitleEl.innerText = categoryName === 'Safety Pins' ? 'Blanket & Safety Pins' : categoryName;
+
+    const matchedProducts = Object.keys(productGroups)
+        .map(key => ({ id: key, ...productGroups[key] }))
+        .filter(prod => prod.category === categoryName);
+
+    matchedProducts.forEach(prod => {
+        const card = document.createElement('article');
+        card.className = 'product-card';
+        
+        const srcImg = getImageSrc(prod.imgKey);
+        const imageTemplate = srcImg ? `<img src="${srcImg}" alt="${prod.title}" loading="lazy">` : `<div class="no-image-icon">📍</div>`;
+
+        card.innerHTML = `
+            <div class="product-img-wrap">${imageTemplate}</div>
+            <div class="product-info">
+                <h4>${prod.title}</h4>
+            </div>
+        `;
+
+        card.onclick = () => openProductModal(prod);
+        gridContainer.appendChild(card);
+    });
+
+    document.getElementById('categoryModal').style.display = 'flex';
+}
+
+function closeCategoryModal() {
+    document.getElementById('categoryModal').style.display = 'none';
+}
+
+
+const dressmakerPinPackingText = {
+    "pins-b15-loose":              "B15 Loose — Packing: 15g tub • 12 tubs per box.",
+    "pins-b15-carded":             "B15 Carded — Packing: 12 cards per box.",
+    "pins-g20-loose":              "G20 Loose — Packing: 12 tubs per box.",
+    "pins-g20-carded":             "G20 Carded — Packing: 12 cards per box.",
+    "pins-b20-loose":              "B20 Loose — Packing: 12 tubs per box.",
+    "pins-b20-carded":             "B20 Carded — Packing: 12 cards per box.",
+    "pins-100g-bulk":              "100g Bulk Tub — Packing: 100g plastic box.",
+    "pins-r40-extra-long":         "R40 Extra Long 40mm — Packing: 12 per box.",
+    "pins-brass-22mm-loose":       "Brass Pins Loose — Packing: 25g • 12 tubs per box.",
+    "pins-brass-22mm-carded":      "Brass Pins Carded — Packing: 25g • 12 cards per box.",
+    "pins-ss-26mm-loose":          "Stainless Steel Pins Loose — Packing: 25g • 12 tubs per box.",
+    "pins-ss-26mm-carded":         "Stainless Steel Pins Carded — Packing: 25g • 12 cards per box.",
+    "pins-draping-50mm":           "Draping Pins — Packing: 250g.",
+    "pins-dressmaker-44mm-box":    "Dressmakers Pins Box — Packing: 250g paper box."
+};
+
+const safetyPinPackingText = {
+    "safety-loose-silver-000---19mm": "Packing: 1,728 pieces.",
+    "safety-loose-silver-00---23mm":  "Packing: 1,728 pieces.",
+    "safety-loose-silver-0---28mm":   "Packing: 1,728 pieces.",
+    "safety-loose-silver-1---32mm":   "Packing: 864 pieces.",
+    "safety-loose-silver-2---38mm":   "Packing: 864 pieces.",
+    "safety-loose-silver-3---48mm":   "Packing: 432 pieces.",
+    "safety-loose-silver-4---50mm":   "Packing: 432 pieces.",
+
+    "safety-loose-gold-000---19mm":   "Packing: 1,728 pieces.",
+    "safety-loose-gold-00---23mm":    "Packing: 1,728 pieces.",
+    "safety-loose-gold-0---28mm":     "Packing: 1,728 pieces.",
+    "safety-loose-gold-1---32mm":     "Packing: 864 pieces.",
+    "safety-loose-gold-2---38mm":     "Packing: 864 pieces.",
+    "safety-loose-gold-3---48mm":     "Packing: 432 pieces.",
+    "safety-loose-gold-4---50mm":     "Packing: 432 pieces.",
+
+    "safety-carded-silver-assorted":  "Packing: 12 cards per box • 12 pins per card.",
+    "safety-carded-gold-assorted":    "Packing: 12 cards per box • 12 pins per card.",
+
+    "blanket-70-carded-silver":       "Packing: 12 cards.",
+    "blanket-70-carded-gold":         "Packing: 12 cards.",
+    "blanket-70-loose-silver":        "Packing: 100 pieces.",
+    "blanket-70-loose-gold":          "Packing: 100 pieces.",
+    "blanket-100-loose-gold":         "Packing: 100 pieces.",
+    "blanket-100-loose-silver":       "Packing: 100 pieces."
+};
+
+function updateSafetyPackingDescription(productId) {
+    const el = document.getElementById('safetyPackingDescription');
+    if (!el) return;
+    const text = dressmakerPinPackingText[productId] || safetyPinPackingText[productId];
+    if (text) {
+        el.textContent = text;
+        el.hidden = false;
+    } else {
+        el.textContent = '';
+        el.hidden = true;
+    }
+}
+
+// PRODUCT DETAIL MODAL LOGIC
+function openProductModal(prod) {
+    activeItem = prod;
+    document.getElementById('modalTitle').innerText = prod.title;
+
+    const selectElement = document.getElementById('sizeSelect');
+    const labelElement = document.getElementById('sizeLabel');
+    
+    labelElement.innerText = prod.label || "Option";
+    selectElement.innerHTML = '';
+
+    prod.options.forEach(opt => {
+        const el = document.createElement('option');
+        el.value = opt.name;
+        el.innerText = opt.name;
+        selectElement.appendChild(el);
+    });
+
+    activeSizeOrOption = prod.options[0]?.name || "";
+    selectElement.value = activeSizeOrOption;
+
+    const initialOption = prod.options[0];
+    if (initialOption) {
+        window.fawzCurrentProductId = initialOption.productId;
+        window.fawzSelectSecureProduct?.(initialOption.productId);
+        updateSafetyPackingDescription(initialOption.productId);
+    }
+
+    updateModalVariantImage();
+
+    selectElement.onchange = (e) => {
+        activeSizeOrOption = e.target.value;
+        updateModalVariantImage();
+        const selectedOption = activeItem.options.find(o => o.name === activeSizeOrOption);
+        if (selectedOption) {
+            window.fawzCurrentProductId = selectedOption.productId;
+            window.fawzSelectSecureProduct?.(selectedOption.productId);
+            updateSafetyPackingDescription(selectedOption.productId);
+        }
+    };
+
+    document.getElementById('qty').value = 1;
+    document.getElementById('productModal').style.display = 'flex';
+}
+
+function addToCart() {
+    if (!activeItem) return;
+    const currentOpt = activeItem.options.find(o => o.name === activeSizeOrOption);
+    if (!currentOpt) return;
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.push({
+        product: `${activeItem.title} - ${currentOpt.name}`,
+        category: activeItem.category,
+        size: currentOpt.name,
+        qty: qty,
+        productId: currentOpt.productId
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`Added: ${activeItem.title} (${currentOpt.name}) x${qty} to cart list.`);
+    closeModal();
+}
+
+function closeModal() {
+    document.getElementById('productModal').style.display = 'none';
+}
+
+// SEARCH FILTER FOR PRODUCTS INSIDE MODAL
+function handleSearch() {
+    const filter = document.getElementById('searchBox').value.toLowerCase();
+    
+    const productCards = document.querySelectorAll('#categoryProductGrid .product-card');
+    productCards.forEach(card => {
+        const textValue = card.innerText.toLowerCase();
+        card.classList.toggle('hidden', !textValue.includes(filter));
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('searchBox')?.addEventListener('input', handleSearch);
+});
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-packing-info.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

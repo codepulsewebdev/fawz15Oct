@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head><link rel="stylesheet" href="fawz-site.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<title>Rulers | FAWZ Haberdashery</title>
+
+<link rel="stylesheet" href="global-images.css">
+
+
+
+<style>
+
+:root {
+
+    --fawz-red: #e31e24;
+
+    --fawz-dark: #1a1a1a;
+
+    --fawz-grey: #f8f8f8;
+
+    --border: #eeeeee;
+
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+
+    background: #fff;
+
+    color: var(--fawz-dark);
+
+    overflow-x: hidden;
+
+}
+
+header {
+
+    position: sticky;
+
+    top: 0;
+
+    background: #fff;
+
+    padding: 15px 5%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 3px solid var(--fawz-red);
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+    z-index: 1000;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+}
+
+.logo {
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-size: 1.2rem;
+
+}
+
+.logo span { color: var(--fawz-red); }
+
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+
+nav a {
+
+    color: var(--fawz-dark);
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size: 0.9rem;
+
+}
+
+.hero {
+
+    padding: 46px 5% 24px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.hero h1 {
+
+    font-size: clamp(2rem, 4vw, 3.5rem);
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.toolbar {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 22px;
+
+}
+
+.toolbar input {
+
+    padding: 13px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    min-width: 260px;
+
+    font-size: 1rem;
+
+    background: #fff;
+
+}
+
+main {
+
+    padding: 15px 5% 70px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.section-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-left: 6px solid var(--fawz-red);
+
+    padding-left: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+.section-heading h3 {
+
+    font-size: 1.6rem;
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.product-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    gap: 25px;
+
+}
+
+.product-card {
+
+    background: #fff;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+
+    transition: 0.25s;
+
+}
+
+.product-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--fawz-red);
+
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+
+}
+
+.product-img-wrap {
+
+    height: 190px;
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+.product-img-wrap img {
+
+    max-width: 85%;
+
+    max-height: 85%;
+
+    object-fit: contain;
+
+}
+
+.no-image-icon {
+
+    font-size: 3rem;
+
+    color: #ccc;
+
+}
+
+.product-info {
+
+    padding: 16px;
+
+    text-align: center;
+
+}
+
+.product-info h4 {
+
+    font-size: 1rem;
+
+    font-weight: 800;
+
+    margin: 0 0 6px;
+
+    text-transform: uppercase;
+
+}
+
+.product-info p {
+
+    font-size: 0.75rem;
+
+    color: #777;
+
+    margin: 0;
+
+}
+
+.hidden { display: none !important; }
+
+
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    z-index: 2000;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.7);
+
+    backdrop-filter: blur(3px);
+
+    padding: 20px;
+
+}
+
+.modal-content {
+
+    background: #fff;
+
+    margin: auto;
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    height: 85%;
+
+    max-height: 85vh;
+
+    display: grid;
+
+    grid-template-columns: 0.9fr 1.1fr;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+
+    position: relative;
+
+}
+
+.close-x {
+
+    position: absolute;
+
+    right: 20px;
+
+    top: 12px;
+
+    font-size: 34px;
+
+    cursor: pointer;
+
+    color: #aaa;
+
+    z-index: 10;
+
+    background: rgba(255,255,255,0.9);
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    transition: all 0.2s;
+
+}
+
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+
+.modal-left {
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    border-right: 1px solid var(--border);
+
+    overflow: hidden;
+
+}
+
+.modal-left img {
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    object-fit: contain;
+
+}
+
+.modal-left .no-image-icon {
+
+    font-size: 4rem;
+
+    color: #ccc;
+
+}
+
+.modal-right {
+
+    padding: 28px 32px;
+
+    overflow-y: auto;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.modal-right h2 {
+
+    margin: 0 0 16px;
+
+    text-transform: uppercase;
+
+    color: var(--fawz-red);
+
+    font-size: 1.5rem;
+
+}
+
+.modal-desc {
+
+    background: #f5f5f5;
+
+    padding: 12px 16px;
+
+    border-radius: 12px;
+
+    margin: 15px 0;
+
+    font-size: 0.85rem;
+
+    color: #555;
+
+    border-left: 3px solid var(--fawz-red);
+
+}
+
+.variant-group {
+
+    margin: 18px 0;
+
+}
+
+.variant-group label {
+
+    display: block;
+
+    margin: 0 0 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    font-size: 0.75rem;
+
+    color: #555;
+
+    letter-spacing: 1px;
+
+}
+
+.variant-select {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 0.9rem;
+
+    background: #fff;
+
+    cursor: pointer;
+
+}
+
+.qty-input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 1rem;
+
+    background: #f8f8f8;
+
+    margin: 8px 0 12px;
+
+}
+
+.btn-add {
+
+    width: 100%;
+
+    background: var(--fawz-red);
+
+    border: none;
+
+    color: #fff;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+
+    letter-spacing: 1.5px;
+
+    transition: background 0.2s;
+
+    margin-top: auto;
+
+}
+
+.btn-add:hover { background: #c41a1f; }
+
+
+
+@media (max-width: 700px) {
+
+    .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; }
+
+    .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; }
+
+    .modal-right { padding: 20px; }
+
+}
+
+
+
+#htmlImageBank {
+
+    display: none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<header>
+
+    <div class="logo">FAWZ <span>Haberdashery</span></div>
+
+    <nav>
+
+        <a href="home.html">Home</a>
+
+        <a href="category-index.html">Categories</a>
+
+        <a href="all-products.html">All Products</a>
+
+        <a href="demo_cart.html">View Cart</a>
+
+    </nav>
+
+</header>
+
+
+
+<div id="htmlImageBank">
+
+    <img data-product-id="quilting-ruler-opt-a" src="imageS/Rulers/0021.jpg">
+
+    <img data-product-id="quilting-ruler-opt-b" src="images/Rulers/0026.jpg">
+
+    <img data-product-id="quilting-ruler-opt-c" src="images/Rulers/0020.jpg">
+
+
+
+    <img data-product-id="metal-variform-v1-large" src="images/Rulers/0006.jpg">
+
+    <img data-product-id="metal-variform-v1-small" src="images/Rulers/0006.jpg">
+
+
+
+    <img data-product-id="metal-hip-curve-60cm" src="images/Rulers/0007.jpg">
+
+
+
+    <img data-product-id="metal-variform-v2-large" src="images/Rulers/">
+
+    <img data-product-id="metal-variform-v2-small" src="images/Rulers/">
+
+
+
+    <img data-product-id="metal-lsquare-60cm" src="images/Rulers/0005.jpg">
+
+
+
+    <img data-product-id="pink-plastic-lsquare-small" src="images/Rulers/0013.jpg">
+
+    <img data-product-id="pink-plastic-lsquare-large" src="images/Rulers/0012.jpg">
+
+
+
+    <img data-product-id="pink-plastic-vary-form48cm" src="images/Remaining Products/0008.jpg">
+
+    <img data-product-id="pink-plastic-vary-form61cm" src="images/Remaining Products/0008.jpg">
+
+
+
+    <img data-product-id="sleeve-curve-ruler-30cm" src="images/Rulers/0019.jpg">
+
+
+
+    <img data-product-id="pink-plastic-french-small" src="images/Rulers/0015.jpg">
+
+    <img data-product-id="pink-plastic-french-large" src="images/Rulers/0018.jpg">
+
+
+
+    <img data-product-id="plastic-measure-b75" src="images/Rulers/0008.jpg">
+
+    <img data-product-id="plastic-measure-b95" src="images/Rulers/0009.jpg">
+
+    <img data-product-id="plastic-measure-b97" src="images/Rulers/0011.jpg">
+
+
+
+    <img data-product-id="individual-60-triangle" src="images/Rulers/0002.jpg">
+
+    <img data-product-id="individual-patchwork-15x15" src="images/Rulers/patchwork.jpg">
+
+
+
+    <img data-product-id="individual-right-angle" src="images/Rulers/0003.jpg">
+
+    <img data-product-id="individual-60-flex" src="images/Rulers/60flex.jpg">
+
+    <img data-product-id="individual-plastic-hip" src="images/Remaining Products/0010.jpg">
+
+    <img data-product-id="individual-seven-piece-set" src="images/Rulers/0014.jpg">
+
+
+
+    <img data-product-id="meter-stick-wooden" src="images/Rulers/0022.jpg">
+
+    <img data-product-id="meter-stick-metal" src="images/Rulers/0025.jpg">
+
+    <img data-product-id="meter-stick-solid" src="images/Rulers/">
+
+    <img data-product-id="meter-stick-aluminium" src="images/Rulers/0025.jpg">
+
+    <img data-product-id="meter-stick-white-plastic" src="images/Rulers/">
+
+
+
+    <img data-product-id="tsquare-plastic" src="images/Rulers/0027.jpg">
+
+    <img data-product-id="tsquare-plastic100" src="images/Remaining Products/0009.jpg">
+
+    <img data-product-id="tsquare-wooden" src="images/Remaining Products/0007.jpg">
+
+</div>
+
+
+
+<section class="hero">
+
+    <h1>Rulers</h1>
+
+    <div class="toolbar">
+
+        <input id="searchBox" placeholder="Search rulers...">
+
+    </div>
+
+</section>
+
+
+
+<main>
+
+    <div class="section-heading">
+
+        <h3>All Rulers</h3>
+
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+
+</main>
+
+
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-x" onclick="closeModal()">×</span>
+
+        <div class="modal-left" id="modalLeft">
+
+            <img id="modalImg" src="" alt="">
+
+        </div>
+
+        <div class="modal-right">
+
+            <h2 id="modalTitle">Product</h2>
+
+            <div id="modalDesc" class="modal-desc"></div>
+
+            <div id="variantGroup" class="variant-group" style="display:none;">
+
+                <label id="variantLabel">Select Option</label>
+
+                <select id="variantSelect" class="variant-select"></select>
+
+            </div>
+
+            <label>Quantity</label>
+
+            <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+
+            <input type="number" id="qty" class="qty-input" value="1" min="1">
+
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+const products = [
+
+    { 
+
+        name: "Quilting Rulers", 
+
+        imgKey: "quilting-ruler-opt-a", 
+
+        size: "15 cm x 30 cm", 
+
+        description: "Clear grid fabric grading alignment configuration system template.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "Option A", imgKey: "quilting-ruler-opt-a" },
+
+            { name: "Option B", imgKey: "quilting-ruler-opt-b" },
+
+            { name: "Option C", imgKey: "quilting-ruler-opt-c" }
+
+        ]
+
+    },
+
+    { 
+
+        name: "Metal Vari-Form Ruler", 
+
+        imgKey: "metal-variform-v1-large", 
+
+        size: "Stainless Profile Curves", 
+
+        description: "Professional grade stainless steel tailor grading curves profile guides.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "Large – 48 cm", imgKey: "metal-variform-v1-large" },
+
+            { name: "Small – 32 cm", imgKey: "metal-variform-v1-small" }
+
+        ]
+
+    },
+
+    { 
+
+        name: "Metal Hip Curve Ruler", 
+
+        imgKey: "metal-hip-curve-60cm", 
+
+        size: "60 cm", 
+
+        description: "Long sweeping design frame layout path tracking template tool.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "Metal French Curve Ruler", 
+
+        imgKey: "metal-variform-v2-large", 
+
+        size: "Contour Balancing Tools", 
+
+        description: "Specialized configuration edge grading profile contour guides.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "Large – 61 cm", imgKey: "metal-variform-v2-large" },
+
+            { name: "Small – 45 cm", imgKey: "metal-variform-v2-small" }
+
+        ]
+
+    },
+
+    { 
+
+        name: "Metal L-Square", 
+
+        imgKey: "metal-lsquare-60cm", 
+
+        size: "60 cm", 
+
+        description: "Perpendicular clean structural line intersection layout alignment square.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "Pink Plastic L-Square", 
+
+        imgKey: "pink-plastic-lsquare-large", 
+
+        size: "High Contrast Layouts", 
+
+        description: "Vibrant high-contrast pink neon drafting layout right-angle tools.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "Small (20×20)", imgKey: "pink-plastic-lsquare-small" },
+
+            { name: "Large (30×30)", imgKey: "pink-plastic-lsquare-large" }
+
+        ]
+
+    },
+
+    { 
+
+        name: "Sleeve Curve Ruler", 
+
+        imgKey: "sleeve-curve-ruler-30cm", 
+
+        size: "30 cm", 
+
+        description: "Specialized transparent sweeping curvature modification tool.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "Pink Plastic French Curve Ruler", 
+
+        imgKey: "pink-plastic-french-small", 
+
+        size: "Styling Contours", 
+
+        description: "High visibility neon balance mapping curve tools.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "Small", imgKey: "pink-plastic-french-small" },
+
+            { name: "Large", imgKey: "pink-plastic-french-large" }
+
+        ]
+
+    },
+
+    {
+
+        name: "Plastic Vary Form Ruler",
+
+        imgKey: "pink-plastic-vary-form48cm",
+
+        size: "48cm / 61cm",
+
+        description: "",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "48 cm", imgKey: "pink-plastic-vary-form48cm" },
+
+            { name: "61 cm", imgKey: "pink-plastic-vary-form61cm" }
+
+        ]
+
+    },
+
+    { 
+
+        name: "Plastic Measurement Rulers", 
+
+        imgKey: "plastic-measure-b75", 
+
+        size: "B-Series Straight Metrics", 
+
+        description: "Clear neon pink straight alignment balance scale mapping rulers.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "B75 (30 cm)", imgKey: "plastic-measure-b75" },
+
+            { name: "B95 (45 cm)", imgKey: "plastic-measure-b95" },
+
+            { name: "B97 (60 cm)", imgKey: "plastic-measure-b97" }
+
+        ]
+
+    },
+
+    { 
+
+        name: "60° Triangle Ruler", 
+
+        imgKey: "individual-60-triangle", 
+
+        size: "Standard", 
+
+        description: "Fixed angle isometric drafting framework checking setup block.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "Patchwork Ruler 15×15", 
+
+        imgKey: "individual-patchwork-15x15", 
+
+        size: "15 cm x 15 cm", 
+
+        description: "Modular square checker grid alignment layout template plate.", 
+
+        hasVariants: false
+
+    },
+
+
+
+    { 
+
+        name: "Right Angle Ruler", 
+
+        imgKey: "individual-right-angle", 
+
+        size: "Standard", 
+
+        description: "Clean orthogonal line balancing guide tracking checker tool.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "60° Flex Ruler", 
+
+        imgKey: "individual-60-flex", 
+
+        size: "Standard", 
+
+        description: "Flexible bendable contour curve drawing layout line tool.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "Plastic Hip Curve Ruler", 
+
+        imgKey: "individual-plastic-hip", 
+
+        size: "Standard", 
+
+        description: "Ergonomic clear plastic tailored curvature contour design guide.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "Seven Piece Set with Peg", 
+
+        imgKey: "individual-seven-piece-set", 
+
+        size: "7-Piece Pack", 
+
+        description: "Comprehensive multi-profile pattern styling garment blueprint tool kit.", 
+
+        hasVariants: false
+
+    },
+
+    { 
+
+        name: "Meter Sticks", 
+
+        imgKey: "meter-stick-wooden", 
+
+        size: "100 cm (1 Meter)", 
+
+        description: "Full length layout measuring straight edge counter bars.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "Wooden Meter Stick", imgKey: "meter-stick-wooden" },
+
+            { name: "Metal Meter Stick", imgKey: "meter-stick-metal" },
+
+            { name: "White Plastic Meter Stick", imgKey: "meter-stick-white-plastic" }
+
+        ]
+
+    },
+
+    { 
+
+        name: "T-Squares", 
+
+        imgKey: "tsquare-plastic", 
+
+        size: "Drafting Profiles", 
+
+        description: "Cross head balance horizontal tracking slider rules.",
+
+        hasVariants: true,
+
+        variants: [
+
+            { name: "Plastic T-Square 100cm", imgKey: "tsquare-plastic" },
+
+            { name: "Plastic T-Square 60cm", imgKey: "tsquare-plastic100"},
+
+            { name: "Wooden T-Square 100cm", imgKey: "tsquare-wooden" }
+
+        ]
+
+    }
+
+];
+
+
+
+function getSrcFromBank(imgKey) {
+
+    const bankImg = document.querySelector(`#htmlImageBank img[data-product-id="${imgKey}"]`);
+
+    return bankImg ? bankImg.getAttribute('src') : '';
+
+}
+
+
+
+let currentProduct = null;
+
+let currentVariant = null;
+
+
+
+function renderProducts() {
+
+    const grid = document.getElementById('productGrid');
+
+    grid.innerHTML = '';
+
+
+
+    products.forEach((product, index) => {
+
+        const card = document.createElement('div');
+
+        card.className = 'product-card';
+
+        card.onclick = () => openModal(index);
+
+
+
+        const imgSrc = getSrcFromBank(product.imgKey);
+
+        const imageHtml = imgSrc ? 
+
+            `<img src="${imgSrc}" alt="${product.name}" onerror="this.parentElement.innerHTML='<div class=\'no-image-icon\'>📏</div>';">` : 
+
+            '<div class="no-image-icon">📏</div>';
+
+
+
+        card.innerHTML = `
+
+            <div class="product-img-wrap">${imageHtml}</div>
+
+            <div class="product-info">
+
+                <h4>${product.name}</h4>
+
+                <p>${product.size}</p>
+
+            </div>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+
+function openModal(productIndex) {
+
+    currentProduct = products[productIndex];
+
+    currentVariant = null;
+
+
+
+    document.getElementById('modalTitle').innerText = currentProduct.name;
+
+    document.getElementById('modalDesc').innerHTML = `${currentProduct.description}<br><br><strong>Dimensions:</strong> ${currentProduct.size}<br><br><strong>Packing:</strong> All rulers are packed as singles.`;
+
+
+
+    updateModalImage(currentProduct.imgKey);
+
+
+
+    document.getElementById('qty').value = 1;
+
+    const variantGroup = document.getElementById('variantGroup');
+
+
+
+    if (currentProduct.hasVariants && currentProduct.variants) {
+
+        variantGroup.style.display = 'block';
+
+        document.getElementById('variantLabel').innerText = 'Select Styling Variant / Size';
+
+        const variantSelect = document.getElementById('variantSelect');
+
+        variantSelect.innerHTML = currentProduct.variants.map((v, idx) => {
+
+            return `<option value="${idx}">${v.name}</option>`;
+
+        }).join('');
+
+
+
+        variantSelect.onchange = function() {
+
+            const idx = parseInt(this.value);
+
+            currentVariant = currentProduct.variants[idx];
+
+            window.fawzCurrentProductId = currentVariant.productId || currentVariant.imgKey;
+
+
+
+            if (currentVariant.imgKey) {
+
+                updateModalImage(currentVariant.imgKey);
+
+            }
+
+        };
+
+        variantSelect.dispatchEvent(new Event('change'));
+
+    } else {
+
+        variantGroup.style.display = 'none';
+
+        window.fawzCurrentProductId = currentProduct.productId || currentProduct.imgKey;
+
+    }
+
+
+
+    document.getElementById('productModal').style.display = 'flex';
+
+}
+
+
+
+function updateModalImage(imgKey) {
+
+    const modalImg = document.getElementById('modalImg');
+
+    const modalLeft = document.getElementById('modalLeft');
+
+    const existingNoImg = modalLeft.querySelector('.no-image-icon');
+
+    if (existingNoImg) existingNoImg.remove();
+
+
+
+    const imgSrc = getSrcFromBank(imgKey);
+
+
+
+    if (imgSrc) {
+
+        modalImg.src = imgSrc;
+
+        modalImg.style.display = 'block';
+
+        modalImg.onerror = function() {
+
+            modalImg.style.display = 'none';
+
+            if(!modalLeft.querySelector('.no-image-icon')) {
+
+                const noImgDiv = document.createElement('div');
+
+                noImgDiv.className = 'no-image-icon';
+
+                noImgDiv.innerHTML = '📏';
+
+                modalLeft.appendChild(noImgDiv);
+
+            }
+
+        };
+
+    } else {
+
+        modalImg.style.display = 'none';
+
+        const noImgDiv = document.createElement('div');
+
+        noImgDiv.className = 'no-image-icon';
+
+        noImgDiv.innerHTML = '📏';
+
+        modalLeft.appendChild(noImgDiv);
+
+    }
+
+}
+
+
+
+function addToCart() {
+
+    if (!currentProduct) return;
+
+
+
+    let productName = currentProduct.name;
+
+    if (currentVariant) productName += ` (${currentVariant.name})`;
+
+
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+
+
+    cart.push({
+
+        id: currentProduct.name.replace(/\s/g, '') + (currentVariant ? '-' + currentVariant.name.replace(/\s/g, '') : ''),
+
+        product: productName,
+
+        category: "Rulers",
+
+        variant: currentVariant?.name || null,
+
+        qty: qty,
+
+        timestamp: Date.now()
+
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+
+
+    const badge = document.getElementById('cartBadge');
+
+    if (badge) {
+
+        badge.textContent = cart.length;
+
+        badge.classList.add('visible');
+
+    }
+
+
+
+    alert(`✓ Added to cart:\n${productName}\nQuantity: ${qty}`);
+
+    closeModal();
+
+}
+
+
+
+function closeModal() {
+
+    document.getElementById('productModal').style.display = 'none';
+
+}
+
+
+
+function filterProducts() {
+
+    const search = document.getElementById('searchBox').value.toLowerCase();
+
+    const cards = document.querySelectorAll('.product-card');
+
+    cards.forEach(card => {
+
+        const text = card.innerText.toLowerCase();
+
+        const isVisible = text.includes(search);
+
+        card.classList.toggle('hidden', !isVisible);
+
+    });
+
+}
+
+
+
+function updateCartBadge() {
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    const badge = document.getElementById('cartBadge');
+
+    if (badge) {
+
+        if (cart.length > 0) {
+
+            badge.textContent = cart.length;
+
+            badge.classList.add('visible');
+
+        } else {
+
+            badge.classList.remove('visible');
+
+        }
+
+    }
+
+}
+
+
+
+renderProducts();
+
+document.getElementById('searchBox')?.addEventListener('input', filterProducts);
+
+window.onclick = (e) => { if (e.target === document.getElementById('productModal')) closeModal(); };
+
+updateCartBadge();
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const cartLink = document.querySelector('nav a[href="demo_cart.html"]');
+
+    if (cartLink && !cartLink.querySelector('.cart-badge')) {
+
+        cartLink.classList.add('cart-link');
+
+        const badge = document.createElement('span');
+
+        badge.className = 'cart-badge';
+
+        badge.id = 'cartBadge';
+
+        badge.textContent = '0';
+
+        cartLink.appendChild(badge);
+
+        updateCartBadge();
+
+    }
+
+});
+
+</script>
+
+
+
+<style>
+
+.cart-link { position: relative; }
+
+.cart-badge { position: absolute; top: -8px; right: -8px; background: var(--fawz-red); color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+</style>
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+
+</html>

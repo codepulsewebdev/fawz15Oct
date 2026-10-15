@@ -1,0 +1,11 @@
+.fawz-packing-info {
+  background: #eeeeee;
+  color: #c62828;
+  padding: 10px 12px;
+  margin: 8px 0 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+.fawz-packing-info[hidden] { display: none; }

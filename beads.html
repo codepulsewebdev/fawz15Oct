@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Craft & Bead Sets | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+.logo span{color:var(--fawz-red)}
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+.hero p{color:#666;max-width:900px;line-height:1.6}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.toolbar input,.toolbar select,.variant-select{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:240px;font-size:1rem;background:#fff}
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+
+/* Category Main Blocks */
+.category-blocks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:20px;}
+.category-block-card{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s;text-align:center;}
+.category-block-card:hover{transform:translateY(-5px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.12)}
+.category-block-img{height:220px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+.category-block-img img{width:100%;height:100%;object-fit:contain;padding:16px}
+.category-block-info{padding:20px}
+.category-block-info h3{margin:0;font-size:1.4rem;text-transform:uppercase;color:var(--fawz-dark)}
+
+.product-section{margin:32px 0 54px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;border-left:6px solid var(--fawz-red);padding-left:14px;margin-bottom:18px}
+.section-heading h3{font-size:1.6rem;margin:0;text-transform:uppercase}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.product-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s}
+.product-card:hover{transform:translateY(-4px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+.product-img-wrap{height:190px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;padding:14px}
+.product-info{padding:15px}
+.category-pill{display:inline-block;font-size:.72rem;font-weight:900;text-transform:uppercase;background:#f2f2f2;border-radius:999px;padding:5px 8px;color:#555}
+.product-info h4{font-size:1rem;margin:12px 0 8px;line-height:1.3}
+.product-id{font-size:.76rem;color:#777;word-break:break-all;margin:0 0 8px}
+
+/* Modals */
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);padding:30px 12px;overflow-y:auto;}
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:520px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+.category-modal-content{background:#fff;margin:auto;max-width:1100px;border-radius:18px;padding:30px;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative;max-height:88vh;overflow-y:auto;}
+
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:5}
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border)}
+.modal-left img{max-width:100%;max-height:430px;object-fit:contain}
+.modal-right{padding:42px 36px}
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all}
+label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+input{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px;margin-top:20px}
+.btn-add:hover{background:#b3161a}
+
+/* Custom Visual Variant Selectors */
+.visual-options-container{margin:15px 0}
+.fancy-options-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.fancy-option-card{border:2px solid #ddd;border-radius:10px;padding:8px;text-align:center;cursor:pointer;background:#fff;transition:.2s}
+.fancy-option-card img{width:100%;height:70px;object-fit:contain;margin-bottom:5px}
+.fancy-option-card span{font-size:.8rem;font-weight:bold;text-transform:uppercase}
+.fancy-option-card.active{border-color:var(--fawz-red);background:#fff5f5}
+
+.bead-table-wrap{max-height:260px;overflow-y:auto;border:1px solid #ddd;border-radius:10px;margin-top:8px}
+.bead-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.bead-table th,.bead-table td{padding:8px 10px;border-bottom:1px solid #eee;text-align:left}
+.bead-table th{background:#f4f4f4;position:sticky;top:0;z-index:1}
+.bead-table tr{cursor:pointer;transition:.15s}
+.bead-table tr:hover{background:#fafafa}
+.bead-table tr.active{background:#fff5f5;font-weight:bold;color:var(--fawz-red)}
+.bead-table img{width:30px;height:30px;object-fit:contain;vertical-align:middle;margin-right:6px}
+
+.hidden{display:none!important}
+@media(max-width:760px){
+header{align-items:flex-start;flex-direction:column}
+nav a{margin:0 14px 0 0}
+.modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+.modal-left{min-height:260px;border-right:0;border-bottom:1px solid var(--border)}
+}
+</style>
+<link rel="stylesheet" href="fawz-packing-info.css">
+</head>
+
+<body>
+
+<!-- HTML Image Bank containing every product and variant image -->
+<div id="imageBank" style="display:none;">
+  <!-- Category Block Images (Craft/Bead Sets correctly pointing to images/beads/woodenCraft/) -->
+  <img id="img-cat-craft-bead-sets" src="images/beads/woodenCraft/fancyBeads-B.jpg" alt="Craft / Bead Sets">
+  <img id="img-cat-pearl-beads" src="images/beads/pearlBeads/amazon.jpg" alt="Pearl Beads">
+  <img id="img-cat-glass-beads" src="images/beads/glassBeads/emerald.jpg" alt="Glass Beads">
+
+  <!-- Craft & Bead Set Images (All using images/beads/woodenCraft/) -->
+  <img id="img-craft-pearl-beads-and-pins" src="images/beads/woodenCraft/beadBoxSet.png" alt="Pearl Beads & Pins">
+  
+  <img id="img-craft-fancy-beads-plus-pins-a" src="images/beads/woodenCraft/fancyButtons-A.jpg" alt="Fancy Beads Plus Pins - Option A">
+  <img id="img-craft-fancy-beads-plus-pins-b" src="images/beads/woodenCraft/fancyBeads-B.jpg" alt="Fancy Beads Plus Pins - Option B">
+  <img id="img-craft-fancy-beads-plus-pins-c" src="images/beads/woodenCraft/fancyBeads-C.jpg" alt="Fancy Beads Plus Pins - Option C">
+
+  <img id="img-craft-pearl-setting-machine" src="images/beads/woodenCraft/pearlSettingMachine.jpg" alt="Pearl Setting Machine">
+
+  <img id="img-craft-mixed-beads-kit-small" src="images/beads/woodenCraft/beadsKit large.png" alt="Mixed Beads Kit Small">
+  <img id="img-craft-mixed-beads-kit-large" src="images/beads/woodenCraft/beadsKIt large.png" alt="Mixed Beads Kit Large"
+  >
+  <img id="img-craft-glass-beads-box" src="images/beads/woodenCraft/beadBoxSet.png" alt="Glass Beads Box">
+
+  <img id="img-craft-ribbon-bows" src="images/beads/woodenCraft/bow Box.png" alt="Ribbon Bows">
+
+  <img id="img-craft-wood-craft-small" src="images/beads/woodenCraft/small wooden.png" alt="Wood Craft - Small">
+  <img id="img-craft-wood-craft-large" src="images/beads/woodenCraft/small wooden.png" alt="Wood Craft - Large">
+
+  <img id="img-craft-shirt-button-box" src="images/beads/woodenCraft/shirt button box.png" alt="Shirt Button Box">
+
+  <img id="img-craft-buttons-small" src="images/beads/woodenCraft/craft buttons.png" alt="Craft Buttons - Small">
+  <img id="img-craft-buttons-large" src="images/beads/woodenCraft/craft buttons large.png" alt="Craft Buttons - Large">
+
+  <img id="img-craft-snap-fastener-box-set" src="images/beads/woodenCraft/snap fastner box set.png" alt="Snap Fastener Box Set">
+  <img id="img-craft-snap-fastner-ring" src="images/beads/woodenCraft/fastner box set.png" alt="ring fatsners">
+
+  <!-- Pearl Beads Variants (Left as is) -->
+  <!-- 4mm -->
+  <img id="img-pearl-4mm-amazon" src="images/beads/pearlBeads/amazon.jpg" alt="4mm Amazon">
+  <img id="img-pearl-4mm-amethyst" src="images/beads/pearlBeads/amethyst.jpg" alt="4mm Amethyst">
+  <img id="img-pearl-4mm-astro" src="images/beads/pearlBeads/astro.jpg" alt="4mm Astro">
+  <img id="img-pearl-4mm-atom" src="images/beads/pearlBeads/atom.jpg" alt="4mm Atom">
+  <img id="img-pearl-4mm-bisque" src="images/beads/pearlBeads/bisque.jpg" alt="4mm Bisque">
+  <img id="img-pearl-4mm-black" src="images/beads/pearlBeads/black.jpg" alt="4mm Black">
+  <img id="img-pearl-4mm-cerise" src="images/beads/pearlBeads/cerise.jpg" alt="4mm Cerise">
+  <img id="img-pearl-4mm-charcoal" src="images/beads/pearlBeads/charcol.jpg" alt="4mm Charcoal">
+  <img id="img-pearl-4mm-chalk" src="images/beads/pearlBeads/choc.jpg" alt="4mm Chalk">
+  <img id="img-pearl-4mm-copper" src="images/beads/pearlBeads/copper.jpg" alt="4mm Copper">
+  <img id="img-pearl-4mm-daisy" src="images/beads/pearlBeads/daisy.jpg" alt="4mm Daisy">
+  <img id="img-pearl-4mm-hemlock" src="images/beads/pearlBeads/hemlock.jpg" alt="4mm Hemlock">
+  <img id="img-pearl-4mm-iris" src="images/beads/pearlBeads/iris.jpg" alt="4mm Iris">
+  <img id="img-pearl-4mm-ivory" src="images/beads/pearlBeads/ivory.jpg" alt="4mm Ivory">
+  <img id="img-pearl-4mm-jewel" src="images/beads/pearlBeads/jewel.jpg" alt="4mm Jewel">
+  <img id="img-pearl-4mm-leaf" src="images/beads/pearlBeads/leaf.jpg" alt="4mm Leaf">
+  <img id="img-pearl-4mm-mauve" src="images/beads/pearlBeads/mauve.jpg" alt="4mm Mauve">
+  <img id="img-pearl-4mm-mocha" src="images/beads/pearlBeads/moca.jpg" alt="4mm Mocha">
+  <img id="img-pearl-4mm-navy" src="images/beads/pearlBeads/navy.jpg" alt="4mm Navy">
+  <img id="img-pearl-4mm-orange" src="images/beads/pearlBeads/orange.jpg" alt="4mm Orange">
+  <img id="img-pearl-4mm-peacock" src="images/beads/pearlBeads/peacock.jpg" alt="4mm Peacock">
+  <img id="img-pearl-4mm-pearl" src="images/beads/pearlBeads/pearl.jpg" alt="4mm Pearl">
+  <img id="img-pearl-4mm-primrose" src="images/beads/pearlBeads/primrose.jpg" alt="4mm Primrose">
+  <img id="img-pearl-4mm-purple" src="images/beads/pearlBeads/purple.jpg" alt="4mm Purple">
+  <img id="img-pearl-4mm-rosealine" src="images/beads/pearlBeads/roseline.jpg" alt="4mm Rosealine">
+  <img id="img-pearl-4mm-saffron" src="images/beads/pearlBeads/safron.jpg" alt="4mm Saffron">
+  <img id="img-pearl-4mm-silky" src="images/beads/pearlBeads/silky.jpg" alt="4mm Silky">
+  <img id="img-pearl-4mm-spearmint" src="images/beads/pearlBeads/spearmint.jpg" alt="4mm Spearmint">
+  <img id="img-pearl-4mm-sun-gold" src="images/beads/pearlBeads/sunGold.jpg" alt="4mm Sun Gold">
+  <img id="img-pearl-4mm-topaz" src="images/beads/pearlBeads/topaz.jpg" alt="4mm Topaz">
+
+  <!-- 6mm -->
+  <img id="img-pearl-6mm-amazon" src="images/beads/pearlBeads/amazon.jpg" alt="6mm Amazon">
+  <img id="img-pearl-6mm-amethyst" src="images/beads/pearlBeads/amethyst.jpg" alt="6mm Amethyst">
+  <img id="img-pearl-6mm-astro" src="images/beads/pearlBeads/astro.jpg" alt="6mm Astro">
+  <img id="img-pearl-6mm-atom" src="images/beads/pearlBeads/atom.jpg" alt="6mm Atom">
+  <img id="img-pearl-6mm-bisque" src="images/beads/pearlBeads/bisque.jpg" alt="6mm Bisque">
+  <img id="img-pearl-6mm-black" src="images/beads/pearlBeads/black.jpg" alt="6mm Black">
+  <img id="img-pearl-6mm-cerise" src="images/beads/pearlBeads/cerise.jpg" alt="6mm Cerise">
+  <img id="img-pearl-6mm-charcoal" src="images/beads/pearlBeads/charcol.jpg" alt="6mm Charcoal">
+  <img id="img-pearl-6mm-chalk" src="images/beads/pearlBeads/choc.jpg" alt="6mm Chalk">
+  <img id="img-pearl-6mm-copper" src="images/beads/pearlBeads/copper.jpg" alt="6mm Copper">
+  <img id="img-pearl-6mm-daisy" src="images/beads/pearlBeads/daisy.jpg" alt="6mm Daisy">
+  <img id="img-pearl-6mm-hemlock" src="images/beads/pearlBeads/hemlock.jpg" alt="6mm Hemlock">
+  <img id="img-pearl-6mm-iris" src="images/beads/pearlBeads/iris.jpg" alt="6mm Iris">
+  <img id="img-pearl-6mm-ivory" src="images/beads/pearlBeads/ivory.jpg" alt="6mm Ivory">
+  <img id="img-pearl-6mm-jewel" src="images/beads/pearlBeads/jewel.jpg" alt="6mm Jewel">
+  <img id="img-pearl-6mm-leaf" src="images/beads/pearlBeads/leaf.jpg" alt="6mm Leaf">
+  <img id="img-pearl-6mm-mauve" src="images/beads/pearlBeads/mauve.jpg" alt="6mm Mauve">
+  <img id="img-pearl-6mm-mocha" src="images/beads/pearlBeads/moca.jpg" alt="6mm Mocha">
+  <img id="img-pearl-6mm-navy" src="images/beads/pearlBeads/navy.jpg" alt="6mm Navy">
+  <img id="img-pearl-6mm-orange" src="images/beads/pearlBeads/orange.jpg" alt="6mm Orange">
+  <img id="img-pearl-6mm-peacock" src="images/beads/pearlBeads/peacock.jpg" alt="6mm Peacock">
+  <img id="img-pearl-6mm-pearl" src="images/beads/pearlBeads/pearl.jpg" alt="6mm Pearl">
+  <img id="img-pearl-6mm-primrose" src="images/beads/pearlBeads/primrose.jpg" alt="6mm Primrose">
+  <img id="img-pearl-6mm-purple" src="images/beads/pearlBeads/purple.jpg" alt="6mm Purple">
+  <img id="img-pearl-6mm-rosealine" src="images/beads/pearlBeads/roseline.jpg" alt="6mm Rosealine">
+  <img id="img-pearl-6mm-saffron" src="images/beads/pearlBeads/safron.jpg" alt="6mm Saffron">
+  <img id="img-pearl-6mm-silky" src="images/beads/pearlBeads/silky.jpg" alt="6mm Silky">
+  <img id="img-pearl-6mm-spearmint" src="images/beads/pearlBeads/spearmint.jpg" alt="6mm Spearmint">
+  <img id="img-pearl-6mm-sun-gold" src="images/beads/pearlBeads/sunGold.jpg" alt="6mm Sun Gold">
+  <img id="img-pearl-6mm-topaz" src="images/beads/pearlBeads/topaz.jpg" alt="6mm Topaz">
+
+  <!-- 8mm -->
+  <img id="img-pearl-8mm-amazon" src="images/beads/pearlBeads/amazon.jpg" alt="8mm Amazon">
+  <img id="img-pearl-8mm-amethyst" src="images/beads/pearlBeads/amethyst.jpg" alt="8mm Amethyst">
+  <img id="img-pearl-8mm-astro" src="images/beads/pearlBeads/astro.jpg" alt="8mm Astro">
+  <img id="img-pearl-8mm-atom" src="images/beads/pearlBeads/atom.jpg" alt="8mm Atom">
+  <img id="img-pearl-8mm-bisque" src="images/beads/pearlBeads/bisque.jpg" alt="8mm Bisque">
+  <img id="img-pearl-8mm-black" src="images/beads/pearlBeads/black.jpg" alt="8mm Black">
+  <img id="img-pearl-8mm-cerise" src="images/beads/pearlBeads/cerise.jpg" alt="8mm Cerise">
+  <img id="img-pearl-8mm-charcoal" src="images/beads/pearlBeads/charcol.jpg" alt="8mm Charcoal">
+  <img id="img-pearl-8mm-chalk" src="images/beads/pearlBeads/choc.jpg" alt="8mm Chalk">
+  <img id="img-pearl-8mm-copper" src="images/beads/pearlBeads/copper.jpg" alt="8mm Copper">
+  <img id="img-pearl-8mm-daisy" src="images/beads/pearlBeads/daisy.jpg" alt="8mm Daisy">
+  <img id="img-pearl-8mm-hemlock" src="images/beads/pearlBeads/hemlock.jpg" alt="8mm Hemlock">
+  <img id="img-pearl-8mm-iris" src="images/beads/pearlBeads/iris.jpg" alt="8mm Iris">
+  <img id="img-pearl-8mm-ivory" src="images/beads/pearlBeads/ivory.jpg" alt="8mm Ivory">
+  <img id="img-pearl-8mm-jewel" src="images/beads/pearlBeads/jewel.jpg" alt="8mm Jewel">
+  <img id="img-pearl-8mm-leaf" src="images/beads/pearlBeads/leaf.jpg" alt="8mm Leaf">
+  <img id="img-pearl-8mm-mauve" src="images/beads/pearlBeads/mauve.jpg" alt="8mm Mauve">
+  <img id="img-pearl-8mm-mocha" src="images/beads/pearlBeads/moca.jpg" alt="8mm Mocha">
+  <img id="img-pearl-8mm-navy" src="images/beads/pearlBeads/navy.jpg" alt="8mm Navy">
+  <img id="img-pearl-8mm-orange" src="images/beads/pearlBeads/orange.jpg" alt="8mm Orange">
+  <img id="img-pearl-8mm-peacock" src="images/beads/pearlBeads/peacock.jpg" alt="8mm Peacock">
+  <img id="img-pearl-8mm-pearl" src="images/beads/pearlBeads/pearl.jpg" alt="8mm Pearl">
+  <img id="img-pearl-8mm-primrose" src="images/beads/pearlBeads/primrose.jpg" alt="8mm Primrose">
+  <img id="img-pearl-8mm-purple" src="images/beads/pearlBeads/purple.jpg" alt="8mm Purple">
+  <img id="img-pearl-8mm-rosealine" src="images/beads/pearlBeads/roseline.jpg" alt="8mm Rosealine">
+  <img id="img-pearl-8mm-saffron" src="images/beads/pearlBeads/safron.jpg" alt="8mm Saffron">
+  <img id="img-pearl-8mm-silky" src="images/beads/pearlBeads/silky.jpg" alt="8mm Silky">
+  <img id="img-pearl-8mm-spearmint" src="images/beads/pearlBeads/spearmint.jpg" alt="8mm Spearmint">
+  <img id="img-pearl-8mm-sun-gold" src="images/beads/pearlBeads/sunGold.jpg" alt="8mm Sun Gold">
+  <img id="img-pearl-8mm-topaz" src="images/beads/pearlBeads/topaz.jpg" alt="8mm Topaz">
+
+  <!-- 10mm -->
+  <img id="img-pearl-10mm-amazon" src="images/beads/pearlBeads/amazon.jpg" alt="10mm Amazon">
+  <img id="img-pearl-10mm-amethyst" src="images/beads/pearlBeads/amethyst.jpg" alt="10mm Amethyst">
+  <img id="img-pearl-10mm-astro" src="images/beads/pearlBeads/astro.jpg" alt="10mm Astro">
+  <img id="img-pearl-10mm-atom" src="images/beads/pearlBeads/atom.jpg" alt="10mm Atom">
+  <img id="img-pearl-10mm-bisque" src="images/beads/pearlBeads/bisque.jpg" alt="10mm Bisque">
+  <img id="img-pearl-10mm-black" src="images/beads/pearlBeads/black.jpg" alt="10mm Black">
+  <img id="img-pearl-10mm-cerise" src="images/beads/pearlBeads/cerise.jpg" alt="10mm Cerise">
+  <img id="img-pearl-10mm-charcoal" src="images/beads/pearlBeads/charcol.jpg" alt="10mm Charcoal">
+  <img id="img-pearl-10mm-chalk" src="images/beads/pearlBeads/choc.jpg" alt="10mm Chalk">
+  <img id="img-pearl-10mm-copper" src="images/beads/pearlBeads/copper.jpg" alt="10mm Copper">
+  <img id="img-pearl-10mm-daisy" src="images/beads/pearlBeads/daisy.jpg" alt="10mm Daisy">
+  <img id="img-pearl-10mm-hemlock" src="images/beads/pearlBeads/hemlock.jpg" alt="10mm Hemlock">
+  <img id="img-pearl-10mm-iris" src="images/beads/pearlBeads/iris.jpg" alt="10mm Iris">
+  <img id="img-pearl-10mm-ivory" src="images/beads/pearlBeads/ivory.jpg" alt="10mm Ivory">
+  <img id="img-pearl-10mm-jewel" src="images/beads/pearlBeads/jewel.jpg" alt="10mm Jewel">
+  <img id="img-pearl-10mm-leaf" src="images/beads/pearlBeads/leaf.jpg" alt="10mm Leaf">
+  <img id="img-pearl-10mm-mauve" src="images/beads/pearlBeads/mauve.jpg" alt="10mm Mauve">
+  <img id="img-pearl-10mm-mocha" src="images/beads/pearlBeads/moca.jpg" alt="10mm Mocha">
+  <img id="img-pearl-10mm-navy" src="images/beads/pearlBeads/navy.jpg" alt="10mm Navy">
+  <img id="img-pearl-10mm-orange" src="images/beads/pearlBeads/orange.jpg" alt="10mm Orange">
+  <img id="img-pearl-10mm-peacock" src="images/beads/pearlBeads/peacock.jpg" alt="10mm Peacock">
+  <img id="img-pearl-10mm-pearl" src="images/beads/pearlBeads/pearl.jpg" alt="10mm Pearl">
+  <img id="img-pearl-10mm-primrose" src="images/beads/pearlBeads/primrose.jpg" alt="10mm Primrose">
+  <img id="img-pearl-10mm-purple" src="images/beads/pearlBeads/purple.jpg" alt="10mm Purple">
+  <img id="img-pearl-10mm-rosealine" src="images/beads/pearlBeads/roseline.jpg" alt="10mm Rosealine">
+  <img id="img-pearl-10mm-saffron" src="images/beads/pearlBeads/safron.jpg" alt="10mm Saffron">
+  <img id="img-pearl-10mm-silky" src="images/beads/pearlBeads/silky.jpg" alt="10mm Silky">
+  <img id="img-pearl-10mm-spearmint" src="images/beads/pearlBeads/spearmint.jpg" alt="10mm Spearmint">
+  <img id="img-pearl-10mm-sun-gold" src="images/beads/pearlBeads/sunGold.jpg" alt="10mm Sun Gold">
+  <img id="img-pearl-10mm-topaz" src="images/beads/pearlBeads/topaz.jpg" alt="10mm Topaz">
+
+  <!-- 12mm -->
+  <img id="img-pearl-12mm-amazon" src="images/beads/pearlBeads/amazon.jpg" alt="12mm Amazon">
+  <img id="img-pearl-12mm-amethyst" src="images/beads/pearlBeads/amethyst.jpg" alt="12mm Amethyst">
+  <img id="img-pearl-12mm-astro" src="images/beads/pearlBeads/astro.jpg" alt="12mm Astro">
+  <img id="img-pearl-12mm-atom" src="images/beads/pearlBeads/atom.jpg" alt="12mm Atom">
+  <img id="img-pearl-12mm-bisque" src="images/beads/pearlBeads/bisque.jpg" alt="12mm Bisque">
+  <img id="img-pearl-12mm-black" src="images/beads/pearlBeads/black.jpg" alt="12mm Black">
+  <img id="img-pearl-12mm-cerise" src="images/beads/pearlBeads/cerise.jpg" alt="12mm Cerise">
+  <img id="img-pearl-12mm-charcoal" src="images/beads/pearlBeads/charcol.jpg" alt="12mm Charcoal">
+  <img id="img-pearl-12mm-chalk" src="images/beads/pearlBeads/choc.jpg" alt="12mm Chalk">
+  <img id="img-pearl-12mm-copper" src="images/beads/pearlBeads/copper.jpg" alt="12mm Copper">
+  <img id="img-pearl-12mm-daisy" src="images/beads/pearlBeads/daisy.jpg" alt="12mm Daisy">
+  <img id="img-pearl-12mm-hemlock" src="images/beads/pearlBeads/hemlock.jpg" alt="12mm Hemlock">
+  <img id="img-pearl-12mm-iris" src="images/beads/pearlBeads/iris.jpg" alt="12mm Iris">
+  <img id="img-pearl-12mm-ivory" src="images/beads/pearlBeads/ivory.jpg" alt="12mm Ivory">
+  <img id="img-pearl-12mm-jewel" src="images/beads/pearlBeads/jewel.jpg" alt="12mm Jewel">
+  <img id="img-pearl-12mm-leaf" src="images/beads/pearlBeads/leaf.jpg" alt="12mm Leaf">
+  <img id="img-pearl-12mm-mauve" src="images/beads/pearlBeads/mauve.jpg" alt="12mm Mauve">
+  <img id="img-pearl-12mm-mocha" src="images/beads/pearlBeads/moca.jpg" alt="12mm Mocha">
+  <img id="img-pearl-12mm-navy" src="images/beads/pearlBeads/navy.jpg" alt="12mm Navy">
+  <img id="img-pearl-12mm-orange" src="images/beads/pearlBeads/orange.jpg" alt="12mm Orange">
+  <img id="img-pearl-12mm-peacock" src="images/beads/pearlBeads/peacock.jpg" alt="12mm Peacock">
+  <img id="img-pearl-12mm-pearl" src="images/beads/pearlBeads/pearl.jpg" alt="12mm Pearl">
+  <img id="img-pearl-12mm-primrose" src="images/beads/pearlBeads/primrose.jpg" alt="12mm Primrose">
+  <img id="img-pearl-12mm-purple" src="images/beads/pearlBeads/purple.jpg" alt="12mm Purple">
+  <img id="img-pearl-12mm-rosealine" src="images/beads/pearlBeads/roseline.jpg" alt="12mm Rosealine">
+  <img id="img-pearl-12mm-saffron" src="images/beads/pearlBeads/safron.jpg" alt="12mm Saffron">
+  <img id="img-pearl-12mm-silky" src="images/beads/pearlBeads/silky.jpg" alt="12mm Silky">
+  <img id="img-pearl-12mm-spearmint" src="images/beads/pearlBeads/spearmint.jpg" alt="12mm Spearmint">
+  <img id="img-pearl-12mm-sun-gold" src="images/beads/pearlBeads/sunGold.jpg" alt="12mm Sun Gold">
+  <img id="img-pearl-12mm-topaz" src="images/beads/pearlBeads/topaz.jpg" alt="12mm Topaz">
+
+  <!-- Opaque Glass Beads Variants (Left as is) -->
+  <img id="img-glass-mixed" src="images/beads/glassBeads/mix.jpg" alt="Glass Mixed">
+  <img id="img-glass-white" src="images/beads/glassBeads/white.jpg" alt="Glass White">
+  <img id="img-glass-black" src="images/beads/glassBeads/black.jpg" alt="Glass Black">
+  <img id="img-glass-powder" src="images/beads/glassBeads/powder.jpg" alt="Glass Powder">
+  <img id="img-glass-royal" src="images/beads/glassBeads/royal.jpg" alt="Glass Royal">
+  <img id="img-glass-red" src="images/beads/glassBeads/red.jpg" alt="Glass Red">
+  <img id="img-glass-emerald" src="images/beads/glassBeads/emerald.jpg" alt="Glass Emerald">
+  <img id="img-glass-orange" src="images/beads/glassBeads/orange.jpg" alt="Glass Orange">
+  <img id="img-glass-yellow" src="images/beads/glassBeads/yellow.jpg" alt="Glass Yellow">
+  <img id="img-glass-lilac" src="images/beads/glassBeads/lilac.jpg" alt="Glass Lilac">
+  <img id="img-glass-purple" src="images/beads/glassBeads/purple.jpg" alt="Glass Purple">
+  <img id="img-glass-cerise" src="images/beads/glassBeads/cerise.jpg" alt="Glass Cerise">
+  <img id="img-glass-rose" src="images/beads/glassBeads/rose.jpg" alt="Glass Rose">
+  <img id="img-glass-baby-pink" src="images/beads/glassBeads/babyPink.jpg" alt="Glass Baby Pink">
+  <img id="img-glass-navy" src="images/beads/glassBeads/navy.jpg" alt="Glass Navy">
+  <img id="img-glass-grey" src="images/beads/glassBeads/grey.jpg" alt="Glass Grey">
+  <img id="img-glass-turk" src="images/beads/glassBeads/turq.jpg" alt="Glass Turk">
+  <img id="img-glass-gold" src="images/beads/glassBeads/gold.jpg" alt="Glass Gold">
+  <img id="img-glass-silver" src="images/beads/glassBeads/silver.jpg" alt="Glass Silver">
+  <img id="img-glass-sunflower" src="images/beads/glassBeads/sunflower.jpg" alt="Glass Sunflower">
+</div>
+
+<header>
+  <div class="logo">Fawz <span>Haberdashery</span></div>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="all-products.html">All Products</a>
+    <a href="demo_cart.html">View Cart</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Craft & Bead Sets</h1>
+
+  <div class="toolbar">
+    <input id="searchBox" placeholder="Search products or options...">
+    <select id="categoryFilter">
+      <option value="">All categories</option>
+      <option value="Craft / Bead Sets">Craft / Bead Sets</option>
+      <option value="Pearl Beads">Pearl Beads</option>
+      <option value="Glass Beads">Glass Beads</option>
+    </select>
+  </div>
+</section>
+
+<main>
+
+  <!-- Main Entry Category Blocks (3 Blocks) -->
+  <div class="category-blocks-grid">
+
+    <div class="category-block-card" onclick="openCategoryModal('Craft / Bead Sets')">
+      <div class="category-block-img">
+        <img id="block-img-Craft / Bead Sets" src="" alt="Craft / Bead Sets">
+      </div>
+      <div class="category-block-info">
+        <h3>Craft / Bead Sets</h3>
+      </div>
+    </div>
+
+    <div class="category-block-card" onclick="openCategoryModal('Pearl Beads')">
+      <div class="category-block-img">
+        <img id="block-img-Pearl Beads" src="" alt="Pearl Beads">
+      </div>
+      <div class="category-block-info">
+        <h3>Pearl Beads</h3>
+      </div>
+    </div>
+
+    <div class="category-block-card" onclick="openCategoryModal('Glass Beads')">
+      <div class="category-block-img">
+        <img id="block-img-Glass Beads" src="" alt="Glass Beads">
+      </div>
+      <div class="category-block-info">
+        <h3>Glass Beads</h3>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Hidden Sections kept for extraction into modal -->
+  <div style="display:none;">
+
+    <section class="product-section" data-category-section="Craft / Bead Sets">
+      <div class="section-heading"><h3>Craft / Bead Sets</h3></div>
+      <div class="product-grid">
+
+  
+
+        <article class="product-card" data-parent-id="fancy-beads-plus-pins" data-category="Craft / Bead Sets" onclick="openProduct('fancy-beads-plus-pins')">
+          <div class="product-img-wrap"><img id="cover-fancy-beads-plus-pins" src="" alt="Fancy Beads Plus Pins" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Fancy Beads Plus Pins</h4>
+            <p class="product-id">Choose options inside</p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="pearl-setting-machine" data-category="Craft / Bead Sets" onclick="openProduct('pearl-setting-machine')">
+          <div class="product-img-wrap"><img id="cover-pearl-setting-machine" src="" alt="Pearl Setting Machine" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Pearl Setting Machine</h4>
+            <p class="product-id"></p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="bead-kit-large" data-category="Craft / Bead Sets" onclick="openProduct('bead-kit-large')">
+          <div class="product-img-wrap"><img id="cover-bead-kit-large" src="" alt="Bead Kit Large" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Bead Kit Large</h4>
+            <p class="product-id"></p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="glass-beads-box" data-category="Craft / Bead Sets" onclick="openProduct('glass-beads-box')">
+          <div class="product-img-wrap"><img id="cover-glass-beads-box" src="" alt="Glass Beads Box" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Glass Beads Box</h4>
+            <p class="product-id"></p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="bow-assorted-box" data-category="Craft / Bead Sets" onclick="openProduct('bow-assorted-box')">
+          <div class="product-img-wrap"><img id="cover-bow-assorted-box" src="" alt="Bow Assorted Box" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Bow Assorted Box</h4>
+            <p class="product-id"></p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="wooden-craft-set-small" data-category="Craft / Bead Sets" onclick="openProduct('wooden-craft-set-small')">
+          <div class="product-img-wrap"><img id="cover-wooden-craft-set-small" src="" alt="Wooden Craft Set Small" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Wooden Craft Set Small</h4>
+            <p class="product-id">Choose options inside</p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="golf-shirt-box-set" data-category="Craft / Bead Sets" onclick="openProduct('golf-shirt-box-set')">
+          <div class="product-img-wrap"><img id="cover-golf-shirt-box-set" src="" alt="Golf Shirt Box Set" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Golf Shirt Box Set</h4>
+            <p class="product-id"></p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="craft-buttons-large" data-category="Craft / Bead Sets" onclick="openProduct('craft-buttons-large')">
+          <div class="product-img-wrap"><img id="cover-craft-buttons-large" src="" alt="Craft Buttons Large & Small" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Craft Buttons Large & Small</h4>
+            <p class="product-id">Choose options inside</p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="snap-fastener-box-set" data-category="Craft / Bead Sets" onclick="openProduct('snap-fastener-box-set')">
+          <div class="product-img-wrap"><img id="cover-snap-fastener-box-set" src="" alt="Snap Fastener Box Set" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Snap Fastener Box Set</h4>
+            <p class="product-id"></p>
+          </div>
+        </article>
+
+        <article class="product-card" data-parent-id="ring-fastener-box-kit" data-category="Craft / Bead Sets" onclick="openProduct('ring-fastener-box-kit')">
+          <div class="product-img-wrap"><img id="cover-ring-fastener-box-kit" src="" alt="Ring Fastener Box Kit" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Craft / Bead Sets</span>
+            <h4>Ring Fastener Box Kit</h4>
+            <p class="product-id"></p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="product-section" data-category-section="Pearl Beads">
+      <div class="section-heading"><h3>Pearl Beads</h3></div>
+      <div class="product-grid">
+
+        <article class="product-card" data-parent-id="pearl-beads" data-category="Pearl Beads" onclick="openProduct('pearl-beads')">
+          <div class="product-img-wrap"><img id="cover-pearl-beads" src="" alt="Pearl Beads" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Pearl Beads</span>
+            <h4>Pearl Beads</h4>
+            <p class="product-id">Choose options inside</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="product-section" data-category-section="Glass Beads">
+      <div class="section-heading"><h3>Glass Beads</h3></div>
+      <div class="product-grid">
+
+        <article class="product-card" data-parent-id="opaque-glass-beads" data-category="Glass Beads" onclick="openProduct('opaque-glass-beads')">
+          <div class="product-img-wrap"><img id="cover-opaque-glass-beads" src="" alt="Opaque Glass Beads" loading="lazy"></div>
+          <div class="product-info">
+            <span class="category-pill">Glass Beads</span>
+            <h4>Opaque Glass Beads</h4>
+            <p class="product-id">Choose options inside</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </div>
+
+</main>
+
+<!-- Modal for Category Product Grid Display -->
+<div id="categoryModal" class="modal">
+  <div class="category-modal-content">
+    <span class="close-x" onclick="closeCategoryModal()">&times;</span>
+    <div id="categoryModalBody"></div>
+  </div>
+</div>
+
+<!-- Modal for Individual Product Details -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close-x" onclick="closeModal()">&times;</span>
+    <div class="modal-left"><img id="modalImg" src="" alt=""></div>
+    <div class="modal-right">
+      <h2 id="modalTitle">Product</h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+      <p class="modal-meta" id="modalDesc"></p>
+      <p class="modal-meta" id="modalCategory"></p>
+      <p class="modal-meta">Product ID: <strong id="modalProductId"></strong></p>
+      <div id="variantFields"></div>
+      <label>Quantity</label>
+      <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+      <input type="number" id="qty" value="1" min="1">
+      <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PEARL_SIZES = ["4mm", "6mm", "8mm", "10mm", "12mm"];
+const PEARL_COLORS = [
+  "pearl", "ivory", "saffron", "silky", "black", "charcoal", "astro", "topaz", 
+  "navy", "peacock", "rosealine", "iris", "cerise", "mauve", "primrose", "daisy", 
+  "bisque", "leaf", "spearmint", "hemlock", "amazon", "jewel", "purple", "amethyst", 
+  "atom", "mocha", "copper", "chalk", "orange", "sun gold"
+];
+
+const OPAQUE_GLASS_COLORS = [
+  "mixed", "white", "black", "powder", "royal", "red", "emerald", "orange", 
+  "yellow", "lilac", "purple", "cerise", "rose", "baby pink", "navy", "grey", 
+  "turk", "gold", "silver", "sunflower"
+];
+
+const pearlVariants = [];
+PEARL_SIZES.forEach(size => {
+  PEARL_COLORS.forEach(color => {
+    const slug = `${size}-${color}`.replace(/\s+/g, '-');
+    pearlVariants.push({
+      size: size,
+      color: color,
+      productId: `pearl-beads-${slug}`,
+      name: `Pearl Beads ${size} - ${color}`,
+      imgKey: `img-pearl-${slug}`
+    });
+  });
+});
+
+const glassVariants = [];
+OPAQUE_GLASS_COLORS.forEach(color => {
+  const slug = color.replace(/\s+/g, '-');
+  glassVariants.push({
+    color: color,
+    productId: `opaque-glass-beads-${slug}`,
+    name: `Opaque Glass Beads - ${color}`,
+    imgKey: `img-glass-${slug}`
+  });
+});
+
+const PRODUCT_GROUPS = [
+  {
+    id: "bead-kit-large",
+    title: "Bead Kit Large",
+    category: "Craft / Bead Sets",
+    desc: "Choose size inside.",
+    fields: [
+      { key: "size", label: "Select Size", options: ["Small", "Large"] }
+    ],
+    variants: [
+      { size: "Small", productId: "craft-mixed-beads-kit-small", name: "Bead Kit Large - Small", imgKey: "img-craft-mixed-beads-kit-small" },
+      { size: "Large", productId: "craft-mixed-beads-kit-large", name: "Bead Kit Large - Large", imgKey: "img-craft-mixed-beads-kit-large" }
+    ]
+  },
+  {
+    id: "glass-beads-box",
+    title: "Glass Beads Box",
+    category: "Craft / Bead Sets",
+    desc: "Glass beads box assortment.",
+    fields: [],
+    variants: [
+      { productId: "craft-glass-beads-box", name: "Glass Beads Box", imgKey: "img-craft-glass-beads-box" }
+    ]
+  },
+  {
+    id: "bow-assorted-box",
+    title: "Bow Assorted Box",
+    category: "Craft / Bead Sets",
+    desc: "Decorative ribbon bows.",
+    fields: [],
+    variants: [
+      { productId: "craft-ribbon-bows", name: "Bow Assorted Box", imgKey: "img-craft-ribbon-bows" }
+    ]
+  },
+  {
+    id: "craft-buttons-large",
+    title: "Craft Buttons Large & Small",
+    category: "Craft / Bead Sets",
+    desc: "Choose size inside.",
+    fields: [
+      { key: "size", label: "Select Size", options: ["Small", "Large"] }
+    ],
+    variants: [
+      { size: "Small", productId: "craft-buttons-small", name: "Craft Buttons Large & Small - Small", imgKey: "img-craft-buttons-small" },
+      { size: "Large", productId: "craft-buttons-large", name: "Craft Buttons Large & Small - Large", imgKey: "img-craft-buttons-large" }
+    ]
+  },
+  {
+    id: "fancy-beads-plus-pins",
+    title: "Fancy Beads Plus Pins",
+    category: "Craft / Bead Sets",
+    desc: "Choose option A, B, or C below.",
+    isVisualGrid: true,
+    fields: [
+      { key: "option", label: "Select Option", options: ["A", "B", "C"] }
+    ],
+    variants: [
+      { option: "A", productId: "craft-fancy-beads-plus-pins-a", name: "Fancy Beads Plus Pins - Option A", imgKey: "img-craft-fancy-beads-plus-pins-a" },
+      { option: "B", productId: "craft-fancy-beads-plus-pins-b", name: "Fancy Beads Plus Pins - Option B", imgKey: "img-craft-fancy-beads-plus-pins-b" },
+      { option: "C", productId: "craft-fancy-beads-plus-pins-c", name: "Fancy Beads Plus Pins - Option C", imgKey: "img-craft-fancy-beads-plus-pins-c" }
+    ]
+  },
+  {
+    id: "ring-fastener-box-kit",
+    title: "Ring Fastener Box Kit",
+    category: "Craft / Bead Sets",
+    desc: "Ring fastener box kit assortment.",
+    fields: [],
+    variants: [
+      { productId: "craft-ring-fastener-box-kit", name: "Ring Fastener Box Kit", imgKey: "img-craft-snap-fastner-ring" }
+    ]
+  },
+  {
+    id: "golf-shirt-box-set",
+    title: "Golf Shirt Box Set",
+    category: "Craft / Bead Sets",
+    desc: "Shirt button box assortment.",
+    fields: [],
+    variants: [
+      { productId: "craft-shirt-button-box", name: "Golf Shirt Box Set", imgKey: "img-craft-shirt-button-box" }
+    ]
+  },
+  {
+    id: "wooden-craft-set-small",
+    title: "Wooden Craft Set Small",
+    category: "Craft / Bead Sets",
+    desc: "Choose size inside.",
+    fields: [
+      { key: "size", label: "Select Size", options: ["Small", "Large"] }
+    ],
+    variants: [
+      { size: "Small", productId: "craft-wood-craft-small", name: "Wooden Craft Set Small - Small", imgKey: "img-craft-wood-craft-small" },
+      { size: "Large", productId: "craft-wood-craft-large", name: "Wooden Craft Set Small - Large", imgKey: "img-craft-wood-craft-large" }
+    ]
+  },
+  {
+    id: "snap-fastener-box-set",
+    title: "Snap Fastener Box Set",
+    category: "Craft / Bead Sets",
+    desc: "Snap fastener box set assortment.",
+    fields: [],
+    variants: [
+      { productId: "craft-snap-fastener-box-set", name: "Snap Fastener Box Set", imgKey: "img-craft-snap-fastener-box-set" }
+    ]
+  },
+  {
+    id: "pearl-setting-machine",
+    title: "Pearl Setting Machine",
+    category: "Craft / Bead Sets",
+    desc: "Pearl setting machine tool.",
+    fields: [],
+    variants: [
+      { productId: "craft-pearl-setting-machine", name: "Pearl Setting Machine", imgKey: "img-craft-pearl-setting-machine" }
+    ]
+  },
+  {
+    id: "pearl-beads",
+    title: "Pearl Beads",
+    category: "Pearl Beads",
+    desc: "Choose size from dropdown and color from the table below.",
+    isPearlBeads: true,
+    fields: [
+      { key: "size", label: "Select Size", options: PEARL_SIZES }
+    ],
+    variants: pearlVariants
+  },
+  {
+    id: "opaque-glass-beads",
+    title: "Opaque Glass Beads",
+    category: "Glass Beads",
+    desc: "Choose color from the table below.",
+    isBeadTable: true,
+    fields: [
+      { key: "color", label: "Select Colour", options: OPAQUE_GLASS_COLORS }
+    ],
+    variants: glassVariants
+  }
+];
+
+let activeGroup = null;
+let selectedProduct = null;
+let currentSelectedOptions = {};
+
+function byId(id){ return document.getElementById(id); }
+function getGroup(id){ return PRODUCT_GROUPS.find(p => p.id === id); }
+
+function getBankImgSrc(imgKey) {
+  const bankEl = byId(imgKey);
+  return bankEl ? bankEl.getAttribute('src') : '';
+}
+
+function getCategoryFallback(category) {
+  const fallbackKeys = {
+    "Craft / Bead Sets": "img-cat-craft-bead-sets",
+    "Pearl Beads": "img-cat-pearl-beads",
+    "Glass Beads": "img-cat-glass-beads"
+  };
+  return getBankImgSrc(fallbackKeys[category] || "img-cat-craft-bead-sets");
+}
+
+function setSafeImage(imgEl, primarySrc, category) {
+  if (!imgEl) return;
+  const fallbackSrc = getCategoryFallback(category);
+  imgEl.onerror = function () {
+    this.onerror = null;
+    this.src = fallbackSrc;
+  };
+  imgEl.src = primarySrc || fallbackSrc;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  PRODUCT_GROUPS.forEach(group => {
+    const targetImg = byId('cover-' + group.id);
+    if (targetImg && group.variants && group.variants.length > 0) {
+      const firstVariantKey = group.variants[0].imgKey;
+      setSafeImage(targetImg, getBankImgSrc(firstVariantKey), group.category);
+    }
+  });
+
+  const categoryCovers = {
+    "Craft / Bead Sets": "img-cat-craft-bead-sets",
+    "Pearl Beads": "img-cat-pearl-beads",
+    "Glass Beads": "img-cat-glass-beads"
+  };
+
+  Object.keys(categoryCovers).forEach(cat => {
+    const imgEl = byId('block-img-' + cat);
+    if (imgEl) {
+      imgEl.src = getBankImgSrc(categoryCovers[cat]);
+    }
+  });
+});
+
+function openCategoryModal(categoryName) {
+  const targetSection = document.querySelector(`[data-category-section="${categoryName}"]`);
+  if (!targetSection) return;
+
+  const modalBody = byId('categoryModalBody');
+  modalBody.innerHTML = targetSection.outerHTML;
+
+  modalBody.querySelectorAll('.product-card').forEach(card => {
+    card.style.display = 'block';
+  });
+
+  byId('categoryModal').style.display = 'block';
+}
+
+function closeCategoryModal() {
+  byId('categoryModal').style.display = 'none';
+}
+
+function openProduct(parentId){
+  activeGroup = getGroup(parentId);
+  if(!activeGroup) return;
+
+  closeCategoryModal();
+
+  byId('modalTitle').textContent = activeGroup.title;
+  byId('modalDesc').textContent = activeGroup.desc || '';
+  byId('modalCategory').textContent = activeGroup.category;
+  
+  currentSelectedOptions = {};
+  if(activeGroup.fields && activeGroup.fields.length > 0){
+    activeGroup.fields.forEach(f => {
+      currentSelectedOptions[f.key] = f.options[0];
+    });
+  }
+  if(activeGroup.isPearlBeads) {
+    currentSelectedOptions['color'] = PEARL_COLORS[0];
+  }
+
+  if (activeGroup.variants && activeGroup.variants.length > 0) {
+    const baseKey = activeGroup.variants[0].imgKey;
+    setSafeImage(byId('modalImg'), getBankImgSrc(baseKey), activeGroup.category);
+  } else {
+    byId('modalImg').src = '';
+  }
+  
+  byId('qty').value = 1;
+
+  renderVariantFields();
+  byId('productModal').style.display = 'block';
+  resolveSelectedVariant();
+}
+
+function renderVariantFields(){
+  const wrap = byId('variantFields');
+  wrap.innerHTML = '';
+
+  if (!activeGroup.fields || activeGroup.fields.length === 0 && !activeGroup.isPearlBeads && !activeGroup.isBeadTable) return;
+
+  if (activeGroup.isVisualGrid) {
+    const field = activeGroup.fields[0];
+    const label = document.createElement('label');
+    label.textContent = field.label;
+    wrap.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = 'fancy-options-grid';
+
+    field.options.forEach(opt => {
+      const variantObj = activeGroup.variants.find(v => String(v[field.key]) === String(opt));
+      const card = document.createElement('div');
+      card.className = 'fancy-option-card' + (currentSelectedOptions[field.key] === opt ? ' active' : '');
+      card.onclick = () => {
+        currentSelectedOptions[field.key] = opt;
+        renderVariantFields();
+        resolveSelectedVariant();
+      };
+
+      const img = document.createElement('img');
+      img.src = variantObj ? getBankImgSrc(variantObj.imgKey) : '';
+      img.alt = opt;
+
+      const span = document.createElement('span');
+      span.textContent = 'Option ' + opt;
+
+      card.appendChild(img);
+      card.appendChild(span);
+      grid.appendChild(card);
+    });
+
+    wrap.appendChild(grid);
+    return;
+  }
+
+  if (activeGroup.isPearlBeads) {
+    const sizeField = activeGroup.fields.find(f => f.key === 'size');
+    if (sizeField) {
+      const sizeLabel = document.createElement('label');
+      sizeLabel.textContent = sizeField.label;
+      wrap.appendChild(sizeLabel);
+
+      const select = document.createElement('select');
+      select.className = 'variant-select';
+      select.id = 'field_size';
+      select.onchange = (e) => {
+        currentSelectedOptions['size'] = e.target.value;
+        renderVariantFields();
+        resolveSelectedVariant();
+      };
+
+      sizeField.options.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt;
+        option.textContent = opt;
+        if (currentSelectedOptions['size'] === opt) {
+          option.selected = true;
+        }
+        select.appendChild(option);
+      });
+      wrap.appendChild(select);
+    }
+
+    const colorLabel = document.createElement('label');
+    colorLabel.textContent = "Select Colour";
+    wrap.appendChild(colorLabel);
+
+    const tableWrap = document.createElement('div');
+    tableWrap.className = 'bead-table-wrap';
+
+    const table = document.createElement('table');
+    table.className = 'bead-table';
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>Preview</th><th>Colour</th></tr>';
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    PEARL_COLORS.forEach(color => {
+      const matchingVariant = activeGroup.variants.find(v => v.size === currentSelectedOptions['size'] && v.color === color);
+      const tr = document.createElement('tr');
+      if (currentSelectedOptions['color'] === color) {
+        tr.className = 'active';
+      }
+
+      tr.onclick = () => {
+        currentSelectedOptions['color'] = color;
+        renderVariantFields();
+        resolveSelectedVariant();
+      };
+
+      let rowHtml = `<td><img src="${matchingVariant ? getBankImgSrc(matchingVariant.imgKey) : ''}" alt=""></td>`;
+      rowHtml += `<td style="text-transform:capitalize;">${color}</td>`;
+      tr.innerHTML = rowHtml;
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    tableWrap.appendChild(table);
+    wrap.appendChild(tableWrap);
+    return;
+  }
+
+  if (activeGroup.isBeadTable) {
+    const label = document.createElement('label');
+    label.textContent = "Select Colour";
+    wrap.appendChild(label);
+
+    const tableWrap = document.createElement('div');
+    tableWrap.className = 'bead-table-wrap';
+
+    const table = document.createElement('table');
+    table.className = 'bead-table';
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>Preview</th><th>Colour</th></tr>';
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    activeGroup.variants.forEach(variant => {
+      const tr = document.createElement('tr');
+      const isSelected = Object.keys(currentSelectedOptions).every(k => String(variant[k]) === String(currentSelectedOptions[k]));
+      if (isSelected) {
+        tr.className = 'active';
+      }
+
+      tr.onclick = () => {
+        Object.keys(currentSelectedOptions).forEach(k => {
+          if (variant[k] !== undefined) {
+            currentSelectedOptions[k] = variant[k];
+          }
+        });
+        renderVariantFields();
+        resolveSelectedVariant();
+      };
+
+      let rowHtml = `<td><img src="${getBankImgSrc(variant.imgKey)}" alt=""></td>`;
+      rowHtml += `<td style="text-transform:capitalize;">${variant.color}</td>`;
+      tr.innerHTML = rowHtml;
+      tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    tableWrap.appendChild(table);
+    wrap.appendChild(tableWrap);
+    return;
+  }
+
+  activeGroup.fields.forEach(field => {
+    const label = document.createElement('label');
+    label.textContent = field.label;
+
+    const select = document.createElement('select');
+    select.className = 'variant-select';
+    select.id = 'field_' + field.key;
+    select.onchange = (e) => {
+      currentSelectedOptions[field.key] = e.target.value;
+      resolveSelectedVariant();
+    };
+
+    field.options.forEach(opt => {
+      const option = document.createElement('option');
+      option.value = opt;
+      option.textContent = opt;
+      if (currentSelectedOptions[field.key] === opt) {
+        option.selected = true;
+      }
+      select.appendChild(option);
+    });
+
+    wrap.appendChild(label);
+    wrap.appendChild(select);
+  });
+}
+
+function resolveSelectedVariant(){
+  if(!activeGroup) return;
+
+  selectedProduct = activeGroup.variants.find(v =>
+    Object.keys(currentSelectedOptions).every(k => String(v[k] || '') === String(currentSelectedOptions[k] || ''))
+  ) || activeGroup.variants[0];
+
+  if(!selectedProduct) return;
+
+  selectedProduct.category = activeGroup.category;
+  selectedProduct.parentName = activeGroup.title;
+
+  window.fawzCurrentProductId = selectedProduct.productId;
+  window.fawzCurrentProductName = selectedProduct.name;
+
+  byId('modalProductId').textContent = selectedProduct.productId;
+  
+  const finalImgKey = selectedProduct.imgKey || activeGroup.variants[0].imgKey;
+  setSafeImage(byId('modalImg'), getBankImgSrc(finalImgKey), activeGroup.category);
+}
+
+function closeModal(){
+  byId('productModal').style.display = 'none';
+}
+
+function addToCart(){
+  if(!selectedProduct) return;
+
+  const qty = Math.max(parseInt(byId('qty').value || '1',10) || 1, 1);
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  cart.push({
+    product: selectedProduct.name,
+    parentProduct: activeGroup.title,
+    productId: selectedProduct.productId,
+    category: activeGroup.category,
+    size: currentSelectedOptions.size || 'Standard',
+    color: currentSelectedOptions.color || '',
+    options: currentSelectedOptions,
+    qty
+  });
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert('Added to cart: ' + selectedProduct.name);
+}
+
+function filterProducts(){
+  const q = byId('searchBox').value.toLowerCase().trim();
+  const c = byId('categoryFilter').value;
+
+  if (c && !q) {
+    openCategoryModal(c);
+    return;
+  }
+
+  if (q) {
+    const modalBody = byId('categoryModalBody');
+    modalBody.innerHTML = '<div class="product-grid" id="searchGrid"></div>';
+    const grid = byId('searchGrid');
+
+    let count = 0;
+    document.querySelectorAll('.product-section .product-card').forEach(card => {
+      const group = getGroup(card.dataset.parentId);
+      const variantText = group ? JSON.stringify(group).toLowerCase() : '';
+      const text = (card.textContent + ' ' + variantText).toLowerCase();
+      const ok = text.includes(q) && (!c || card.dataset.category === c);
+
+      if (ok) {
+        grid.appendChild(card.cloneNode(true));
+        count++;
+      }
+    });
+
+    if (count > 0) {
+      byId('categoryModal').style.display = 'block';
+    } else {
+      modalBody.innerHTML = '<p style="padding:20px;text-align:center;">No matching products found.</p>';
+      byId('categoryModal').style.display = 'block';
+    }
+  }
+}
+
+byId('searchBox').addEventListener('input', filterProducts);
+byId('categoryFilter').addEventListener('change', filterProducts);
+
+window.onclick = e => {
+  if(e.target === byId('productModal')) closeModal();
+  if(e.target === byId('categoryModal')) closeCategoryModal();
+};
+</script>
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-packing-info.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

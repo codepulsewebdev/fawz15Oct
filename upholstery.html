@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head><link rel="stylesheet" href="fawz-site.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Upholstery | Fawz Haberdashery</title>
+
+<link rel="stylesheet" href="global-images.css">
+
+
+
+<style>
+
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+
+*{box-sizing:border-box}
+
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+
+.logo span{color:var(--fawz-red)}
+
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+
+.hero p{color:#666;max-width:900px;line-height:1.6}
+
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+
+
+
+/* Main Category Selection Grid with Pictures */
+
+.main-category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;margin-top:30px}
+
+.category-block-card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s;display:flex;flex-direction:column}
+
+.category-block-card:hover{transform:translateY(-6px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+
+.category-img-wrap{width:100%;height:180px;background:#f0f0f0;overflow:hidden;position:relative}
+
+.category-img-wrap img{width:100%;height:100%;object-fit:cover;transition:.3s}
+
+.category-block-card:hover .category-img-wrap img{transform:scale(1.05)}
+
+.category-card-content{padding:22px;display:flex;flex-direction:column;flex-grow:1;justify-content:space-between}
+
+.category-block-card h3{font-size:1.25rem;margin:0 0 8px;color:var(--fawz-dark);text-transform:uppercase}
+
+.category-block-card p{color:#777;margin:0;font-size:.9rem;font-weight:600}
+
+
+
+/* Modals */
+
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);padding:30px 12px;overflow-y:auto}
+
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:520px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+
+
+
+/* Category List Modal Specific Layout */
+
+.category-modal-content{background:#fff;margin:40px auto;max-width:1000px;border-radius:18px;padding:40px;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.24)}
+
+.category-modal-content h2{margin-top:0;text-transform:uppercase;color:var(--fawz-red);margin-bottom:24px}
+
+.sub-product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;max-height:70vh;overflow-y:auto;padding-right:5px}
+
+.sub-product-item{background:#fafafa;border:1px solid var(--border);border-radius:12px;padding:15px;cursor:pointer;transition:.2s;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+
+.sub-product-item:hover{border-color:var(--fawz-red);background:#fff3f3;transform:translateY(-2px)}
+
+.sub-product-item img{width:110px;height:110px;object-fit:contain;margin-bottom:10px}
+
+.sub-product-item h4{font-size:.92rem;margin:8px 0 4px;color:var(--fawz-dark)}
+
+.sub-product-item span{font-size:.78rem;color:#777;font-weight:600}
+
+
+
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:5}
+
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border)}
+
+.modal-left img{max-width:100%;max-height:430px;object-fit:contain}
+
+.modal-right{padding:42px 36px}
+
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all}
+
+label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+
+input{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+
+.variant-select{width:100%;padding:14px 44px 14px 14px;border:2px solid #ddd;border-radius:12px;font-size:1rem;font-weight:750;background:#fff;cursor:pointer;appearance:auto}
+
+.variant-select:focus{outline:none;border-color:var(--fawz-red);box-shadow:0 0 0 3px rgba(227,30,36,.1)}
+
+#price{font-size:2rem;font-weight:950;margin:25px 0;color:#111}
+
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px}
+
+.btn-add:hover{background:#b3161a}
+
+.hidden{display:none!important}
+
+
+
+/* Color Picker Swatches Table Layout */
+
+.color-swatch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+
+.color-swatch-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;transition:.2s;font-size:.9rem;font-weight:600}
+
+.color-swatch-item:hover{border-color:var(--fawz-red)}
+
+.color-swatch-item.active{border:2px solid var(--fawz-red);background:#fff3f3;color:var(--fawz-red)}
+
+.color-square{width:26px;height:26px;border-radius:5px;border:1px solid rgba(0,0,0,.15);flex-shrink:0;background-position:center 46%;background-repeat:no-repeat;background-size:520%}
+
+
+
+@media(max-width:760px){
+
+header{align-items:flex-start;flex-direction:column}
+
+nav a{margin:0 14px 0 0}
+
+.modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+
+.modal-left{min-height:260px;border-right:0;border-bottom:1px solid var(--border)}
+
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<body>
+
+<!-- Image Bank for Upholstery Items -->
+
+<div id="imageBank" style="display:none;">
+
+  <img id="uph_hardware_cover" src="images/categories/hardware-cat.jpg" alt="">
+
+  <img id="uph_webbing" src="images/upholstery/sofaWebbing.jpg" alt="">
+
+  <img id="uph_springs" src="images/upholstery/sofaSpring.jpg" alt="">
+
+  <img id="uph_piping" src="images/upholstery/8mmpipingCord.jpg" alt="">
+
+
+
+  <img id="uph_staples_std" src="images/Upholstery/Staples/71-10.jpg" alt="">
+
+  <img id="uph_staples_71_10" src="images/Upholstery/Staples/71-10.jpg" alt="Staples 71-10">
+
+  <img id="uph_staples_71_12" src="images/Upholstery/Staples/71-12.jpg" alt="Staples 71-12">
+
+  <img id="uph_staples_80_10" src="images/Upholstery/Staples/80-10.jpg" alt="Staples 80-10">
+
+  <img id="uph_staples_80_12" src="images/Upholstery/Staples/80-12.jpg" alt="Staples 80-12">
+
+  <img id="uph_staples_1013" src="images/Upholstery/Staples/1013.jpg" alt="Staples 1013J">
+
+  <img id="uph_libao_staples" src="images/Upholstery/Staples/libao.jpg" alt="Libao Staples">
+
+  <img id="uph_staple_gun_4_8mm" src="images/upholstery/4-8mmStapleGun.jpg" alt="">
+
+  <img id="uph_staple_gun_4_14mm" src="images/upholstery/4-14mmStapleGun.jpg" alt="">
+
+  <img id="uph_staple_gun_1008" src="images/upholstery/1008StapleGun.jpg" alt="">
+
+  <img id="uph_staple_remover" src="images/upholstery/stapleRemover.jpg" alt="">
+
+
+
+  <img id="uph_thread_1000m" src="images/upholstery/thread-1000m.jpg" alt="">
+
+  <img id="uph_thread_ind" src="images/upholstery/thread-industrial.jpg" alt="">
+
+  <img id="uph_thread_high_tenacity" src="images/upholstery/thread-3000y.jpg" alt="">
+
+
+
+  <img id="uph_buttons" src="images/upholstery/cover-buttons.jpg" alt="">
+
+  <img id="uph_crystals" src="images/upholstery/sofaCrystals.jpg" alt="">
+
+  <img id="uph_fancy_crystals" src="images/upholstery/" alt="">
+
+</div>
+
+
+
+<header>
+
+  <div class="logo">Fawz <span>Haberdashery</span></div>
+
+  <nav>
+
+    <a href="home.html">Home</a>
+
+    <a href="all-products.html">All Products</a>
+
+    <a href="demo_cart.html">View Cart</a>
+
+  </nav>
+
+  <a href="login.html" style="margin-left:12px;font-weight:900;color:#e31e24;text-decoration:none">Login</a>
+
+</header>
+
+
+
+<section class="hero">
+
+  <h1>Upholstery Hardware & Accessories</h1>
+
+  <p>Select a category below to browse available items.</p>
+
+</section>
+
+
+
+<main>
+
+  <!-- Main Category Picture Cards -->
+
+  <div class="main-category-grid">
+
+
+
+    <!-- Hardware Block -->
+
+    <div class="category-block-card" onclick="openCategoryModal('Supplies & Hardware')">
+
+      <div class="category-img-wrap">
+
+        <img src="images/Upholstery/sofaSpring.jpg" alt="Hardware">
+
+      </div>
+
+      <div class="category-card-content">
+
+        <div>
+
+          <h3>Hardware</h3>
+
+          <p>Sofa webbing, springs & piping cord</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Tools Block -->
+
+    <div class="category-block-card" onclick="openCategoryModal('Tools')">
+
+      <div class="category-img-wrap">
+
+        <img src="images/Upholstery/staples.jpg" alt="Tools">
+
+      </div>
+
+      <div class="category-card-content">
+
+        <div>
+
+          <h3>Tools</h3>
+
+          <p>Staples, Libao staples, staple guns & removers</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Upholstery Thread Block -->
+
+    <div class="category-block-card" onclick="openCategoryModal('Threads')">
+
+      <div class="category-img-wrap">
+
+        <img src="images/sewingThreads/High/0.jpg" alt="Upholstery Thread">
+
+      </div>
+
+      <div class="category-card-content">
+
+        <div>
+
+          <h3>Upholstery Thread</h3>
+
+          <p>1000m, industrial & high tenacity threads</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Crystals & Buttons Block -->
+
+    <div class="category-block-card" onclick="openCategoryModal('Crystals & Buttons')">
+
+      <div class="category-img-wrap">
+
+        <img src="images/Upholstery/sofaCrystals.jpg" alt="Crystals & Buttons">
+
+      </div>
+
+      <div class="category-card-content">
+
+        <div>
+
+          <h3>Crystals & Buttons</h3>
+
+          <p>Cover buttons, sofa crystals & fancy styles</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+</main>
+
+
+
+<!-- Category List Modal -->
+
+<div id="categoryModal" class="modal">
+
+  <div class="category-modal-content">
+
+    <span class="close-x" onclick="closeCategoryModal()">×</span>
+
+    <h2 id="catModalTitle">Category</h2>
+
+    <div class="sub-product-grid" id="catModalGrid">
+
+      <!-- Dynamically filled individual variant items -->
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- Product Detail Modal -->
+
+<div id="productModal" class="modal">
+
+  <div class="modal-content">
+
+    <span class="close-x" onclick="closeModal()">×</span>
+
+    <div class="modal-left"><img id="modalImg" src="" alt=""></div>
+
+    <div class="modal-right">
+
+      <h2 id="modalTitle">Product</h2><div id="packingInfo" style="background:#f5f5f5;padding:12px 16px;border-radius:12px;margin:15px 0;font-size:0.85rem;color:#555;border-left:3px solid var(--fawz-red);"></div>
+
+      <p class="modal-meta" id="modalDesc"></p>
+
+      <p class="modal-meta" id="modalCategory"></p>
+
+      <p class="modal-meta">Product ID: <strong id="modalProductId"></strong></p>
+
+      <div id="variantFields"></div>
+
+      <label>Quantity</label>
+
+      <input type="number" id="qty" value="1" min="1" oninput="updateModalPrice()">
+
+      <p id="price">Select product</p>
+
+      <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+const COLOR_HEX_MAP = {
+
+  "Silver": "#c0c0c0",
+
+  "Gold": "#ffd700",
+
+  "Black": "#1a1a1a"
+
+};
+
+
+
+const THREAD_CODES = [
+
+  "101", "104", "108", "110", "387", "394", "402", "465", "474", "476",
+
+  "481", "483", "486", "488", "514", "628", "634", "638", "553", "555",
+
+  "566", "307", "315", "612", "614", "642", "651", "493", "506", "508",
+
+  "04", "122", "148", "149", "138", "153", "156", "197", "204", "255",
+
+  "233", "162", "169", "529", "178", "539", "182", "541", "583", "584",
+
+  "588", "254", "258", "262", "263", "267", "018", "283", "285", "340",
+
+  "351", "066", "363", "365", "377", "660"
+
+];
+
+
+
+const HIGH_TENACITY_COLORS = [
+
+  "Beige", "Dusty Blue", "Bottle", "Brown", "Maroon", "Emerald", "Powder",
+
+  "Rust", "Navy", "Black", "Purple", "Cerise", "Gray", "Cream", "Silver",
+
+  "Yellow", "Red", "White"
+
+];
+
+
+
+const HIGH_TENACITY_IMAGE_NUMBERS = {
+
+  "Beige":"0", "Dusty Blue":"8", "Bottle":"6", "Brown":"7", "Maroon":"5",
+
+  "Emerald":"3", "Powder":"2", "Rust":"9", "Navy":"10", "Black":"11",
+
+  "Purple":"12", "Cerise":"1", "Gray":"14", "Cream":"15", "Silver":"16",
+
+  "Yellow":"17", "Red":"18", "White":"19"
+
+};
+
+
+
+const PRODUCT_GROUPS = [
+
+  // 1. Sofa Webbing
+
+  {
+
+    id: "sofa-webbing",
+
+    title: "Sofa Webbing",
+
+    category: "Supplies & Hardware",
+
+    desc: "Sofa webbing 50 yards per roll.",
+
+    fields: [],
+
+    variants: [
+
+      { productId: "uph-sofa-webbing-50yd", name: "Sofa Webbing 50 Yards Roll", imgKey: "uph_webbing" }
+
+    ]
+
+  },
+
+  // 2. Sofa Springs
+
+  {
+
+    id: "sofa-springs",
+
+    title: "Sofa Springs",
+
+    category: "Supplies & Hardware",
+
+    desc: "Sofa springs 9 gauge, 3.6 kg per roll.",
+
+    fields: [],
+
+    variants: [
+
+      { productId: "uph-sofa-springs-9g-3.6kg", name: "Sofa Springs 9 Gauge (3.6kg Roll)", imgKey: "uph_springs" }
+
+    ]
+
+  },
+
+  // 3. 8mm Piping Cord
+
+  {
+
+    id: "piping-cord",
+
+    title: "Piping Cord",
+
+    category: "Supplies & Hardware",
+
+    desc: "8mm piping cord, 2 kg per roll.",
+
+    fields: [],
+
+    variants: [
+
+      { productId: "uph-piping-cord-8mm-2kg", name: "8mm Piping Cord (2kg Roll)", imgKey: "uph_piping" }
+
+    ]
+
+  },
+
+  // 4. Upholstery Staples - each size has its own matched image
+
+  {
+
+    id: "upholstery-staples-series",
+
+    title: "Upholstery Staples",
+
+    category: "Tools",
+
+    desc: "Heavy duty upholstery staples. Select staple size.",
+
+    fields: [
+
+      { key: "size", label: "Select Staple Size", options: ["71/10", "71/12", "80/10", "80/12", "1010J", "1013J"] }
+
+    ],
+
+    variants: [
+
+      { size: "71/10", productId: "uph-staples-71-10", name: "Upholstery Staples 71/10", imgKey: "uph_staples_71_10" },
+
+      { size: "71/12", productId: "uph-staples-71-12", name: "Upholstery Staples 71/12", imgKey: "uph_staples_71_12" },
+
+      { size: "80/10", productId: "uph-staples-80-10", name: "Upholstery Staples 80/10", imgKey: "uph_staples_80_10" },
+
+      { size: "80/12", productId: "uph-staples-80-12", name: "Upholstery Staples 80/12", imgKey: "uph_staples_80_12" },
+
+      { size: "1010J", productId: "uph-staples-1010j", name: "Upholstery Staples 1010J", imgKey: "uph_staples_1013" },
+
+      { size: "1013J", productId: "uph-staples-1013j", name: "Upholstery Staples 1013J", imgKey: "uph_staples_1013" }
+
+    ]
+
+  },
+
+  // 5. Libao Staples
+
+  {
+
+    id: "libao-staples",
+
+    title: "Libao Staples",
+
+    category: "Tools",
+
+    desc: "Libao brand professional staples.",
+
+    fields: [],
+
+    variants: [
+
+      { productId: "uph-libao-staples", name: "Libao Staples", imgKey: "uph_libao_staples" }
+
+    ]
+
+  },
+
+  // 6. Upholstery Staple Guns
+
+  {
+
+    id: "staple-guns",
+
+    title: "Upholstery Staple Guns",
+
+    category: "Tools",
+
+    desc: "Select staple gun model.",
+
+    fields: [
+
+      { key: "model", label: "Select Model", options: ["Staple Gun (4mm - 8mm)", "Staple Gun (4mm - 14mm)", "Staple Gun (1008 Series)"] }
+
+    ],
+
+    variants: [
+
+      { model: "Staple Gun (4mm - 8mm)", productId: "uph-staple-gun-4-8mm", name: "Staple Gun (4mm - 8mm)", imgKey: "uph_staple_gun_4_8mm" },
+
+      { model: "Staple Gun (4mm - 14mm)", productId: "uph-staple-gun-4-14mm", name: "Staple Gun (4mm - 14mm)", imgKey: "uph_staple_gun_4_14mm" },
+
+      { model: "Staple Gun (1008 Series)", productId: "uph-staple-gun-1008", name: "Staple Gun - 1008 Series", imgKey: "uph_staple_gun_1008" }
+
+    ]
+
+  },
+
+  // 7. Staple Remover
+
+  {
+
+    id: "staple-remover",
+
+    title: "Staple Remover",
+
+    category: "Tools",
+
+    desc: "Upholstery staple remover tool.",
+
+    fields: [],
+
+    variants: [
+
+      { productId: "uph-staple-remover", name: "Staple Remover", imgKey: "uph_staple_remover" }
+
+    ]
+
+  },
+
+  // 8. Upholstery Thread - replicated from the Sewing Thread page
+
+  {
+
+    id: "upholstery-thread-1000m",
+
+    title: "Upholstery Thread",
+
+    category: "Threads",
+
+    desc: "Upholstery thread 1000 metres. Select the exact colour code.",
+
+    useCustomColorPicker: true,
+
+    colorImgKeyPrefix: "uph_thread_color_",
+
+    fields: [{ key: "color", label: "Select Colour Code", options: THREAD_CODES }],
+
+    variants: THREAD_CODES.map(color => ({
+
+      color,
+
+      productId: `uph-thread-1000m-${color.toLowerCase()}`,
+
+      name: `Upholstery Thread 1000m - ${color}`,
+
+      imgKey: `uph_thread_color_${color}`
+
+    }))
+
+  },
+
+  // 9. Industrial Upholstery Thread
+
+  {
+
+    id: "industrial-upholstery-thread",
+
+    title: "Industrial Upholstery Thread",
+
+    category: "Threads",
+
+    desc: "Industrial upholstery thread 3000 yards. Select the exact colour code.",
+
+    useCustomColorPicker: true,
+
+    colorImgKeyPrefix: "uph_thread_color_",
+
+    fields: [{ key: "color", label: "Select Colour Code", options: THREAD_CODES }],
+
+    variants: THREAD_CODES.map(color => ({
+
+      color,
+
+      productId: `uph-thread-industrial-${color.toLowerCase()}`,
+
+      name: `Industrial Upholstery Thread - ${color}`,
+
+      imgKey: `uph_thread_color_${color}`
+
+    }))
+
+  },
+
+  // 10. High Tenacity Thread - same sizes, colours and images as Sewing Thread
+
+  {
+
+    id: "high-tenacity-upholstery-thread",
+
+    title: "High Tenacity Thread",
+
+    category: "Threads",
+
+    desc: "High tenacity industrial thread. Select ply and colour.",
+
+    useCustomColorPicker: true,
+
+    colorImgKeyPrefix: "uph_high_color_",
+
+    fields: [
+
+      { key: "spec", label: "Select Size/Thickness", options: ["3-ply", "6-ply", "9-ply"] },
+
+      { key: "color", label: "Select Colour", options: HIGH_TENACITY_COLORS, optionsBySpec: {"3-ply":["Black"], "6-ply":["Black"], "9-ply":HIGH_TENACITY_COLORS} }
+
+    ],
+
+    variants: [
+
+      { spec: "3-ply", color: "Black", productId: "uph-thread-ht-3ply-black", name: "High Tenacity Thread 3-ply - Black", imgKey: "uph_high_color_Black" },
+
+      { spec: "6-ply", color: "Black", productId: "uph-thread-ht-6ply-black", name: "High Tenacity Thread 6-ply - Black", imgKey: "uph_high_color_Black" },
+
+      ...HIGH_TENACITY_COLORS.map(color => ({
+
+        spec: "9-ply", color,
+
+        productId: `uph-thread-ht-9ply-${color.toLowerCase().replace(/\s+/g, '-')}`,
+
+        name: `High Tenacity Thread 9-ply - ${color}`,
+
+        imgKey: `uph_high_color_${color}`
+
+      }))
+
+    ]
+
+  },
+
+  // 11. Upholstery Cover Buttons (Combined Cover Buttons Size 28 & Size 30 into 1 block)
+
+  {
+
+    id: "cover-buttons",
+
+    title: "Upholstery Cover Buttons",
+
+    category: "Crystals & Buttons",
+
+    desc: "Select button size.",
+
+    fields: [
+
+      { key: "size", label: "Select Size", options: ["Size 28", "Size 30"] }
+
+    ],
+
+    variants: [
+
+      { size: "Size 28", productId: "uph-cover-buttons-sz28", name: "Upholstery Cover Buttons Size 28", imgKey: "uph_buttons" },
+
+      { size: "Size 30", productId: "uph-cover-buttons-sz30", name: "Upholstery Cover Buttons Size 30", imgKey: "uph_buttons" }
+
+    ]
+
+  },
+
+  // 12. Sofa Crystals
+
+  {
+
+    id: "sofa-crystals",
+
+    title: "Sofa Crystals",
+
+    category: "Crystals & Buttons",
+
+    desc: "Select crystal size.",
+
+    fields: [
+
+      { key: "size", label: "Select Size", options: ["16mm", "20mm", "22mm", "25mm"] }
+
+    ],
+
+    variants: [
+
+      { size: "16mm", productId: "uph-sofa-crystal-16mm", name: "Sofa Crystals 16mm", imgKey: "uph_crystals" },
+
+      { size: "20mm", productId: "uph-sofa-crystal-20mm", name: "Sofa Crystals 20mm", imgKey: "uph_crystals" },
+
+      { size: "22mm", productId: "uph-sofa-crystal-22mm", name: "Sofa Crystals 22mm", imgKey: "uph_crystals" },
+
+      { size: "25mm", productId: "uph-sofa-crystal-25mm", name: "Sofa Crystals 25mm", imgKey: "uph_crystals" }
+
+    ]
+
+  },
+
+  // 13. Fancy Sofa Crystals
+
+  {
+
+    id: "fancy-sofa-crystals",
+
+    title: "Fancy Sofa Crystals",
+
+    category: "Crystals & Buttons",
+
+    desc: "Fancy sofa crystals 23mm size.",
+
+    fields: [],
+
+    variants: [
+
+      { productId: "uph-fancy-sofa-crystal-23mm", name: "Fancy Sofa Crystals 23mm", imgKey: "uph_fancy_crystals" }
+
+    ]
+
+  }
+
+];
+
+
+
+let activeGroup = null;
+
+let selectedProduct = null;
+
+let activeSelections = {};
+
+
+
+function byId(id){ return document.getElementById(id); }
+
+function getGroup(id){ return PRODUCT_GROUPS.find(p => p.id === id); }
+
+
+
+function getBankImgSrc(imgKey) {
+
+  const bankEl = byId(imgKey);
+
+  if(bankEl) return bankEl.getAttribute('src');
+
+
+
+  if(imgKey && imgKey.startsWith('uph_thread_color_')) {
+
+    const code = imgKey.replace('uph_thread_color_', '');
+
+    return `images/sewingThreads/Cotton/${code}.jpg`;
+
+  }
+
+
+
+  if(imgKey && imgKey.startsWith('uph_high_color_')) {
+
+    const color = imgKey.replace('uph_high_color_', '');
+
+    const imageNumber = HIGH_TENACITY_IMAGE_NUMBERS[color];
+
+    return imageNumber !== undefined ? `images/sewingThreads/High/${imageNumber}.jpg` : '';
+
+  }
+
+
+
+  return '';
+
+}
+
+
+
+// Open Category Modal and render each PRODUCT GROUP as one block.
+
+// Variant sizes/models are selected inside the product detail popup.
+
+function openCategoryModal(categoryName){
+
+  byId('catModalTitle').textContent = categoryName;
+
+  const grid = byId('catModalGrid');
+
+  grid.innerHTML = '';
+
+
+
+  const matchingGroups = PRODUCT_GROUPS.filter(g => g.category === categoryName);
+
+
+
+  matchingGroups.forEach(group => {
+
+    const item = document.createElement('div');
+
+    item.className = 'sub-product-item';
+
+
+
+    const firstVariant = group.variants[0] || {};
+
+    const imgSrc = getBankImgSrc(firstVariant.imgKey);
+
+    const selectorText = (group.fields && group.fields.length)
+
+      ? group.fields.map(f => f.label).join(' • ')
+
+      : (firstVariant.name || group.title);
+
+
+
+    item.innerHTML = `
+
+      <img src="${imgSrc}" alt="${group.title}" loading="lazy">
+
+      <div>
+
+        <h4>${group.title}</h4>
+
+        <span>${selectorText}</span>
+
+      </div>
+
+    `;
+
+
+
+    item.onclick = function() {
+
+      closeCategoryModal();
+
+      openProduct(group.id);
+
+    };
+
+
+
+    grid.appendChild(item);
+
+  });
+
+
+
+  byId('categoryModal').style.display = 'block';
+
+}
+
+
+
+function closeCategoryModal(){
+
+  byId('categoryModal').style.display = 'none';
+
+}
+
+
+
+function openProduct(parentId){
+
+  openProductSpecific(parentId, null);
+
+}
+
+
+
+function openProductSpecific(parentId, targetVariantId){
+
+  activeGroup = getGroup(parentId);
+
+  if(!activeGroup) return;
+
+
+
+  byId('modalTitle').textContent = activeGroup.title;
+
+  byId('modalDesc').textContent = activeGroup.desc || '';
+
+  byId('modalCategory').textContent = activeGroup.category;
+
+  byId('qty').value = 1;
+
+
+
+  activeSelections = {};
+
+  (activeGroup.fields || []).forEach(field => {
+
+    const available = field.optionsBySpec?.[activeSelections.spec] || field.options || [];
+
+    activeSelections[field.key] = available[0] || '';
+
+  });
+
+
+
+  renderVariantFields();
+
+
+
+  if(targetVariantId) {
+
+    const targetVar = activeGroup.variants.find(v => v.productId === targetVariantId);
+
+    if(targetVar) {
+
+      (activeGroup.fields || []).forEach(field => {
+
+        if(targetVar[field.key]) {
+
+          activeSelections[field.key] = targetVar[field.key];
+
+        }
+
+      });
+
+      renderVariantFields();
+
+    }
+
+  }
+
+
+
+  byId('productModal').style.display = 'block';
+
+  resolveSelectedVariant();
+
+}
+
+
+
+function renderVariantFields(){
+
+  const wrap = byId('variantFields');
+
+  wrap.innerHTML = '';
+
+
+
+  (activeGroup.fields || []).forEach(field => {
+
+    const fieldOptions = field.optionsBySpec?.[activeSelections.spec] || field.options || [];
+
+    if(!fieldOptions.includes(activeSelections[field.key])) {
+
+      activeSelections[field.key] = fieldOptions[0] || '';
+
+    }
+
+
+
+    const label = document.createElement('label');
+
+    label.textContent = field.label;
+
+    wrap.appendChild(label);
+
+
+
+    if (field.key === 'color' && activeGroup.useCustomColorPicker) {
+
+      const grid = document.createElement('div');
+
+      grid.className = 'color-swatch-grid';
+
+
+
+      const hiddenSelect = document.createElement('select');
+
+      hiddenSelect.id = 'field_' + field.key;
+
+      hiddenSelect.className = 'hidden';
+
+
+
+      fieldOptions.forEach((opt, index) => {
+
+        const option = document.createElement('option');
+
+        option.value = opt;
+
+        option.textContent = opt;
+
+        hiddenSelect.appendChild(option);
+
+
+
+        const item = document.createElement('div');
+
+        item.className = 'color-swatch-item' + (activeSelections[field.key] === opt ? ' active' : '');
+
+        item.dataset.color = opt;
+
+
+
+        const sq = document.createElement('span');
+
+        sq.className = 'color-square';
+
+        const exactImage = getBankImgSrc(`${activeGroup.colorImgKeyPrefix || ''}${opt}`);
+
+        if(exactImage) {
+
+          sq.style.backgroundImage = `url('${exactImage}')`;
+
+        } else {
+
+          sq.style.backgroundColor = COLOR_HEX_MAP[opt] || '#ccc';
+
+        }
+
+
+
+        const txt = document.createElement('span');
+
+        txt.textContent = opt;
+
+
+
+        item.appendChild(sq);
+
+        item.appendChild(txt);
+
+
+
+        item.onclick = function() {
+
+          grid.querySelectorAll('.color-swatch-item').forEach(el => el.classList.remove('active'));
+
+          item.classList.add('active');
+
+          hiddenSelect.value = opt;
+
+          activeSelections[field.key] = opt;
+
+          resolveSelectedVariant();
+
+        };
+
+
+
+        grid.appendChild(item);
+
+      });
+
+
+
+      wrap.appendChild(grid);
+
+      wrap.appendChild(hiddenSelect);
+
+    } else {
+
+      const select = document.createElement('select');
+
+      select.className = 'variant-select';
+
+      select.id = 'field_' + field.key;
+
+      select.onchange = function() {
+
+        activeSelections[field.key] = select.value;
+
+        if(field.key === 'spec') {
+
+          renderVariantFields();
+
+        }
+
+        resolveSelectedVariant();
+
+      };
+
+
+
+      fieldOptions.forEach(opt => {
+
+        const option = document.createElement('option');
+
+        option.value = opt;
+
+        option.textContent = opt;
+
+        option.selected = activeSelections[field.key] === opt;
+
+        select.appendChild(option);
+
+      });
+
+
+
+      wrap.appendChild(select);
+
+    }
+
+  });
+
+}
+
+
+
+function updateUpholsteryPackingInfo() {
+ const id = selectedProduct.productId;
+ let info = '';
+ if (id.startsWith('uph-sofa-webbing')) info = '50 yards per roll.';
+ else if (id.startsWith('uph-sofa-springs')) info = '3.6 kg per roll.';
+ else if (id.startsWith('uph-piping-cord')) info = '2 kg per roll.';
+ else if (id.startsWith('uph-staples') || id === 'uph-libao-staples') info = 'Packed: 40 boxes per carton.';
+ else if (id.startsWith('uph-thread-1000m')) info = '1,000 metres per cone. Packed: 10 cones per box.';
+ else if (id.startsWith('uph-thread-industrial')) info = '3,000 yards per cone. Packed: 6 cones per pack.';
+ else if (id.startsWith('uph-thread-ht')) info = 'Packed: 10 cones per box; 120 cones per carton.';
+ else if (id.startsWith('uph-staple-gun') || id === 'uph-staple-remover' || /ring.*pli/i.test(selectedProduct.name)) info = 'Packed individually. Sold per unit.';
+ const box = document.getElementById('packingInfo');
+ box.textContent = info; box.style.display = info ? 'block' : 'none';
+}
+
+function resolveSelectedVariant(){
+
+  if(!activeGroup) return;
+
+
+
+  const chosen = {...activeSelections};
+
+
+
+  selectedProduct = activeGroup.variants.find(v =>
+
+    Object.keys(chosen).every(k => String(v[k] || '') === String(chosen[k] || ''))
+
+  ) || activeGroup.variants[0];
+
+
+
+  if(!selectedProduct) return;
+ updateUpholsteryPackingInfo();
+
+
+
+  selectedProduct.category = activeGroup.category;
+
+  selectedProduct.parentName = activeGroup.title;
+
+
+
+  window.fawzCurrentProductId = selectedProduct.productId;
+
+  window.fawzCurrentProductName = selectedProduct.name;
+
+
+
+  byId('modalProductId').textContent = selectedProduct.productId;
+
+
+
+  const finalImgKey = selectedProduct.imgKey || activeGroup.variants[0].imgKey;
+
+  byId('modalImg').src = getBankImgSrc(finalImgKey);
+
+
+
+  updateModalPrice();
+
+}
+
+
+
+function closeModal(){
+
+  byId('productModal').style.display = 'none';
+
+}
+
+
+
+async function updateModalPrice(){
+
+  const qty = Math.max(parseInt(byId('qty').value || '1',10) || 1, 1);
+
+  const priceEl = byId('price');
+
+
+
+  if(!selectedProduct){
+
+    priceEl.textContent = 'Select product';
+
+    return;
+
+  }
+
+
+
+  priceEl.textContent = 'Loading...';
+
+
+
+  let unit = Number(selectedProduct.basePrice || 0);
+
+
+
+  try{
+
+    if(window.fawzFetchTierPrice){
+
+      unit = await window.fawzFetchTierPrice(selectedProduct.productId);
+
+    }
+
+  }catch(e){
+
+    console.warn('Firebase price not available yet:', e);
+
+  }
+
+
+
+  window.fawzCurrentUnitPrice = Number(unit || 0);
+
+  priceEl.textContent = unit ? 'R ' + (window.fawzCurrentUnitPrice * qty).toFixed(2) : 'Login to view price';
+
+}
+
+
+
+function addToCart(){
+
+  if(!selectedProduct) return;
+
+
+
+  const qty = Math.max(parseInt(byId('qty').value || '1',10) || 1, 1);
+
+  const unit = Number(window.fawzCurrentUnitPrice || selectedProduct.basePrice || 0);
+
+
+
+  const options = {};
+
+  (activeGroup.fields || []).forEach(field => {
+
+    options[field.key] = byId('field_' + field.key)?.value || '';
+
+  });
+
+
+
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+
+
+  cart.push({
+
+    product: selectedProduct.name,
+
+    parentProduct: activeGroup.title,
+
+    productId: selectedProduct.productId,
+
+    category: activeGroup.category,
+
+    size: options.size || options.model || options.spec || 'Standard',
+
+    color: options.color || '',
+
+    options,
+
+    qty,
+
+    price: unit,
+
+    unitPrice: unit,
+
+    total: unit * qty
+
+  });
+
+
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  alert('Added to cart: ' + selectedProduct.name);
+
+}
+
+
+
+window.onclick = e => {
+
+  if(e.target === byId('productModal')) closeModal();
+
+  if(e.target === byId('categoryModal')) closeCategoryModal();
+
+};
+
+</script>
+
+
+
+
+
+
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+
+</html>

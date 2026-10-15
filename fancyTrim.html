@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fancy Trim Range | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+<style>
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;--soft-red:#fff3f3;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}.logo span{color:var(--fawz-red)}
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}.hero p{color:#666;max-width:900px;line-height:1.6}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.toolbar input,.toolbar select{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:240px;font-size:1rem;background:#fff}
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}.product-section{margin:32px 0 54px}.section-heading{display:flex;align-items:center;justify-content:space-between;border-left:6px solid var(--fawz-red);padding-left:14px;margin-bottom:18px}.section-heading h3{font-size:1.6rem;margin:0;text-transform:uppercase}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}.product-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s}.product-card:hover{transform:translateY(-4px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+.product-img-wrap{height:220px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}.product-img-wrap img{width:100%;height:100%;object-fit:contain;padding:12px}.product-info{padding:15px}.category-pill{display:inline-block;font-size:.72rem;font-weight:900;text-transform:uppercase;background:#f2f2f2;border-radius:999px;padding:5px 8px;color:#555}.product-info h4{font-size:1rem;margin:12px 0 8px;line-height:1.3}.product-id{font-size:.76rem;color:#777;word-break:break-word;margin:0 0 8px}
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);padding:30px 12px}.modal-content{background:#fff;margin:auto;max-width:1040px;min-height:540px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:5}.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border)}.modal-left img{max-width:100%;max-height:455px;object-fit:contain}.modal-right{padding:42px 36px;overflow:auto}.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}.modal-meta{color:#666;font-size:.92rem;word-break:break-word;line-height:1.5}label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px;margin-top:20px}.btn-add:hover{background:#b3161a}.hidden{display:none!important}#imageBank{display:none}
+.color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px;margin-top:10px;max-height:230px;overflow:auto;padding-right:4px}.color-choice{border:1px solid #ddd;background:#fff;border-radius:12px;padding:10px;display:flex;align-items:center;gap:9px;cursor:pointer;font-weight:800;font-size:.86rem}.color-choice:hover,.color-choice.active{border-color:var(--fawz-red);box-shadow:0 0 0 2px rgba(227,30,36,.10)}.swatch{width:24px;height:24px;border-radius:50%;border:1px solid #bbb;flex:0 0 auto}.summary-box{margin-top:14px;background:var(--fawz-grey);border:1px solid var(--border);border-radius:12px;padding:12px;color:#555;font-weight:700;line-height:1.5}
+@media(max-width:760px){header{align-items:flex-start;flex-direction:column}nav a{margin:0 14px 0 0}.modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}.modal-left{min-height:260px;border-right:0;border-bottom:1px solid var(--border)}.color-grid{max-height:300px}}
+</style>
+
+
+
+
+</head>
+<body>
+<header><div class="logo">Fawz <span>Haberdashery</span></div><nav><a href="home.html">Home</a><a href="all-products.html">All Products</a><a href="demo_cart.html">View Cart</a></nav></header>
+<section class="hero">
+<h1>Fancy Trim Range</h1>
+
+<div class="toolbar"><input id="searchBox" placeholder="Search design, colour, or product ID..."><select id="categoryFilter"><option value="">All categories</option><option value="PNC Trim">Fancy Trim</option></select></div>
+</section>
+
+<!-- HTML IMAGE BANK: replace image paths here only. JavaScript reads these keys and does not store image paths elsewhere. -->
+<div id="imageBank">
+<img data-img-key="pnc-trim-design-1" src="images/Fancy trim range/0001.jpg" alt="PNC Trim Design 1">
+<img data-img-key="pnc-trim-design-2" src="images/Fancy trim range/0002.jpg" alt="PNC Trim Design 2">
+<img data-img-key="pnc-trim-design-3" src="images/Fancy trim range/0003.jpg" alt="PNC Trim Design 3">
+<img data-img-key="pnc-trim-design-4" src="images/Fancy trim range/0004.jpg" alt="PNC Trim Design 4">
+<img data-img-key="pnc-trim-design-5" src="images/Fancy trim range/0005.jpg" alt="PNC Trim Design 5">
+<img data-img-key="pnc-trim-design-6" src="images/Fancy trim range/0006.jpg" alt="PNC Trim Design 6">
+<img data-img-key="pnc-trim-design-7" src="images/Fancy trim range/0007.jpg" alt="PNC Trim Design 7">
+<img data-img-key="pnc-trim-bridal-1" src="images/Fancy trim range/" alt="PNC Trim Bridal 1">
+</div>
+
+<main>
+<section class="product-section" data-category-section="Fancy Trim">
+<div class="section-heading"><h3>Fancy Trim</h3></div>
+<div class="product-grid" id="productGrid"></div>
+</section>
+</main>
+
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span class="close-x" onclick="closeModal()">&times;</span>
+<div class="modal-left"><img id="modalImg" src="" alt=""></div>
+<div class="modal-right">
+<h2 id="modalTitle">Fancy Trim</h2>
+<p class="modal-meta" id="modalCategory"></p>
+<p class="modal-meta">Product ID: <strong id="modalProductId"></strong></p>
+<label>Available Colours</label>
+<div id="colorGrid" class="color-grid"></div>
+<div class="summary-box" id="selectionSummary">Select a colour.</div>
+<label>Quantity</label>
+<div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+<input type="number" id="qty" value="1" min="1">
+<button class="btn-add" onclick="addToCart()">Add to Cart</button>
+</div>
+</div>
+</div>
+
+<script>
+const colorHex = {
+  "White":"#ffffff","Black":"#000000","Gold":"#d5a629","Beige":"#d6b184","Royal Navy":"#0a2d72","Navy":"#083c8c","Royal":"#0057d9","Dusty":"#c97883","Bottle":"#006b2d","Cerise":"#dd006d","Red":"#e00000","Pink":"#f58abc","Powder":"#e9a7bd","Maroon":"#830000","Orange":"#ff5a00","Turq":"#18b9cf","Purple":"#4c0099"
+};
+const designs = [
+  {no:1,title:" Fancy Trim Design 1",imgKey:"pnc-trim-design-1",colors:["Dusty","White"]},
+  {no:2,title:"Fancy Trim Design 2",imgKey:"pnc-trim-design-2",colors:["White","Gold","Beige","Royal Navy","Dusty","Bottle","Cerise","Red","Black"]},
+  {no:3,title:"Fancy Trim Design 3",imgKey:"pnc-trim-design-3",colors:["White","Black","Red","Cerise","Bottle","Dusty","Navy","Royal","Gold","Beige"]},
+  {no:4,title:"Fancy Trim Design 4",imgKey:"pnc-trim-design-4",colors:["White","Black","Red","Cerise","Bottle","Dusty","Royal Navy","Gold","Beige"]},
+  {no:5,title:"Fancy Trim Design 5",imgKey:"pnc-trim-design-5",colors:["White","Black","Red","Cerise","Bottle","Dusty","Royal Navy","Gold","Beige","Navy","Royal","Pink","Powder","Maroon","Orange","Turq","Purple"]},
+  {no:6,title:"Fancy Trim Design 6",imgKey:"pnc-trim-design-6",colors:["White","Black","Red","Cerise","Bottle","Dusty","Royal Navy","Gold","Beige","Navy","Royal","Pink","Powder","Maroon","Orange","Turq","Purple"]},
+  {no:7,title:"Fancy Trim Design 7",imgKey:"pnc-trim-design-7",colors:["Navy","Royal","Bottle","Pink","Black","Powder","Beige","Gold","Maroon","Orange","White","Dusty","Turq","Cerise","Purple","Red"]},
+  {no:8,title:"Fancy Trim Bridal 1",imgKey:"pnc-trim-bridal-1",colors:["bottle","Dark Red","Light Gold","Silver","Red","White"]}
+]
+
+const productGroups = Object.fromEntries(designs.map(design=>[
+  `pnc-trim-design-${design.no}`,
+  {
+    title:design.title,
+    category:"PNC Trim",
+    imgKey:design.imgKey,
+    options:design.colors.map(color=>({
+      name:`${design.title} - ${color} - 10 Yard Roll`,
+      productId:`pnc-trim-design-${design.no}-${slug(color)}-10-yard-roll`,
+      basePrice:0,
+      category:"PNC Trim",
+      design:`Design ${design.no}`,
+      color,
+      roll:"10 Yard Roll",
+      imgKey:design.imgKey
+    }))
+  }
+]));
+let selectedGroup=null;let selectedProduct=null;
+function slug(value){return String(value).toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function getBankImage(key){const img=document.querySelector(`#imageBank img[data-img-key="${CSS.escape(key)}"]`);return img?img.getAttribute('src'):'';}
+function renderCards(){
+  document.getElementById('productGrid').innerHTML=designs.map(design=>`
+    <article class="product-card" data-group-id="pnc-trim-design-${design.no}" data-category="PNC Trim" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="${design.imgKey}" src="${getBankImage(design.imgKey)}" alt="${design.title}" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">PNC Trim</span><h4>${design.title}</h4><p class="product-id">10 yard rolls</p></div>
+    </article>`).join('');
+}
+function openProduct(card){
+  selectedGroup=productGroups[card.dataset.groupId]; if(!selectedGroup)return;
+  document.getElementById('modalTitle').textContent=selectedGroup.title;
+  document.getElementById('modalCategory').textContent='PNC Trim • Available in 10 yard rolls';
+  document.getElementById('qty').value=1;
+  document.getElementById('modalImg').src=getBankImage(selectedGroup.imgKey);
+  document.getElementById('modalImg').alt=selectedGroup.title;
+  renderColorOptions();
+  document.getElementById('productModal').style.display='block';
+}
+function renderColorOptions(){
+  const grid=document.getElementById('colorGrid');
+  grid.innerHTML=selectedGroup.options.map((option,index)=>`<button type="button" class="color-choice" data-index="${index}" onclick="selectVariant(${index})"><span class="swatch" style="background:${colorHex[option.color]||'#ddd'}"></span><span>${option.color}</span></button>`).join('');
+  selectVariant(0);
+}
+function selectVariant(index){
+  selectedProduct=selectedGroup.options[index] || selectedGroup.options[0];
+  document.querySelectorAll('.color-choice').forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.index)===index));
+  document.getElementById('modalProductId').textContent=selectedProduct.productId;
+  document.getElementById('selectionSummary').textContent=`Selected: ${selectedProduct.design} / ${selectedProduct.color} / ${selectedProduct.roll}`;
+  window.fawzCurrentProductId=selectedProduct.productId;
+  window.fawzCurrentProductName=selectedProduct.name;
+}
+function addToCart(){
+  if(!selectedProduct)return;
+  const qty=Math.max(parseInt(document.getElementById('qty').value||'1',10)||1,1);
+  const unit=Number(selectedProduct.basePrice||0);
+  const cart=JSON.parse(localStorage.getItem('cart')||'[]');
+  cart.push({product:selectedProduct.name,productId:selectedProduct.productId,category:selectedProduct.category,design:selectedProduct.design,color:selectedProduct.color,roll:selectedProduct.roll,qty,price:unit,unitPrice:unit,total:unit*qty,image:getBankImage(selectedProduct.imgKey)});
+  localStorage.setItem('cart',JSON.stringify(cart));
+  alert('Added to cart: '+selectedProduct.name);
+}
+function closeModal(){document.getElementById('productModal').style.display='none';selectedGroup=null;selectedProduct=null;}
+function filterProducts(){
+  const q=document.getElementById('searchBox').value.toLowerCase().trim();
+  const c=document.getElementById('categoryFilter').value;
+  document.querySelectorAll('.product-card').forEach(card=>{
+    const group=productGroups[card.dataset.groupId];
+    const haystack=(JSON.stringify(group||{})+' '+card.textContent).toLowerCase();
+    card.classList.toggle('hidden',!((!q||haystack.includes(q))&&(!c||card.dataset.category===c)));
+  });
+}
+document.getElementById('searchBox').addEventListener('input',filterProducts);
+document.getElementById('categoryFilter').addEventListener('change',filterProducts);
+window.addEventListener('click',e=>{if(e.target===document.getElementById('productModal')) closeModal();});
+document.addEventListener('DOMContentLoaded',renderCards);
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

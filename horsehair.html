@@ -1,0 +1,2884 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+
+<title>Crinoline / Horsehair / Hem Stabilizer | Fawz Haberdashery</title>
+
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+
+*{box-sizing:border-box}
+
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+
+.logo span{color:var(--fawz-red)}
+
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+
+.hero p{color:#666;max-width:900px;line-height:1.6}
+
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+
+.toolbar input,.toolbar select{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:240px;font-size:1rem;background:#fff}
+
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+
+.product-section{margin:32px 0 54px}
+
+.section-heading{display:flex;align-items:center;justify-content:space-between;border-left:6px solid var(--fawz-red);padding-left:14px;margin-bottom:18px}
+
+.section-heading h3{font-size:1.6rem;margin:0;text-transform:uppercase}
+
+.section-heading span{background:#fff3f3;color:var(--fawz-red);font-weight:800;border-radius:999px;padding:6px 11px}
+
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+
+.product-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s}
+
+.product-card:hover{transform:translateY(-4px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+
+.product-img-wrap{height:210px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;padding:14px}
+
+.product-info{padding:15px}
+
+.category-pill{display:inline-block;font-size:.72rem;font-weight:900;text-transform:uppercase;background:#f2f2f2;border-radius:999px;padding:5px 8px;color:#555}
+
+.product-info h4{font-size:1rem;margin:12px 0 8px;line-height:1.3}
+
+.product-id{font-size:.76rem;color:#777;word-break:break-all;margin:0 0 8px;line-height:1.45}
+
+.firebase-price{font-weight:900;color:var(--fawz-red);margin:0}
+
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);padding:20px;overflow:hidden;align-items:center;justify-content:center}
+
+.modal-content{background:#fff;margin:auto;width:90%;max-width:1100px;height:85vh;max-height:85vh;min-height:0;display:grid;grid-template-columns:0.9fr 1.1fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:5}
+
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:30px;min-height:0;overflow:hidden;border-right:1px solid var(--border)}
+
+.modal-left img{max-width:100%;max-height:100%;object-fit:contain}
+
+.modal-right{padding:28px 32px;min-height:0;height:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all;line-height:1.5}
+
+label{display:block;margin:20px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+
+input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+
+.color-table{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:none;overflow:visible;padding:8px;border:1px solid #e8e8e8;border-radius:12px;background:#fff}
+
+.color-row{display:flex;align-items:center;gap:10px;border:1px solid #e6e6e6;background:#fff;border-radius:10px;padding:10px;cursor:pointer;font-weight:800;color:#333;transition:.18s}
+
+.color-row:hover,.color-row.active{border-color:var(--fawz-red);box-shadow:0 0 0 2px rgba(227,30,36,.08)}
+
+.swatch{width:34px;height:24px;border-radius:6px;border:1px solid #bbb;flex:0 0 auto}
+
+.selected-summary{margin-top:12px;padding:12px;border-radius:10px;background:#fff3f3;color:#611;font-weight:800;font-size:.9rem;line-height:1.45}
+
+#price{font-size:2rem;font-weight:950;margin:22px 0;color:#111}
+
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px}
+
+.btn-add:hover{background:#b3161a}
+
+.hidden{display:none!important}
+
+#imageBank{display:none}
+
+@media(max-width:760px){header{align-items:flex-start;flex-direction:column} nav a{margin:0 14px 0 0}.modal-content{width:100%;height:90vh;max-height:90vh;grid-template-columns:1fr;grid-template-rows:180px minmax(0,1fr);overflow:hidden}.modal-right{padding:20px}.modal-left{min-height:0;border-right:0;border-bottom:1px solid var(--border)}.color-table{grid-template-columns:1fr}}
+
+</style>
+
+<script src="fawz-security.js" defer></script>
+
+</head>
+
+<body>
+
+<header><div class="logo">Fawz <span>Haberdashery</span></div><nav><a href="home.html">Home</a><a href="all-products.html">All Products</a><a href="demo_cart.html">View Cart</a></nav><a href="login.html" style="margin-left:12px;font-weight:900;color:#e31e24;text-decoration:none">Login</a></header>
+
+
+
+<section class="hero">
+
+<h1>Crinoline / Horsehair / Hem Stabilizer</h1>
+
+<p>One clean product page for horsehair, crinoline, or hem stabilizer. Customers select the width, then choose the colour from a readable colour table. All options are 22 meters per roll.</p>
+
+<div class="toolbar">
+
+<input id="searchBox" placeholder="Search size, colour, or product ID...">
+
+<select id="categoryFilter">
+
+<option value="">All categories</option>
+
+<option value="Crinoline / Horsehair / Hem Stabilizer">Crinoline / Horsehair / Hem Stabilizer</option>
+
+</select>
+
+</div>
+
+</section>
+
+
+
+<!-- HTML IMAGE BANK: each selectable size + colour has its own image key. -->
+
+<div id="imageBank">
+
+  <img data-img-key="horsehair-crinoline" src="images/home-covers/horseHair-home.webp" alt="Crinoline / Horsehair / Hem Stabilizer">
+
+  <img data-img-key="horsehair-25mm-baby-pink" src="images/Horsehair/baby pink.jpg" alt="Crinoline 25mm - Baby Pink">
+
+  <img data-img-key="horsehair-25mm-bottle" src="images/Horsehair/bottle.jpg" alt="Crinoline 25mm - Bottle">
+
+  <img data-img-key="horsehair-25mm-cream" src="images/Horsehair/cream.jpg" alt="Crinoline 25mm - Cream">
+
+  <img data-img-key="horsehair-25mm-grey" src="images/Horsehair/grey.jpg" alt="Crinoline 25mm - Grey">
+
+  <img data-img-key="horsehair-25mm-navy" src="images/Horsehair/navy.jpg" alt="Crinoline 25mm - Navy">
+
+  <img data-img-key="horsehair-25mm-purple" src="images/Horsehair/purple.jpg" alt="Crinoline 25mm - Purple">
+
+  <img data-img-key="horsehair-25mm-royal" src="images/Horsehair/royal.jpg" alt="Crinoline 25mm - Royal">
+
+  <img data-img-key="horsehair-25mm-beige" src="images/Horsehair/beige.jpg" alt="Crinoline 25mm - Beige">
+
+  <img data-img-key="horsehair-25mm-cerise" src="images/Horsehair/cerise.jpg" alt="Crinoline 25mm - Cerise">
+
+  <img data-img-key="horsehair-25mm-emerald" src="images/Horsehair/emerald.jpg" alt="Crinoline 25mm - Emerald">
+
+  <img data-img-key="horsehair-25mm-jade" src="images/Horsehair/jade.jpg" alt="Crinoline 25mm - Jade">
+
+  <img data-img-key="horsehair-25mm-orange" src="images/Horsehair/orange.jpg" alt="Crinoline 25mm - Orange">
+
+  <img data-img-key="horsehair-25mm-red" src="images/Horsehair/red.jpg" alt="Crinoline 25mm - Red">
+
+  <img data-img-key="horsehair-25mm-turquoise" src="images/Horsehair/turq.jpg" alt="Crinoline 25mm - Turquoise">
+
+  <img data-img-key="horsehair-25mm-black" src="images/Horsehair/black.jpg" alt="Crinoline 25mm - Black">
+
+  <img data-img-key="horsehair-25mm-clear" src="images/Horsehair/clear.jpg" alt="Crinoline 25mm - Clear">
+
+  <img data-img-key="horsehair-25mm-gold" src="images/Horsehair/gold.jpg" alt="Crinoline 25mm - Gold">
+
+  <img data-img-key="horsehair-25mm-maroon" src="images/Horsehair/maroon.jpg" alt="Crinoline 25mm - Maroon">
+
+  <img data-img-key="horsehair-25mm-powder" src="images/Horsehair/powder.jpg" alt="Crinoline 25mm - Powder">
+
+  <img data-img-key="horsehair-25mm-rose" src="images/Horsehair/rose.jpg" alt="Crinoline 25mm - Rose">
+
+  <img data-img-key="horsehair-25mm-white" src="images/Horsehair/white.jpg" alt="Crinoline 25mm - White">
+
+  <img data-img-key="horsehair-40mm-baby-pink" src="images/Horsehair/baby pink.jpg" alt="Crinoline 40mm - Baby Pink">
+
+  <img data-img-key="horsehair-40mm-bottle" src="images/Horsehair/bottle.jpg" alt="Crinoline 40mm - Bottle">
+
+  <img data-img-key="horsehair-40mm-cream" src="images/Horsehair/cream.jpg" alt="Crinoline 40mm - Cream">
+
+  <img data-img-key="horsehair-40mm-grey" src="images/Horsehair/grey.jpg" alt="Crinoline 40mm - Grey">
+
+  <img data-img-key="horsehair-40mm-navy" src="images/Horsehair/navy.jpg" alt="Crinoline 40mm - Navy">
+
+  <img data-img-key="horsehair-40mm-purple" src="images/Horsehair/purple.jpg" alt="Crinoline 40mm - Purple">
+
+  <img data-img-key="horsehair-40mm-royal" src="images/Horsehair/royal.jpg" alt="Crinoline 40mm - Royal">
+
+  <img data-img-key="horsehair-40mm-beige" src="images/Horsehair/beige.jpg" alt="Crinoline 40mm - Beige">
+
+  <img data-img-key="horsehair-40mm-cerise" src="images/Horsehair/cerise.jpg" alt="Crinoline 40mm - Cerise">
+
+  <img data-img-key="horsehair-40mm-emerald" src="images/Horsehair/emerald.jpg" alt="Crinoline 40mm - Emerald">
+
+  <img data-img-key="horsehair-40mm-jade" src="images/Horsehair/jade.jpg" alt="Crinoline 40mm - Jade">
+
+  <img data-img-key="horsehair-40mm-orange" src="images/Horsehair/orange.jpg" alt="Crinoline 40mm - Orange">
+
+  <img data-img-key="horsehair-40mm-red" src="images/Horsehair/red.jpg" alt="Crinoline 40mm - Red">
+
+  <img data-img-key="horsehair-40mm-turquoise" src="images/Horsehair/turq.jpg" alt="Crinoline 40mm - Turquoise">
+
+  <img data-img-key="horsehair-40mm-black" src="images/Horsehair/black.jpg" alt="Crinoline 40mm - Black">
+
+  <img data-img-key="horsehair-40mm-clear" src="images/Horsehair/clear.jpg" alt="Crinoline 40mm - Clear">
+
+  <img data-img-key="horsehair-40mm-gold" src="images/Horsehair/gold.jpg" alt="Crinoline 40mm - Gold">
+
+  <img data-img-key="horsehair-40mm-maroon" src="images/Horsehair/maroon.jpg" alt="Crinoline 40mm - Maroon">
+
+  <img data-img-key="horsehair-40mm-powder" src="images/Horsehair/powder.jpg" alt="Crinoline 40mm - Powder">
+
+  <img data-img-key="horsehair-40mm-rose" src="images/Horsehair/rose.jpg" alt="Crinoline 40mm - Rose">
+
+  <img data-img-key="horsehair-40mm-white" src="images/Horsehair/white.jpg" alt="Crinoline 40mm - White">
+
+  <img data-img-key="horsehair-50mm-baby-pink" src="images/Horsehair/baby pink.jpg" alt="Crinoline 50mm - Baby Pink">
+
+  <img data-img-key="horsehair-50mm-bottle" src="images/Horsehair/bottle.jpg" alt="Crinoline 50mm - Bottle">
+
+  <img data-img-key="horsehair-50mm-cream" src="images/Horsehair/cream.jpg" alt="Crinoline 50mm - Cream">
+
+  <img data-img-key="horsehair-50mm-grey" src="images/Horsehair/grey.jpg" alt="Crinoline 50mm - Grey">
+
+  <img data-img-key="horsehair-50mm-navy" src="images/Horsehair/navy.jpg" alt="Crinoline 50mm - Navy">
+
+  <img data-img-key="horsehair-50mm-purple" src="images/Horsehair/purple.jpg" alt="Crinoline 50mm - Purple">
+
+  <img data-img-key="horsehair-50mm-royal" src="images/Horsehair/royal.jpg" alt="Crinoline 50mm - Royal">
+
+  <img data-img-key="horsehair-50mm-beige" src="images/Horsehair/beige.jpg" alt="Crinoline 50mm - Beige">
+
+  <img data-img-key="horsehair-50mm-cerise" src="images/Horsehair/cerise.jpg" alt="Crinoline 50mm - Cerise">
+
+  <img data-img-key="horsehair-50mm-emerald" src="images/Horsehair/emerald.jpg" alt="Crinoline 50mm - Emerald">
+
+  <img data-img-key="horsehair-50mm-jade" src="images/Horsehair/jade.jpg" alt="Crinoline 50mm - Jade">
+
+  <img data-img-key="horsehair-50mm-orange" src="images/Horsehair/orange.jpg" alt="Crinoline 50mm - Orange">
+
+  <img data-img-key="horsehair-50mm-red" src="images/Horsehair/red.jpg" alt="Crinoline 50mm - Red">
+
+  <img data-img-key="horsehair-50mm-turquoise" src="images/Horsehair/turq.jpg" alt="Crinoline 50mm - Turquoise">
+
+  <img data-img-key="horsehair-50mm-black" src="images/Horsehair/black.jpg" alt="Crinoline 50mm - Black">
+
+  <img data-img-key="horsehair-50mm-clear" src="images/Horsehair/clear.jpg" alt="Crinoline 50mm - Clear">
+
+  <img data-img-key="horsehair-50mm-gold" src="images/Horsehair/gold.jpg" alt="Crinoline 50mm - Gold">
+
+  <img data-img-key="horsehair-50mm-maroon" src="images/Horsehair/maroon.jpg" alt="Crinoline 50mm - Maroon">
+
+  <img data-img-key="horsehair-50mm-powder" src="images/Horsehair/powder.jpg" alt="Crinoline 50mm - Powder">
+
+  <img data-img-key="horsehair-50mm-rose" src="images/Horsehair/rose.jpg" alt="Crinoline 50mm - Rose">
+
+  <img data-img-key="horsehair-50mm-white" src="images/Horsehair/white.jpg" alt="Crinoline 50mm - White">
+
+  <img data-img-key="horsehair-70mm-baby-pink" src="images/Horsehair/baby pink.jpg" alt="Crinoline 70mm - Baby Pink">
+
+  <img data-img-key="horsehair-70mm-bottle" src="images/Horsehair/bottle.jpg" alt="Crinoline 70mm - Bottle">
+
+  <img data-img-key="horsehair-70mm-cream" src="images/Horsehair/cream.jpg" alt="Crinoline 70mm - Cream">
+
+  <img data-img-key="horsehair-70mm-grey" src="images/Horsehair/grey.jpg" alt="Crinoline 70mm - Grey">
+
+  <img data-img-key="horsehair-70mm-navy" src="images/Horsehair/navy.jpg" alt="Crinoline 70mm - Navy">
+
+  <img data-img-key="horsehair-70mm-purple" src="images/Horsehair/purple.jpg" alt="Crinoline 70mm - Purple">
+
+  <img data-img-key="horsehair-70mm-royal" src="images/Horsehair/royal.jpg" alt="Crinoline 70mm - Royal">
+
+  <img data-img-key="horsehair-70mm-beige" src="images/Horsehair/beige.jpg" alt="Crinoline 70mm - Beige">
+
+  <img data-img-key="horsehair-70mm-cerise" src="images/Horsehair/cerise.jpg" alt="Crinoline 70mm - Cerise">
+
+  <img data-img-key="horsehair-70mm-emerald" src="images/Horsehair/emerald.jpg" alt="Crinoline 70mm - Emerald">
+
+  <img data-img-key="horsehair-70mm-jade" src="images/Horsehair/jade.jpg" alt="Crinoline 70mm - Jade">
+
+  <img data-img-key="horsehair-70mm-orange" src="images/Horsehair/orange.jpg" alt="Crinoline 70mm - Orange">
+
+  <img data-img-key="horsehair-70mm-red" src="images/Horsehair/red.jpg" alt="Crinoline 70mm - Red">
+
+  <img data-img-key="horsehair-70mm-turquoise" src="images/Horsehair/turq.jpg" alt="Crinoline 70mm - Turquoise">
+
+  <img data-img-key="horsehair-70mm-black" src="images/Horsehair/black.jpg" alt="Crinoline 70mm - Black">
+
+  <img data-img-key="horsehair-70mm-clear" src="images/Horsehair/clear.jpg" alt="Crinoline 70mm - Clear">
+
+  <img data-img-key="horsehair-70mm-gold" src="images/Horsehair/gold.jpg" alt="Crinoline 70mm - Gold">
+
+  <img data-img-key="horsehair-70mm-maroon" src="images/Horsehair/maroon.jpg" alt="Crinoline 70mm - Maroon">
+
+  <img data-img-key="horsehair-70mm-powder" src="images/Horsehair/powder.jpg" alt="Crinoline 70mm - Powder">
+
+  <img data-img-key="horsehair-70mm-rose" src="images/Horsehair/rose.jpg" alt="Crinoline 70mm - Rose">
+
+  <img data-img-key="horsehair-70mm-white" src="images/Horsehair/white.jpg" alt="Crinoline 70mm - White">
+
+  <img data-img-key="horsehair-100mm-baby-pink" src="images/Horsehair/baby pink.jpg" alt="Crinoline 100mm - Baby Pink">
+
+  <img data-img-key="horsehair-100mm-bottle" src="images/Horsehair/bottle.jpg" alt="Crinoline 100mm - Bottle">
+
+  <img data-img-key="horsehair-100mm-cream" src="images/Horsehair/cream.jpg" alt="Crinoline 100mm - Cream">
+
+  <img data-img-key="horsehair-100mm-grey" src="images/Horsehair/grey.jpg" alt="Crinoline 100mm - Grey">
+
+  <img data-img-key="horsehair-100mm-navy" src="images/Horsehair/navy.jpg" alt="Crinoline 100mm - Navy">
+
+  <img data-img-key="horsehair-100mm-purple" src="images/Horsehair/purple.jpg" alt="Crinoline 100mm - Purple">
+
+  <img data-img-key="horsehair-100mm-royal" src="images/Horsehair/royal.jpg" alt="Crinoline 100mm - Royal">
+
+  <img data-img-key="horsehair-100mm-beige" src="images/Horsehair/beige.jpg" alt="Crinoline 100mm - Beige">
+
+  <img data-img-key="horsehair-100mm-cerise" src="images/Horsehair/cerise.jpg" alt="Crinoline 100mm - Cerise">
+
+  <img data-img-key="horsehair-100mm-emerald" src="images/Horsehair/emerald.jpg" alt="Crinoline 100mm - Emerald">
+
+  <img data-img-key="horsehair-100mm-jade" src="images/Horsehair/jade.jpg" alt="Crinoline 100mm - Jade">
+
+  <img data-img-key="horsehair-100mm-orange" src="images/Horsehair/orange.jpg" alt="Crinoline 100mm - Orange">
+
+  <img data-img-key="horsehair-100mm-red" src="images/Horsehair/red.jpg" alt="Crinoline 100mm - Red">
+
+  <img data-img-key="horsehair-100mm-turquoise" src="images/Horsehair/turq.jpg" alt="Crinoline 100mm - Turquoise">
+
+  <img data-img-key="horsehair-100mm-black" src="images/Horsehair/black.jpg" alt="Crinoline 100mm - Black">
+
+  <img data-img-key="horsehair-100mm-clear" src="images/Horsehair/clear.jpg" alt="Crinoline 100mm - Clear">
+
+  <img data-img-key="horsehair-100mm-gold" src="images/Horsehair/gold.jpg" alt="Crinoline 100mm - Gold">
+
+  <img data-img-key="horsehair-100mm-maroon" src="images/Horsehair/maroon.jpg" alt="Crinoline 100mm - Maroon">
+
+  <img data-img-key="horsehair-100mm-powder" src="images/Horsehair/powder.jpg" alt="Crinoline 100mm - Powder">
+
+  <img data-img-key="horsehair-100mm-rose" src="images/Horsehair/rose.jpg" alt="Crinoline 100mm - Rose">
+
+  <img data-img-key="horsehair-100mm-white" src="images/Horsehair/white.jpg" alt="Crinoline 100mm - White">
+
+</div>
+
+
+
+<main>
+
+<section class="product-section" data-category-section="Crinoline / Horsehair / Hem Stabilizer">
+
+<div class="section-heading"><h3>Crinoline / Horsehair / Hem Stabilizer</h3><span>1 block</span></div>
+
+<div class="product-grid">
+
+<article class="product-card" data-group-id="horsehair-crinoline" data-category="Crinoline / Horsehair / Hem Stabilizer" onclick="openProduct(this)">
+
+<div class="product-img-wrap"><img data-image-key="horsehair-crinoline" src="images/home-covers/horseHair-home.webp" alt="Crinoline / Horsehair / Hem Stabilizer" loading="lazy"></div>
+
+<div class="product-info">
+
+<span class="category-pill">22m Rolls</span>
+
+<h4>Crinoline / Horsehair / Hem Stabilizer</h4>
+
+<p class="product-id">Sizes: 25mm, 40mm, 50mm, 70mm, 100mm<br>Colours: 21 selectable colours</p>
+
+<p class="firebase-price">Login to view price</p>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<div id="productModal" class="modal">
+
+<div class="modal-content">
+
+<span class="close-x" onclick="closeModal()">×</span>
+
+<div class="modal-left"><img id="modalImg" src="" alt=""></div>
+
+<div class="modal-right">
+
+<h2 id="modalTitle">Product</h2><div id="packingInfo" style="background:#f5f5f5;padding:12px 16px;border-radius:12px;margin:15px 0;font-size:0.85rem;color:#555;border-left:3px solid var(--fawz-red);">22 metres per roll.</div>
+
+<p class="modal-meta" id="modalCategory"></p>
+
+
+
+<p class="modal-meta" hidden>Product ID: <strong id="modalProductId"></strong></p>
+
+
+
+<label for="sizeSelect">Size</label>
+
+<select id="sizeSelect" class="option-select" onchange="selectVariant()"></select>
+
+
+
+<label>Colour</label>
+
+<div id="colorTable" class="color-table"></div>
+
+
+
+<div id="selectedSummary" class="selected-summary">Select a size and colour.</div>
+
+
+
+<label>Quantity</label>
+
+<input type="number" id="qty" value="1" min="1" oninput="updateModalPrice()">
+
+<p id="price">Select product</p>
+
+<button class="btn-add" onclick="addToCart()">Add to Cart</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+const productGroups = {
+
+  "horsehair-crinoline": {
+
+    title: "Crinoline / Horsehair / Hem Stabilizer",
+
+    category: "Crinoline / Horsehair / Hem Stabilizer",
+
+    imgKey: "horsehair-crinoline",
+
+    pack: "22 meters per roll",
+
+    sizes: ["25mm", "40mm", "50mm", "70mm", "100mm"],
+
+    colors: [
+
+  {
+
+    "name": "Baby Pink",
+
+    "swatch": "#f5b5cf",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "Bottle",
+
+    "swatch": "#064b2f",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Cream",
+
+    "swatch": "#f4e8c8",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "Grey",
+
+    "swatch": "#808080",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Navy",
+
+    "swatch": "#0b1f4d",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Purple",
+
+    "swatch": "#6a0dad",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Royal",
+
+    "swatch": "#1746a2",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Beige",
+
+    "swatch": "#d8c3a5",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "Cerise",
+
+    "swatch": "#de3163",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Emerald",
+
+    "swatch": "#046307",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Jade",
+
+    "swatch": "#00a86b",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Orange",
+
+    "swatch": "#f28c28",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Red",
+
+    "swatch": "#c40018",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Turquoise",
+
+    "swatch": "#40e0d0",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "Black",
+
+    "swatch": "#111111",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Clear",
+
+    "swatch": "linear-gradient(135deg,#ffffff 0%,#eef6ff 45%,#d9ecff 55%,#ffffff 100%)",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "Gold",
+
+    "swatch": "#d4af37",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "Maroon",
+
+    "swatch": "#800020",
+
+    "light": false
+
+  },
+
+  {
+
+    "name": "Powder",
+
+    "swatch": "#b7d8f0",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "Rose",
+
+    "swatch": "#e8a0b5",
+
+    "light": true
+
+  },
+
+  {
+
+    "name": "White",
+
+    "swatch": "#ffffff",
+
+    "light": true
+
+  }
+
+],
+
+    options: [
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Baby Pink",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-baby-pink",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Baby Pink",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-baby-pink"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Bottle",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-bottle",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Bottle",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-bottle"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Cream",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-cream",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Cream",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-cream"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Grey",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-grey",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Grey",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-grey"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Navy",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-navy",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Navy",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-navy"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Purple",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-purple",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Purple",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-purple"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Royal",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-royal",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Royal",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-royal"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Beige",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-beige",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Beige",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-beige"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Cerise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-cerise",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Cerise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-cerise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Emerald",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-emerald",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Emerald",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-emerald"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Jade",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-jade",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Jade",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-jade"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Orange",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-orange",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Orange",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-orange"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Red",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-red",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Red",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-red"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Turquoise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-turquoise",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Turquoise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-turquoise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Black",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-black",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Black",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-black"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Clear",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-clear",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Clear",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-clear"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Gold",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-gold",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Gold",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-gold"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Maroon",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-maroon",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Maroon",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-maroon"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Powder",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-powder",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Powder",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-powder"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - Rose",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-rose",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "Rose",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-rose"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 25mm x 22m - White",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-25mm-22m-white",
+
+    "basePrice": 0,
+
+    "size": "25mm",
+
+    "color": "White",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-25mm-white"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Baby Pink",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-baby-pink",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Baby Pink",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-baby-pink"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Bottle",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-bottle",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Bottle",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-bottle"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Cream",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-cream",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Cream",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-cream"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Grey",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-grey",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Grey",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-grey"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Navy",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-navy",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Navy",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-navy"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Purple",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-purple",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Purple",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-purple"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Royal",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-royal",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Royal",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-royal"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Beige",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-beige",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Beige",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-beige"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Cerise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-cerise",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Cerise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-cerise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Emerald",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-emerald",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Emerald",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-emerald"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Jade",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-jade",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Jade",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-jade"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Orange",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-orange",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Orange",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-orange"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Red",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-red",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Red",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-red"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Turquoise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-turquoise",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Turquoise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-turquoise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Black",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-black",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Black",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-black"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Clear",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-clear",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Clear",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-clear"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Gold",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-gold",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Gold",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-gold"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Maroon",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-maroon",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Maroon",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-maroon"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Powder",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-powder",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Powder",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-powder"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - Rose",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-rose",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "Rose",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-rose"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 40mm x 22m - White",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-40mm-22m-white",
+
+    "basePrice": 0,
+
+    "size": "40mm",
+
+    "color": "White",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-40mm-white"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Baby Pink",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-baby-pink",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Baby Pink",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-baby-pink"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Bottle",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-bottle",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Bottle",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-bottle"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Cream",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-cream",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Cream",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-cream"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Grey",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-grey",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Grey",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-grey"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Navy",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-navy",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Navy",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-navy"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Purple",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-purple",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Purple",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-purple"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Royal",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-royal",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Royal",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-royal"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Beige",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-beige",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Beige",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-beige"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Cerise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-cerise",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Cerise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-cerise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Emerald",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-emerald",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Emerald",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-emerald"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Jade",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-jade",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Jade",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-jade"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Orange",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-orange",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Orange",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-orange"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Red",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-red",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Red",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-red"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Turquoise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-turquoise",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Turquoise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-turquoise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Black",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-black",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Black",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-black"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Clear",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-clear",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Clear",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-clear"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Gold",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-gold",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Gold",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-gold"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Maroon",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-maroon",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Maroon",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-maroon"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Powder",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-powder",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Powder",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-powder"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - Rose",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-rose",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "Rose",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-rose"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 50mm x 22m - White",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-50mm-22m-white",
+
+    "basePrice": 0,
+
+    "size": "50mm",
+
+    "color": "White",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-50mm-white"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Baby Pink",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-baby-pink",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Baby Pink",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-baby-pink"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Bottle",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-bottle",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Bottle",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-bottle"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Cream",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-cream",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Cream",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-cream"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Grey",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-grey",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Grey",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-grey"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Navy",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-navy",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Navy",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-navy"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Purple",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-purple",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Purple",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-purple"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Royal",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-royal",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Royal",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-royal"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Beige",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-beige",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Beige",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-beige"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Cerise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-cerise",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Cerise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-cerise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Emerald",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-emerald",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Emerald",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-emerald"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Jade",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-jade",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Jade",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-jade"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Orange",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-orange",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Orange",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-orange"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Red",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-red",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Red",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-red"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Turquoise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-turquoise",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Turquoise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-turquoise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Black",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-black",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Black",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-black"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Clear",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-clear",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Clear",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-clear"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Gold",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-gold",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Gold",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-gold"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Maroon",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-maroon",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Maroon",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-maroon"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Powder",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-powder",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Powder",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-powder"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - Rose",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-rose",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "Rose",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-rose"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 70mm x 22m - White",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-70mm-22m-white",
+
+    "basePrice": 0,
+
+    "size": "70mm",
+
+    "color": "White",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-70mm-white"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Baby Pink",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-baby-pink",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Baby Pink",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-baby-pink"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Bottle",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-bottle",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Bottle",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-bottle"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Cream",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-cream",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Cream",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-cream"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Grey",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-grey",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Grey",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-grey"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Navy",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-navy",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Navy",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-navy"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Purple",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-purple",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Purple",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-purple"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Royal",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-royal",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Royal",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-royal"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Beige",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-beige",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Beige",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-beige"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Cerise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-cerise",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Cerise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-cerise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Emerald",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-emerald",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Emerald",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-emerald"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Jade",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-jade",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Jade",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-jade"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Orange",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-orange",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Orange",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-orange"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Red",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-red",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Red",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-red"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Turquoise",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-turquoise",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Turquoise",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-turquoise"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Black",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-black",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Black",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-black"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Clear",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-clear",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Clear",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-clear"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Gold",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-gold",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Gold",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-gold"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Maroon",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-maroon",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Maroon",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-maroon"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Powder",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-powder",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Powder",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-powder"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - Rose",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-rose",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "Rose",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-rose"
+
+  },
+
+  {
+
+    "name": "Crinoline / Horsehair / Hem Stabilizer 100mm x 22m - White",
+
+    "productId": "horsehair-crinoline-hem-stabilizer-100mm-22m-white",
+
+    "basePrice": 0,
+
+    "size": "100mm",
+
+    "color": "White",
+
+    "pack": "22 meters per roll",
+
+    "imgKey": "horsehair-100mm-white"
+
+  }
+
+]
+
+  }
+
+};
+
+
+
+let selectedGroup = null;
+
+let selectedProduct = null;
+
+let selectedColor = "Baby Pink";
+
+
+
+const horsehairSources = Object.fromEntries(Array.from(document.querySelectorAll('#imageBank img[data-img-key]'), img => [img.dataset.imgKey, img.getAttribute('src')]));
+let horsehairPreviousOverflow = null;
+function getBankImage(key){
+
+  return horsehairSources[key] || '';
+
+}
+
+
+
+function applyCardImages(){
+
+  document.querySelectorAll('[data-image-key]').forEach(img => {
+
+    const src = getBankImage(img.dataset.imageKey);
+
+    if(src) img.src = src;
+
+  });
+
+}
+
+
+
+function money(value){return 'R ' + Number(value || 0).toFixed(2);}
+
+
+
+function openProduct(card){
+
+  selectedGroup = productGroups[card.dataset.groupId];
+
+  if(!selectedGroup) return;
+
+
+
+  document.getElementById('modalTitle').textContent = selectedGroup.title;
+
+  document.getElementById('modalCategory').textContent = selectedGroup.category;
+
+  document.getElementById('modalImg').src = getBankImage(selectedGroup.imgKey);
+
+  document.getElementById('modalImg').alt = selectedGroup.title;
+
+  document.getElementById('qty').value = 1;
+
+
+
+  const sizeSelect = document.getElementById('sizeSelect');
+
+  sizeSelect.innerHTML = selectedGroup.sizes.map(size => `<option value="${size}">${size}</option>`).join('');
+
+
+
+  selectedColor = selectedGroup.colors[0].name;
+
+  renderColorTable();
+
+  if (horsehairPreviousOverflow === null) horsehairPreviousOverflow = document.body.style.overflow;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('productModal').style.display = 'flex';
+
+  selectVariant();
+
+}
+
+
+
+function renderColorTable(){
+
+  const table = document.getElementById('colorTable');
+
+  table.innerHTML = selectedGroup.colors.map(color => `
+
+    <button type="button" class="color-row ${color.name === selectedColor ? 'active' : ''}" onclick="chooseColor('${String(color.name).replace(/'/g,"\\\'")}')">
+
+      <span class="swatch" style="background:${color.swatch}"></span>
+
+      <span>${color.name}</span>
+
+    </button>
+
+  `).join('');
+
+}
+
+
+
+function chooseColor(colorName){
+
+  selectedColor = colorName;
+
+  renderColorTable();
+
+  selectVariant();
+
+}
+
+
+
+function selectVariant(){
+
+  if(!selectedGroup) return;
+
+  const selectedSize = document.getElementById('sizeSelect').value;
+
+  selectedProduct = selectedGroup.options.find(option => option.size === selectedSize && option.color === selectedColor) || selectedGroup.options[0];
+
+
+
+  document.getElementById('modalProductId').textContent = selectedProduct.productId;
+
+  document.getElementById('selectedSummary').textContent = `${selectedProduct.size} - ${selectedProduct.color}`;
+
+
+
+  const variantImage = getBankImage(selectedProduct.imgKey) || getBankImage(selectedGroup.imgKey);
+
+  document.getElementById('modalImg').dataset.imageKey = horsehairSources[selectedProduct.imgKey] ? selectedProduct.imgKey : selectedGroup.imgKey;
+  document.getElementById('modalImg').src = variantImage;
+
+  document.getElementById('modalImg').alt = `${selectedGroup.title} ${selectedProduct.size} - ${selectedProduct.color}`;
+
+  window.fawzCurrentProductId = selectedProduct.productId;
+
+  window.fawzCurrentProductName = selectedProduct.name;
+
+  updateModalPrice();
+
+}
+
+
+
+async function updateModalPrice(){
+
+  const qty = Math.max(parseInt(document.getElementById('qty').value || '1', 10) || 1, 1);
+
+  const priceEl = document.getElementById('price');
+
+  if(!selectedProduct){priceEl.textContent = 'Select product';return;}
+
+  priceEl.textContent = 'Loading...';
+
+  let unit = selectedProduct.basePrice;
+
+  try{
+
+    if(window.fawzFetchTierPrice) unit = await window.fawzFetchTierPrice(selectedProduct.productId);
+
+  }catch(e){
+
+    console.warn('Using fallback price until Firebase is configured:', e);
+
+  }
+
+  window.fawzCurrentUnitPrice = unit;
+
+  priceEl.textContent = unit > 0 ? money(unit * qty) : 'Login to view price';
+
+}
+
+
+
+function addToCart(){
+
+  if(!selectedProduct) return;
+
+  const qty = Math.max(parseInt(document.getElementById('qty').value || '1', 10) || 1, 1);
+
+  const unit = Number(window.fawzCurrentUnitPrice || selectedProduct.basePrice || 0);
+
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  cart.push({
+
+    product: selectedProduct.name,
+
+    productId: selectedProduct.productId,
+
+    category: selectedGroup.category,
+
+    size: selectedProduct.size,
+
+    color: selectedProduct.color,
+
+    pack: selectedProduct.pack,
+
+    qty,
+
+    price: unit,
+
+    unitPrice: unit,
+
+    total: unit * qty,
+
+    image: getBankImage(selectedProduct.imgKey)
+
+  });
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  alert('Added to cart: ' + selectedProduct.name);
+
+}
+
+
+
+function closeModal(){
+
+  document.getElementById('productModal').style.display = 'none';
+  if (horsehairPreviousOverflow !== null) document.body.style.overflow = horsehairPreviousOverflow;
+  horsehairPreviousOverflow = null;
+
+  selectedGroup = null;
+
+  selectedProduct = null;
+
+}
+
+
+
+function filterProducts(){
+
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+
+  const c = document.getElementById('categoryFilter').value;
+
+  document.querySelectorAll('.product-card').forEach(card => {
+
+    const group = productGroups[card.dataset.groupId];
+
+    const haystack = JSON.stringify(group || {}).toLowerCase();
+
+    const matchesSearch = !q || haystack.includes(q) || card.textContent.toLowerCase().includes(q);
+
+    const matchesCategory = !c || card.dataset.category === c;
+
+    card.classList.toggle('hidden', !(matchesSearch && matchesCategory));
+
+  });
+
+  document.querySelectorAll('.product-section').forEach(section => {
+
+    section.classList.toggle('hidden', section.querySelectorAll('.product-card:not(.hidden)').length === 0);
+
+  });
+
+}
+
+
+
+document.getElementById('searchBox').addEventListener('input', filterProducts);
+
+document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+
+window.addEventListener('click', e => {if(e.target === document.getElementById('productModal')) closeModal();});
+
+document.addEventListener('DOMContentLoaded', applyCardImages);
+function keepHorsehairImagesVisible(){
+  document.querySelectorAll('.product-card img[data-image-key], #modalImg[data-image-key]').forEach(img => {
+    const src = getBankImage(img.dataset.imageKey);
+    if (src && img.getAttribute('src') !== src) img.setAttribute('src', src);
+    for (const [property,value] of [['opacity','1'],['visibility','visible'],['display','block']]) {
+      if (img.style.getPropertyValue(property) !== value || img.style.getPropertyPriority(property) !== 'important') img.style.setProperty(property,value,'important');
+    }
+
+  });
+}
+keepHorsehairImagesVisible();
+const horsehairImageObserver = new MutationObserver(keepHorsehairImagesVisible);
+horsehairImageObserver.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src','style','class','data-image-key']});
+window.addEventListener('load',keepHorsehairImagesVisible);
+
+
+</script>
+
+<script src="fawz-site.js"></script>
+
+<script src="fawz-secure-pricing.js"></script>
+
+<script src="fawz-inactivity.js"></script>
+
+<script src="fawz-content-protection.js"></script>
+
+<script src="fawz-modal-navigation.js"></script>
+</body>
+
+</html>

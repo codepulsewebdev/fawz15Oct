@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Plastic Fasteners | FAWZ Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+:root {
+    --fawz-red: #e31e24;
+    --fawz-dark: #1a1a1a;
+    --fawz-grey: #f8f8f8;
+    --border: #eeeeee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #fff;
+    color: var(--fawz-dark);
+    overflow-x: hidden;
+}
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--fawz-red);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.logo {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+}
+.logo span { color: var(--fawz-red); }
+nav { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+nav a {
+    color: var(--fawz-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.hero {
+    padding: 46px 5% 24px;
+    max-width: 1300px;
+    margin: auto;
+}
+.hero h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin: 0;
+    text-transform: uppercase;
+}
+main {
+    padding: 15px 5% 70px;
+    max-width: 1300px;
+    margin: auto;
+}
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.category-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: 0.3s;
+    text-align: center;
+}
+.category-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+}
+.category-img-wrap {
+    height: 240px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+}
+.category-img-wrap img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+.category-info { padding: 22px; }
+.category-info h3 { font-size: 1.5rem; text-transform: uppercase; margin-bottom: 8px; }
+.category-info p { font-size: 0.9rem; color: #666; }
+
+/* MODALS */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(3px);
+    padding: 20px;
+}
+.modal-content-lg {
+    background: #fff;
+    margin: auto;
+    width: 95%;
+    max-width: 1200px;
+    height: 90vh;
+    border-radius: 20px;
+    overflow-y: auto;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+}
+.close-x {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #aaa;
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+
+.modal-header-title {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--fawz-red);
+    padding-bottom: 10px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+.product-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+    transition: 0.25s;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+}
+.product-img-wrap {
+    height: 180px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+}
+.product-img-wrap img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+.product-info { padding: 15px; text-align: left; }
+.product-info h4 { font-size: 1rem; margin: 0; text-transform: uppercase; }
+
+/* ITEM DETAIL MODAL */
+.item-modal-content {
+    background: #fff;
+    margin: auto;
+    width: 90%;
+    max-width: 1000px;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+}
+.modal-left {
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-right: 1px solid var(--border);
+}
+.modal-left img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.modal-right {
+    padding: 28px 32px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+.modal-right h2 {
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+    font-size: 1.5rem;
+}
+.modal-desc {
+    background: #f5f5f5;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 15px 0;
+    font-size: 0.85rem;
+    color: #555;
+    border-left: 3px solid var(--fawz-red);
+}
+.variant-group { margin: 18px 0; }
+.variant-group label {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #555;
+    letter-spacing: 1px;
+}
+.variant-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    background: #fff;
+    cursor: pointer;
+}
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+.color-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+}
+.color-option:hover, .color-option.active {
+    border-color: var(--fawz-red);
+    background: #fff0f0;
+}
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.15);
+    flex-shrink: 0;
+}
+.color-name { font-size: 0.7rem; color: #333; text-transform: capitalize; }
+.qty-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f8f8f8;
+    margin: 8px 0 12px;
+}
+.btn-add {
+    width: 100%;
+    background: var(--fawz-red);
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    transition: background 0.2s;
+    margin-top: auto;
+}
+.btn-add:hover { background: #c41a1f; }
+
+.cart-link { position: relative; }
+.cart-badge { position: absolute; top: -8px; right: -8px; background: var(--fawz-red); color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+@media (max-width: 700px) {
+    .item-modal-content { grid-template-columns: 1fr; height: 90vh; }
+    .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; }
+    .modal-right { padding: 20px; }
+}
+</style>
+<link rel="stylesheet" href="fawz-packing-info.css">
+</head>
+<body>
+
+<div id="htmlImageBank" style="display: none;">
+    <img id="img_release_cover" src="images/Plastic/r-black.jpg">
+    <img id="img_adjuster_cover" src="images/Plastic/a-brown.jpg">
+    <img id="img_dring_cover" src="images/Plastic/dRing.jpg">
+    <img id="img_triglide_cover" src="images/Plastic/trigilde.jpg">
+    <img id="img_loop_cover" src="images/Plastic/loop.jpg">
+    <img id="img_swivel_cover" src="images/Plastic/swivelHook.jpg">
+
+    <img id="img_release_red" src="images/Plastic/r-red.jpg">
+    <img id="img_release_purple" src="images/Plastic/r-purple.jpg">
+    <img id="img_release_lilac" src="images/Plastic/r-lilac.jpg">
+    <img id="img_release_black" src="images/Plastic/r-black.jpg">
+    <img id="img_release_brown" src="images/Plastic/r-brown.webp">
+    <img id="img_release_pink" src="images/Plastic/r-pink.jpg">
+    <img id="img_release_royal" src="images/Plastic/r-royal.jpg">
+    <img id="img_release_navy" src="images/Plastic/r-navy.jpg">
+    <img id="img_release_bottle" src="images/Plastic/r-dgreen.jpg">
+    <img id="img_release_powder" src="images/Plastic/r-powder.jpg">
+    <img id="img_release_emerald" src="images/Plastic/r-lgreen'.jpg">
+    <img id="img_release_orange" src="images/Plastic/r-orange.jpg">
+    <img id="img_release_yellow" src="images/Plastic/r-yellow.jpg">
+
+    <img id="img_adjuster_white" src="images/Plastic/a-white.jpg">
+    <img id="img_adjuster_cerise" src="images/Plastic/a-cerise.jpg">
+    <img id="img_adjuster_yellow" src="images/Plastic/a-yellow.jpg">
+    <img id="img_adjuster_powder" src="images/Plastic/a-powder.jpg">
+    <img id="img_adjuster_pink" src="images/Plastic/a-pink.jpg">
+    <img id="img_adjuster_navy" src="images/Plastic/a-navy.jpg">
+    <img id="img_adjuster_gold" src="images/Plastic/a-gold.jpg">
+    <img id="img_adjuster_orange" src="images/Plastic/a-orange.jpg">
+    <img id="img_adjuster_royal" src="images/Plastic/a-royal.jpg">
+    <img id="img_adjuster_purple" src="images/Plastic/a-purple.jpg">
+    <img id="img_adjuster_red" src="images/Plastic/a-red.jpg">
+    <img id="img_adjuster_bottle" src="images/Plastic/a-bottle.jpg">
+    <img id="img_adjuster_emerald" src="images/Plastic/a-emerald.jpg">
+    <img id="img_adjuster_black" src="images/Plastic/a-black.jpg">
+    <img id="img_adjuster_brown" src="images/Plastic/a-brown.jpg">
+</div>
+
+<header>
+    <div class="logo">FAWZ <span>Haberdashery</span></div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="category-index.html">Categories</a>
+        <a href="all-products.html">All Products</a>
+        <a href="demo_cart.html">View Cart</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Plastic Fasteners</h1>
+</section>
+
+<main>
+    <div class="category-grid">
+        <div class="category-card" onclick="openCategoryModal('black')">
+            <div class="category-img-wrap">
+                <img src="images/Plastic/r-black.jpg" alt="Standard Black Fasteners">
+            </div>
+            <div class="category-info">
+                <h3>Standard Black Fasteners</h3>
+                <p>Browse full collection of heavy duty black hardware</p>
+            </div>
+        </div>
+
+        <div class="category-card" onclick="openCategoryModal('color')">
+            <div class="category-img-wrap">
+                <img src="images/Plastic/r-red.jpg" alt="Coloured Fasteners">
+            </div>
+            <div class="category-info">
+                <h3>Coloured Fasteners</h3>
+                <p>Browse full selection of colorful release buckles and adjusters</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- CATEGORY MODAL -->
+<div id="categoryModal" class="modal">
+    <div class="modal-content-lg">
+        <span class="close-x" onclick="closeCategoryModal()">&times;</span>
+        <h2 id="categoryModalTitle" class="modal-header-title"></h2>
+        <div class="product-grid" id="categoryGrid"></div>
+    </div>
+</div>
+
+<!-- SINGLE ITEM DETAIL MODAL -->
+<div id="productModal" class="modal">
+    <div class="item-modal-content">
+        <span class="close-x" onclick="closeProductModal()">&times;</span>
+        <div class="modal-left">
+            <img id="modalImg" src="" alt="Modal Product Display">
+        </div>
+        <div class="modal-right">
+            <h2 id="modalTitle">Product</h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+            <div id="modalDesc" class="modal-desc"></div>
+            <div id="sizeGroup" class="variant-group" style="display:none;">
+                <label>Select Size</label>
+                <select id="sizeSelect" class="variant-select"></select>
+            </div>
+            <div id="colorGroup" class="variant-group" style="display:none;">
+                <label>Select Colour</label>
+                <div id="colorGrid" class="color-grid"></div>
+            </div>
+            <label>Quantity (100 pieces per pack)</label>
+            <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+            <input type="number" id="qty" class="qty-input" value="1" min="1">
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const COLOR_MAP = {
+    Black: "#1a1a1a", Brown: "#5c4033", White: "#ffffff",
+    Emerald: "#50c878", Bottle: "#075e3b", Lilac: "#c8a2c8",
+    Navy: "#000080", Royal: "#4169e1", Purple: "#800080",
+    Red: "#e31e24", Pink: "#ffb6c1", Orange: "#f28c00",
+    Yellow: "#f4d800", Powder: "#b0e0e6", Cerise: "#de3163", Gold: "#d4a017"
+};
+
+const STANDARD_BLACK_SIZES = ["15mm", "20mm", "25mm", "32mm", "38mm", "50mm"];
+const COLOURED_SIZES = ["20mm", "25mm"];
+
+const productsBlack = [
+    { name: "Release Buckle (Black)", coverId: "img_release_cover", description: "Durable quick side-release buckle for secure fastening. 100 pieces per pack.", sizes: STANDARD_BLACK_SIZES, colors: ["Black"], colorImageIds: { Black: "img_release_black" } },
+    { name: "Strap Adjuster (Black)", coverId: "img_adjuster_black", description: "Strong slider buckle for adjusting and securing webbing straps. 100 pieces per pack.", sizes: STANDARD_BLACK_SIZES, colors: ["Black"], colorImageIds: { Black: "img_adjuster_black" } },
+    { name: "D-Ring", coverId: "img_dring_cover", description: "High-strength D-ring for straps, bags and webbing applications. 100 pieces per pack.", sizes: STANDARD_BLACK_SIZES, colors: ["Black"], colorImageIds: { Black: "img_dring_cover" } },
+    { name: "Tri-Glide", coverId: "img_triglide_cover", description: "Three-bar slider for neat and reliable strap adjustment. 100 pieces per pack.", sizes: STANDARD_BLACK_SIZES, colors: ["Black"], colorImageIds: { Black: "img_triglide_cover" } },
+    { name: "Loop", coverId: "img_loop_cover", description: "Rectangular keeper loop for securing webbing and strap alignment. 100 pieces per pack.", sizes: STANDARD_BLACK_SIZES, colors: ["Black"], colorImageIds: { Black: "img_loop_cover" } },
+    { name: "Swivel Hook", coverId: "img_swivel_cover", description: "Rotating snap hook for straps, bags and detachable fittings. 100 pieces per pack.", sizes: STANDARD_BLACK_SIZES, colors: ["Black"], colorImageIds: { Black: "img_swivel_cover" } }
+];
+
+const productsColor = [
+    {
+        name: "Release Buckle (Coloured)", coverId: "img_release_red",
+        description: "Quick side-release buckles in a wide range of vibrant colours. 100 pieces per pack.", sizes: COLOURED_SIZES,
+        colors: ["Brown", "Red", "Lilac", "Purple", "Pink", "Royal", "Navy", "Bottle", "Emerald", "Powder", "Orange", "Yellow"],
+        colorImageIds: { Brown: "img_release_brown", Red: "img_release_red", Lilac: "img_release_lilac", Purple: "img_release_purple", Pink: "img_release_pink", Royal: "img_release_royal", Navy: "img_release_navy", Bottle: "img_release_bottle", Emerald: "img_release_emerald", Powder: "img_release_powder", Orange: "img_release_orange", Yellow: "img_release_yellow" }
+    },
+    {
+        name: "Strap Adjuster (Coloured)", coverId: "img_adjuster_cover",
+        description: "Coloured slider buckles for adjusting and securing webbing straps. 100 pieces per pack.", sizes: COLOURED_SIZES,
+        colors: ["Brown", "White", "Cerise", "Pink", "Powder", "Gold", "Yellow", "Orange", "Royal", "Navy", "Purple", "Red", "Bottle", "Emerald"],
+        colorImageIds: { Brown: "img_adjuster_brown", White: "img_adjuster_white", Cerise: "img_adjuster_cerise", Pink: "img_adjuster_pink", Powder: "img_adjuster_powder", Gold: "img_adjuster_gold", Yellow: "img_adjuster_yellow", Orange: "img_adjuster_orange", Royal: "img_adjuster_royal", Navy: "img_adjuster_navy", Purple: "img_adjuster_purple", Red: "img_adjuster_red", Bottle: "img_adjuster_bottle", Emerald: "img_adjuster_emerald" }
+    }
+];
+
+let currentProduct = null;
+let currentSize = null;
+let currentColor = null;
+
+function openCategoryModal(type) {
+    const list = type === "black" ? productsBlack : productsColor;
+    document.getElementById("categoryModalTitle").textContent = type === "black" ? "Standard Black Fasteners" : "Coloured Fasteners";
+    const grid = document.getElementById("categoryGrid");
+    grid.innerHTML = "";
+    list.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        const bankImage = document.getElementById(product.coverId);
+        card.innerHTML = `<div class="product-img-wrap"><img src="${bankImage ? bankImage.src : ""}" alt="${product.name}"></div><div class="product-info"><h4>${product.name}</h4></div>`;
+        card.onclick = () => openProductModal(product);
+        card.onkeydown = event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openProductModal(product); } };
+        grid.appendChild(card);
+    });
+    document.getElementById("categoryModal").style.display = "flex";
+}
+
+function closeCategoryModal() { document.getElementById("categoryModal").style.display = "none"; }
+
+function openProductModal(product) {
+    currentProduct = product;
+    currentSize = product.sizes[0];
+    currentColor = product.colors[0];
+    document.getElementById("modalTitle").textContent = product.name;
+    document.getElementById("modalDesc").textContent = product.description;
+    document.getElementById("qty").value = 1;
+    const sizeSelect = document.getElementById("sizeSelect");
+    sizeSelect.innerHTML = product.sizes.map(size => `<option value="${size}">${size}</option>`).join("");
+    sizeSelect.onchange = event => { currentSize = event.target.value; };
+    document.getElementById("sizeGroup").style.display = product.sizes.length ? "block" : "none";
+    setupColorSelection();
+    updateModalImage();
+    document.getElementById("productModal").style.display = "flex";
+}
+
+function closeProductModal() { document.getElementById("productModal").style.display = "none"; }
+
+function setupColorSelection() {
+    const group = document.getElementById("colorGroup");
+    const grid = document.getElementById("colorGrid");
+    group.style.display = currentProduct.colors.length === 1 && currentProduct.colors[0] === "Black" ? "none" : "block";
+    grid.innerHTML = "";
+    currentProduct.colors.forEach(color => {
+        const option = document.createElement("div");
+        option.className = `color-option${color === currentColor ? " active" : ""}`;
+        option.tabIndex = 0;
+        option.setAttribute("role", "button");
+        option.setAttribute("aria-pressed", color === currentColor ? "true" : "false");
+        option.innerHTML = `<div class="color-swatch" style="background:${COLOR_MAP[color] || "#ccc"}"></div><span class="color-name">${color}</span>`;
+        const selectColor = () => { currentColor = color; setupColorSelection(); updateModalImage(); };
+        option.onclick = selectColor;
+        option.onkeydown = event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectColor(); } };
+        grid.appendChild(option);
+    });
+}
+
+function updateModalImage() {
+    const modalImage = document.getElementById("modalImg");
+    const imageId = currentProduct.colorImageIds[currentColor] || currentProduct.coverId;
+    const bankImage = document.getElementById(imageId);
+    if (bankImage) modalImage.src = bankImage.src;
+}
+
+function addToCart() {
+    if (!currentProduct) return;
+    const quantity = Math.max(1, parseInt(document.getElementById("qty").value, 10) || 1);
+    const productName = `${currentProduct.name} - ${currentSize}${currentColor ? ` (${currentColor})` : ""}`;
+    let cart;
+    try { cart = JSON.parse(localStorage.getItem("cart") || "[]"); } catch (error) { cart = []; }
+    cart.push({ id: `${currentProduct.name}-${currentSize}-${currentColor}`.replace(/\s+/g, ""), product: productName, category: "Plastic Fasteners", size: currentSize, color: currentColor, qty: quantity, packing: "100 pieces per pack", timestamp: Date.now() });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartBadge();
+    alert(`✓ Added to cart:\n${productName}\nQuantity: ${quantity} pack(s)`);
+    closeProductModal();
+}
+
+function updateCartBadge() {
+    let cart;
+    try { cart = JSON.parse(localStorage.getItem("cart") || "[]"); } catch (error) { cart = []; }
+    let badge = document.getElementById("cartBadge");
+    const cartLink = document.querySelector('nav a[href="demo_cart.html"]');
+    if (!badge && cartLink) { badge = document.createElement("span"); badge.id = "cartBadge"; badge.className = "cart-badge"; cartLink.classList.add("cart-link"); cartLink.appendChild(badge); }
+    if (badge) { badge.textContent = cart.length; badge.style.display = cart.length ? "flex" : "none"; }
+}
+
+window.addEventListener("click", event => {
+    if (event.target === document.getElementById("categoryModal")) closeCategoryModal();
+    if (event.target === document.getElementById("productModal")) closeProductModal();
+});
+window.addEventListener("keydown", event => {
+    if (event.key === "Escape") { closeProductModal(); closeCategoryModal(); }
+});
+document.addEventListener("DOMContentLoaded", updateCartBadge);
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-packing-info.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

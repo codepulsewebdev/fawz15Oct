@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Business Login | FAWZ Haberdashery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fawz-site.css">
+  <style>
+    :root{--red:#e31e24;--deep:#9d0910;--ink:#171717;--muted:#6a6a6a}
+    *{box-sizing:border-box}
+    html{min-height:100%;background:#f5f3ef;overflow-y:auto}
+    body{margin:0;min-height:100%;background:#f5f3ef;color:var(--ink);font-family:"Open Sans",sans-serif;overflow-x:hidden;overflow-y:auto}
+    .login-page{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:minmax(360px,1.08fr) minmax(430px,.92fr)}
+    .visual{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:120px 8% 90px;overflow:hidden;color:#fff;background:radial-gradient(circle at 22% 18%,#ff6266 0,transparent 27%),linear-gradient(145deg,#e31e24 0 48%,#94080e 100%)}
+    .visual:before{content:"";position:absolute;inset:-25%;background:repeating-linear-gradient(43deg,transparent 0 42px,#fff1 42px 44px);transform:rotate(-7deg)}
+    .brand{position:absolute;z-index:2;top:34px;left:42px;display:flex;align-items:center;gap:12px;font:900 14px Montserrat,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+    .brand-mark{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;background:#fff;color:var(--red);font-size:22px;box-shadow:0 10px 25px #5005}
+    .visual-copy{position:relative;z-index:1;max-width:660px;text-align:center}
+    .visual-copy .symbol{width:124px;height:124px;margin:0 auto 30px;display:grid;place-items:center;border:2px solid #ffffff66;border-radius:28px;background:#ffffff12;box-shadow:0 25px 70px #5005;font:900 50px Montserrat,sans-serif;transform:rotate(-4deg)}
+    .visual-copy small{font:800 11px Montserrat,sans-serif;letter-spacing:.25em;text-transform:uppercase;opacity:.78}
+    .visual-copy h1{margin:14px 0 15px;font:900 clamp(36px,5vw,68px)/.98 Montserrat,sans-serif;text-transform:uppercase;letter-spacing:-.05em}
+    .visual-copy p{max-width:540px;margin:auto;font-size:16px;line-height:1.7;opacity:.86}
+    .login-panel{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:64px 44px;background:linear-gradient(#fff,#f5f3ef)}
+    .card{width:min(440px,100%)}
+    .card h2{margin:0 0 9px;font:900 clamp(31px,3vw,42px)/1.05 Montserrat,sans-serif;text-transform:uppercase;letter-spacing:-.04em}
+    .intro{margin:0 0 29px;color:var(--muted);line-height:1.6}
+    .field{margin-bottom:18px}
+    .field label{display:block;margin-bottom:8px;font:800 12px Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+    .field input{width:100%;height:55px;border:1px solid #d6d4d0;border-radius:11px;padding:0 16px;background:#fff;font:600 16px "Open Sans",sans-serif;outline:none;transition:.2s}
+    .field input:focus{border-color:var(--red);box-shadow:0 0 0 4px #e31e241c}
+    .password{position:relative}.password input{padding-right:75px}
+    .toggle{position:absolute;right:9px;top:50%;transform:translateY(-50%);border:0;background:none;padding:10px;font-weight:800;color:#555;cursor:pointer}
+    .submit{width:100%;height:57px;border:0;border-radius:11px;background:linear-gradient(135deg,var(--red),var(--deep));color:#fff;font:900 14px Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 14px 30px #e31e2440;transition:.2s}
+    .submit:hover{transform:translateY(-2px);box-shadow:0 18px 36px #e31e2455}.submit:disabled{opacity:.65;cursor:wait}
+    .status{min-height:24px;margin-top:14px;color:var(--deep);font-weight:700;font-size:14px}
+    .links{display:grid;gap:12px;margin-top:18px}.links a{width:max-content;color:#555;text-decoration:none;font-weight:700}.links a:hover{color:var(--red)}
+    .privacy{margin-top:27px;padding-top:20px;border-top:1px solid #e3e1dd;color:#777;font-size:12px;line-height:1.55}.privacy:before{content:"●";margin-right:8px;color:var(--red)}
+    @media(max-height:720px) and (min-width:851px){.login-panel{align-items:flex-start;padding-top:42px;padding-bottom:42px}.visual{align-items:flex-start;padding-top:150px}}
+    @media(max-width:850px){.login-page{display:block}.visual{min-height:330px;height:auto;padding:105px 24px 50px}.brand{top:20px;left:22px}.brand-mark{width:42px;height:42px}.visual-copy .symbol{display:none}.visual-copy h1{font-size:30px}.visual-copy p{font-size:14px}.login-panel{min-height:auto;padding:48px 24px 70px;align-items:flex-start}}
+    @media(max-width:420px){.visual{min-height:285px}.brand{font-size:12px}.visual-copy h1{font-size:26px}.login-panel{padding-left:18px;padding-right:18px}.field input{height:52px}}
+  </style>
+</head>
+<body>
+  <main class="login-page">
+    <section class="visual" aria-label="FAWZ business portal">
+      <div class="brand"><span class="brand-mark">F</span><span>FAWZ Haberdashery</span></div>
+      <div class="visual-copy"><div class="symbol">F</div><small>Secure wholesale portal</small><h1>Your business portal</h1><p>Approved customers can access private account pricing, order products and view the complete FAWZ catalogue.</p></div>
+    </section>
+    <section class="login-panel">
+      <div class="card">
+        <h2>Login</h2><p class="intro">Enter your approved business account details to continue.</p>
+        <form id="businessLoginForm" novalidate>
+          <div class="field"><label for="loginUsername">Email</label><input id="loginUsername" name="username" type="email" autocomplete="username" required placeholder="Enter your email"></div>
+          <div class="field"><label for="loginPassword">Password</label><div class="password"><input id="loginPassword" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password"><button class="toggle" id="togglePassword" type="button" aria-label="Show password">Show</button></div></div>
+          <button class="submit" type="submit">Login</button><div class="status" id="errorMsg" role="status" aria-live="polite"></div>
+        </form>
+        <div class="links"><a href="reset-password.html">Forgot password?</a><a href="index.html">← Back to introduction</a></div>
+        <div class="privacy">Accounts are created and managed by FAWZ.</div>
+      </div>
+    </section>
+  </main>
+  <script>document.getElementById('togglePassword').addEventListener('click',function(){const input=document.getElementById('loginPassword'),show=input.type==='password';input.type=show?'text':'password';this.textContent=show?'Hide':'Show';this.setAttribute('aria-label',show?'Hide password':'Show password')});</script>
+  <script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script>
+</body>
+</html>

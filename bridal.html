@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head><link rel="stylesheet" href="fawz-site.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<title>Bridal | Fawz Haberdashery</title>
+
+<link rel="stylesheet" href="global-images.css">
+
+
+
+<style>
+
+:root {
+
+    --fawz-red: #e31e24;
+
+    --fawz-dark: #1a1a1a;
+
+    --fawz-grey: #f8f8f8;
+
+    --border: #eeeeee;
+
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+
+    background: #fff;
+
+    color: var(--fawz-dark);
+
+    overflow-x: hidden;
+
+}
+
+header {
+
+    position: sticky;
+
+    top: 0;
+
+    background: #fff;
+
+    padding: 15px 5%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 3px solid var(--fawz-red);
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+    z-index: 1000;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+}
+
+.logo {
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-size: 1.2rem;
+
+}
+
+.logo span { color: var(--fawz-red); }
+
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+
+nav a {
+
+    color: var(--fawz-dark);
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size: 0.9rem;
+
+}
+
+.hero {
+
+    padding: 46px 5% 24px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.hero h1 {
+
+    font-size: clamp(2rem, 4vw, 3.5rem);
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.toolbar {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 22px;
+
+}
+
+.toolbar input {
+
+    padding: 13px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    min-width: 260px;
+
+    font-size: 1rem;
+
+    background: #fff;
+
+}
+
+main {
+
+    padding: 15px 5% 70px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.section-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-left: 6px solid var(--fawz-red);
+
+    padding-left: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+.section-heading h3 {
+
+    font-size: 1.6rem;
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.product-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+
+    gap: 25px;
+
+}
+
+.product-card {
+
+    background: #fff;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+
+    transition: 0.25s;
+
+}
+
+.product-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--fawz-red);
+
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+
+}
+
+.product-img-wrap {
+
+    height: 190px;
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+.product-img-wrap img {
+
+    max-width: 85%;
+
+    max-height: 85%;
+
+    object-fit: contain;
+
+}
+
+.no-image-icon {
+
+    font-size: 3rem;
+
+    color: #ccc;
+
+}
+
+.product-info {
+
+    padding: 16px;
+
+    text-align: center;
+
+}
+
+.product-info h4 {
+
+    font-size: 1rem;
+
+    font-weight: 800;
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.hidden { display: none !important; }
+
+
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    z-index: 2000;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.7);
+
+    backdrop-filter: blur(3px);
+
+    padding: 20px;
+
+}
+
+.modal-content {
+
+    background: #fff;
+
+    margin: auto;
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    height: 85%;
+
+    max-height: 85vh;
+
+    display: grid;
+
+    grid-template-columns: 0.9fr 1.1fr;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+
+    position: relative;
+
+}
+
+.close-x {
+
+    position: absolute;
+
+    right: 20px;
+
+    top: 12px;
+
+    font-size: 34px;
+
+    cursor: pointer;
+
+    color: #aaa;
+
+    z-index: 10;
+
+    background: rgba(255,255,255,0.9);
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    transition: all 0.2s;
+
+}
+
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+
+.modal-left {
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    border-right: 1px solid var(--border);
+
+    overflow: hidden;
+
+}
+
+.modal-left img {
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    object-fit: contain;
+
+}
+
+.modal-left .no-image-icon {
+
+    font-size: 4rem;
+
+    color: #ccc;
+
+}
+
+.modal-right {
+
+    padding: 28px 32px;
+
+    overflow-y: auto;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.modal-right h2 {
+
+    margin: 0 0 16px;
+
+    text-transform: uppercase;
+
+    color: var(--fawz-red);
+
+    font-size: 1.5rem;
+
+}
+
+.modal-desc {
+
+    background: #f5f5f5;
+
+    padding: 12px 16px;
+
+    border-radius: 12px;
+
+    margin: 15px 0;
+
+    font-size: 0.85rem;
+
+    color: #555;
+
+    border-left: 3px solid var(--fawz-red);
+
+}
+
+.variant-group {
+
+    margin: 18px 0;
+
+}
+
+.variant-group label {
+
+    display: block;
+
+    margin: 0 0 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    font-size: 0.75rem;
+
+    color: #555;
+
+    letter-spacing: 1px;
+
+}
+
+.variant-select {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 0.9rem;
+
+    background: #fff;
+
+    cursor: pointer;
+
+}
+
+.qty-input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 1rem;
+
+    background: #f8f8f8;
+
+    margin: 8px 0 20px;
+
+}
+
+.btn-add {
+
+    width: 100%;
+
+    background: var(--fawz-red);
+
+    border: none;
+
+    color: #fff;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+
+    letter-spacing: 1.5px;
+
+    transition: background 0.2s;
+
+    margin-top: auto;
+
+}
+
+.btn-add:hover { background: #c41a1f; }
+
+
+
+@media (max-width: 700px) {
+
+    .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; }
+
+    .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; }
+
+    .modal-right { padding: 20px; }
+
+}
+
+
+
+.cart-link { position: relative; }
+
+.cart-badge { position: absolute; top: -8px; right: -8px; background: var(--fawz-red); color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+</style>
+
+<link rel="stylesheet" href="fawz-packing-info.css">
+
+</head>
+
+<body>
+
+
+
+<!-- ========================================== -->
+
+<!-- IMAGE BANK - ORIGINAL + YOUR NEW IMAGES   -->
+
+<!-- ========================================== -->
+
+<div id="image-bank" style="display: none;">
+
+    <!-- SECTION 1: Dress Hoops Ring - ORIGINAL (KEPT AS IS) -->
+
+    <img id="img-dressHoops" src="images/bridal/3hoops.webp" alt="Dress Hoops">
+
+    <img id="img-dressHoops3" src="images/bridal/3hoops.webp" alt="3 Ring Hoop">
+
+    <img id="img-dressHoops4" src="images/bridal/hoops5.webp" alt="4 Ring Hoop">
+
+    <img id="img-dressHoops5" src="images/bridal/hoops5.webp" alt="5 Ring Hoop">
+
+
+
+    <!-- SECTION 2: Bridal Gloves - EDITED WITH YOUR NEW IMAGES -->
+
+    <img id="img-gloves" src="images/bridal/A01.jpg" alt="Bridal Gloves">
+
+    <img id="img-gloves101" src="images/bridal/A01.jpg" alt="Gloves Style A01">
+
+    <img id="img-gloves102" src="images/bridal/A02.jpg" alt="Gloves Style A02">
+
+    <img id="img-gloves103" src="images/bridal/A03.jpg" alt="Gloves Style A03">
+
+    <img id="img-gloves104" src="images/bridal/A04.jpg" alt="Gloves Style A04">
+
+    <img id="img-gloves105" src="images/bridal/A05.jpg" alt="Gloves Style A05">
+
+    <img id="img-gloves106" src="images/bridal/A06.jpg" alt="Gloves Style A06">
+
+
+
+    <!-- SECTION 3: Bridal Umbrella Range - EDITED WITH YOUR NEW IMAGES -->
+
+    <img id="img-umbrella" src="images/bridal/01.jpg" alt="Bridal Umbrella">
+
+    <img id="img-umbrellaLarge" src="images/bridal/03.jpg" alt="Large Umbrella">
+
+    <img id="img-umbrellaSmall" src="images/bridal/01.jpg" alt="Small Umbrella">
+
+    <img id="img-umbrellaSatin" src="images/bridal/02.jpg" alt="Satin Umbrella">
+
+
+
+    <!-- Motifs - ORIGINAL (KEPT) -->
+
+    <img id="img-motif" src="images/Patches range/0009.jpg" alt="Bridal Motifs">
+
+</div>
+
+
+
+<header>
+
+    <div class="logo">Fawz <span>Haberdashery</span></div>
+
+    <nav>
+
+        <a href="home.html">Home</a>
+
+        <a href="category-index.html">Categories</a>
+
+        <a href="all-products.html">All Products</a>
+
+        <a href="demo_cart.html" class="cart-link">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></a>
+
+    </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+    <h1>Bridal</h1>
+
+    <div class="toolbar">
+
+        <input id="searchBox" placeholder="Search bridal products...">
+
+    </div>
+
+</section>
+
+
+
+<main>
+
+    <div class="section-heading">
+
+        <h3>Bridal Collection</h3>
+
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+
+</main>
+
+
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-x" onclick="closeModal()">×</span>
+
+        <div class="modal-left" id="modalLeft">
+
+            <img id="modalImg" src="" alt="">
+
+        </div>
+
+        <div class="modal-right">
+
+            <h2 id="modalTitle">Product</h2>
+
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+
+            <div id="modalDesc" class="modal-desc"></div>
+
+
+
+            <div id="variantGroup" class="variant-group">
+
+                <label id="variantLabel">Select Option</label>
+
+                <select id="variantSelect" class="variant-select"></select>
+
+            </div>
+
+
+
+            <label style="margin-top: 10px; display: block;">Quantity</label>
+
+            <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+
+            <input type="number" id="qty" class="qty-input" value="1" min="1">
+
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+// ===== ONLY 3 PRODUCT SECTIONS =====
+
+const products = [
+
+    // SECTION 1: Dress Hoops Ring - ORIGINAL (UNCHANGED)
+
+    {
+
+        name: "Dress Hoops Ring",
+
+        defaultImageKey: "dressHoops",
+
+        description: "Wedding dress hoops for creating volume and shape under your gown. Perfect for ballgown styles.",
+
+        variants: [
+
+            { name: "3 Ring Hoop", imageKey: "dressHoops3", unit: "per hoop" },
+
+            { name: "4 Ring Hoop", imageKey: "dressHoops4", unit: "per hoop" },
+
+            { name: "5 Ring Hoop", imageKey: "dressHoops5", unit: "per hoop" }
+
+        ]
+
+    },
+
+    // SECTION 2: Bridal Gloves - EDITED WITH YOUR A-SERIES IMAGES
+
+    {
+
+        name: "Bridal Gloves",
+
+        defaultImageKey: "gloves",
+
+        description: "Elegant bridal gloves. Available in various styles and lengths. Perfect for the classic bride.",
+
+        variants: [
+
+            { name: "Style A01", imageKey: "gloves101", unit: "per pair" },
+
+            { name: "Style A02", imageKey: "gloves102", unit: "per pair" },
+
+            { name: "Style A03", imageKey: "gloves103", unit: "per pair" },
+
+            { name: "Style A04", imageKey: "gloves104", unit: "per pair" },
+
+            { name: "Style A05", imageKey: "gloves105", unit: "per pair" },
+
+            { name: "Style A06", imageKey: "gloves106", unit: "per pair" }
+
+        ]
+
+    },
+
+    // SECTION 3: Bridal Umbrella Range - EDITED WITH YOUR 01,02,03 IMAGES
+
+    {
+
+        name: "Bridal Umbrella Range",
+
+        defaultImageKey: "umbrella",
+
+        description: "Beautiful bridal umbrellas for photo shoots and rainy day weddings. Available in luxury lace and satin finishes.",
+
+        variants: [
+
+            { name: "01 - Small Umbrella", imageKey: "umbrellaSmall", unit: "per umbrella" },
+
+            { name: "02 - Medium Umbrella", imageKey: "umbrellaSatin", unit: "per umbrella" },
+
+            { name: "03 - Large Umbrella", imageKey: "umbrellaLarge", unit: "per umbrella" }
+
+        ]
+
+    }
+
+];
+
+
+
+// Helper to pull image source path from HTML image bank elements
+
+function getSrcFromBank(key) {
+
+    const imgEl = document.getElementById(`img-${key}`);
+
+    return imgEl ? imgEl.src : "";
+
+}
+
+
+
+// Global variables
+
+let currentProduct = null;
+
+let currentVariant = null;
+
+
+
+// Render grouped product category cards
+
+function renderProducts() {
+
+    const grid = document.getElementById('productGrid');
+
+    grid.innerHTML = '';
+
+
+
+    products.forEach((product, index) => {
+
+        const card = document.createElement('div');
+
+        card.className = 'product-card';
+
+        card.onclick = () => openModal(index);
+
+
+
+        const defaultSrc = getSrcFromBank(product.defaultImageKey);
+
+        const imageHtml = defaultSrc ? 
+
+            `<img src="${defaultSrc}" alt="${product.name}" onerror="this.parentElement.innerHTML='<div class=\'no-image-icon\'>👰</div>';">` : 
+
+            '<div class="no-image-icon">👰</div>';
+
+
+
+        card.innerHTML = `
+
+            <div class="product-img-wrap">${imageHtml}</div>
+
+            <div class="product-info">
+
+                <h4>${product.name}</h4>
+
+            </div>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+
+// Open modal for unified group selection
+
+function openModal(productIndex) {
+
+    currentProduct = products[productIndex];
+
+    currentVariant = null;
+
+
+
+    document.getElementById('modalTitle').innerText = currentProduct.name;
+
+    document.getElementById('modalDesc').innerHTML = currentProduct.description;
+
+
+
+    document.getElementById('qty').value = 1;
+
+
+
+    // Build select box interface
+
+    const variantSelect = document.getElementById('variantSelect');
+
+    variantSelect.innerHTML = currentProduct.variants.map((v, idx) => {
+
+        return `<option value="${idx}">${v.name} (${v.unit})</option>`;
+
+    }).join('');
+
+
+
+    // Change dynamic variant images when user changes selection option dropdown
+
+    variantSelect.onchange = function() {
+
+        const idx = parseInt(this.value);
+
+        currentVariant = currentProduct.variants[idx];
+
+        const packingInfo = document.getElementById('fawzPackingInfo');
+        if (currentProduct.name === 'Bridal Umbrella Range') {
+            packingInfo.textContent = 'Packing: Packed individually.';
+        } else if (currentProduct.name === 'Bridal Gloves') {
+            packingInfo.textContent = 'Packing: Packed in pairs.';
+        } else {
+            packingInfo.textContent = 'Selected hoop: ' + currentVariant.name + '. Supplied in the quantity selected.';
+        }
+        packingInfo.hidden = false;
+
+
+
+
+        // Dynamic image updates
+
+        const modalImg = document.getElementById('modalImg');
+
+        const modalLeft = document.getElementById('modalLeft');
+
+        const existingNoImg = modalLeft.querySelector('.no-image-icon');
+
+        if (existingNoImg) existingNoImg.remove();
+
+
+
+        const targetImageKey = currentVariant.imageKey || currentProduct.defaultImageKey;
+
+        const targetSrc = getSrcFromBank(targetImageKey);
+
+
+
+        if (targetSrc) {
+
+            modalImg.src = targetSrc;
+
+            modalImg.style.display = 'block';
+
+            modalImg.onerror = function() {
+
+                modalImg.style.display = 'none';
+
+                if(!modalLeft.querySelector('.no-image-icon')) {
+
+                    const noImgDiv = document.createElement('div');
+
+                    noImgDiv.className = 'no-image-icon';
+
+                    noImgDiv.innerHTML = '👰';
+
+                    modalLeft.appendChild(noImgDiv);
+
+                }
+
+            };
+
+        } else {
+
+            modalImg.style.display = 'none';
+
+            const noImgDiv = document.createElement('div');
+
+            noImgDiv.className = 'no-image-icon';
+
+            noImgDiv.innerHTML = '👰';
+
+            modalLeft.appendChild(noImgDiv);
+
+        }
+
+    };
+
+
+
+    // Trigger configuration load on launch
+
+    variantSelect.dispatchEvent(new Event('change'));
+
+    document.getElementById('productModal').style.display = 'flex';
+
+}
+
+
+
+// Add configured variants to local storage cart data payload safely
+
+function addToCart() {
+
+    if (!currentProduct || !currentVariant) {
+
+        alert("Please select a product option");
+
+        return;
+
+    }
+
+
+
+    const combinedName = `${currentProduct.name} - ${currentVariant.name}`;
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+
+
+    cart.push({
+
+        id: currentProduct.name.replace(/\s/g, '') + '-' + currentVariant.name.replace(/\s/g, ''),
+
+        product: combinedName,
+
+        category: "Bridal",
+
+        variant: currentVariant.name,
+
+        qty: qty,
+
+        timestamp: Date.now()
+
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+
+
+    const badge = document.getElementById('cartBadge');
+
+    if (badge) {
+
+        badge.textContent = cart.length;
+
+        badge.classList.add('visible');
+
+    }
+
+
+
+    alert(`✓ Added to cart:\n${combinedName}\nQuantity: ${qty}`);
+
+    closeModal();
+
+}
+
+
+
+// Close modal interface elements
+
+function closeModal() {
+
+    document.getElementById('productModal').style.display = 'none';
+
+}
+
+
+
+// Search text filters
+
+function filterProducts() {
+
+    const search = document.getElementById('searchBox').value.toLowerCase();
+
+    const cards = document.querySelectorAll('.product-card');
+
+    cards.forEach(card => {
+
+        const text = card.innerText.toLowerCase();
+
+        const isVisible = text.includes(search);
+
+        card.classList.toggle('hidden', !isVisible);
+
+    });
+
+}
+
+
+
+// Live update badge display icons
+
+function updateCartBadge() {
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    const badge = document.getElementById('cartBadge');
+
+    if (badge) {
+
+        if (cart.length > 0) {
+
+            badge.textContent = cart.length;
+
+            badge.classList.add('visible');
+
+        } else {
+
+            badge.classList.remove('visible');
+
+        }
+
+    }
+
+}
+
+
+
+// Initialization scripts trigger configuration
+
+renderProducts();
+
+document.getElementById('searchBox')?.addEventListener('input', filterProducts);
+
+window.onclick = (e) => { if (e.target === document.getElementById('productModal')) closeModal(); };
+
+updateCartBadge();
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const cartLink = document.querySelector('nav a[href="demo_cart.html"]');
+
+    if (cartLink && !cartLink.querySelector('.cart-badge')) {
+
+        cartLink.classList.add('cart-link');
+
+        const badge = document.createElement('span');
+
+        badge.className = 'cart-badge';
+
+        badge.id = 'cartBadge';
+
+        badge.textContent = '0';
+
+        cartLink.appendChild(badge);
+
+        updateCartBadge();
+
+    }
+
+});
+
+</script>
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script>
+
+<script src="fawz-modal-navigation.js"></script>
+</body>
+
+</html>

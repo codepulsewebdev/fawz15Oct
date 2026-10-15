@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buttons Collection | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+
+
+
+
+
+<style>
+:root {
+    --fawz-red: #e31e24;
+    --fawz-dark: #1a1a1a;
+    --fawz-grey: #f8f8f8;
+    --border: #eeeeee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #fff;
+    color: var(--fawz-dark);
+    overflow-x: hidden;
+}
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--fawz-red);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.logo { font-weight: 900; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; }
+.logo span { color: var(--fawz-red); }
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+nav a { color: var(--fawz-dark); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+
+.hero { padding: 46px 5% 24px; max-width: 1300px; margin: auto; }
+.hero h1 { font-size: clamp(2rem, 4vw, 3.5rem); margin: 0; text-transform: uppercase; }
+.toolbar { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+.toolbar input { padding: 13px 14px; border: 1px solid #ddd; border-radius: 10px; min-width: 260px; font-size: 1rem; background: #fff; }
+
+main { padding: 15px 5% 70px; max-width: 1300px; margin: auto; }
+
+/* CATEGORY BLOCK STYLING */
+.category-block-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+.category-block-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,0.04); transition: 0.25s; text-align: center; }
+.category-block-card:hover { transform: translateY(-4px); border-color: var(--fawz-red); box-shadow: 0 15px 32px rgba(0,0,0,0.10); }
+.category-block-img { height: 190px; background: #fafafa; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
+.category-block-img img { max-width: 85%; max-height: 85%; object-fit: contain; }
+.category-block-info { padding: 18px; }
+.category-block-info h3 { font-size: 1.1rem; font-weight: 800; margin: 0; text-transform: uppercase; }
+
+/* OPTION SELECTION MODALS */
+.modal { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); padding: 20px; align-items: center; justify-content: center; }
+.modal-content { background: #fff; margin: auto; width: 95%; max-width: 1200px; height: 90%; max-height: 90vh; display: grid; grid-template-columns: 0.8fr 1.2fr; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.4); position: relative; }
+.modal-content.options-modal { display: flex; flex-direction: column; height: auto; max-height: 80vh; width: 90%; max-width: 650px; padding: 35px 25px 25px; }
+.close-x { position: absolute; right: 20px; top: 12px; font-size: 34px; cursor: pointer; color: #aaa; z-index: 10; background: rgba(255,255,255,0.9); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s; }
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+.modal-left { background: #fafafa; display: flex; align-items: center; justify-content: center; padding: 30px; border-right: 1px solid var(--border); overflow: hidden; }
+.modal-left img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.modal-right { padding: 28px 32px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
+.modal-right h2 { margin: 0 0 16px; text-transform: uppercase; color: var(--fawz-red); font-size: 1.5rem; }
+
+.variant-group { margin: 12px 0; }
+.variant-group label { display: block; margin: 0 0 6px; font-weight: 800; text-transform: uppercase; font-size: 0.75rem; color: #555; letter-spacing: 1px; }
+.variant-select { width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 0.9rem; background: #fff; cursor: pointer; }
+
+/* TABLE ARCHITECTURE FOR COLORS */
+.color-table-container { max-height: 220px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 12px; background: #fff; margin-top: 6px; }
+.color-selector-table { width: 100%; border-collapse: collapse; }
+.color-selector-table tr { border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background 0.15s; }
+.color-selector-table tr:last-child { border-bottom: none; }
+.color-selector-table tr:hover { background: #fdf5f5; }
+.color-selector-table tr.selected { background: #fff0f1; }
+.color-selector-table td { padding: 10px 14px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; vertical-align: middle; }
+.color-swatch-cell { width: 50px; text-align: center; }
+.color-block { width: 24px; height: 24px; border-radius: 6px; display: inline-block; border: 1px solid rgba(0,0,0,0.15); box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); vertical-align: middle; }
+.radio-cell { width: 40px; text-align: center; }
+.radio-cell input { accent-color: var(--fawz-red); transform: scale(1.1); cursor: pointer; }
+
+.qty-input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; background: #f8f8f8; margin: 8px 0 12px; }
+#price { font-size: 1.8rem; font-weight: 900; margin: 15px 0 20px; color: var(--fawz-red); }
+.btn-add { width: 100%; background: var(--fawz-red); border: none; color: #fff; font-weight: 900; text-transform: uppercase; padding: 16px; border-radius: 14px; cursor: pointer; font-size: 0.9rem; letter-spacing: 1.5px; transition: background 0.2s; margin-top: auto; }
+.btn-add:hover { background: #c41a1f; }
+
+@media (max-width: 700px) {
+    .modal-content { grid-template-columns: 1fr; height: 92%; max-height: 92vh; }
+    .modal-left { min-height: 140px; max-height: 180px; border-right: 0; border-bottom: 1px solid var(--border); padding: 15px; }
+    .modal-right { padding: 20px; }
+}
+</style>
+<link rel="stylesheet" href="fawz-packing-info.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Fawz <span>Haberdashery</span></div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="category-index.html">Categories</a>
+        <a href="all-products.html">All Products</a>
+        <a href="demo_cart.html">View Cart</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Buttons Collection</h1>
+    <div class="toolbar">
+        <input id="searchBox" placeholder="Search buttons...">
+    </div>
+</section>
+
+<!-- MASTER IMAGE BANK -->
+<div id="imageBank" style="display:none;">
+    <div class="pdf-viewer">
+        <!-- Structural Fallbacks -->
+        <img data-img-key="group-shirt" src="images/buttons/2Hole/white.jpg">
+        <img data-img-key="group-shirt-2hole" src="images/buttons/2Hole/white.jpg">
+        <img data-img-key="group-shirt-4hole" src="images/buttons/4hole/white.jpg">
+        <img data-img-key="group-fisheye" src="images/buttons/Fish/cover.jpg">
+        <img data-img-key="group-workwear" src="images/buttons/Work wear/black.jpg">
+        <img data-img-key="group-plastic-fisheye" src="images/buttons/Plastic fish eye/black.jpg">
+        <img data-img-key="group-denim" src="images/Buttons/Denim Buttons/10.jpg">
+        <img data-img-key="group-molds" src="images/buttons/Cover button moulds/28.jpg">
+        <img data-img-key="group-aluminum" src="images/Aluminium button with plastic back.jpg">
+        <img data-img-key="group-self-cover" src="images/buttons/Self cover buttons.jpg">
+        <img data-img-key="group-blazer" src="images/buttons/Blazer buttons A/gold15mm.jpg">
+        <img data-img-key="group-golf" src="images/buttons/12,5mm golf shirt buttons/black.jpg">
+        <img data-img-key="group-triangle" src="images/buttons/Triangle buttons/black.jpg">
+        <img data-img-key="group-presses" src="images/buttons/Cover button presses/coverButtonPress.jpg">
+        <img data-img-key="group-cover-buttons" src="images/buttons/Cover button moulds/28.jpg">
+
+        <!-- 1. SHIRT BUTTONS - 11mm & 12.5mm options -->
+        <img data-product-id="btn-shirt-2hole-11mm-white1" src="images/buttons/2Hole/white.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-black7" src="images/buttons/2Hole/black.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-cream6" src="images/buttons/2Hole/cream.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-red11" src="images/buttons/2Hole/red.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-brown17" src="images/buttons/2Hole/brown.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-powder8" src="images/buttons/2Hole/powder.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-royal9" src="images/buttons/2Hole/royal.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-navy10" src="images/buttons/2Hole/navy.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-turquoise15" src="images/buttons/2Hole/turq.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-maroon22" src="images/buttons/2Hole/maroon.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-emerald19" src="images/buttons/2Hole/emerald.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-emerald19c" src="images/buttons/2Hole/emerald19C.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-bottle20" src="images/buttons/2Hole/bottle.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-lime21" src="images/buttons/2Hole/lime.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-mint18" src="images/buttons/2Hole/mint.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-orange28" src="images/buttons/2Hole/orange.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-lemon4" src="images/buttons/2Hole/lemon.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-yellow5" src="images/buttons/2Hole/yellow.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-gold16" src="images/buttons/2Hole/gold.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-oldgold68" src="images/buttons/2Hole/oldGold.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-darkgray32" src="images/buttons/2Hole/0003.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-lilac34" src="images/buttons/2Hole/lilac.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-purple56" src="images/buttons/2Hole/purple.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-beige51" src="images/buttons/2Hole/beige.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-khaki45" src="images/buttons/2Hole/khaki.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-peach24" src="images/buttons/2Hole/peach.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-pink2" src="images/buttons/2Hole/pink.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-dusty12" src="images/buttons/2Hole/dusty.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-rose36" src="images/buttons/2Hole/rose.jpg">
+        <img data-product-id="btn-shirt-2hole-11mm-cerise53" src="images/buttons/2Hole/cerise.jpg">
+
+        <img data-product-id="btn-shirt-4hole-12.5mm-white1" src="images/buttons/4hole/white.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-black7" src="images/buttons/4hole/black.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-cream6" src="images/buttons/4hole/cream.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-red11" src="images/buttons/4hole/red.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-brown17" src="images/buttons/4hole/brown.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-powder8" src="images/buttons/4hole/powder.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-royal9" src="images/buttons/4hole/royal.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-navy10" src="images/buttons/4hole/navy.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-turquoise15" src="images/buttons/4hole/turq.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-maroon22" src="images/buttons/4hole/maroon.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-emerald19" src="images/buttons/4hole/emerald.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-emerald19c" src="images/buttons/4hole/emerald19c.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-bottle20" src="images/buttons/4hole/bottle.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-lime21" src="images/buttons/4hole/lime.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-mint18" src="images/buttons/4hole/mint.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-orange28" src="images/buttons/4hole/orange.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-lemon4" src="images/buttons/4hole/lemon.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-yellow5" src="images/buttons/4hole/yellow.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-gold16" src="images/buttons/4hole/gold.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-oldgold68" src="images/buttons/4hole/oldGold.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-darkgray32" src="images/buttons/4hole/0003.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-lilac34" src="images/buttons/4hole/lilac.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-purple56" src="images/buttons/4hole/purple.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-beige51" src="images/buttons/4hole/beige.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-khaki45" src="images/buttons/4hole/khaki.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-peach24" src="images/buttons/4hole/peach.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-pink2" src="images/buttons/4hole/pink.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-dusty12" src="images/buttons/4hole/dusty.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-rose36" src="images/buttons/4hole/rose.jpg">
+        <img data-product-id="btn-shirt-4hole-12.5mm-cerise53" src="images/buttons/4hole/cerise.jpg">
+
+        <!-- 2. FISHEYE BUTTONS -->
+        <img data-product-id="btn-fisheye-11.5mm-white1" src="images/buttons/Fish/white-1.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-black7" src="images/buttons/Fish/black-7.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-cream6" src="images/buttons/Fish/cream.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-red11" src="images/buttons/Fish/red-11.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-brown17" src="images/buttons/Fish/brown.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-powder8" src="images/buttons/Fish/powder.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-royal9" src="images/buttons/Fish/royal-9.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-navy10" src="images/buttons/Fish/navy-10.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-turquoise15" src="images/buttons/Fish/turq.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-maroon22" src="images/buttons/Fish/maroon.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-emerald19" src="images/buttons/Fish/emerald-19.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-emerald19c" src="images/buttons/Fish/emerald19c.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-bottle20" src="images/buttons/Fish/bottle-20.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-lime21" src="images/buttons/Fish/lime-21.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-mint18" src="images/buttons/Fish/mint-18.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-orange28" src="images/buttons/Fish/orange-28.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-lemon4" src="images/buttons/Fish/lemon-4.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-yellow5" src="images/buttons/Fish/yellow-5.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-gold16" src="images/buttons/Fish/gold-16.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-oldgold68" src="images/buttons/Fish/gold.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-darkgray32" src="images/buttons/Fish/0024.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-lilac34" src="images/buttons/Fish/lilac-34.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-purple56" src="images/buttons/Fish/purple-56.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-beige51" src="images/buttons/Fish/white.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-khaki45" src="images/buttons/Fish/kahki-24.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-peach24" src="images/buttons/Fish/peach-24.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-pink2" src="images/buttons/Fish/pink-2.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-dusty12" src="images/buttons/Fish/dusty-12.jpg">
+        <img data-product-id="btn-fisheye-11.5mm-rose36" src="images/buttons/Fish/rose.jpg">
+
+        <!-- 3. WORKWEAR BUTTONS -->
+        <img data-product-id="btn-workwear-12.5mm-black" src="images/buttons/Work wear/black.jpg">
+        <img data-product-id="btn-workwear-12.5mm-brown" src="images/buttons/Work wear/brown.jpg">
+        <img data-product-id="btn-workwear-12.5mm-cerise" src="images/buttons/Work wear/cerise.jpg">
+        <img data-product-id="btn-workwear-12.5mm-cream" src="images/buttons/Work wear/cream.jpg">
+        <img data-product-id="btn-workwear-12.5mm-emerald" src="images/buttons/Work wear/emerald.jpg">
+        <img data-product-id="btn-workwear-12.5mm-gray" src="images/buttons/Work wear/grey.jpg">
+        <img data-product-id="btn-workwear-12.5mm-lime" src="images/buttons/Work wear/lime.jpg">
+        <img data-product-id="btn-workwear-12.5mm-lightgray" src="images/buttons/Work wear/ltGrey.jpg">
+        <img data-product-id="btn-workwear-12.5mm-maroon" src="images/buttons/Work wear/maroon.jpg">
+        <img data-product-id="btn-workwear-12.5mm-navy" src="images/buttons/Work wear/navy.jpg">
+        <img data-product-id="btn-workwear-12.5mm-orange" src="images/buttons/Work wear/orange.jpg">
+        <img data-product-id="btn-workwear-12.5mm-pink" src="images/buttons/Work wear/pink.jpg">
+        <img data-product-id="btn-workwear-12.5mm-powder" src="images/buttons/Work wear/powder.jpg">
+        <img data-product-id="btn-workwear-12.5mm-purple" src="images/buttons/Work wear/purple.jpg">
+        <img data-product-id="btn-workwear-12.5mm-red" src="images/buttons/Work wear/red.jpg">
+        <img data-product-id="btn-workwear-12.5mm-royal" src="images/buttons/Work wear/royal.jpg">
+        <img data-product-id="btn-workwear-12.5mm-white" src="images/buttons/Work wear/white.jpg">
+        <img data-product-id="btn-workwear-12.5mm-yellow" src="images/buttons/Work wear/yellow.jpg">
+
+        <!-- 4. PLASTIC FISHEYE BUTTONS -->
+        <img data-product-id="btn-plastic-fisheye-12.5mm-black" src="images/buttons/Plastic fish eye/black.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-brown" src="images/buttons/Plastic fish eye/brown.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-emerald" src="images/buttons/Plastic fish eye/emerald.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-khaki" src="images/buttons/Plastic fish eye/khaki.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-navy" src="images/buttons/Plastic fish eye/navy.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-orange" src="images/buttons/Plastic fish eye/orange.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-red" src="images/buttons/Plastic fish eye/red.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-royal" src="images/buttons/Plastic fish eye/royal.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-white" src="images/buttons/Plastic fish eye/white.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-yellow" src="images/buttons/Plastic fish eye/yellow.jpg">
+        <img data-product-id="btn-plastic-fisheye-12.5mm-gold" src="images/buttons/Plastic fish eye/0011.jpg">
+
+        <!-- 5. DENIM BUTTONS -->
+        <img data-product-id="btn-denim-style2" src="images/Buttons/Denim Buttons/2.jpg">
+        <img data-product-id="btn-denim-style3" src="images/Buttons/Denim Buttons/3.jpg">
+        <img data-product-id="btn-denim-style4" src="images/Buttons/Denim Buttons/4.jpg">
+        <img data-product-id="btn-denim-style5" src="images/Buttons/Denim Buttons/5.jpg">
+        <img data-product-id="btn-denim-style6" src="images/Buttons/Denim Buttons/6.jpg">
+        <img data-product-id="btn-denim-style7" src="images/Buttons/Denim Buttons/7.jpg">
+        <img data-product-id="btn-denim-style8" src="images/Buttons/Denim Buttons/8.jpg">
+        <img data-product-id="btn-denim-style9" src="images/Buttons/Denim Buttons/9.jpg">
+        <img data-product-id="btn-denim-style10" src="images/Buttons/Denim Buttons/10.jpg">
+        <img data-product-id="btn-denim-style11" src="images/Buttons/Denim Buttons/11.jpg">
+        <img data-product-id="btn-denim-style12" src="images/Buttons/Denim Buttons/12.jpg">
+        <img data-product-id="btn-denim-style13" src="images/Buttons/Denim Buttons/13.jpg">
+        <img data-product-id="btn-denim-style14" src="images/Buttons/Denim Buttons/14.jpg">
+        <img data-product-id="btn-denim-style15" src="images/Buttons/Denim Buttons/15.jpg">
+        <img data-product-id="btn-denim-style16" src="images/Buttons/Denim Buttons/16.jpg">
+        <img data-product-id="btn-denim-style17" src="images/Buttons/Denim Buttons/17.jpg">
+        <img data-product-id="btn-denim-style18" src="images/Buttons/Denim Buttons/18.jpg">
+        <img data-product-id="btn-denim-style19" src="images/Buttons/Denim Buttons/19.jpg">
+        <img data-product-id="btn-denim-style20" src="images/Buttons/Denim Buttons/20.jpg">
+        <img data-product-id="btn-denim-style21" src="images/Buttons/Denim Buttons/21.jpg">
+        <img data-product-id="btn-denim-style22" src="images/Buttons/Denim Buttons/22.jpg">
+        <img data-product-id="btn-denim-style23" src="images/Buttons/Denim Buttons/23.jpg">
+        <img data-product-id="btn-denim-style24" src="images/Buttons/Denim Buttons/24.jpg">
+        <img data-product-id="btn-denim-style25" src="images/Buttons/Denim Buttons/25.jpg">
+        <img data-product-id="btn-denim-style26" src="images/Buttons/Denim Buttons/26.jpg">
+        <img data-product-id="btn-denim-style27" src="images/Buttons/Denim Buttons/27.jpg">
+        <img data-product-id="btn-denim-style28" src="images/Buttons/Denim Buttons/28.jpg">
+        <img data-product-id="btn-denim-style29" src="images/Buttons/Denim Buttons/29.jpg">
+        <img data-product-id="btn-denim-style30" src="images/Buttons/Denim Buttons/30.jpg">
+
+        <!-- 6. COVER BUTTON MOLDS -->
+        <img data-product-id="btn-cover-button-molds-size28" src="images/buttons/Cover button moulds/28.jpg">
+        <img data-product-id="btn-cover-button-molds-size30" src="images/buttons/Cover button moulds/30.jpg">
+        <img data-product-id="btn-cover-button-molds-size32" src="images/buttons/Cover button moulds/32.jpg">
+        <img data-product-id="btn-cover-button-molds-size36" src="images/buttons/Cover button moulds/36.jpg">
+        <img data-product-id="btn-cover-button-molds-size44" src="images/buttons/Cover button moulds/44.jpg">
+        <img data-product-id="btn-cover-button-molds-size60" src="images/buttons/Cover button moulds/60.jpg">
+
+        <!-- 7. ALUMINUM BUTTONS PLASTIC BACK -->
+        <img data-product-id="btn-aluminum-buttons-size28" src="images/Aluminium button with plastic back.jpg">
+        <img data-product-id="btn-aluminum-buttons-size36" src="images/Aluminium button with plastic back.jpg">
+        <img data-product-id="btn-aluminum-buttons-size44" src="images/Aluminium button with plastic back.jpg">
+
+        <!-- 8. SELF-COVER BUTTON PACKS -->
+        <img data-product-id="btn-self-cover-11mm" src="images/buttons/Self cover buttons.jpg">
+        <img data-product-id="btn-self-cover-14mm" src="images/buttons/Self cover buttons.jpg">
+        <img data-product-id="btn-self-cover-18mm" src="images/buttons/Self cover buttons.jpg">
+        <img data-product-id="btn-self-cover-22mm" src="images/buttons/Self cover buttons.jpg">
+        <img data-product-id="btn-self-cover-28mm" src="images/buttons/Self cover buttons.jpg">
+        <img data-product-id="btn-self-cover-38mm" src="images/buttons/Self cover buttons.jpg">
+
+        <!-- 9. BLAZER BUTTONS -->
+        <img data-product-id="btn-blazer-typea-15mm-gold" src="images/buttons/Blazer buttons A/gold15mm.jpg">
+        <img data-product-id="btn-blazer-typea-15mm-silver" src="images/buttons/Blazer buttons A/silver15mm.jpg">
+        <img data-product-id="btn-blazer-typea-19mm-gold" src="images/buttons/Blazer buttons A/gold19mm.jpg">
+        <img data-product-id="btn-blazer-typea-19mm-silver" src="images/buttons/Blazer buttons A/silver19mm.jpg">
+
+        <img data-product-id="btn-blazer-typeb-15mm-gold" src="images/buttons/Blazer buttons B/gold15mm.jpg">
+        <img data-product-id="btn-blazer-typeb-15mm-silver" src="images/buttons/Blazer buttons B/silver15mm.jpg">
+        <img data-product-id="btn-blazer-typeb-19mm-gold" src="images/buttons/Blazer buttons B/gold19mm.jpg">
+        <img data-product-id="btn-blazer-typeb-19mm-silver" src="images/buttons/Blazer buttons B/silver19mm.jpg">
+
+        <img data-product-id="btn-blazer-typec-16mm-gold" src="images/buttons/Blazer buttons C/gold16mm.jpg">
+        <img data-product-id="btn-blazer-typec-16mm-silver" src="images/buttons/Blazer buttons C/silver16mm.jpg">
+        <img data-product-id="btn-blazer-typec-22mm-gold" src="images/buttons/Blazer buttons C/gold22mm.jpg">
+        <img data-product-id="btn-blazer-typec-22mm-silver" src="images/buttons/Blazer buttons C/silver22mm.jpg">
+
+        <!-- 10. GOLF SHIRT BUTTONS -->
+        <img data-product-id="btn-golf-shirt-12.5mm-white" src="images/buttons/12,5mm golf shirt buttons/white.jpg">
+        <img data-product-id="btn-golf-shirt-12.5mm-black" src="images/buttons/12,5mm golf shirt buttons/black.jpg">
+        <img data-product-id="btn-golf-shirt-12.5mm-navy" src="images/buttons/12,5mm golf shirt buttons/navy.jpg">
+        <img data-product-id="btn-golf-shirt-12.5mm-gray" src="images/buttons/12,5mm golf shirt buttons/grey.jpg">
+        <img data-product-id="btn-golf-shirt-12.5mm-powder" src="images/buttons/12,5mm golf shirt buttons/powder.jpg">
+
+        <!-- 11. TRIANGLE BUTTONS -->
+        <img data-product-id="btn-triangle-12.5mm-black" src="images/buttons/Triangle buttons/black.jpg">
+        <img data-product-id="btn-triangle-12.5mm-red" src="images/buttons/Triangle buttons/red.jpg">
+        <img data-product-id="btn-triangle-12.5mm-royal" src="images/buttons/Triangle buttons/royal.jpg">
+        <img data-product-id="btn-triangle-12.5mm-cream" src="images/buttons/Triangle buttons/cream.jpg">
+        <img data-product-id="btn-triangle-12.5mm-yellow" src="images/buttons/Triangle buttons/yellow.jpg">
+        <img data-product-id="btn-triangle-12.5mm-cerise" src="images/buttons/Triangle buttons/cerise.jpg">
+        <img data-product-id="btn-triangle-12.5mm-orange" src="images/buttons/Triangle buttons/orange.jpg">
+        <img data-product-id="btn-triangle-12.5mm-turquoise" src="images/buttons/Triangle buttons/turq.jpg">
+        <img data-product-id="btn-triangle-12.5mm-lime" src="images/buttons/Triangle buttons/lime.jpg">
+
+        <!-- 12. BUTTON PRESS MACHINERY -->
+        <img data-product-id="btn-button-presses-coverbuttonpress" src="images/buttons/Cover button presses/coverButtonPress.jpg">
+        <img data-product-id="btn-button-presses-compactcoverbuttonpress" src="images/buttons/Cover button presses/compactButtonPress.jpg">
+        <img data-product-id="btn-button-presses-graybuttonpress" src="images/buttons/Cover button presses/CpverButtonPress3.jpg">
+    </div>
+</div>
+
+<main>
+    <div id="categoryBlocksGrid" class="category-block-grid"></div>
+</main>
+
+<!-- CATEGORY OPTIONS SELECTION MODAL (For Fisheye & Cover Buttons) -->
+<div id="categoryOptionsModal" class="modal">
+    <div class="modal-content options-modal">
+        <span class="close-x" onclick="closeOptionsModal()">&times;</span>
+        <h2 id="optionsModalTitle" style="text-transform: uppercase; color: var(--fawz-red); font-size: 1.5rem; margin-bottom: 20px;">Select Type</h2>
+        <div id="optionsModalGrid" class="category-block-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px;"></div>
+    </div>
+</div>
+
+<!-- PRODUCT SELECTION & PURCHASE MODAL -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-x" onclick="closeModal()">&times;</span>
+        <div class="modal-left" id="modalLeft">
+            <img id="modalImg" src="">
+        </div>
+        <div class="modal-right">
+            <h2 id="modalTitle"></h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+            <div id="modalSelectorsContainer"></div>
+            
+            <div class="variant-group">
+                <label>Quantity</label>
+                <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="updatePrice()">
+            </div>
+            
+            <div id="price">R 0.00</div>
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const colorHexMap = {
+    "white-1": "#ffffff", "black-7": "#111111", "cream-6": "#fffdd0", "red-11": "#cc0000",
+    "brown-17": "#5c4033", "powder-8": "#b0e0e6", "royal-9": "#4169e1", "navy-10": "#000080",
+    "turquoise-15": "#40e0d0", "maroon-22": "#800000", "emerald-19": "#50c878", "emerald-19c": "#3bb062",
+    "bottle-20": "#006633", "lime-21": "#00ff00", "mint-18": "#98ff98", "orange-28": "#ffa500",
+    "lemon-4": "#fff700", "yellow-5": "#ffd700", "gold-16": "#d4af37", "old gold-68": "#cfb53b",
+    "dark gray-32": "#4f4f4f", "lilac-34": "#c8a2c8", "purple-56": "#800080", "beige-51": "#f5f5dc",
+    "khaki-45": "#c3b091", "peach-24": "#ffcba4", "pink-2": "#ffc0cb", "dusty-12": "#b2989c",
+    "rose-36": "#ff007f", "cerise-53": "#de3163", "black": "#111111", "brown": "#5c4033",
+    "cerise": "#de3163", "cream": "#fffdd0", "emerald": "#50c878", "gray": "#808080",
+    "lime": "#00ff00", "light gray": "#d3d3d3", "maroon": "#800000", "navy": "#000080",
+    "orange": "#ffa500", "pink": "#ffc0cb", "powder": "#b0e0e6", "purple": "#800080",
+    "red": "#cc0000", "royal": "#4169e1", "white": "#ffffff", "yellow": "#ffd700",
+    "gold": "#d4af37", "silver": "#c0c0c0", "turquoise": "#40e0d0", "khaki": "#c3b091"
+};
+
+const standard30Colors = [
+    "white-1", "black-7", "cream-6", "red-11", "brown-17", "powder-8", "royal-9", "navy-10", 
+    "turquoise-15", "maroon-22", "emerald-19", "emerald-19c", "bottle-20", "lime-21", "mint-18", 
+    "orange-28", "lemon-4", "yellow-5", "gold-16", "old gold-68", "dark gray-32", "lilac-34", 
+    "purple-56", "beige-51", "khaki-45", "peach-24", "pink-2", "dusty-12", "rose-36", "cerise-53"
+];
+
+const workwearColors = ["black", "brown", "cerise", "cream", "emerald", "gray", "lime", "light gray", "maroon", "navy", "orange", "pink", "powder", "purple", "red", "royal", "white", "yellow"];
+const plasticFisheyeColors = ["black", "brown", "emerald", "khaki", "navy", "orange", "red", "royal", "white", "yellow", "gold"];
+const triangleColors = ["black", "red", "royal", "cream", "yellow", "cerise", "orange", "turquoise", "lime"];
+const denimStyles = Array.from({length: 29}, (_, i) => `Style ${i + 2}`);
+
+const buttonCatalog = {
+    "shirt-2hole": {
+        "title": "2-Hole Shirt Buttons — 11mm",
+        "category": "Standard Buttons",
+        "imgKey": "group-shirt-2hole",
+        "productIdBase": "btn-shirt-2hole-11mm",
+        "type": "hierarchical",
+        "structure": ["color"],
+        "data": {"color": standard30Colors }
+    },
+    "shirt-4hole": {
+        "title": "4-Hole Shirt Buttons — 12.5mm",
+        "category": "Standard Buttons",
+        "imgKey": "group-shirt-4hole",
+        "productIdBase": "btn-shirt-4hole-12.5mm",
+        "type": "hierarchical",
+        "structure": ["color"],
+        "data": {"color": standard30Colors }
+    },
+    "fisheye": {
+        "title": "Fisheye Buttons",
+        "category": "Standard Buttons",
+        "imgKey": "group-fisheye",
+        "type": "hierarchical",
+        "structure": ["size", "color"],
+        "data": { "size": ["11.5mm", "15mm", "16.5mm", "19mm"], "color": standard30Colors }
+    },
+    "workwear": {
+        "title": "Workwear Buttons",
+        "category": "Industrial & Workwear",
+        "imgKey": "group-workwear",
+        "type": "hierarchical",
+        "structure": ["size", "color"],
+        "data": { "size": ["12.5mm", "15mm", "16.5mm", "19mm", "22mm", "25mm"], "color": workwearColors }
+    },
+    "plastic-fisheye": {
+        "title": "Plastic Fisheye Buttons",
+        "category": "Standard Buttons",
+        "imgKey": "group-plastic-fisheye",
+        "type": "hierarchical",
+        "structure": ["size", "color"],
+        "data": { "size": ["12.5mm", "19mm"], "color": plasticFisheyeColors }
+    },
+    "denim": {
+        "title": "Denim Buttons",
+        "category": "Industrial & Workwear",
+        "imgKey": "group-denim",
+        "type": "flat",
+        "label": "Style Options",
+        "options": denimStyles
+    },
+    "cover-button-molds": {
+        "title": "Cover Button Moulds",
+        "category": "Cover Buttons & Tools",
+        "imgKey": "group-molds",
+        "type": "flat",
+        "label": "Mold Size (Ligne)",
+        "options": ["Size 28", "Size 30", "Size 32", "Size 36", "Size 44", "Size 60"]
+    },
+    "aluminum-buttons": {
+        "title": "Aluminium with Plastic Backing",
+        "category": "Cover Buttons & Tools",
+        "imgKey": "group-aluminum",
+        "type": "flat",
+        "label": "Size Options",
+        "options": ["Size 28", "Size 36", "Size 44"]
+    },
+    "self-cover": {
+        "title": "Self Cover Buttons",
+        "category": "Cover Buttons & Tools",
+        "imgKey": "group-self-cover",
+        "type": "flat",
+        "label": "Size Options",
+        "options": ["11mm", "14mm", "18mm", "22mm", "28mm", "38mm"]
+    },
+    "blazer": {
+        "title": "Blazer Buttons",
+        "category": "Specialty Buttons",
+        "imgKey": "group-blazer",
+        "type": "hierarchical",
+        "structure": ["style", "size", "color"],
+        "data": {
+            "style": ["Type A", "Type B", "Type C"],
+            "size": {
+                "Type A": ["15mm", "19mm"],
+                "Type B": ["15mm", "19mm"],
+                "Type C": ["16mm", "22mm"]
+            },
+            "color": ["Gold", "Silver"]
+        }
+    },
+    "golf-shirt": {
+        "title": "Golf Shirt Buttons",
+        "category": "Specialty Buttons",
+        "imgKey": "group-golf",
+        "type": "hierarchical",
+        "structure": ["size", "color"],
+        "data": { "size": ["12.5mm"], "color": ["White", "Black", "Navy", "Gray", "Powder"] }
+    },
+    "triangle": {
+        "title": "Triangle Buttons",
+        "category": "Specialty Buttons",
+        "imgKey": "group-triangle",
+        "type": "hierarchical",
+        "structure": ["size", "color"],
+        "data": { "size": ["12.5mm", "15mm", "19mm", "25mm"], "color": triangleColors }
+    },
+    "button-presses": {
+        "title": "Tools",
+        "category": "Cover Buttons & Tools",
+        "imgKey": "group-presses",
+        "type": "flat",
+        "label": "Press Model",
+        "options": ["Cover Button Press", "Compact Cover Button Press", "Industrial Button Press"]
+    }
+};
+
+// DIRECT CATEGORY STRUCTURE DESIRED BY THE USER
+const mainCategoryBlocks = [
+    { id: "shirt-group", title: "Shirt Buttons", imgKey: "group-shirt", isGroup: true, options: ["shirt-2hole", "shirt-4hole"] },
+    { id: "fisheye-group", title: "Fisheye Buttons", imgKey: "group-fisheye", isGroup: true, options: ["fisheye", "plastic-fisheye"] },
+    { id: "blazer", title: "Blazer Buttons", imgKey: "group-blazer" },
+    { id: "golf-shirt", title: "Golf Shirt Buttons", imgKey: "group-golf" },
+    { id: "triangle", title: "Triangle Buttons", imgKey: "group-triangle" },
+    { id: "workwear", title: "Workwear Buttons", imgKey: "group-workwear" },
+    { id: "denim", title: "Denim Buttons", imgKey: "group-denim" },
+    { id: "cover-buttons-group", title: "Cover Buttons", imgKey: "group-cover-buttons", isGroup: true, options: ["cover-button-molds", "aluminum-buttons", "self-cover"] },
+    { id: "button-presses", title: "Tools", imgKey: "group-presses" }
+];
+
+let activeGroupId = null;
+let currentSelections = {};
+
+function getImageSrc(imgKey) {
+    const bankImg = document.querySelector(`#imageBank img[data-img-key="${imgKey}"]`);
+    return bankImg ? bankImg.getAttribute('src') : '';
+}
+
+function getVariantImage(productId, fallbackKey) {
+    const variantImg = document.querySelector(`#imageBank img[data-product-id="${productId}"]`);
+    return variantImg ? variantImg.getAttribute('src') : getImageSrc(fallbackKey);
+}
+
+function buildCategoryGrid() {
+    const container = document.getElementById('categoryBlocksGrid');
+    if (!container) return;
+    container.innerHTML = '';
+
+    mainCategoryBlocks.forEach(block => {
+        const card = document.createElement('article');
+        card.className = 'category-block-card';
+        const srcImg = getImageSrc(block.imgKey);
+        const imageTemplate = srcImg ? `<img src="${srcImg}" alt="${block.title}" loading="lazy">` : `<div style="font-size:3rem; color:#ccc;">🔘</div>`;
+
+        card.innerHTML = `
+            <div class="category-block-img">${imageTemplate}</div>
+            <div class="category-block-info">
+                <h3>${block.title}</h3>
+            </div>
+        `;
+        
+        card.onclick = () => handleCategoryClick(block);
+        container.appendChild(card);
+    });
+}
+
+function handleCategoryClick(block) {
+    if (block.isGroup) {
+        openOptionsModal(block);
+    } else {
+        openProductModal(block.id);
+    }
+}
+
+function openOptionsModal(groupBlock) {
+    const optionsGrid = document.getElementById('optionsModalGrid');
+    document.getElementById('optionsModalTitle').innerText = groupBlock.title;
+    optionsGrid.innerHTML = '';
+
+    groupBlock.options.forEach(subId => {
+        const prod = buttonCatalog[subId];
+        if (!prod) return;
+
+        const card = document.createElement('article');
+        card.className = 'category-block-card';
+        const srcImg = getImageSrc(prod.imgKey);
+        const imageTemplate = srcImg ? `<img src="${srcImg}" alt="${prod.title}" loading="lazy">` : `<div style="font-size:3rem; color:#ccc;">🔘</div>`;
+
+        card.innerHTML = `
+            <div class="category-block-img" style="height:140px;">${imageTemplate}</div>
+            <div class="category-block-info" style="padding: 12px;">
+                <h3 style="font-size: 0.95rem;">${prod.title}</h3>
+            </div>
+        `;
+
+        card.onclick = () => {
+            closeOptionsModal();
+            openProductModal(subId);
+        };
+
+        optionsGrid.appendChild(card);
+    });
+
+    document.getElementById('categoryOptionsModal').style.display = 'flex';
+}
+
+function closeOptionsModal() {
+    document.getElementById('categoryOptionsModal').style.display = 'none';
+}
+
+function openProductModal(groupId) {
+    activeGroupId = groupId;
+    const item = buttonCatalog[groupId];
+    document.getElementById('modalTitle').innerText = item.title;
+    
+    const selectorsContainer = document.getElementById('modalSelectorsContainer');
+    selectorsContainer.innerHTML = '';
+    currentSelections = {};
+
+    if (item.type === 'flat') {
+        createSelectorElement(item.label || "Option Selection", item.options, (val) => {
+            currentSelections['option'] = val;
+            syncModalState();
+        });
+        currentSelections['option'] = item.options[0];
+    } else if (item.type === 'hierarchical') {
+        renderHierarchicalSelectors(item, selectorsContainer);
+    }
+
+    document.getElementById('qty').value = 1;
+    syncModalState();
+    document.getElementById('productModal').style.display = 'flex';
+}
+
+function renderHierarchicalSelectors(item, container) {
+    let stepIndex = 0;
+
+    function buildNextSelector() {
+        if (stepIndex >= item.structure.length) return;
+        const levelKey = item.structure[stepIndex];
+        
+        let optionsArray = [];
+        if (Array.isArray(item.data[levelKey])) {
+            optionsArray = item.data[levelKey];
+        } else {
+            const parentKey = item.structure[stepIndex - 1];
+            const parentSelection = currentSelections[parentKey];
+            const dataLevel = item.data[levelKey][parentSelection];
+
+            if (Array.isArray(dataLevel)) {
+                optionsArray = dataLevel;
+            } else if (typeof dataLevel === 'object' && dataLevel !== null) {
+                const grandParentKey = item.structure[stepIndex - 2];
+                const grandParentSelection = currentSelections[grandParentKey];
+                optionsArray = item.data[levelKey][grandParentSelection]?.[parentSelection] || [];
+            }
+        }
+
+        currentSelections[levelKey] = optionsArray[0] || "";
+
+        createSelectorElement(levelKey, optionsArray, (selectedVal) => {
+            currentSelections[levelKey] = selectedVal;
+            
+            // Clean up dependent child selectors when a parent level selection changes
+            const currentIndex = item.structure.indexOf(levelKey);
+            for (let i = currentIndex + 1; i < item.structure.length; i++) {
+                const garbageKey = item.structure[i];
+                const cleanTarget = document.getElementById(`wrapper-${garbageKey}`);
+                if (cleanTarget) cleanTarget.remove();
+                delete currentSelections[garbageKey];
+            }
+            
+            stepIndex = currentIndex + 1;
+            buildNextSelector();
+            syncModalState();
+        }, levelKey);
+
+        stepIndex++;
+        buildNextSelector();
+    }
+    buildNextSelector();
+}
+
+function createSelectorElement(labelText, options, onChangeCallback, trackingId = 'option') {
+    const container = document.getElementById('modalSelectorsContainer');
+    
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'variant-group';
+    groupDiv.id = `wrapper-${trackingId}`;
+
+    const label = document.createElement('label');
+    label.innerText = labelText;
+    groupDiv.appendChild(label);
+
+    if (trackingId === 'color') {
+        const tableContainer = document.createElement('div');
+        tableContainer.className = 'color-table-container';
+
+        const table = document.createElement('table');
+        table.className = 'color-selector-table';
+
+        options.forEach((opt, idx) => {
+            const row = document.createElement('tr');
+            if (idx === 0) row.className = 'selected';
+
+            const cleanColorKey = opt.toLowerCase();
+            const swatchColor = colorHexMap[cleanColorKey] || "#dddddd";
+
+            row.innerHTML = `
+                <td class="radio-cell">
+                    <input type="radio" name="modal-color-group" value="${opt}" ${idx === 0 ? 'checked' : ''}>
+                </td>
+                <td class="color-swatch-cell">
+                    <span class="color-block" style="background-color: ${swatchColor};"></span>
+                </td>
+                <td>${opt}</td>
+            `;
+
+            row.onclick = () => {
+                const radio = row.querySelector('input[type="radio"]');
+                radio.checked = true;
+                table.querySelectorAll('tr').forEach(r => r.classList.remove('selected'));
+                row.classList.add('selected');
+                onChangeCallback(opt);
+            };
+
+            table.appendChild(row);
+        });
+
+        tableContainer.appendChild(table);
+        groupDiv.appendChild(tableContainer);
+    } else {
+        const select = document.createElement('select');
+        select.className = 'variant-select';
+        
+        options.forEach(opt => {
+            const el = document.createElement('option');
+            el.value = opt;
+            el.innerText = opt;
+            select.appendChild(el);
+        });
+
+        select.onchange = (e) => onChangeCallback(e.target.value);
+        groupDiv.appendChild(select);
+    }
+
+    container.appendChild(groupDiv);
+}
+
+function computeGeneratedProductId() {
+    const item = buttonCatalog[activeGroupId];
+    let token = item.productIdBase || `btn-${activeGroupId}`;
+    
+    if (item.type === 'flat') {
+        const cleanOpt = currentSelections['option'].replace(/\s+/g, '').replace(/[\/\.-]/g, '').toLowerCase();
+        return `${token}-${cleanOpt}`;
+    }
+    
+    item.structure.forEach(key => {
+        const value = currentSelections[key] || "";
+        const processedToken = value.replace(/\s+/g, '').replace(/[\/\.-]/g, '').toLowerCase();
+        token += `-${processedToken}`;
+    });
+    return token;
+}
+
+function syncModalState() {
+    const item = buttonCatalog[activeGroupId];
+    const computedPid = computeGeneratedProductId();
+    
+    let absoluteTargetSrc = null;
+
+    // First attempt direct exact lookup by product ID
+    const exactMatchImg = document.querySelector(`#imageBank img[data-product-id="${computedPid}"]`);
+    if (exactMatchImg) {
+        absoluteTargetSrc = exactMatchImg.getAttribute('src');
+    }
+
+    // Secondary fallback search if exact ID lookup fails
+    if (!absoluteTargetSrc && currentSelections['color']) {
+        const cleanColorToken = currentSelections['color'].replace(/\s+/g, '').replace(/[\/\.-]/g, '').toLowerCase();
+        const lookupSelector = `#imageBank img[data-product-id*="${activeGroupId}"][data-product-id*="${cleanColorToken}"]`;
+        const matchedColorImg = document.querySelector(lookupSelector);
+        
+        if (matchedColorImg) {
+            absoluteTargetSrc = matchedColorImg.getAttribute('src');
+        }
+    }
+
+    if (!absoluteTargetSrc) {
+        absoluteTargetSrc = getVariantImage(computedPid, item.imgKey);
+    }
+
+    document.getElementById('modalImg').src = absoluteTargetSrc;
+    updatePrice();
+}
+
+function updatePrice() {
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+    const computedPid = computeGeneratedProductId();
+    let baseUnitCost = 0; 
+    if (window.getFirebasePrice) {
+        baseUnitCost = window.getFirebasePrice(computedPid, 0);
+    }
+
+    const priceBox = document.getElementById('price');
+    if (priceBox) {
+        priceBox.innerText = baseUnitCost === 0 ? "Contact for Pricing" : `R ${(baseUnitCost * qty).toFixed(2)}`;
+    }
+}
+
+function addToCart() {
+    const item = buttonCatalog[activeGroupId];
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+    const computedPid = computeGeneratedProductId();
+    const variantLabel = Object.entries(currentSelections).map(([k, v]) => `${k}: ${v}`).join(' | ');
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.push({
+        product: `${item.title} (${variantLabel})`,
+        category: item.category,
+        qty: qty,
+        productId: computedPid,
+        tier: window.userTier || 'tier_1'
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`Success: Added ${item.title} to your cart.`);
+    closeModal();
+}
+
+function closeModal() {
+    document.getElementById('productModal').style.display = 'none';
+}
+
+function handleSearch() {
+    const filter = document.getElementById('searchBox').value.toLowerCase();
+    document.querySelectorAll('#categoryBlocksGrid .category-block-card').forEach(card => {
+        const textValue = card.innerText.toLowerCase();
+        card.style.display = textValue.includes(filter) ? '' : 'none';
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    buildCategoryGrid();
+    document.getElementById('searchBox')?.addEventListener('input', handleSearch);
+});
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-packing-info.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head><link rel="stylesheet" href="fawz-site.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>4 Ply Wool | Fawz Haberdashery</title>
+
+<link rel="stylesheet" href="global-images.css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+
+:root {
+
+    --fawz-red: #e31e24;
+
+    --fawz-dark: #1a1a1a;
+
+    --fawz-grey: #f8f8f8;
+
+    --border: #eeeeee;
+
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+
+    background: #fff;
+
+    color: var(--fawz-dark);
+
+    overflow-x: hidden;
+
+}
+
+header {
+
+    position: sticky;
+
+    top: 0;
+
+    background: #fff;
+
+    padding: 15px 5%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 3px solid var(--fawz-red);
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+    z-index: 1000;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+}
+
+.logo {
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-size: 1.2rem;
+
+}
+
+.logo span { color: var(--fawz-red); }
+
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+
+nav a {
+
+    color: var(--fawz-dark);
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size: 0.9rem;
+
+}
+
+.hero {
+
+    padding: 46px 5% 24px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.hero h1 {
+
+    font-size: clamp(2.5rem, 5vw, 4rem);
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+    font-weight: 900;
+
+    letter-spacing: -1px;
+
+}
+
+.toolbar {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 22px;
+
+}
+
+.toolbar input {
+
+    padding: 13px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    min-width: 260px;
+
+    font-size: 1rem;
+
+    background: #fff;
+
+}
+
+main {
+
+    padding: 15px 5% 70px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.product-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    gap: 30px;
+
+    margin-top: 20px;
+
+}
+
+.product-card {
+
+    background: #fff;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+
+    transition: 0.25s;
+
+}
+
+.product-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--fawz-red);
+
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+
+}
+
+.product-img-wrap {
+
+    height: 240px;
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+.product-img-wrap img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+.product-info {
+
+    padding: 20px;
+
+    text-align: center;
+
+}
+
+.product-info h4 {
+
+    font-size: 1.15rem;
+
+    font-weight: 800;
+
+    margin: 0 0 8px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+}
+
+.product-info p {
+
+    font-size: 0.8rem;
+
+    color: #666;
+
+    margin: 0;
+
+}
+
+.hidden { display: none !important; }
+
+
+
+/* MODAL STRUCTURE */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    z-index: 2000;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.7);
+
+    backdrop-filter: blur(3px);
+
+    padding: 20px;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+.modal-content {
+
+    background: #fff;
+
+    margin: auto;
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    height: 85%;
+
+    max-height: 85vh;
+
+    display: grid;
+
+    grid-template-columns: 0.9fr 1.1fr;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+
+    position: relative;
+
+}
+
+.close-x {
+
+    position: absolute;
+
+    right: 20px;
+
+    top: 12px;
+
+    font-size: 34px;
+
+    cursor: pointer;
+
+    color: #aaa;
+
+    z-index: 10;
+
+    background: rgba(255,255,255,0.9);
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    transition: all 0.2s;
+
+}
+
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+
+.modal-left {
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-right: 1px solid var(--border);
+
+    overflow: hidden;
+
+}
+
+.modal-left img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+.modal-right {
+
+    padding: 28px 32px;
+
+    overflow-y: auto;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.modal-right h2 {
+
+    margin: 0 0 20px;
+
+    text-transform: uppercase;
+
+    color: var(--fawz-red);
+
+    font-size: 1.6rem;
+
+    font-weight: 900;
+
+}
+
+.variant-group {
+
+    margin: 10px 0 16px;
+
+}
+
+.variant-group label {
+
+    display: block;
+
+    margin: 0 0 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    font-size: 0.75rem;
+
+    color: #555;
+
+    letter-spacing: 1px;
+
+}
+
+.variant-select {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 0.9rem;
+
+    background: #fff;
+
+    cursor: pointer;
+
+}
+
+
+
+/* VISUAL COLOR TABLE MATRIX LAYOUT */
+
+.color-table-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+
+    gap: 10px;
+
+    margin-top: 8px;
+
+}
+
+.color-block-cell {
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    background: #fff;
+
+    transition: all 0.2s ease;
+
+}
+
+.color-block-cell:hover {
+
+    border-color: #999;
+
+    background: #fcfcfc;
+
+}
+
+.color-block-cell.active {
+
+    border-color: var(--fawz-red);
+
+    background: #fff5f5;
+
+    box-shadow: 0 0 0 1px var(--fawz-red);
+
+}
+
+.color-swatch-preview {
+
+    width: 24px;
+
+    height: 24px;
+
+    border-radius: 6px;
+
+    border: 1px solid rgba(0,0,0,0.15);
+
+    flex-shrink: 0;
+
+}
+
+.color-title-label {
+
+    font-size: 0.85rem;
+
+    font-weight: 700;
+
+    color: var(--fawz-dark);
+
+}
+
+
+
+.qty-input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 1rem;
+
+    background: #f8f8f8;
+
+    margin: 6px 0 12px;
+
+}
+
+#price {
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    margin: 15px 0 20px;
+
+    color: var(--fawz-red);
+
+}
+
+.btn-add {
+
+    width: 100%;
+
+    background: var(--fawz-red);
+
+    border: none;
+
+    color: #fff;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+
+    letter-spacing: 1.5px;
+
+    transition: background 0.2s;
+
+    margin-top: auto;
+
+}
+
+.btn-add:hover { background: #c41a1f; }
+
+
+
+@media (max-width: 700px) {
+
+    .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; }
+
+    .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); }
+
+    .modal-right { padding: 20px; }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<header>
+
+    <div class="logo">Fawz <span>Haberdashery</span></div>
+
+    <nav>
+
+        <a href="home.html">Home</a>
+
+        <a href="category-index.html">Categories</a>
+
+        <a href="all-products.html">All Products</a>
+
+        <a href="demo_cart.html">View Cart</a>
+
+    </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+    <h1>Knitting Yarn</h1>
+
+    <div class="toolbar">
+
+        <input id="searchBox" placeholder="Search 4 ply wool codes...">
+
+    </div>
+
+</section>
+
+
+
+<!-- Image Bank mapped directly to your local file paths -->
+
+<div id="imageBank" style="display:none;">
+
+    <img data-img-key="babyPink" src="images/Wool/babyPink.jpg" alt="Baby Pink">
+
+    <img data-img-key="beige" src="images/Wool/beige.jpg" alt="Beige">
+
+    <img data-img-key="black" src="images/Wool/black.jpg" alt="Black">
+
+    <img data-img-key="bottle" src="images/Wool/bottle.jpg" alt="Bottle">
+
+    <img data-img-key="cerise" src="images/Wool/cerise.jpg" alt="Cerise">
+
+    <img data-img-key="cream" src="images/Wool/cream.jpg" alt="Cream">
+
+    <img data-img-key="dkBrown" src="images/Wool/dkBrown.jpg" alt="Dark Brown">
+
+    <img data-img-key="emerald" src="images/Wool/emerald.jpg" alt="Emerald">
+
+    <img data-img-key="gold" src="images/Wool/gold.jpg" alt="Gold">
+
+    <img data-img-key="grey" src="images/Wool/grey.jpg" alt="Grey">
+
+    <img data-img-key="lilac" src="images/Wool/lilac.jpg" alt="Lilac">
+
+    <img data-img-key="maroon" src="images/Wool/maroon.jpg" alt="Maroon">
+
+    <img data-img-key="navy" src="images/Wool/navy.jpg" alt="Navy">
+
+    <img data-img-key="oldGold" src="images/Wool/oldGold.jpg" alt="Old Gold">
+
+    <img data-img-key="orange" src="images/Wool/orange.jpg" alt="Orange">
+
+    <img data-img-key="powder" src="images/Wool/powder.jpg" alt="Powder">
+
+    <img data-img-key="purple" src="images/Wool/purple.jpg" alt="Purple">
+
+    <img data-img-key="red" src="images/Wool/red.jpg" alt="Red">
+
+    <img data-img-key="rose" src="images/Wool/rose.jpg" alt="Rose">
+
+    <img data-img-key="royal" src="images/Wool/royal.jpg" alt="Royal">
+
+    <img data-img-key="sunflower" src="images/Wool/sunflower.jpg" alt="Sunflower">
+
+    <img data-img-key="turq" src="images/Wool/turq.jpg" alt="Turquoise">
+
+    <img data-img-key="v1" src="images/Wool/v1.jpg" alt="V1">
+
+    <img data-img-key="v2" src="images/Wool/v2.jpg" alt="V2">
+
+    <img data-img-key="v3" src="images/Wool/v3.jpg" alt="V3">
+
+    <img data-img-key="v4" src="images/Wool/v4.jpg" alt="V4">
+
+    <img data-img-key="v5" src="images/Wool/v5.jpg" alt="V5">
+
+    <img data-img-key="v6" src="images/Wool/v6.jpg" alt="V6">
+
+    <img data-img-key="v7" src="images/Wool/v7.jpg" alt="V7">
+
+    <img data-img-key="v8" src="images/Wool/v8.jpg" alt="V8">
+
+    <img data-img-key="v9" src="images/Wool/v9.jpg" alt="V9">
+
+    <img data-img-key="v10" src="images/Wool/v10.jpg" alt="V10">
+
+    <img data-img-key="v11" src="images/Wool/v11.jpg" alt="V11">
+
+    <img data-img-key="white" src="images/Wool/white.jpg" alt="White">
+
+    <img data-img-key="yellow" src="images/Wool/yellow.jpg" alt="Yellow">
+
+</div>
+
+
+
+<main>
+
+    <div id="categorySectionsContainer" class="product-grid"></div>
+
+</main>
+
+
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-x" onclick="closeModal()">×</span>
+
+        <div class="modal-left" id="modalLeft">
+
+            <img id="modalImg" src="" alt="">
+
+        </div>
+
+        <div class="modal-right">
+
+            <h2 id="modalTitle">Product Title</h2>
+
+<div id="packingInfo" style="background:#f5f5f5;padding:12px 16px;border-radius:12px;margin:15px 0;font-size:0.85rem;color:#555;border-left:3px solid var(--fawz-red);" aria-live="polite"></div>
+
+
+
+            <div class="variant-group">
+
+                <label>Select Skein Ball Weight</label>
+
+                <select id="sizeSelect" class="variant-select"></select>
+
+            </div>
+
+
+
+            <div class="variant-group">
+
+                <label>Select Colour Code</label>
+
+                <div id="colorTableGrid" class="color-table-grid"></div>
+
+            </div>
+
+
+
+            <label style="font-weight: 800; text-transform: uppercase; font-size: 0.75rem; color: #555; margin-top:10px; display:block;">Quantity</label>
+
+            <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="updatePrice()">
+
+
+
+            <div id="price">R 0.00</div>
+
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+function getImageSrc(imgKey) {
+
+    const bankImg = document.querySelector(`#imageBank img[data-img-key="${imgKey}"]`);
+
+    return bankImg ? bankImg.getAttribute('src') : '';
+
+}
+
+
+
+// Complete 35-color Catalog Dataset matching your folder images
+
+const productGroups = {
+
+  "4-ply-wool": {
+
+    "title": "4 Ply Wool Blend",
+
+    "imgKey": "babyPink",
+
+    "sizes": ["20g Ball", "80g Ball"],
+
+    "colors": [
+
+      { "name": "Baby Pink", "key": "babyPink", "hex": "#f4c2c2" },
+
+      { "name": "Beige", "key": "beige", "hex": "#d9c3ab" },
+
+      { "name": "Black", "key": "black", "hex": "#1a1a1a" },
+
+      { "name": "Bottle Green", "key": "bottle", "hex": "#134024" },
+
+      { "name": "Cerise", "key": "cerise", "hex": "#d92e62" },
+
+      { "name": "Cream", "key": "cream", "hex": "#f5f0e1" },
+
+      { "name": "Dark Brown", "key": "dkBrown", "hex": "#4a3319" },
+
+      { "name": "Emerald", "key": "emerald", "hex": "#0f8544" },
+
+      { "name": "Gold", "key": "gold", "hex": "#cca025" },
+
+      { "name": "Grey", "key": "grey", "hex": "#737373" },
+
+      { "name": "Lilac", "key": "lilac", "hex": "#c8a2c8" },
+
+      { "name": "Maroon", "key": "maroon", "hex": "#63121f" },
+
+      { "name": "Navy", "key": "navy", "hex": "#122345" },
+
+      { "name": "Old Gold", "key": "oldGold", "hex": "#c59b27" },
+
+      { "name": "Orange", "key": "orange", "hex": "#f57c15" },
+
+      { "name": "Powder Blue", "key": "powder", "hex": "#bce6fa" },
+
+      { "name": "Purple", "key": "purple", "hex": "#682578" },
+
+      { "name": "Red", "key": "red", "hex": "#cc1f29" },
+
+      { "name": "Rose", "key": "rose", "hex": "#e6658b" },
+
+      { "name": "Royal Blue", "key": "royal", "hex": "#1e4db7" },
+
+      { "name": "Sunflower", "key": "sunflower", "hex": "#ffae00" },
+
+      { "name": "Turquoise", "key": "turq", "hex": "#00b4d8" },
+
+      { "name": "V1", "key": "v1", "hex": "#5e6569" },
+
+      { "name": "V2", "key": "v2", "hex": "#dfb6db" },
+
+      { "name": "V3", "key": "v3", "hex": "#f590b0" },
+
+      { "name": "V4", "key": "v4", "hex": "#ffb3c6" },
+
+      { "name": "V5", "key": "v5", "hex": "#8f442b" },
+
+      { "name": "V6", "key": "v6", "hex": "#1da1b5" },
+
+      { "name": "V7", "key": "v7", "hex": "#a8b052" },
+
+      { "name": "V8", "key": "v8", "hex": "#557a3e" },
+
+      { "name": "V9", "key": "v9", "hex": "#422854" },
+
+      { "name": "V10", "key": "v10", "hex": "#a36c40" },
+
+      { "name": "V11", "key": "v11", "hex": "#c73a55" },
+
+      { "name": "White", "key": "white", "hex": "#ffffff" },
+
+      { "name": "Yellow", "key": "yellow", "hex": "#ffeb3b" }
+
+    ],
+
+    "pricing": {
+
+      "20g Ball": 15.00,
+
+      "80g Ball": 35.00
+
+    }
+
+  }
+
+};
+
+
+
+let activeItem = null;
+
+let selectedSize = "";
+
+let selectedColorName = "";
+
+let selectedColorKey = "";
+
+
+
+function buildPageGrid() {
+
+    const container = document.getElementById('categorySectionsContainer');
+
+    if (!container) return;
+
+    container.innerHTML = '';
+
+
+
+    for (const key in productGroups) {
+
+        const prod = productGroups[key];
+
+        const card = document.createElement('article');
+
+        card.className = 'product-card';
+
+
+
+        const srcImg = getImageSrc(prod.imgKey);
+
+        const imageTemplate = srcImg ? `<img src="${srcImg}" alt="${prod.title}" loading="lazy">` : `<div style="font-size:3rem; padding: 50px 0;">🧶</div>`;
+
+
+
+        card.innerHTML = `
+
+            <div class="product-img-wrap">${imageTemplate}</div>
+
+            <div class="product-info">
+
+                <h4>${prod.title}</h4>
+
+                <p>${prod.sizes.length} Ball Weights • ${prod.colors.length} Catalog Codes</p>
+
+            </div>
+
+        `;
+
+
+
+        card.onclick = () => openProductModal(prod);
+
+        container.appendChild(card);
+
+    }
+
+}
+
+
+
+function openProductModal(prod) {
+
+    activeItem = prod;
+
+    document.getElementById('modalTitle').innerText = prod.title;
+
+
+
+    const sizeSelect = document.getElementById('sizeSelect');
+
+    const colorTableGrid = document.getElementById('colorTableGrid');
+
+
+
+    sizeSelect.innerHTML = '';
+
+    colorTableGrid.innerHTML = '';
+
+
+
+    prod.sizes.forEach(size => {
+
+        const el = document.createElement('option');
+
+        el.value = size;
+
+        el.innerText = size;
+
+        sizeSelect.appendChild(el);
+
+    });
+
+
+
+    selectedSize = prod.sizes[0];
+
+    sizeSelect.value = selectedSize;
+
+    sizeSelect.onchange = (e) => { selectedSize = e.target.value; updatePrice(); };
+
+
+
+    prod.colors.forEach((color, index) => {
+
+        const block = document.createElement('div');
+
+        block.className = `color-block-cell ${index === 0 ? 'active' : ''}`;
+
+        block.setAttribute('data-color-name', color.name);
+
+
+
+        block.innerHTML = `
+
+            <div class="color-swatch-preview" style="background-color: ${color.hex};"></div>
+
+            <div class="color-title-label">${color.name}</div>
+
+        `;
+
+
+
+        block.onclick = () => {
+
+            document.querySelectorAll('.color-block-cell').forEach(c => c.classList.remove('active'));
+
+            block.classList.add('active');
+
+            selectedColorName = color.name;
+
+            selectedColorKey = color.key;
+
+            document.getElementById('modalImg').src = getImageSrc(color.key);
+
+            updatePrice();
+
+        };
+
+
+
+        colorTableGrid.appendChild(block);
+
+    });
+
+
+
+    selectedColorName = prod.colors[0].name;
+
+    selectedColorKey = prod.colors[0].key;
+
+    document.getElementById('modalImg').src = getImageSrc(selectedColorKey);
+
+    document.getElementById('qty').value = 1;
+
+
+
+    updatePrice();
+
+    document.getElementById('productModal').style.display = 'flex';
+
+}
+
+
+
+function syncYarnWeightAndPacking() {
+    if (!activeItem) return;
+    const isMixed = /^V[0-9]+$/i.test(selectedColorName);
+    const allowedSizes = isMixed ? ['80g Ball'] : ['20g Ball', '80g Ball'];
+    const select = document.getElementById('sizeSelect');
+    if (!allowedSizes.includes(selectedSize)) selectedSize = allowedSizes[0];
+    const shownSizes = Array.from(select.options).map(option => option.value);
+    if (JSON.stringify(shownSizes) !== JSON.stringify(allowedSizes)) {
+        select.replaceChildren();
+        allowedSizes.forEach(size => {
+            const option = document.createElement('option');
+            option.value = size;
+            option.textContent = size;
+            select.appendChild(option);
+        });
+    }
+    select.value = selectedSize;
+    document.getElementById('packingInfo').textContent = selectedSize === '20g Ball'
+        ? '20g ball: Packed in 20s. Charged per individual ball.'
+        : '80g ball: Packed in 10s. Charged per individual ball.';
+}
+
+function updatePrice() {
+    syncYarnWeightAndPacking();
+
+    if (!activeItem) return;
+
+
+
+    const basePrice = activeItem.pricing[selectedSize] || 0;
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+
+
+    const cleanSize = selectedSize.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+    const cleanColor = selectedColorName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+    const computedPid = `wool-4ply-${cleanSize}-${cleanColor}`;
+
+
+
+    const baseUnit = (window.getFirebasePrice) ? window.getFirebasePrice(computedPid, basePrice) : basePrice;
+
+    const totalAmount = baseUnit * qty;
+
+
+
+    const priceBox = document.getElementById('price');
+
+    if (priceBox) {
+
+        priceBox.innerText = `R ${totalAmount.toFixed(2)}`;
+
+    }
+
+}
+
+
+
+function addToCart() {
+    syncYarnWeightAndPacking();
+
+    if (!activeItem) return;
+
+
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+    const basePrice = activeItem.pricing[selectedSize] || 0;
+
+    const cleanSize = selectedSize.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+    const cleanColor = selectedColorName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+    const computedPid = `wool-4ply-${cleanSize}-${cleanColor}`;
+
+
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    cart.push({
+
+        product: `${activeItem.title} (${selectedSize} - ${selectedColorName})`,
+
+        category: "Yarn",
+
+        size: selectedSize,
+
+        color: selectedColorName,
+
+        qty: qty,
+
+        price: basePrice * qty,
+
+        unitPrice: basePrice,
+
+        total: basePrice * qty,
+
+        productId: computedPid,
+
+        tier: window.userTier || 'tier_1'
+
+    });
+
+
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    alert(`Added: ${activeItem.title} (${selectedSize} - ${selectedColorName}) x${qty} to cart.`);
+
+    closeModal();
+
+}
+
+
+
+function closeModal() {
+
+    document.getElementById('productModal').style.display = 'none';
+
+}
+
+
+
+function handleSearch() {
+
+    const filter = document.getElementById('searchBox').value.toLowerCase();
+
+    const productCards = document.querySelectorAll('.product-card');
+
+
+
+    productCards.forEach(card => {
+
+        const textValue = card.innerText.toLowerCase();
+
+        card.classList.toggle('hidden', !textValue.includes(filter));
+
+    });
+
+}
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    buildPageGrid();
+
+    document.getElementById('searchBox')?.addEventListener('input', handleSearch);
+
+});
+
+</script>
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+
+</html>

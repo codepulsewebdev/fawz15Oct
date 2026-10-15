@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cambric Lace | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark);-webkit-user-select:none;user-select:none}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+.logo span{color:var(--fawz-red)}
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+.hero p{color:#666;max-width:900px;line-height:1.6}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.toolbar input,.toolbar select{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:240px;font-size:1rem;background:#fff}
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+
+/* Section Cards Grid */
+.section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:20px}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s}
+.section-card:hover{transform:translateY(-4px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+.section-card-img{height:220px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);position:relative}
+.section-card-img img{width:100%;height:100%;object-fit:contain;padding:14px;pointer-events:none}
+.section-card-img img[src=""]{display:none}
+.section-card-img::after{content:"Image coming soon";color:#999;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.section-card-img:has(img[src]:not([src=""]))::after{display:none}
+.section-card-info{padding:20px;text-align:center}
+.section-card-info h3{font-size:1.4rem;margin:0 0 6px;text-transform:uppercase;color:var(--fawz-dark)}
+.section-card-info p{margin:0;color:#666;font-size:.9rem}
+
+/* Product Section Modal */
+.section-modal{display:none;position:fixed;z-index:1500;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);padding:30px 12px;overflow-y:auto}
+.section-modal-content{background:#fff;margin:auto;max-width:1200px;border-radius:18px;padding:30px;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.25)}
+.section-modal-header{display:flex;align-items:center;justify-content:space-between;border-left:6px solid var(--fawz-red);padding-left:14px;margin-bottom:24px}
+.section-modal-header h3{font-size:1.8rem;margin:0;text-transform:uppercase}
+
+/* Product Cards inside Section Modal */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.product-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s}
+.product-card:hover{transform:translateY(-4px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+.product-img-wrap{height:190px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);position:relative}
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;padding:14px;pointer-events:none}
+.product-img-wrap img[src=""],.modal-left img[src=""]{display:none}
+.product-img-wrap::after{content:"Image coming soon";color:#999;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.product-img-wrap:has(img[src]:not([src=""]))::after{display:none}
+.product-info{padding:15px}
+.category-pill{display:inline-block;font-size:.72rem;font-weight:900;text-transform:uppercase;background:#f2f2f2;border-radius:999px;padding:5px 8px;color:#555}
+.product-info h4{font-size:1rem;margin:12px 0 8px;line-height:1.3}
+.product-id{font-size:.76rem;color:#777;word-break:break-all;margin:0 0 8px}
+.firebase-price{font-weight:900;color:var(--fawz-red);margin:0}
+
+/* Detailed Product Modal */
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);padding:30px 12px}
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:520px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:5}
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border);position:relative}
+.modal-left::after{content:"Image coming soon";color:#999;font-weight:900;text-transform:uppercase;letter-spacing:.5px}
+.modal-left:has(img[src]:not([src=""]))::after{display:none}
+.modal-left img{max-width:100%;max-height:430px;object-fit:contain;pointer-events:none}
+.modal-right{padding:42px 36px}
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all}
+label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+#price{font-size:2rem;font-weight:950;margin:25px 0;color:#111}
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px}
+.btn-add:hover{background:#b3161a}
+.hidden{display:none!important}
+#imageBank{display:none}
+.security-overlay{display:none;position:fixed;inset:0;z-index:999999;background:#111;color:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;font-weight:900;font-size:1.3rem}
+@media(max-width:760px){header{align-items:flex-start;flex-direction:column}nav a{margin:0 14px 0 0}.modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}.modal-left{min-height:260px;border-right:0;border-bottom:1px solid var(--border)}}
+@media print{body{display:none!important}}
+</style>
+
+
+
+
+
+</head>
+
+<body oncontextmenu="return false">
+<header>
+<div class="logo">Fawz <span>Haberdashery</span></div>
+<nav><a href="home.html">Home</a><a href="all-products.html">All Products</a><a href="demo_cart.html">View Cart</a></nav>
+<a href="login.html" style="margin-left:12px;font-weight:900;color:#e31e24;text-decoration:none">Login</a>
+</header>
+
+<section class="hero">
+<h1>Cambric Lace</h1>
+<p>Cambric lace products grouped by size section. All items are White only and 15 yards per roll. Click on a size category below to view available products.</p>
+<div class="toolbar">
+<input id="searchBox" placeholder="Search cambric lace, size, or product IDs...">
+<select id="categoryFilter">
+<option value="">All size sections</option>
+<option value="25 mm">25 mm (1 Inch)</option>
+<option value="45 mm / 50 mm">45 mm / 50 mm (2 Inches)</option>
+<option value="65 mm / 75 mm">65 mm / 75 mm (3 Inches)</option>
+</select>
+</div>
+</section>
+
+<!-- HTML IMAGE BANK -->
+<div id="imageBank">
+<img data-img-key="cambric-lace-1021" src="images/Cambric/1021.jpg" alt="cambric-lace-1021">
+<img data-img-key="cambric-lace-1022" src="images/Cambric/1022.jpg" alt="cambric-lace-1022">
+<img data-img-key="cambric-lace-1023" src="images/Cambric/1023.jpg" alt="cambric-lace-1023">
+<img data-img-key="cambric-lace-1024" src="images/Cambric/1024.jpg" alt="cambric-lace-1024">
+<img data-img-key="cambric-lace-1025" src="images/Cambric/1025.jpg" alt="cambric-lace-1025">
+<img data-img-key="cambric-lace-2021" src="images/Cambric/2021.jpg" alt="cambric-lace-2021">
+<img data-img-key="cambric-lace-2022" src="images/Cambric/2022.jpg" alt="cambric-lace-2022">
+<img data-img-key="cambric-lace-2023" src="images/Cambric/2023.jpg" alt="cambric-lace-2023">
+<img data-img-key="cambric-lace-2024" src="images/Cambric/2024.jpg" alt="cambric-lace-2024">
+<img data-img-key="cambric-lace-2025" src="images/Cambric/2025.jpg" alt="cambric-lace-2025">
+<img data-img-key="cambric-lace-3021" src="images/Cambric/3021.jpg" alt="cambric-lace-3021">
+<img data-img-key="cambric-lace-3022" src="images/Cambric/3022.jpg" alt="cambric-lace-3022">
+<img data-img-key="cambric-lace-3023" src="images/Cambric/3033.jpg" alt="cambric-lace-3023">
+<img data-img-key="cambric-lace-3024" src="images/Cambric/3024.jpg" alt="cambric-lace-3024">
+<img data-img-key="cambric-lace-3025" src="images/Cambric/3025.jpg" alt="cambric-lace-3025">
+</div>
+
+<main>
+<!-- 3 Primary Size Cards -->
+<div class="section-grid">
+  <div class="section-card" onclick="openSectionModal('25 mm')">
+    <div class="section-card-img"><img data-image-key="cambric-lace-1021" src="" alt="1 Inch Cambric Lace"></div>
+    <div class="section-card-info">
+      <h3>1 Inch</h3>
+      <p>25 mm Range</p>
+    </div>
+  </div>
+
+  <div class="section-card" onclick="openSectionModal('45 mm / 50 mm')">
+    <div class="section-card-img"><img data-image-key="cambric-lace-2021" src="" alt="2 Inches Cambric Lace"></div>
+    <div class="section-card-info">
+      <h3>2 Inches</h3>
+      <p>45 mm / 50 mm Range</p>
+    </div>
+  </div>
+
+  <div class="section-card" onclick="openSectionModal('65 mm / 75 mm')">
+    <div class="section-card-img"><img data-image-key="cambric-lace-3021" src="" alt="3 Inches Cambric Lace"></div>
+    <div class="section-card-info">
+      <h3>3 Inches</h3>
+      <p>65 mm / 75 mm Range</p>
+    </div>
+  </div>
+</div>
+</main>
+
+<!-- Category Products Modal -->
+<div id="sectionModal" class="section-modal">
+  <div class="section-modal-content">
+    <span class="close-x" onclick="closeSectionModal()">&times;</span>
+    <div class="section-modal-header">
+      <h3 id="sectionModalTitle">Products</h3>
+    </div>
+    
+    <div class="product-grid" id="sectionProductGrid">
+      
+      <!-- 1 Inch Section -->
+      <article class="product-card" data-product-id="cambric-lace-1021" data-category="Cambric Lace" data-size-section="25 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-1021" src="" alt="Cambric Lace 1021" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 1021</h4><p class="product-id">25mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-1022" data-category="Cambric Lace" data-size-section="25 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-1022" src="" alt="Cambric Lace 1022" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 1022</h4><p class="product-id">25mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-1023" data-category="Cambric Lace" data-size-section="25 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-1023" src="" alt="Cambric Lace 1023" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 1023</h4><p class="product-id">25mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-1024" data-category="Cambric Lace" data-size-section="25 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-1024" src="" alt="Cambric Lace 1024" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 1024</h4><p class="product-id">25mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-1025" data-category="Cambric Lace" data-size-section="25 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-1025" src="" alt="Cambric Lace 1025" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 1025</h4><p class="product-id">25mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+
+      <!-- 2 Inches Section -->
+      <article class="product-card" data-product-id="cambric-lace-2021" data-category="Cambric Lace" data-size-section="45 mm / 50 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-2021" src="" alt="Cambric Lace 2021" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 2021</h4><p class="product-id">45mm or 50mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-2022" data-category="Cambric Lace" data-size-section="45 mm / 50 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-2022" src="" alt="Cambric Lace 2022" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 2022</h4><p class="product-id">45mm or 50mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-2023" data-category="Cambric Lace" data-size-section="45 mm / 50 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-2023" src="" alt="Cambric Lace 2023" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 2023</h4><p class="product-id">45mm or 50mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-2024" data-category="Cambric Lace" data-size-section="45 mm / 50 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-2024" src="" alt="Cambric Lace 2024" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 2024</h4><p class="product-id">45mm or 50mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-2025" data-category="Cambric Lace" data-size-section="45 mm / 50 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-2025" src="" alt="Cambric Lace 2025" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 2025</h4><p class="product-id">45mm or 50mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+
+      <!-- 3 Inches Section -->
+      <article class="product-card" data-product-id="cambric-lace-3021" data-category="Cambric Lace" data-size-section="65 mm / 75 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-3021" src="" alt="Cambric Lace 3021" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 3021</h4><p class="product-id">65mm or 75mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-3022" data-category="Cambric Lace" data-size-section="65 mm / 75 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-3022" src="" alt="Cambric Lace 3022" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 3022</h4><p class="product-id">65mm or 75mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-3023" data-category="Cambric Lace" data-size-section="65 mm / 75 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-3023" src="" alt="Cambric Lace 3023" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 3023</h4><p class="product-id">65mm or 75mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-3024" data-category="Cambric Lace" data-size-section="65 mm / 75 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-3024" src="" alt="Cambric Lace 3024" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 3024</h4><p class="product-id">65mm or 75mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+      <article class="product-card" data-product-id="cambric-lace-3025" data-category="Cambric Lace" data-size-section="65 mm / 75 mm" onclick="openProduct(this)">
+      <div class="product-img-wrap"><img data-image-key="cambric-lace-3025" src="" alt="Cambric Lace 3025" loading="lazy"></div>
+      <div class="product-info"><span class="category-pill">Cambric Lace</span><h4>Cambric Lace 3025</h4><p class="product-id">65mm or 75mm · White · 15 yards per roll</p><p class="firebase-price">Login to view price</p></div>
+      </article>
+
+    </div>
+  </div>
+</div>
+
+<!-- Detailed Product Modal -->
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span class="close-x" onclick="closeModal()">&times;</span>
+<div class="modal-left"><img id="modalImg" src="" alt=""></div>
+<div class="modal-right">
+<h2 id="modalTitle">Product</h2>
+<p class="modal-meta" id="modalCategory"></p>
+<p class="modal-meta" id="modalSizeSection"></p>
+<p class="modal-meta" id="modalColour"></p>
+<p class="modal-meta" id="modalPackSize"></p>
+<p class="modal-meta">Product ID: <strong id="modalProductId"></strong></p>
+
+<div id="sizeWrap" class="hidden">
+<label for="sizeSelect">Size</label>
+<select id="sizeSelect" class="option-select" onchange="selectSizeVariant()"></select>
+</div>
+
+<label>Quantity</label>
+<input type="number" id="qty" value="1" min="1" oninput="updateModalPrice()">
+<p id="price">Select product</p>
+<button class="btn-add" onclick="addToCart()">Add to Cart</button>
+</div>
+</div>
+</div>
+
+<div class="security-overlay" id="securityOverlay">Screen capture / restricted shortcut detected.</div>
+
+<script>
+const products = {
+  "cambric-lace-1021": {
+    name:"Cambric Lace 1021",
+    category:"Cambric Lace",
+    productId:"cambric-lace-1021-25mm-white-15y-roll",
+    sizeSection:"25mm",
+    colour:"White",
+    packSize:"15 yards per roll",
+    basePrice:0,
+    imgKey:"cambric-lace-1021"
+  },
+  "cambric-lace-1022": {
+    name:"Cambric Lace 1022",
+    category:"Cambric Lace",
+    productId:"cambric-lace-1022-25mm-white-15y-roll",
+    sizeSection:"25mm",
+    colour:"White",
+    packSize:"15 yards per roll",
+    basePrice:0,
+    imgKey:"cambric-lace-1022"
+  },
+  "cambric-lace-1023": {
+    name:"Cambric Lace 1023",
+    category:"Cambric Lace",
+    productId:"cambric-lace-1023-25mm-white-15y-roll",
+    sizeSection:"25mm",
+    colour:"White",
+    packSize:"15 yards per roll",
+    basePrice:0,
+    imgKey:"cambric-lace-1023"
+  },
+  "cambric-lace-1024": {
+    name:"Cambric Lace 1024",
+    category:"Cambric Lace",
+    productId:"cambric-lace-1024-25mm-white-15y-roll",
+    sizeSection:"25mm",
+    colour:"White",
+    packSize:"15 yards per roll",
+    basePrice:0,
+    imgKey:"cambric-lace-1024"
+  },
+  "cambric-lace-1025": {
+    name:"Cambric Lace 1025",
+    category:"Cambric Lace",
+    productId:"cambric-lace-1025-25mm-white-15y-roll",
+    sizeSection:"25mm",
+    colour:"White",
+    packSize:"15 yards per roll",
+    basePrice:0,
+    imgKey:"cambric-lace-1025"
+  },
+  "cambric-lace-2021": {
+    name:"Cambric Lace 2021",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-2021",
+    options:[{size:"45mm", name:"Cambric Lace 2021 - 45mm", productId:"cambric-lace-2021-45mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2021"}, {size:"50mm", name:"Cambric Lace 2021 - 50mm", productId:"cambric-lace-2021-50mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2021"}]
+  },
+  "cambric-lace-2022": {
+    name:"Cambric Lace 2022",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-2022",
+    options:[{size:"45mm", name:"Cambric Lace 2022 - 45mm", productId:"cambric-lace-2022-45mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2022"}, {size:"50mm", name:"Cambric Lace 2022 - 50mm", productId:"cambric-lace-2022-50mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2022"}]
+  },
+  "cambric-lace-2023": {
+    name:"Cambric Lace 2023",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-2023",
+    options:[{size:"45mm", name:"Cambric Lace 2023 - 45mm", productId:"cambric-lace-2023-45mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2023"}, {size:"50mm", name:"Cambric Lace 2023 - 50mm", productId:"cambric-lace-2023-50mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2023"}]
+  },
+  "cambric-lace-2024": {
+    name:"Cambric Lace 2024",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-2024",
+    options:[{size:"45mm", name:"Cambric Lace 2024 - 45mm", productId:"cambric-lace-2024-45mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2024"}, {size:"50mm", name:"Cambric Lace 2024 - 50mm", productId:"cambric-lace-2024-50mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2024"}]
+  },
+  "cambric-lace-2025": {
+    name:"Cambric Lace 2025",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-2025",
+    options:[{size:"45mm", name:"Cambric Lace 2025 - 45mm", productId:"cambric-lace-2025-45mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2025"}, {size:"50mm", name:"Cambric Lace 2025 - 50mm", productId:"cambric-lace-2025-50mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-2025"}]
+  },
+  "cambric-lace-3021": {
+    name:"Cambric Lace 3021",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-3021",
+    options:[{size:"65mm", name:"Cambric Lace 3021 - 65mm", productId:"cambric-lace-3021-65mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3021"}, {size:"75mm", name:"Cambric Lace 3021 - 75mm", productId:"cambric-lace-3021-75mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3021"}]
+  },
+  "cambric-lace-3022": {
+    name:"Cambric Lace 3022",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-3022",
+    options:[{size:"65mm", name:"Cambric Lace 3022 - 65mm", productId:"cambric-lace-3022-65mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3022"}, {size:"75mm", name:"Cambric Lace 3022 - 75mm", productId:"cambric-lace-3022-75mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3022"}]
+  },
+  "cambric-lace-3023": {
+    name:"Cambric Lace 3023",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-3023",
+    options:[{size:"65mm", name:"Cambric Lace 3023 - 65mm", productId:"cambric-lace-3023-65mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3023"}, {size:"75mm", name:"Cambric Lace 3023 - 75mm", productId:"cambric-lace-3023-75mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3023"}]
+  },
+  "cambric-lace-3024": {
+    name:"Cambric Lace 3024",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-3024",
+    options:[{size:"65mm", name:"Cambric Lace 3024 - 65mm", productId:"cambric-lace-3024-65mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3024"}, {size:"75mm", name:"Cambric Lace 3024 - 75mm", productId:"cambric-lace-3024-75mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3024"}]
+  },
+  "cambric-lace-3025": {
+    name:"Cambric Lace 3025",
+    category:"Cambric Lace",
+    colour:"White",
+    packSize:"15 yards per roll",
+    imgKey:"cambric-lace-3025",
+    options:[{size:"65mm", name:"Cambric Lace 3025 - 65mm", productId:"cambric-lace-3025-65mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3025"}, {size:"75mm", name:"Cambric Lace 3025 - 75mm", productId:"cambric-lace-3025-75mm-white-15y-roll", basePrice:0, imgKey:"cambric-lace-3025"}]
+  },
+};
+
+const sectionTitles = {
+  "25 mm": "1 Inch (25 mm)",
+  "45 mm / 50 mm": "2 Inches (45 mm / 50 mm)",
+  "65 mm / 75 mm": "3 Inches (65 mm / 75 mm)"
+};
+
+let selectedGroup = null;
+let selectedProduct = null;
+
+function getBankImage(key){
+  const img = document.querySelector(`#imageBank img[data-img-key="${CSS.escape(key)}"]`);
+  return img ? img.getAttribute('src') : '';
+}
+
+function applyCardImages(){
+  document.querySelectorAll('[data-image-key]').forEach(img => {
+    img.src = getBankImage(img.dataset.imageKey);
+  });
+}
+
+function openSectionModal(sectionKey){
+  document.getElementById('sectionModalTitle').textContent = sectionTitles[sectionKey] || sectionKey;
+  
+  document.querySelectorAll('#sectionProductGrid .product-card').forEach(card => {
+    card.style.display = card.dataset.sizeSection === sectionKey ? 'block' : 'none';
+  });
+
+  document.getElementById('sectionModal').style.display = 'block';
+}
+
+function closeSectionModal(){
+  document.getElementById('sectionModal').style.display = 'none';
+}
+
+function openProduct(card){
+  const product = products[card.dataset.productId];
+  if(!product) return;
+
+  selectedGroup = product;
+  document.getElementById('qty').value = 1;
+
+  const sizeWrap = document.getElementById('sizeWrap');
+  const sizeSelect = document.getElementById('sizeSelect');
+
+  if(product.options && product.options.length){
+    sizeWrap.classList.remove('hidden');
+    sizeSelect.innerHTML = product.options.map((option,index)=>`<option value="${index}">${option.size}</option>`).join('');
+    selectSizeVariant();
+  }else{
+    sizeWrap.classList.add('hidden');
+    selectedProduct = {...product};
+    updateSelectedProductUI();
+  }
+
+  document.getElementById('productModal').style.display = 'block';
+}
+
+function selectSizeVariant(){
+  if(!selectedGroup || !selectedGroup.options) return;
+  const index = Number(document.getElementById('sizeSelect').value || 0);
+  const option = selectedGroup.options[index] || selectedGroup.options[0];
+
+  selectedProduct = {
+    name: option.name,
+    category: selectedGroup.category,
+    productId: option.productId,
+    sizeSection: option.size,
+    colour: selectedGroup.colour,
+    packSize: selectedGroup.packSize,
+    basePrice: Number(option.basePrice || 0),
+    imgKey: option.imgKey
+  };
+
+  updateSelectedProductUI();
+}
+
+function updateSelectedProductUI(){
+  if(!selectedProduct) return;
+
+  window.fawzCurrentProductId = selectedProduct.productId;
+  window.fawzCurrentProductName = selectedProduct.name;
+
+  document.getElementById('modalTitle').textContent = selectedProduct.name;
+  document.getElementById('modalCategory').textContent = selectedProduct.category;
+  document.getElementById('modalSizeSection').textContent = 'Size: ' + selectedProduct.sizeSection;
+  document.getElementById('modalColour').textContent = 'Colour: ' + selectedProduct.colour;
+  document.getElementById('modalPackSize').textContent = selectedProduct.packSize;
+  document.getElementById('modalProductId').textContent = selectedProduct.productId;
+  document.getElementById('modalImg').src = getBankImage(selectedProduct.imgKey);
+  document.getElementById('modalImg').alt = selectedProduct.name;
+
+  updateModalPrice();
+}
+
+function closeModal(){
+  document.getElementById('productModal').style.display = 'none';
+}
+
+async function updateModalPrice(){
+  const qty = Math.max(parseInt(document.getElementById('qty').value || '1', 10) || 1, 1);
+  const priceEl = document.getElementById('price');
+
+  if(!selectedProduct){
+    priceEl.textContent = 'Select product';
+    return;
+  }
+
+  priceEl.textContent = 'Loading...';
+  let unit = Number(selectedProduct.basePrice || 0);
+
+  try{
+    if(window.fawzFetchTierPrice){
+      unit = await window.fawzFetchTierPrice(selectedProduct.productId);
+    }
+  }catch(e){
+    console.warn('Using workbook fallback price until Firebase is configured:', e);
+  }
+
+  window.fawzCurrentUnitPrice = unit;
+  priceEl.textContent = unit > 0 ? 'R ' + (unit * qty).toFixed(2) : 'Login to view price';
+}
+
+function addToCart(){
+  if(!selectedProduct) return;
+
+  const qty = Math.max(parseInt(document.getElementById('qty').value || '1', 10) || 1, 1);
+  const unit = Number(window.fawzCurrentUnitPrice || selectedProduct.basePrice || 0);
+
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  cart.push({
+    product: selectedProduct.name,
+    productId: selectedProduct.productId,
+    category: selectedProduct.category,
+    colour: selectedProduct.colour,
+    size: selectedProduct.sizeSection + ' · ' + selectedProduct.colour + ' · ' + selectedProduct.packSize,
+    qty,
+    price: unit,
+    unitPrice: unit,
+    total: unit * qty,
+    image: getBankImage(selectedProduct.imgKey)
+  });
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert('Added to cart: ' + selectedProduct.name);
+}
+
+function filterProducts(){
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  const size = document.getElementById('categoryFilter').value;
+
+  if (q || size) {
+    if (size) {
+      openSectionModal(size);
+    } else {
+      openSectionModal('25 mm');
+    }
+    
+    document.querySelectorAll('#sectionProductGrid .product-card').forEach(card => {
+      const product = products[card.dataset.productId];
+      const haystack = JSON.stringify(product || {}).toLowerCase();
+      const matchesSearch = !q || haystack.includes(q) || card.textContent.toLowerCase().includes(q);
+      const matchesSize = !size || card.dataset.sizeSection === size;
+
+      card.style.display = (matchesSearch && matchesSize) ? 'block' : 'none';
+    });
+  }
+}
+
+document.getElementById('searchBox').addEventListener('input', filterProducts);
+document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+
+window.addEventListener('click', e => {
+  if(e.target === document.getElementById('productModal')) closeModal();
+  if(e.target === document.getElementById('sectionModal')) closeSectionModal();
+});
+
+document.addEventListener('DOMContentLoaded', applyCardImages);
+
+(function(){
+  const overlay = document.getElementById('securityOverlay');
+
+  function flash(){
+    overlay.style.display = 'flex';
+    setTimeout(() => overlay.style.display = 'none', 1200);
+  }
+
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+
+  document.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+
+    if(
+      e.key === 'PrintScreen' ||
+      (e.ctrlKey && ['s','u','p','c','x','a'].includes(k)) ||
+      (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(k)) ||
+      e.key === 'F12'
+    ){
+      e.preventDefault();
+      flash();
+      return false;
+    }
+  });
+})();
+</script>
+
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

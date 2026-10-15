@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+
+<title>Elastics | Fawz Haberdashery</title>
+
+<script src="fawz-security.js" defer></script>
+
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+
+*{box-sizing:border-box}
+
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+
+.logo span{color:var(--fawz-red)}
+
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+
+.hero p{color:#666;max-width:900px;line-height:1.6}
+
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+
+.toolbar input{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:280px;font-size:1rem;background:#fff}
+
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+
+.category-main-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:20px;}
+
+.category-main-card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,.05);transition:.3s ease;text-align:center;}
+
+.category-main-card:hover{transform:translateY(-5px);border-color:var(--fawz-red);box-shadow:0 18px 36px rgba(0,0,0,.12)}
+
+.category-main-card .img-wrap{height:220px;background:#fcfcfc;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);padding:20px}
+
+.category-main-card img{max-width:100%;max-height:100%;object-fit:contain}
+
+.category-main-card h3{margin:18px 0 18px;font-size:1.3rem;text-transform:uppercase;color:var(--fawz-dark)}
+
+
+
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(5px);padding:30px 12px;overflow-y:auto}
+
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:10;line-height:1}
+
+.close-x:hover{color:var(--fawz-red)}
+
+.category-modal-content{background:#fff;margin:auto;max-width:1100px;border-radius:20px;padding:35px 25px 40px;position:relative;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+
+.category-modal-header{margin-bottom:25px;border-left:6px solid var(--fawz-red);padding-left:15px}
+
+.category-modal-header h2{margin:0;font-size:1.8rem;text-transform:uppercase}
+
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;max-height:70vh;overflow-y:auto;padding-right:5px}
+
+.sub-product-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.04);transition:.2s ease}
+
+.sub-product-card:hover{transform:translateY(-3px);border-color:var(--fawz-red);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+
+.sub-product-img{height:160px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);padding:12px}
+
+.sub-product-img img{width:100%;height:100%;object-fit:contain}
+
+.sub-product-info{padding:12px}
+
+.sub-product-info h4{font-size:0.95rem;margin:0;line-height:1.25}
+
+
+
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:500px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border);position:relative}
+
+.modal-left img{width:100%;height:100%;max-height:430px;object-fit:contain}
+
+.modal-right{padding:42px 36px;overflow-y:auto;max-height:85vh;}
+
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all}
+
+label{display:block;margin:16px 0 6px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+
+input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px;margin-top:20px;}
+
+.btn-add:hover{background:#b3161a}
+
+
+
+@media(max-width:760px){
+
+  header{align-items:flex-start;flex-direction:column} 
+
+  nav a{margin:0 14px 0 0}
+
+  .category-main-grid{grid-template-columns:1fr;gap:12px}
+
+  .category-main-card .img-wrap{height:140px}
+
+  .category-main-card h3{font-size:1rem;margin:12px 0}
+
+  .modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+
+  .modal-left{min-height:240px;border-right:0;border-bottom:1px solid var(--border)}
+
+  .category-grid{grid-template-columns:repeat(2,1fr)}
+
+}
+
+img[hidden]{display:none!important}
+</style>
+
+<link rel="stylesheet" href="fawz-packing-info.css">
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">Fawz <span>Haberdashery</span></div>
+
+  <nav>
+
+    <a href="home.html">Home</a>
+
+    <a href="all-products.html">All Products</a>
+
+    <a href="demo_cart.html">View Cart</a>
+
+  </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+  <h1>Elastics</h1>
+
+  <p>Select Black & White, Colors, or Printed Elastics to view elastic categories.</p>
+
+  <div class="toolbar">
+
+    <input id="searchBox" placeholder="Search elastic categories...">
+
+  </div>
+
+</section>
+
+
+
+<!-- RESTORED CORRECT ELASTICS IMAGE BANK MATCHED TO FILE EXPLORER SCREENSHOT -->
+
+<div id="imageBank" style="display:none;">
+
+  <!-- Printed Elastics Subfolder -->
+
+  <img hidden data-img-key="printed" alt="Printed">
+
+  <img hidden data-img-key="printed-white" alt="Printed White">
+
+  <img hidden data-img-key="printed-cream" alt="Printed Cream">
+
+  <img hidden data-img-key="printed-brown" alt="Printed Brown">
+
+
+
+  <!-- Cord Elastics White -->
+
+  <img src="images/Elastics/6cord white.jpg" data-img-key="6cord-white" alt="6 Cord White">
+
+  <img src="images/Elastics/8 cord white.jpg" data-img-key="8cord-white" alt="8 Cord White">
+
+  <img src="images/Elastics/10 cord White.jpg" data-img-key="10cord-white" alt="10 Cord White">
+
+  <img hidden data-img-key="12cord-white" alt="12 Cord White">
+
+
+
+  <!-- Cord Elastics Black -->
+
+  <img src="images/Elastics/Elastic 6cord Black.jpg" data-img-key="elastic-6cord-black" alt="Elastic 6 Cord Black">
+
+  <img src="images/Elastics/Elastic 8 Cord Black.jpg" data-img-key="elastic-8cord-black" alt="Elastic 8 Cord Black">
+
+  <img src="images/Elastics/Elastic 10 cord Black.jpg" data-img-key="elastic-10cord-black" alt="Elastic 10 cord Black">
+
+  <img src="images/Elastics/Elastic 12 cord Black.jpg" data-img-key="elastic-12cord-black" alt="Elastic 12 cord Black">
+
+
+
+  <!-- Buttonhole Elastics (New from Screenshot) -->
+
+  <img src="images/Elastics/buttonHoleBlack.jpg" data-img-key="buttonhole-black" alt="Buttonhole Black">
+
+  <img hidden data-img-key="buttonhole-white" alt="Buttonhole White">
+
+
+
+  <!-- Non-Curl Elastics (New from Screenshot) -->
+
+  <img hidden data-img-key="noncurl-black" alt="Non-Curl Black">
+
+  <img src="images/Elastics/nonCurlWhite.jpg" data-img-key="noncurl-white" alt="Non-Curl White">
+
+
+
+  <!-- Other Individual Assets & New Additions -->
+
+  <img hidden data-img-key="bottle" alt="Bottle">
+
+  <img hidden data-img-key="cover" alt="Cover">
+
+  <img src="images/Elastics/drawCord.jpg" data-img-key="drawcord" alt="Drawcord">
+
+  <img hidden data-img-key="grey" alt="Grey">
+
+  <img hidden data-img-key="hatelastic-2" alt="Hat Elastic 2">
+
+  <img src="images/Elastics/hatElastic.jpg" data-img-key="hatelastic" alt="Hat Elastic">
+
+  <img hidden data-img-key="navy" alt="Navy">
+
+  <img src="images/Elastics/plain Black.jpg" data-img-key="plain-black" alt="Plain Black">
+
+  <img hidden data-img-key="plainblackroll" alt="Plain Black Roll">
+
+  <img hidden data-img-key="red" alt="Red">
+
+  <img hidden data-img-key="shockcord" alt="Shock Cord">
+
+  <img src="images/Elastics/White.jpg" data-img-key="white" alt="White">
+
+
+
+  <!-- Dedicated Sub-Category Icons -->
+
+  <img src="images/Elastics/White.jpg" data-img-key="sub-elastics" alt="Elastics">
+
+  <img src="images/Elastics/6cord white.jpg" data-img-key="sub-cord" alt="Cord Elastics">
+
+  <img src="images/Elastics/buttonHoleBlack.jpg" data-img-key="sub-buttonhole" alt="Buttonhole Elastics">
+
+  <img src="images/Elastics/drawCord.jpg" data-img-key="sub-drawcord" alt="Drawcord Elastics">
+
+  <img src="images/Elastics/hatElastic.jpg" data-img-key="sub-hat" alt="Hat Elastics">
+
+  <img src="images/Elastics/nonCurlWhite.jpg" data-img-key="sub-noncurl" alt="Non-Curl Elastic">
+
+  <img hidden data-img-key="sub-shirring" alt="Shirring Elastic">
+
+  <img hidden data-img-key="sub-shock" alt="Shock Cord">
+
+  <img hidden data-img-key="sub-braid" alt="Braided Elastic">
+
+  <img hidden data-img-key="sub-color-normal" alt="Color Elastics Normal">
+
+  <img hidden data-img-key="sub-color-shock" alt="Color Shock Cord">
+
+  <img hidden data-img-key="sub-printed" alt="Printed Elastic">
+
+</div>
+
+
+
+<main>
+
+  <div class="category-main-grid">
+
+    <div class="category-main-card" onclick="openCategoryModal('bw')">
+
+      <div class="img-wrap"><img src="images/Elastics/plain Black.jpg" alt="Black & White Elastics"></div>
+
+      <h3>Black & White</h3>
+
+    </div>
+
+    <div class="category-main-card" onclick="openCategoryModal('colors')">
+
+      <div class="img-wrap"><img hidden alt="Colors Elastics"></div>
+
+      <h3>Colors</h3>
+
+    </div>
+
+    <div class="category-main-card" onclick="openCategoryModal('printed')">
+
+      <div class="img-wrap"><img hidden alt="Printed Elastics"></div>
+
+      <h3>Printed Elastics</h3>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+
+<!-- CATEGORY GRID MODAL -->
+
+<div id="categoryGridModal" class="modal">
+
+  <div class="category-modal-content">
+
+    <span class="close-x" onclick="closeCategoryModal()">×</span>
+
+    <div class="category-modal-header">
+
+      <h2 id="catModalTitle">Category</h2>
+
+    </div>
+
+    <div class="category-grid" id="categoryGridContainer"></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- PRODUCT MODAL -->
+
+<div id="productModal" class="modal">
+
+  <div class="modal-content">
+
+    <span class="close-x" onclick="closeProductModal()">×</span>
+
+    <div class="modal-left">
+
+      <img id="modalImg" src="" alt="Product Detail Image">
+
+    </div>
+
+    <div class="modal-right">
+
+      <h2 id="modalTitle">Product Title</h2>
+
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+
+      <p class="modal-meta" id="modalMeta">Product details</p>
+
+
+
+      <div id="dynamicSelectorsContainer"></div>
+
+
+
+      <label for="qtyInput">Quantity:</label>
+
+      <input type="number" id="qtyInput" value="1" min="1" style="margin-bottom:10px;">
+
+      <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+
+      <button class="btn-add" onclick="addToCart()">Add to Order</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+function getImageSrc(imgKey) {
+
+    const bankImg = document.querySelector(`#imageBank img[data-img-key="${imgKey}"]`);
+
+    return bankImg ? (bankImg.getAttribute('src') || '') : '';
+
+}
+
+
+
+const categoryData = {
+
+  "bw": {
+
+    title: "Black & White Elastics",
+
+    groups: [
+
+      "elastics",
+
+      "cord-elastics",
+
+      "buttonhole-elastics",
+
+      "drawcord-elastics",
+
+      "hat-elastics",
+
+      "non-curl-elastics",
+
+      "shirring-elastic",
+
+      "shock-cord",
+
+      "elastic-braid"
+
+    ]
+
+  },
+
+  "colors": {
+
+    title: "Colors Elastics",
+
+    groups: [
+
+      "color-elastics-normal",
+
+      "color-shock-cord"
+
+    ]
+
+  },
+
+  "printed": {
+
+    title: "Printed Elastics",
+
+    groups: [
+
+      "printed-elastics"
+
+    ]
+
+  }
+
+};
+
+
+
+const productGroups = {
+
+  "elastics": {
+
+    title: "Elastics",
+
+    category: "Black & White",
+
+    imgKey: "sub-elastics",
+
+    type: "separated-size-color",
+
+    sizes: ["20mm", "25mm", "32mm", "38mm", "50mm", "75mm", "100mm", "120mm"],
+
+    colors: ["Black", "White"]
+
+  },
+
+  "color-elastics-normal": {
+
+    title: "Color Elastics Normal",
+
+    category: "Colors",
+
+    imgKey: "sub-color-normal",
+
+    type: "separated-size-color",
+
+    sizes: ["28mm", "38mm"],
+
+    colors: ["Black", "White", "Grey", "Bottle", "Red", "Navy"]
+
+  },
+
+  "cord-elastics": {
+
+    title: "Cord Elastics",
+
+    category: "Black & White",
+
+    imgKey: "sub-cord",
+
+    type: "separated-cord-color",
+
+    cords: ["6 Cord", "8 Cord", "10 Cord", "12 Cord"],
+
+    colors: ["Black", "White"]
+
+  },
+
+  "buttonhole-elastics": {
+
+    title: "Buttonhole Elastics",
+
+    category: "Black & White",
+
+    imgKey: "sub-buttonhole",
+
+    type: "single-list",
+
+    options: [
+
+      {name: "Buttonhole White (20mm)", size: "20mm", color: "White", imgKey: "buttonhole-white"},
+
+      {name: "Buttonhole Black (20mm)", size: "20mm", color: "Black", imgKey: "buttonhole-black"}
+
+    ]
+
+  },
+
+  "drawcord-elastics": {
+
+    title: "Drawcord Elastics",
+
+    category: "Black & White",
+
+    imgKey: "sub-drawcord",
+
+    type: "single-list",
+
+    options: [
+
+      {name: "Drawcord 32mm White", size: "32mm", color: "White", imgKey: "drawcord"}
+
+    ]
+
+  },
+
+  "hat-elastics": {
+
+    title: "Hat Elastics",
+
+    category: "Black & White",
+
+    imgKey: "sub-hat",
+
+    type: "hat-triple-selector",
+
+    formats: ["Roll", "Carded"],
+
+    sizes: ["1.5mm", "1.8mm"],
+
+    colors: ["White", "Black"]
+
+  },
+
+  "non-curl-elastics": {
+
+    title: "Non-Curl Elastic",
+
+    category: "Black & White",
+
+    imgKey: "sub-noncurl",
+
+    type: "separated-size-color",
+
+    sizes: ["20mm", "25mm", "32mm", "38mm"],
+
+    colors: ["White", "Black"]
+
+  },
+
+  "shirring-elastic": {
+
+    title: "Shirring Elastic",
+
+    category: "Black & White",
+
+    imgKey: "sub-shirring",
+
+    type: "shirring-selector",
+
+    formats: ["Carded (12 cards/box)", "Loose (36 cards/box)"],
+
+    colors: ["White", "Black"]
+
+  },
+
+  "shock-cord": {
+
+    title: "Shock Cord",
+
+    category: "Black & White",
+
+    imgKey: "sub-shock",
+
+    type: "separated-size-color",
+
+    sizes: ["3mm", "6mm", "9mm"],
+
+    colors: ["White", "Black"]
+
+  },
+
+  "color-shock-cord": {
+
+    title: "Color Shock Cord",
+
+    category: "Colors",
+
+    imgKey: "sub-color-shock",
+
+    type: "separated-size-color",
+
+    sizes: ["3mm", "6mm", "9mm"],
+
+    colors: ["Navy", "Red", "Bottle", "Grey"]
+
+  },
+
+  "elastic-braid": {
+
+    title: "Braided Elastic",
+
+    category: "Black & White",
+
+    imgKey: "sub-braid",
+
+    type: "separated-size-color",
+
+    sizes: ["4mm", "5mm", "6mm", "7.5mm", "10mm", "12mm", "14mm", "16mm"],
+
+    colors: ["White", "Black"]
+
+  },
+
+  "printed-elastics": {
+
+    title: "Printed Elastic",
+
+    category: "Printed",
+
+    imgKey: "sub-printed",
+
+    type: "single-list",
+
+    options: [
+
+      {name: "Printed White (38mm)", size: "38mm", color: "White", imgKey: "printed-white"},
+
+      {name: "Printed Cream (38mm)", size: "38mm", color: "Cream", imgKey: "printed-cream"},
+
+      {name: "Printed Brown (38mm)", size: "38mm", color: "Brown", imgKey: "printed-brown"}
+
+    ]
+
+  }
+
+};
+
+
+
+let currentGroup = null;
+
+
+
+function openCategoryModal(catKey) {
+
+  const cat = categoryData[catKey];
+
+  if (!cat) return;
+
+
+
+  document.getElementById('catModalTitle').textContent = cat.title;
+
+  const container = document.getElementById('categoryGridContainer');
+
+  container.innerHTML = '';
+
+
+
+  cat.groups.forEach(groupId => {
+
+    const group = productGroups[groupId];
+
+    if (!group) return;
+
+
+
+    const subCard = document.createElement('div');
+
+    subCard.className = 'sub-product-card';
+
+    subCard.onclick = () => openProductModal(groupId);
+
+
+
+
+
+    const resolvedImgSrc = getImageSrc(group.imgKey);
+
+
+
+    subCard.innerHTML = `
+
+      <div class="sub-product-img">
+
+        <img ${resolvedImgSrc ? `src="${resolvedImgSrc}"` : 'hidden'} alt="${group.title}" onerror="this.hidden=true;this.removeAttribute('src')">
+
+      </div>
+
+      <div class="sub-product-info">
+
+        <h4>${group.title}</h4>
+
+      </div>
+
+    `;
+
+    container.appendChild(subCard);
+
+  });
+
+
+
+  document.getElementById('categoryGridModal').style.display = 'block';
+
+}
+
+
+
+function closeCategoryModal() {
+
+  document.getElementById('categoryGridModal').style.display = 'none';
+
+}
+
+
+
+function openProductModal(groupId) {
+
+  closeCategoryModal();
+
+  currentGroup = productGroups[groupId];
+
+  if (!currentGroup) return;
+
+
+
+  document.getElementById('modalTitle').textContent = currentGroup.title;
+
+  document.getElementById('modalMeta').textContent = `Category: ${currentGroup.category}`;
+
+
+
+  buildDynamicSelectors();
+
+  document.getElementById('productModal').style.display = 'flex';
+
+}
+
+
+
+function buildDynamicSelectors() {
+
+  const container = document.getElementById('dynamicSelectorsContainer');
+
+  container.innerHTML = '';
+
+
+
+  if (currentGroup.type === 'separated-size-color') {
+
+    container.innerHTML = `
+
+      <label for="selSize">Select Size:</label>
+
+      <select id="selSize" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.sizes.map(sz => `<option value="${sz}">${sz}</option>`).join('')}
+
+      </select>
+
+
+
+      <label for="selColor">Select Colour:</label>
+
+      <select id="selColor" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.colors.map(col => `<option value="${col}">${col}</option>`).join('')}
+
+      </select>
+
+    `;
+
+  } else if (currentGroup.type === 'separated-cord-color') {
+
+    container.innerHTML = `
+
+      <label for="selCord">Select Cord Count:</label>
+
+      <select id="selCord" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.cords.map(c => `<option value="${c}">${c}</option>`).join('')}
+
+      </select>
+
+
+
+      <label for="selColor">Select Colour:</label>
+
+      <select id="selColor" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.colors.map(col => `<option value="${col}">${col}</option>`).join('')}
+
+      </select>
+
+    `;
+
+  } else if (currentGroup.type === 'hat-triple-selector') {
+
+    container.innerHTML = `
+
+      <label for="selFormat">Select Format (Roll / Carded):</label>
+
+      <select id="selFormat" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.formats.map(f => `<option value="${f}">${f}</option>`).join('')}
+
+      </select>
+
+
+
+      <label for="selSize">Select Size:</label>
+
+      <select id="selSize" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.sizes.map(sz => `<option value="${sz}">${sz}</option>`).join('')}
+
+      </select>
+
+
+
+      <label for="selColor">Select Colour:</label>
+
+      <select id="selColor" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.colors.map(col => `<option value="${col}">${col}</option>`).join('')}
+
+      </select>
+
+    `;
+
+  } else if (currentGroup.type === 'shirring-selector') {
+
+    container.innerHTML = `
+
+      <label for="selFormat">Select Format (Carded / Loose):</label>
+
+      <select id="selFormat" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.formats.map(f => `<option value="${f}">${f}</option>`).join('')}
+
+      </select>
+
+
+
+      <label for="selColor">Select Colour (Black / White):</label>
+
+      <select id="selColor" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.colors.map(col => `<option value="${col}">${col}</option>`).join('')}
+
+      </select>
+
+    `;
+
+  } else if (currentGroup.type === 'single-list') {
+
+    container.innerHTML = `
+
+      <label for="selSingle">Select Option:</label>
+
+      <select id="selSingle" class="option-select" onchange="updateProductDisplay()">
+
+        ${currentGroup.options.map((opt, idx) => `<option value="${idx}">${opt.name}</option>`).join('')}
+
+      </select>
+
+    `;
+
+  }
+
+
+
+  updateProductDisplay();
+
+}
+
+
+
+function updateElasticPackingInfo() {
+  const info = document.getElementById('fawzPackingInfo');
+  const groupId = Object.keys(productGroups).find(key => productGroups[key] === currentGroup);
+  let note = '';
+  const rollLengths = {
+    'elastics': 25,
+    'color-elastics-normal': 25,
+    'printed-elastics': 25,
+    'elastic-braid': 100,
+    'non-curl-elastics': 25,
+    'buttonhole-elastics': 30,
+    'drawcord-elastics': 25
+  };
+  if (groupId === 'shirring-elastic') {
+    const format = document.getElementById('selFormat').value;
+    note = format.startsWith('Carded')
+      ? 'Packing: 12 cards per box.'
+      : 'Packing: 36 cards per box (loose).';
+  } else if (groupId === 'cord-elastics') {
+    note = 'Length: 2.75 metres per card. Packing: 20 cards per box.';
+  } else if (groupId === 'hat-elastics') {
+    const format = document.getElementById('selFormat').value;
+    const size = document.getElementById('selSize').value;
+    note = format === 'Carded'
+      ? 'Size: ' + size + '. Length: 5 metres per card. Packing: 20 cards per box.'
+      : 'Length: 200 metres per roll.';
+  } else if (rollLengths[groupId]) {
+    note = 'Length: ' + rollLengths[groupId] + ' metres per roll.';
+  }
+  info.textContent = note;
+  info.hidden = !note;
+}
+
+function updateProductDisplay() {
+
+  updateElasticPackingInfo();
+
+  const modalImg = document.getElementById('modalImg');
+
+  let matchedKey = currentGroup.imgKey || '';
+
+
+
+
+
+  if (currentGroup.type === 'separated-size-color') {
+
+    const col = document.getElementById('selColor').value.toLowerCase();
+
+    if (currentGroup.title === "Non-Curl Elastic") {
+
+      matchedKey = (col === 'black') ? 'noncurl-black' : 'noncurl-white';
+
+    } else {
+
+      if (col === 'black') matchedKey = 'plain-black';
+
+      else if (col === 'white') matchedKey = 'white';
+
+      else if (col === 'grey') matchedKey = 'grey';
+
+      else if (col === 'bottle') matchedKey = 'bottle';
+
+      else if (col === 'red') matchedKey = 'red';
+
+      else if (col === 'navy') matchedKey = 'navy';
+
+    }
+
+  } else if (currentGroup.type === 'separated-cord-color') {
+
+    const cord = document.getElementById('selCord').value;
+
+    const col = document.getElementById('selColor').value.toLowerCase();
+
+    const num = cord.replace(" Cord", "");
+
+    if (col === 'black') {
+
+      matchedKey = `elastic-${num}cord-black`;
+
+    } else {
+
+      matchedKey = `${num}cord-white`;
+
+    }
+
+  } else if (currentGroup.type === 'hat-triple-selector') {
+
+    const col = document.getElementById('selColor').value.toLowerCase();
+
+    matchedKey = (col === 'white') ? 'hatelastic' : '';
+
+  } else if (currentGroup.type === 'shirring-selector') {
+
+    const format = document.getElementById('selFormat').value;
+
+    const col = document.getElementById('selColor').value;
+
+    matchedKey = '';
+
+  } else if (currentGroup.type === 'single-list') {
+
+    const idx = parseInt(document.getElementById('selSingle').value);
+
+    const opt = currentGroup.options[idx];
+
+    if (opt && opt.imgKey) matchedKey = opt.imgKey;
+
+  }
+
+
+
+  if (['Shock Cord', 'Color Shock Cord', 'Braided Elastic', 'Shirring Elastic'].includes(currentGroup.title)) matchedKey = '';
+  const resolvedSrc = getImageSrc(matchedKey);
+  modalImg.hidden = !resolvedSrc;
+  modalImg.onerror = function(){ this.hidden = true; this.removeAttribute('src'); };
+  if (resolvedSrc) modalImg.src = resolvedSrc;
+  else modalImg.removeAttribute('src');
+
+}
+
+
+
+function closeProductModal() {
+
+  document.getElementById('productModal').style.display = 'none';
+
+}
+
+
+
+function addToCart() {
+
+  if (!currentGroup) return;
+
+  const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+
+  let productName = currentGroup.title;
+
+  let prodId = currentGroup.title.toLowerCase().replace(/\s+/g, '-');
+
+  let sizeVal = "";
+
+  let colorVal = "";
+
+
+
+  if (currentGroup.type === 'separated-size-color') {
+
+    sizeVal = document.getElementById('selSize').value;
+
+    colorVal = document.getElementById('selColor').value;
+
+    productName = `${currentGroup.title} - ${sizeVal} (${colorVal})`;
+
+    prodId += `-${sizeVal}-${colorVal}`.toLowerCase();
+
+  } else if (currentGroup.type === 'separated-cord-color') {
+
+    sizeVal = document.getElementById('selCord').value;
+
+    colorVal = document.getElementById('selColor').value;
+
+    productName = `${currentGroup.title} - ${sizeVal} (${colorVal})`;
+
+    prodId += `-${sizeVal}-${colorVal}`.toLowerCase();
+
+  } else if (currentGroup.type === 'hat-triple-selector') {
+
+    const format = document.getElementById('selFormat').value;
+
+    sizeVal = document.getElementById('selSize').value;
+
+    colorVal = document.getElementById('selColor').value;
+
+    productName = `Hat Elastic ${format} - ${sizeVal} (${colorVal})`;
+
+    prodId += `-${format}-${sizeVal}-${colorVal}`.toLowerCase();
+
+  } else if (currentGroup.type === 'shirring-selector') {
+
+    const format = document.getElementById('selFormat').value;
+
+    colorVal = document.getElementById('selColor').value;
+
+    productName = `Shirring Elastic ${format} - ${colorVal}`;
+
+    prodId += `-${format}-${colorVal}`.toLowerCase();
+
+  } else if (currentGroup.type === 'single-list') {
+
+    const idx = parseInt(document.getElementById('selSingle').value);
+
+    const opt = currentGroup.options[idx];
+
+    productName = opt.name;
+
+    sizeVal = opt.size;
+
+    colorVal = opt.color;
+
+    prodId = opt.name.toLowerCase().replace(/\s+/g, '-');
+
+  }
+
+
+
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  cart.push({
+
+    name: productName,
+
+    productId: prodId,
+
+    category: currentGroup.category,
+
+    size: sizeVal,
+
+    color: colorVal,
+
+    qty: qty,
+
+    image: document.getElementById('modalImg').src
+
+  });
+
+
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  alert(`Added ${qty} x ${productName} to your cart successfully!`);
+
+  closeProductModal();
+
+}
+
+
+
+function filterProducts() {
+
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+
+  document.querySelectorAll('.category-main-card').forEach(card => {
+
+    const text = card.textContent.toLowerCase();
+
+    card.style.display = (!q || text.includes(q)) ? 'flex' : 'none';
+
+  });
+
+}
+
+
+
+document.getElementById('searchBox').addEventListener('input', filterProducts);
+
+
+
+window.addEventListener('click', e => { 
+
+  if(e.target === document.getElementById('categoryGridModal')) closeCategoryModal();
+
+  if(e.target === document.getElementById('productModal')) closeProductModal(); 
+
+});
+
+</script>
+
+<script src="fawz-site.js"></script>
+
+<script src="fawz-secure-pricing.js"></script>
+
+<script src="fawz-inactivity.js"></script>
+
+<script src="fawz-content-protection.js"></script>
+
+
+
+<script src="fawz-modal-navigation.js"></script>
+<script>
+document.querySelectorAll('img').forEach(img => {
+  if (!img.getAttribute('src')) { img.hidden = true; img.removeAttribute('src'); }
+  img.addEventListener('error', () => { img.hidden = true; img.removeAttribute('src'); });
+});
+</script>
+</body>
+
+</html>

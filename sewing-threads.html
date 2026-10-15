@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head><link rel="stylesheet" href="fawz-site.css">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sewing Thread | FAWZ Haberdashery</title>
+
+<link rel="stylesheet" href="global-images.css">
+
+
+
+<!-- Firebase & Core Scripts -->
+
+
+
+
+
+
+
+
+
+
+
+<style>
+
+:root {
+
+    --fawz-red: #e31e24;
+
+    --fawz-dark: #1a1a1a;
+
+    --fawz-grey: #f8f8f8;
+
+    --border: #eeeeee;
+
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+
+    background: #fff;
+
+    color: var(--fawz-dark);
+
+    overflow-x: hidden;
+
+}
+
+header {
+
+    position: sticky;
+
+    top: 0;
+
+    background: #fff;
+
+    padding: 15px 5%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 3px solid var(--fawz-red);
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+    z-index: 1000;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+}
+
+.logo {
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-size: 1.2rem;
+
+}
+
+.logo span { color: var(--fawz-red); }
+
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+
+nav a {
+
+    color: var(--fawz-dark);
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size: 0.9rem;
+
+}
+
+.hero {
+
+    padding: 46px 5% 24px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.hero h1 {
+
+    font-size: clamp(2rem, 4vw, 3.5rem);
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.toolbar {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 22px;
+
+}
+
+.toolbar input {
+
+    padding: 13px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    min-width: 260px;
+
+    font-size: 1rem;
+
+    background: #fff;
+
+}
+
+main {
+
+    padding: 15px 5% 70px;
+
+    max-width: 1300px;
+
+    margin: auto;
+
+}
+
+.section-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-left: 6px solid var(--fawz-red);
+
+    padding-left: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+.section-heading h3 {
+
+    font-size: 1.6rem;
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.section-heading span {
+
+    background: #fff3f3;
+
+    color: var(--fawz-red);
+
+    font-weight: 800;
+
+    border-radius: 999px;
+
+    padding: 6px 11px;
+
+}
+
+.product-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+
+    gap: 25px;
+
+}
+
+.product-card {
+
+    background: #fff;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+
+    transition: 0.25s;
+
+}
+
+.product-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--fawz-red);
+
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+
+}
+
+.product-img-wrap {
+
+    height: 190px;
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+.product-img-wrap img {
+
+    max-width: 85%;
+
+    max-height: 85%;
+
+    object-fit: contain;
+
+}
+
+.product-info {
+
+    padding: 16px;
+
+    text-align: center;
+
+}
+
+.product-info h4 {
+
+    font-size: 1rem;
+
+    font-weight: 800;
+
+    margin: 0;
+
+    text-transform: uppercase;
+
+}
+
+.hidden { display: none !important; }
+
+
+
+/* MODAL - CLEAN 2 COLUMN LAYOUT */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    z-index: 2000;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.7);
+
+    backdrop-filter: blur(3px);
+
+    padding: 20px;
+
+}
+
+.modal-content {
+
+    background: #fff;
+
+    margin: auto;
+
+    width: 95%;
+
+    max-width: 1200px;
+
+    height: 90vh;
+
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+
+    position: relative;
+
+}
+
+.close-x {
+
+    position: absolute;
+
+    right: 20px;
+
+    top: 12px;
+
+    font-size: 34px;
+
+    cursor: pointer;
+
+    color: #aaa;
+
+    z-index: 10;
+
+    background: rgba(255,255,255,0.9);
+
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    transition: all 0.2s;
+
+}
+
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+
+
+
+/* LEFT: MAIN IMAGE */
+
+.modal-left {
+
+    background: #fafafa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    border-right: 1px solid var(--border);
+
+    overflow: hidden;
+
+}
+
+.modal-left img {
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    object-fit: contain;
+
+    transition: opacity 0.2s ease-in-out;
+
+}
+
+
+
+/* RIGHT: CONTROLS & SELECTION */
+
+.modal-middle {
+
+    padding: 28px 32px;
+
+    overflow-y: auto;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.modal-middle h2 {
+
+    margin: 0 0 16px;
+
+    text-transform: uppercase;
+
+    color: var(--fawz-red);
+
+    font-size: 1.5rem;
+
+}
+
+.variant-group {
+
+    margin: 14px 0;
+
+}
+
+.variant-group label {
+
+    display: block;
+
+    margin: 0 0 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    font-size: 0.75rem;
+
+    color: #555;
+
+    letter-spacing: 1px;
+
+}
+
+.variant-select {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 0.9rem;
+
+    background: #fff;
+
+    cursor: pointer;
+
+}
+
+.color-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+
+    margin-top: 8px;
+
+    max-height: 310px;
+
+    overflow-y: auto;
+
+    padding-right: 5px;
+
+}
+
+.color-option {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 10px;
+
+    min-height: 48px;
+
+    padding: 8px 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: all 0.2s;
+
+    border: 1px solid #e5e5e5;
+
+    background: #fff;
+
+    font-size: 0.8rem;
+
+    font-weight: 700;
+
+    color: #333;
+
+    text-align: left;
+
+}
+
+.color-option:hover {
+
+    border-color: var(--fawz-red);
+
+    background: #fff5f5;
+
+}
+
+.color-option.active {
+
+    border-color: var(--fawz-red);
+
+    background: #fff5f5;
+
+    color: var(--fawz-red);
+
+    box-shadow: inset 0 0 0 1px var(--fawz-red);
+
+}
+
+.color-swatch {
+
+    width: 30px;
+
+    height: 30px;
+
+    flex: 0 0 30px;
+
+    display: block;
+
+    border-radius: 7px;
+
+    border: 1px solid rgba(0,0,0,.18);
+
+    background-position: center 46%;
+
+    background-repeat: no-repeat;
+
+    background-size: 520%;
+
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+
+}
+
+.color-name {
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+.qty-input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 1rem;
+
+    background: #f8f8f8;
+
+    margin: 8px 0 12px;
+
+}
+
+.btn-add {
+
+    width: 100%;
+
+    background: var(--fawz-red);
+
+    border: none;
+
+    color: #fff;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+
+    letter-spacing: 1.5px;
+
+    transition: background 0.2s;
+
+    margin-top: auto;
+
+}
+
+.btn-add:hover { background: #c41a1f; }
+
+
+
+@media (max-width: 1024px) {
+
+    .modal-content { grid-template-columns: 1fr 1fr; height: 90vh; }
+
+}
+
+
+
+@media (max-width: 700px) {
+
+    .modal-content { grid-template-columns: 1fr; height: 90vh; }
+
+    .modal-left { min-height: 180px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 10px; }
+
+    .modal-middle { padding: 20px; border-right: 0; }
+
+    .color-grid { grid-template-columns: 1fr; }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<!-- COMPLETE IMAGE BANK WITH EVERY SINGLE PRODUCT, OPTION & COLOR COMBINATION -->
+
+<div id="htmlImageBank" class="hidden">
+
+    <!-- Category Main Defaults -->
+
+    <img data-img-key="small-cotton" src="images/sewingThreads/Sewing Thread - Cover Picture .jpg" alt="Small Cotton Threads">
+
+    <img data-img-key="cones" src="images/sewingThreads/Sewing Thread - Cover Picture .jpg" alt="Cone Threads">
+
+    <img data-img-key="polyester-sewing-thread" src="images/sewingThreads/Sewing Thread - Cover Picture .jpg" alt="Polyester Sewing Thread">
+
+    <img data-img-key="high-tenacity-thread" src="images/sewingThreads/Sewing Thread - Cover Picture .jpg" alt="High Tenacity Thread">
+
+    <img data-img-key="embroidery-thread" src="images/sewingThreads/Sewing Thread - Cover Picture .jpg" alt="Embroidery Thread">
+
+    <img data-img-key="denim-top-stitch-thread" src="images/sewingThreads/Sewing Thread - Cover Picture .jpg" alt="Denim Top Stitch Thread">
+
+
+
+    <!-- Specific Packaging / Size Variants -->
+
+    <img data-img-key="small-cotton-FAWZ Quality" src="images/sewing-thread/small-cotton-fawz.jpg" alt="Small Cotton FAWZ Quality">
+
+    <img data-img-key="small-cotton-B Quality" src="images/sewing-thread/small-cotton-b.jpg" alt="Small Cotton B Quality">
+
+    <img data-img-key="cones-FAWZ Quality" src="images/sewing-thread/cone-fawz.jpg" alt="Cones FAWZ Quality">
+
+    <img data-img-key="cones-B Quality" src="images/sewing-thread/cone-b.jpg" alt="Cones B Quality">
+
+    <img data-img-key="polyester-sewing-thread-1000Y" src="images/sewing-thread/UPHOLSTERY-THREAD-1000-METRES-510x510.jpg" alt="Polyester 1000Y">
+
+    <img data-img-key="polyester-sewing-thread-3000Y" src="images/sewing-thread/UPHOLSTERY-THREAD-3000-YARDS-PER-CON.jpg" alt="Polyester 3000Y">
+
+    <img data-img-key="high-tenacity-thread-3 Ply" src="images/sewing-thread/high-tenacity-3ply.jpg" alt="High Tenacity 3 Ply">
+
+    <img data-img-key="high-tenacity-thread-6 Ply" src="images/sewing-thread/high-tenacity-6ply.jpg" alt="High Tenacity 6 Ply">
+
+    <img data-img-key="high-tenacity-thread-9 Ply" src="images/sewing-thread/high-tenacity-9ply.jpg" alt="High Tenacity 9 Ply">
+
+    <img data-img-key="embroidery-thread-Plain Colours" src="images/sewing-thread/embroidery-plain.jpg" alt="Embroidery Plain Colours">
+
+    <img data-img-key="embroidery-thread-Variegated" src="images/sewing-thread/embroidery-variegated.jpg" alt="Embroidery Variegated">
+
+
+
+    <!-- SMALL COTTON CODES -->
+
+    <img data-img-key="small-cotton-04" src="images/sewingThreads/Cotton/04.jpg" alt="Small Cotton 04">
+
+<img data-img-key="small-cotton-018" src="images/sewingThreads/Cotton/018.jpg" alt="Small Cotton 018">
+
+<img data-img-key="small-cotton-066" src="images/sewingThreads/Cotton/066.jpg" alt="Small Cotton 066">
+
+<img data-img-key="small-cotton-101" src="images/sewingThreads/Cotton/101.jpg" alt="Small Cotton 101">
+
+<img data-img-key="small-cotton-104" src="images/sewingThreads/Cotton/104.jpg" alt="Small Cotton 104">
+
+<img data-img-key="small-cotton-108" src="images/sewingThreads/Cotton/108.jpg" alt="Small Cotton 108">
+
+<img data-img-key="small-cotton-110" src="images/sewingThreads/Cotton/110.jpg" alt="Small Cotton 110">
+
+<img data-img-key="small-cotton-122" src="images/sewingThreads/Cotton/122.jpg" alt="Small Cotton 122">
+
+<img data-img-key="small-cotton-138" src="images/sewingThreads/Cotton/138.jpg" alt="Small Cotton 138">
+
+<img data-img-key="small-cotton-148" src="images/sewingThreads/Cotton/148.jpg" alt="Small Cotton 148">
+
+<img data-img-key="small-cotton-149" src="images/sewingThreads/Cotton/149.jpg" alt="Small Cotton 149">
+
+<img data-img-key="small-cotton-153" src="images/sewingThreads/Cotton/153.jpg" alt="Small Cotton 153">
+
+<img data-img-key="small-cotton-156" src="images/sewingThreads/Cotton/156.jpg" alt="Small Cotton 156">
+
+<img data-img-key="small-cotton-162" src="images/sewingThreads/Cotton/162.jpg" alt="Small Cotton 162">
+
+<img data-img-key="small-cotton-169" src="images/sewingThreads/Cotton/169.jpg" alt="Small Cotton 169">
+
+<img data-img-key="small-cotton-178" src="images/sewingThreads/Cotton/178.jpg" alt="Small Cotton 178">
+
+<img data-img-key="small-cotton-182" src="images/sewingThreads/Cotton/182.jpg" alt="Small Cotton 182">
+
+<img data-img-key="small-cotton-197" src="images/sewingThreads/Cotton/197.jpg" alt="Small Cotton 197">
+
+<img data-img-key="small-cotton-204" src="images/sewingThreads/Cotton/204.jpg" alt="Small Cotton 204">
+
+<img data-img-key="small-cotton-225" src="images/sewingThreads/Cotton/225.jpg" alt="Small Cotton 225">
+
+<img data-img-key="small-cotton-233" src="images/sewingThreads/Cotton/233.jpg" alt="Small Cotton 233">
+
+<img data-img-key="small-cotton-254" src="images/sewingThreads/Cotton/254.jpg" alt="Small Cotton 254">
+
+<img data-img-key="small-cotton-258" src="images/sewingThreads/Cotton/258.jpg" alt="Small Cotton 258">
+
+<img data-img-key="small-cotton-262" src="images/sewingThreads/Cotton/262.jpg" alt="Small Cotton 262">
+
+<img data-img-key="small-cotton-263" src="images/sewingThreads/Cotton/263.jpg" alt="Small Cotton 263">
+
+<img data-img-key="small-cotton-267" src="images/sewingThreads/Cotton/267.jpg" alt="Small Cotton 267">
+
+<img data-img-key="small-cotton-283" src="images/sewingThreads/Cotton/283.jpg" alt="Small Cotton 283">
+
+<img data-img-key="small-cotton-285" src="images/sewingThreads/Cotton/285.jpg" alt="Small Cotton 285">
+
+<img data-img-key="small-cotton-307" src="images/sewingThreads/Cotton/307.jpg" alt="Small Cotton 307">
+
+<img data-img-key="small-cotton-315" src="images/sewingThreads/Cotton/315.jpg" alt="Small Cotton 315">
+
+<img data-img-key="small-cotton-340" src="images/sewingThreads/Cotton/340.jpg" alt="Small Cotton 340">
+
+<img data-img-key="small-cotton-351" src="images/sewingThreads/Cotton/351.jpg" alt="Small Cotton 351">
+
+<img data-img-key="small-cotton-363" src="images/sewingThreads/Cotton/363.jpg" alt="Small Cotton 363">
+
+<img data-img-key="small-cotton-365" src="images/sewingThreads/Cotton/365.jpg" alt="Small Cotton 365">
+
+<img data-img-key="small-cotton-377" src="images/sewingThreads/Cotton/377.jpg" alt="Small Cotton 377">
+
+<img data-img-key="small-cotton-387" src="images/sewingThreads/Cotton/387.jpg" alt="Small Cotton 387">
+
+<img data-img-key="small-cotton-394" src="images/sewingThreads/Cotton/394.jpg" alt="Small Cotton 394">
+
+<img data-img-key="small-cotton-401" src="images/sewingThreads/Cotton/401.jpg" alt="Small Cotton 401">
+
+<img data-img-key="small-cotton-402" src="images/sewingThreads/Cotton/402.jpg" alt="Small Cotton 402">
+
+<img data-img-key="small-cotton-465" src="images/sewingThreads/Cotton/465.jpg" alt="Small Cotton 465">
+
+<img data-img-key="small-cotton-474" src="images/sewingThreads/Cotton/474.jpg" alt="Small Cotton 474">
+
+<img data-img-key="small-cotton-476" src="images/sewingThreads/Cotton/476.jpg" alt="Small Cotton 476">
+
+<img data-img-key="small-cotton-483" src="images/sewingThreads/Cotton/483.jpg" alt="Small Cotton 483">
+
+<img data-img-key="small-cotton-486" src="images/sewingThreads/Cotton/486.jpg" alt="Small Cotton 486">
+
+<img data-img-key="small-cotton-488" src="images/sewingThreads/Cotton/488.jpg" alt="Small Cotton 488">
+
+<img data-img-key="small-cotton-493" src="images/sewingThreads/Cotton/493.jpg" alt="Small Cotton 493">
+
+<img data-img-key="small-cotton-506" src="images/sewingThreads/Cotton/506.jpg" alt="Small Cotton 506">
+
+<img data-img-key="small-cotton-508" src="images/sewingThreads/Cotton/508.jpg" alt="Small Cotton 508">
+
+<img data-img-key="small-cotton-515" src="images/sewingThreads/Cotton/515.jpg" alt="Small Cotton 515">
+
+<img data-img-key="small-cotton-529" src="images/sewingThreads/Cotton/529.jpg" alt="Small Cotton 529">
+
+<img data-img-key="small-cotton-539" src="images/sewingThreads/Cotton/539.jpg" alt="Small Cotton 539">
+
+<img data-img-key="small-cotton-541" src="images/sewingThreads/Cotton/541.jpg" alt="Small Cotton 541">
+
+<img data-img-key="small-cotton-553" src="images/sewingThreads/Cotton/553.jpg" alt="Small Cotton 553">
+
+<img data-img-key="small-cotton-555" src="images/sewingThreads/Cotton/555.jpg" alt="Small Cotton 555">
+
+<img data-img-key="small-cotton-566" src="images/sewingThreads/Cotton/566.jpg" alt="Small Cotton 566">
+
+<img data-img-key="small-cotton-583" src="images/sewingThreads/Cotton/583.jpg" alt="Small Cotton 583">
+
+<img data-img-key="small-cotton-584" src="images/sewingThreads/Cotton/584.jpg" alt="Small Cotton 584">
+
+<img data-img-key="small-cotton-588" src="images/sewingThreads/Cotton/588.jpg" alt="Small Cotton 588">
+
+<img data-img-key="small-cotton-612" src="images/sewingThreads/Cotton/612.jpg" alt="Small Cotton 612">
+
+<img data-img-key="small-cotton-614" src="images/sewingThreads/Cotton/614.jpg" alt="Small Cotton 614">
+
+<img data-img-key="small-cotton-628" src="images/sewingThreads/Cotton/628.jpg" alt="Small Cotton 628">
+
+<img data-img-key="small-cotton-634" src="images/sewingThreads/Cotton/634.jpg" alt="Small Cotton 634">
+
+<img data-img-key="small-cotton-638" src="images/sewingThreads/Cotton/638.jpg" alt="Small Cotton 638">
+
+<img data-img-key="small-cotton-642" src="images/sewingThreads/Cotton/642.jpg" alt="Small Cotton 642">
+
+<img data-img-key="small-cotton-651" src="images/sewingThreads/Cotton/651.jpg" alt="Small Cotton 651">
+
+<img data-img-key="small-cotton-660" src="images/sewingThreads/Cotton/660.jpg" alt="Small Cotton 660">
+
+
+
+    <!-- CONE THREAD CODES -->
+
+    <img data-img-key="cones-101" src="images/sewingThreads/Cotton/101.jpg" alt="Cone 101">
+
+<img data-img-key="cones-104" src="images/sewingThreads/Cotton/104.jpg" alt="Cone 104">
+
+<img data-img-key="cones-108" src="images/sewingThreads/Cotton/108.jpg" alt="Cone 108">
+
+<img data-img-key="cones-110" src="images/sewingThreads/Cotton/110.jpg" alt="Cone 110">
+
+<img data-img-key="cones-387" src="images/sewingThreads/Cotton/387.jpg" alt="Cone 387">
+
+<img data-img-key="cones-394" src="images/sewingThreads/Cotton/394.jpg" alt="Cone 394">
+
+<img data-img-key="cones-402" src="images/sewingThreads/Cotton/402.jpg" alt="Cone 402">
+
+<img data-img-key="cones-465" src="images/sewingThreads/Cotton/465.jpg" alt="Cone 465">
+
+<img data-img-key="cones-474" src="images/sewingThreads/Cotton/474.jpg" alt="Cone 474">
+
+<img data-img-key="cones-476" src="images/sewingThreads/Cotton/476.jpg" alt="Cone 476">
+
+<img data-img-key="cones-481" src="images/sewingThreads/Cotton/481.jpg" alt="Cone 481">
+
+<img data-img-key="cones-483" src="images/sewingThreads/Cotton/483.jpg" alt="Cone 483">
+
+<img data-img-key="cones-486" src="images/sewingThreads/Cotton/486.jpg" alt="Cone 486">
+
+<img data-img-key="cones-488" src="images/sewingThreads/Cotton/488.jpg" alt="Cone 488">
+
+<img data-img-key="cones-514" src="images/sewingThreads/Cotton/514.jpg" alt="Cone 514">
+
+<img data-img-key="cones-628" src="images/sewingThreads/Cotton/628.jpg" alt="Cone 628">
+
+<img data-img-key="cones-634" src="images/sewingThreads/Cotton/634.jpg" alt="Cone 634">
+
+<img data-img-key="cones-638" src="images/sewingThreads/Cotton/638.jpg" alt="Cone 638">
+
+<img data-img-key="cones-553" src="images/sewingThreads/Cotton/553.jpg" alt="Cone 553">
+
+<img data-img-key="cones-555" src="images/sewingThreads/Cotton/555.jpg" alt="Cone 555">
+
+<img data-img-key="cones-566" src="images/sewingThreads/Cotton/566.jpg" alt="Cone 566">
+
+<img data-img-key="cones-307" src="images/sewingThreads/Cotton/307.jpg" alt="Cone 307">
+
+<img data-img-key="cones-315" src="images/sewingThreads/Cotton/315.jpg" alt="Cone 315">
+
+<img data-img-key="cones-612" src="images/sewingThreads/Cotton/612.jpg" alt="Cone 612">
+
+<img data-img-key="cones-614" src="images/sewingThreads/Cotton/614.jpg" alt="Cone 614">
+
+<img data-img-key="cones-642" src="images/sewingThreads/Cotton/642.jpg" alt="Cone 642">
+
+<img data-img-key="cones-651" src="images/sewingThreads/Cotton/651.jpg" alt="Cone 651">
+
+<img data-img-key="cones-493" src="images/sewingThreads/Cotton/493.jpg" alt="Cone 493">
+
+<img data-img-key="cones-506" src="images/sewingThreads/Cotton/506.jpg" alt="Cone 506">
+
+<img data-img-key="cones-508" src="images/sewingThreads/Cotton/508.jpg" alt="Cone 508">
+
+<img data-img-key="cones-04" src="images/sewingThreads/Cotton/04.jpg" alt="Cone 04">
+
+<img data-img-key="cones-122" src="images/sewingThreads/Cotton/122.jpg" alt="Cone 122">
+
+<img data-img-key="cones-148" src="images/sewingThreads/Cotton/148.jpg" alt="Cone 148">
+
+<img data-img-key="cones-149" src="images/sewingThreads/Cotton/149.jpg" alt="Cone 149">
+
+<img data-img-key="cones-138" src="images/sewingThreads/Cotton/138.jpg" alt="Cone 138">
+
+<img data-img-key="cones-153" src="images/sewingThreads/Cotton/153.jpg" alt="Cone 153">
+
+<img data-img-key="cones-156" src="images/sewingThreads/Cotton/156.jpg" alt="Cone 156">
+
+<img data-img-key="cones-197" src="images/sewingThreads/Cotton/197.jpg" alt="Cone 197">
+
+<img data-img-key="cones-204" src="images/sewingThreads/Cotton/204.jpg" alt="Cone 204">
+
+<img data-img-key="cones-255" src="images/sewingThreads/Cotton/255.jpg" alt="Cone 255">
+
+<img data-img-key="cones-233" src="images/sewingThreads/Cotton/233.jpg" alt="Cone 233">
+
+<img data-img-key="cones-162" src="images/sewingThreads/Cotton/162.jpg" alt="Cone 162">
+
+<img data-img-key="cones-169" src="images/sewingThreads/Cotton/169.jpg" alt="Cone 169">
+
+<img data-img-key="cones-529" src="images/sewingThreads/Cotton/529.jpg" alt="Cone 529">
+
+<img data-img-key="cones-178" src="images/sewingThreads/Cotton/178.jpg" alt="Cone 178">
+
+<img data-img-key="cones-539" src="images/sewingThreads/Cotton/539.jpg" alt="Cone 539">
+
+<img data-img-key="cones-182" src="images/sewingThreads/Cotton/182.jpg" alt="Cone 182">
+
+<img data-img-key="cones-541" src="images/sewingThreads/Cotton/541.jpg" alt="Cone 541">
+
+<img data-img-key="cones-583" src="images/sewingThreads/Cotton/583.jpg" alt="Cone 583">
+
+<img data-img-key="cones-584" src="images/sewingThreads/Cotton/584.jpg" alt="Cone 584">
+
+<img data-img-key="cones-588" src="images/sewingThreads/Cotton/588.jpg" alt="Cone 588">
+
+<img data-img-key="cones-254" src="images/sewingThreads/Cotton/254.jpg" alt="Cone 254">
+
+<img data-img-key="cones-258" src="images/sewingThreads/Cotton/258.jpg" alt="Cone 258">
+
+<img data-img-key="cones-262" src="images/sewingThreads/Cotton/262.jpg" alt="Cone 262">
+
+<img data-img-key="cones-263" src="images/sewingThreads/Cotton/263.jpg" alt="Cone 263">
+
+<img data-img-key="cones-267" src="images/sewingThreads/Cotton/267.jpg" alt="Cone 267">
+
+<img data-img-key="cones-018" src="images/sewingThreads/Cotton/018.jpg" alt="Cone 018">
+
+<img data-img-key="cones-283" src="images/sewingThreads/Cotton/283.jpg" alt="Cone 283">
+
+<img data-img-key="cones-285" src="images/sewingThreads/Cotton/285.jpg" alt="Cone 285">
+
+<img data-img-key="cones-340" src="images/sewingThreads/Cotton/340.jpg" alt="Cone 340">
+
+<img data-img-key="cones-351" src="images/sewingThreads/Cotton/351.jpg" alt="Cone 351">
+
+<img data-img-key="cones-066" src="images/sewingThreads/Cotton/066.jpg" alt="Cone 066">
+
+<img data-img-key="cones-363" src="images/sewingThreads/Cotton/363.jpg" alt="Cone 363">
+
+<img data-img-key="cones-365" src="images/sewingThreads/Cotton/365.jpg" alt="Cone 365">
+
+<img data-img-key="cones-377" src="images/sewingThreads/Cotton/377.jpg" alt="Cone 377">
+
+<img data-img-key="cones-660" src="images/sewingThreads/Cotton/660.jpg" alt="Cone 660">
+
+
+
+<!-- POLYESTER THREAD CODES -->
+
+<img data-img-key="polyester-sewing-thread-101" src="images/sewingThreads/Cotton/101.jpg" alt="Polyester Thread 101">
+
+<img data-img-key="polyester-sewing-thread-104" src="images/sewingThreads/Cotton/104.jpg" alt="Polyester Thread 104">
+
+<img data-img-key="polyester-sewing-thread-108" src="images/sewingThreads/Cotton/108.jpg" alt="Polyester Thread 108">
+
+<img data-img-key="polyester-sewing-thread-110" src="images/sewingThreads/Cotton/110.jpg" alt="Polyester Thread 110">
+
+<img data-img-key="polyester-sewing-thread-387" src="images/sewingThreads/Cotton/387.jpg" alt="Polyester Thread 387">
+
+<img data-img-key="polyester-sewing-thread-394" src="images/sewingThreads/Cotton/394.jpg" alt="Polyester Thread 394">
+
+<img data-img-key="polyester-sewing-thread-402" src="images/sewingThreads/Cotton/402.jpg" alt="Polyester Thread 402">
+
+<img data-img-key="polyester-sewing-thread-465" src="images/sewingThreads/Cotton/465.jpg" alt="Polyester Thread 465">
+
+<img data-img-key="polyester-sewing-thread-474" src="images/sewingThreads/Cotton/474.jpg" alt="Polyester Thread 474">
+
+<img data-img-key="polyester-sewing-thread-476" src="images/sewingThreads/Cotton/476.jpg" alt="Polyester Thread 476">
+
+<img data-img-key="polyester-sewing-thread-481" src="images/sewingThreads/Cotton/481.jpg" alt="Polyester Thread 481">
+
+<img data-img-key="polyester-sewing-thread-483" src="images/sewingThreads/Cotton/483.jpg" alt="Polyester Thread 483">
+
+<img data-img-key="polyester-sewing-thread-486" src="images/sewingThreads/Cotton/486.jpg" alt="Polyester Thread 486">
+
+<img data-img-key="polyester-sewing-thread-488" src="images/sewingThreads/Cotton/488.jpg" alt="Polyester Thread 488">
+
+<img data-img-key="polyester-sewing-thread-514" src="images/sewingThreads/Cotton/514.jpg" alt="Polyester Thread 514">
+
+<img data-img-key="polyester-sewing-thread-628" src="images/sewingThreads/Cotton/628.jpg" alt="Polyester Thread 628">
+
+<img data-img-key="polyester-sewing-thread-634" src="images/sewingThreads/Cotton/634.jpg" alt="Polyester Thread 634">
+
+<img data-img-key="polyester-sewing-thread-638" src="images/sewingThreads/Cotton/638.jpg" alt="Polyester Thread 638">
+
+<img data-img-key="polyester-sewing-thread-553" src="images/sewingThreads/Cotton/553.jpg" alt="Polyester Thread 553">
+
+<img data-img-key="polyester-sewing-thread-555" src="images/sewingThreads/Cotton/555.jpg" alt="Polyester Thread 555">
+
+<img data-img-key="polyester-sewing-thread-566" src="images/sewingThreads/Cotton/566.jpg" alt="Polyester Thread 566">
+
+<img data-img-key="polyester-sewing-thread-307" src="images/sewingThreads/Cotton/307.jpg" alt="Polyester Thread 307">
+
+<img data-img-key="polyester-sewing-thread-315" src="images/sewingThreads/Cotton/315.jpg" alt="Polyester Thread 315">
+
+<img data-img-key="polyester-sewing-thread-612" src="images/sewingThreads/Cotton/612.jpg" alt="Polyester Thread 612">
+
+<img data-img-key="polyester-sewing-thread-614" src="images/sewingThreads/Cotton/614.jpg" alt="Polyester Thread 614">
+
+<img data-img-key="polyester-sewing-thread-642" src="images/sewingThreads/Cotton/642.jpg" alt="Polyester Thread 642">
+
+<img data-img-key="polyester-sewing-thread-651" src="images/sewingThreads/Cotton/651.jpg" alt="Polyester Thread 651">
+
+<img data-img-key="polyester-sewing-thread-493" src="images/sewingThreads/Cotton/493.jpg" alt="Polyester Thread 493">
+
+<img data-img-key="polyester-sewing-thread-506" src="images/sewingThreads/Cotton/506.jpg" alt="Polyester Thread 506">
+
+<img data-img-key="polyester-sewing-thread-508" src="images/sewingThreads/Cotton/508.jpg" alt="Polyester Thread 508">
+
+<img data-img-key="polyester-sewing-thread-04" src="images/sewingThreads/Cotton/04.jpg" alt="Polyester Thread 04">
+
+<img data-img-key="polyester-sewing-thread-122" src="images/sewingThreads/Cotton/122.jpg" alt="Polyester Thread 122">
+
+<img data-img-key="polyester-sewing-thread-148" src="images/sewingThreads/Cotton/148.jpg" alt="Polyester Thread 148">
+
+<img data-img-key="polyester-sewing-thread-149" src="images/sewingThreads/Cotton/149.jpg" alt="Polyester Thread 149">
+
+<img data-img-key="polyester-sewing-thread-138" src="images/sewingThreads/Cotton/138.jpg" alt="Polyester Thread 138">
+
+<img data-img-key="polyester-sewing-thread-153" src="images/sewingThreads/Cotton/153.jpg" alt="Polyester Thread 153">
+
+<img data-img-key="polyester-sewing-thread-156" src="images/sewingThreads/Cotton/156.jpg" alt="Polyester Thread 156">
+
+<img data-img-key="polyester-sewing-thread-197" src="images/sewingThreads/Cotton/197.jpg" alt="Polyester Thread 197">
+
+<img data-img-key="polyester-sewing-thread-204" src="images/sewingThreads/Cotton/204.jpg" alt="Polyester Thread 204">
+
+<img data-img-key="polyester-sewing-thread-255" src="images/sewingThreads/Cotton/255.jpg" alt="Polyester Thread 255">
+
+<img data-img-key="polyester-sewing-thread-233" src="images/sewingThreads/Cotton/233.jpg" alt="Polyester Thread 233">
+
+<img data-img-key="polyester-sewing-thread-162" src="images/sewingThreads/Cotton/162.jpg" alt="Polyester Thread 162">
+
+<img data-img-key="polyester-sewing-thread-169" src="images/sewingThreads/Cotton/169.jpg" alt="Polyester Thread 169">
+
+<img data-img-key="polyester-sewing-thread-529" src="images/sewingThreads/Cotton/529.jpg" alt="Polyester Thread 529">
+
+<img data-img-key="polyester-sewing-thread-178" src="images/sewingThreads/Cotton/178.jpg" alt="Polyester Thread 178">
+
+<img data-img-key="polyester-sewing-thread-539" src="images/sewingThreads/Cotton/539.jpg" alt="Polyester Thread 539">
+
+<img data-img-key="polyester-sewing-thread-182" src="images/sewingThreads/Cotton/182.jpg" alt="Polyester Thread 182">
+
+<img data-img-key="polyester-sewing-thread-541" src="images/sewingThreads/Cotton/541.jpg" alt="Polyester Thread 541">
+
+<img data-img-key="polyester-sewing-thread-583" src="images/sewingThreads/Cotton/583.jpg" alt="Polyester Thread 583">
+
+<img data-img-key="polyester-sewing-thread-584" src="images/sewingThreads/Cotton/584.jpg" alt="Polyester Thread 584">
+
+<img data-img-key="polyester-sewing-thread-588" src="images/sewingThreads/Cotton/588.jpg" alt="Polyester Thread 588">
+
+<img data-img-key="polyester-sewing-thread-254" src="images/sewingThreads/Cotton/254.jpg" alt="Polyester Thread 254">
+
+<img data-img-key="polyester-sewing-thread-258" src="images/sewingThreads/Cotton/258.jpg" alt="Polyester Thread 258">
+
+<img data-img-key="polyester-sewing-thread-262" src="images/sewingThreads/Cotton/262.jpg" alt="Polyester Thread 262">
+
+<img data-img-key="polyester-sewing-thread-263" src="images/sewingThreads/Cotton/263.jpg" alt="Polyester Thread 263">
+
+<img data-img-key="polyester-sewing-thread-267" src="images/sewingThreads/Cotton/267.jpg" alt="Polyester Thread 267">
+
+<img data-img-key="polyester-sewing-thread-018" src="images/sewingThreads/Cotton/018.jpg" alt="Polyester Thread 018">
+
+<img data-img-key="polyester-sewing-thread-283" src="images/sewingThreads/Cotton/283.jpg" alt="Polyester Thread 283">
+
+<img data-img-key="polyester-sewing-thread-285" src="images/sewingThreads/Cotton/285.jpg" alt="Polyester Thread 285">
+
+<img data-img-key="polyester-sewing-thread-340" src="images/sewingThreads/Cotton/340.jpg" alt="Polyester Thread 340">
+
+<img data-img-key="polyester-sewing-thread-351" src="images/sewingThreads/Cotton/351.jpg" alt="Polyester Thread 351">
+
+<img data-img-key="polyester-sewing-thread-066" src="images/sewingThreads/Cotton/066.jpg" alt="Polyester Thread 066">
+
+<img data-img-key="polyester-sewing-thread-363" src="images/sewingThreads/Cotton/363.jpg" alt="Polyester Thread 363">
+
+<img data-img-key="polyester-sewing-thread-365" src="images/sewingThreads/Cotton/365.jpg" alt="Polyester Thread 365">
+
+<img data-img-key="polyester-sewing-thread-377" src="images/sewingThreads/Cotton/377.jpg" alt="Polyester Thread 377">
+
+<img data-img-key="polyester-sewing-thread-660" src="images/sewingThreads/Cotton/660.jpg" alt="Polyester Thread 660">
+
+
+
+    <!-- HIGH TENACITY THREAD COLORS -->
+
+    <img data-img-key="high-tenacity-thread-Beige" src="images/sewingThreads/High/0.jpg" alt="High Tenacity Beige">
+
+<img data-img-key="high-tenacity-thread-Dusty Blue" src="images/sewingThreads/High/8.jpg" alt="High Tenacity Dusty Blue">
+
+<img data-img-key="high-tenacity-thread-Bottle" src="images/sewingThreads/High/6.jpg" alt="High Tenacity Bottle">
+
+<img data-img-key="high-tenacity-thread-Brown" src="images/sewingThreads/High/7.jpg" alt="High Tenacity Brown">
+
+<img data-img-key="high-tenacity-thread-Maroon" src="images/sewingThreads/High/5.jpg" alt="High Tenacity Maroon">
+
+<img data-img-key="high-tenacity-thread-Emerald" src="images/sewingThreads/High/3.jpg" alt="High Tenacity Emerald">
+
+<img data-img-key="high-tenacity-thread-Powder" src="images/sewingThreads/High/2.jpg" alt="High Tenacity Powder">
+
+<img data-img-key="high-tenacity-thread-Rust" src="images/sewingThreads/High/9.jpg" alt="High Tenacity Rust">
+
+<img data-img-key="high-tenacity-thread-Navy" src="images/sewingThreads/High/10.jpg" alt="High Tenacity Navy">
+
+<img data-img-key="high-tenacity-thread-Black" src="images/sewingThreads/High/11.jpg" alt="High Tenacity Black">
+
+<img data-img-key="high-tenacity-thread-Purple" src="images/sewingThreads/High/12.jpg" alt="High Tenacity Purple">
+
+<img data-img-key="high-tenacity-thread-Cerise" src="images/sewingThreads/High/1.jpg" alt="High Tenacity Cerise">
+
+<img data-img-key="high-tenacity-thread-Gray" src="images/sewingThreads/High/14.jpg" alt="High Tenacity Gray">
+
+<img data-img-key="high-tenacity-thread-Cream" src="images/sewingThreads/High/15.jpg" alt="High Tenacity Cream">
+
+<img data-img-key="high-tenacity-thread-Silver" src="images/sewingThreads/High/16.jpg" alt="High Tenacity Silver">
+
+<img data-img-key="high-tenacity-thread-Yellow" src="images/sewingThreads/High/17.jpg" alt="High Tenacity Yellow">
+
+<img data-img-key="high-tenacity-thread-Red" src="images/sewingThreads/High/18.jpg" alt="High Tenacity Red">
+
+<img data-img-key="high-tenacity-thread-White" src="images/sewingThreads/High/19.jpg" alt="High Tenacity White">
+
+
+
+    <!-- EMBROIDERY THREAD CODES -->
+
+    <img data-img-key="embroidery-thread-243" src="images/sewingThreads/Embroidery/243.jpg" alt="Embroidery 243">
+
+<img data-img-key="embroidery-thread-244" src="images/sewingThreads/Embroidery/244.jpg" alt="Embroidery 244">
+
+<img data-img-key="embroidery-thread-245" src="images/sewingThreads/Embroidery/245.jpg" alt="Embroidery 245">
+
+<img data-img-key="embroidery-thread-396" src="images/sewingThreads/Embroidery/396.jpg" alt="Embroidery 396">
+
+<img data-img-key="embroidery-thread-336" src="images/sewingThreads/Embroidery/336.jpg" alt="Embroidery 336">
+
+<img data-img-key="embroidery-thread-386" src="images/sewingThreads/Embroidery/386.jpg" alt="Embroidery 386">
+
+<img data-img-key="embroidery-thread-338" src="images/sewingThreads/Embroidery/338.jpg" alt="Embroidery 338">
+
+<img data-img-key="embroidery-thread-340" src="images/sewingThreads/Embroidery/340.jpg" alt="Embroidery 340">
+
+<img data-img-key="embroidery-thread-206" src="images/sewingThreads/Embroidery/206.jpg" alt="Embroidery 206">
+
+<img data-img-key="embroidery-thread-384" src="images/sewingThreads/Embroidery/384.jpg" alt="Embroidery 384">
+
+<img data-img-key="embroidery-thread-485" src="images/sewingThreads/Embroidery/485.jpg" alt="Embroidery 485">
+
+<img data-img-key="embroidery-thread-205" src="images/sewingThreads/Embroidery/205.jpg" alt="Embroidery 205">
+
+<img data-img-key="embroidery-thread-294" src="images/sewingThreads/Embroidery/294.jpg" alt="Embroidery 294">
+
+<img data-img-key="embroidery-thread-380" src="images/sewingThreads/Embroidery/380.jpg" alt="Embroidery 380">
+
+<img data-img-key="embroidery-thread-368" src="images/sewingThreads/Embroidery/368.jpg" alt="Embroidery 368">
+
+<img data-img-key="embroidery-thread-354" src="images/sewingThreads/Embroidery/354.jpg" alt="Embroidery 354">
+
+<img data-img-key="embroidery-thread-347" src="images/sewingThreads/Embroidery/347.jpg" alt="Embroidery 347">
+
+<img data-img-key="embroidery-thread-136" src="images/sewingThreads/Embroidery/136.jpg" alt="Embroidery 136">
+
+<img data-img-key="embroidery-thread-129" src="images/sewingThreads/Embroidery/129.jpg" alt="Embroidery 129">
+
+<img data-img-key="embroidery-thread-310" src="images/sewingThreads/Embroidery/310.jpg" alt="Embroidery 310">
+
+<img data-img-key="embroidery-thread-175" src="images/sewingThreads/Embroidery/175.jpg" alt="Embroidery 175">
+
+<img data-img-key="embroidery-thread-179" src="images/sewingThreads/Embroidery/179.jpg" alt="Embroidery 179">
+
+<img data-img-key="embroidery-thread-168" src="images/sewingThreads/Embroidery/168.jpg" alt="Embroidery 168">
+
+<img data-img-key="embroidery-thread-154" src="images/sewingThreads/Embroidery/154.jpg" alt="Embroidery 154">
+
+<img data-img-key="embroidery-thread-267" src="images/sewingThreads/Embroidery/267.jpg" alt="Embroidery 267">
+
+<img data-img-key="embroidery-thread-188" src="images/sewingThreads/Embroidery/188.jpg" alt="Embroidery 188">
+
+<img data-img-key="embroidery-thread-118" src="images/sewingThreads/Embroidery/118.jpg" alt="Embroidery 118">
+
+<img data-img-key="embroidery-thread-427" src="images/sewingThreads/Embroidery/427.jpg" alt="Embroidery 427">
+
+<img data-img-key="embroidery-thread-F159" src="images/sewingThreads/Embroidery/F159.jpg" alt="Embroidery F159">
+
+<img data-img-key="embroidery-thread-F158" src="images/sewingThreads/Embroidery/F158.jpg" alt="Embroidery F158">
+
+<img data-img-key="embroidery-thread-F157" src="images/sewingThreads/Embroidery/F157.jpg" alt="Embroidery F157">
+
+
+
+    <!-- DENIM TOP STITCH THREAD CODES -->
+
+    <img data-img-key="denim-top-stitch-thread-101" src="images/sewing-thread/denim-101.jpg" alt="Denim Top Stitch 101">
+
+    <img data-img-key="denim-top-stitch-thread-104" src="images/sewing-thread/denim-104.jpg" alt="Denim Top Stitch 104">
+
+    <img data-img-key="denim-top-stitch-thread-108" src="images/sewing-thread/denim-108.jpg" alt="Denim Top Stitch 108">
+
+    <img data-img-key="denim-top-stitch-thread-110" src="images/sewing-thread/denim-110.jpg" alt="Denim Top Stitch 110">
+
+    <img data-img-key="denim-top-stitch-thread-387" src="images/sewing-thread/denim-387.jpg" alt="Denim Top Stitch 387">
+
+    <img data-img-key="denim-top-stitch-thread-394" src="images/sewing-thread/denim-394.jpg" alt="Denim Top Stitch 394">
+
+    <img data-img-key="denim-top-stitch-thread-402" src="images/sewing-thread/denim-402.jpg" alt="Denim Top Stitch 402">
+
+    <img data-img-key="denim-top-stitch-thread-465" src="images/sewing-thread/denim-465.jpg" alt="Denim Top Stitch 465">
+
+    <img data-img-key="denim-top-stitch-thread-474" src="images/sewing-thread/denim-474.jpg" alt="Denim Top Stitch 474">
+
+    <img data-img-key="denim-top-stitch-thread-476" src="images/sewing-thread/denim-476.jpg" alt="Denim Top Stitch 476">
+
+    <img data-img-key="denim-top-stitch-thread-481" src="images/sewing-thread/denim-481.jpg" alt="Denim Top Stitch 481">
+
+    <img data-img-key="denim-top-stitch-thread-483" src="images/sewing-thread/denim-483.jpg" alt="Denim Top Stitch 483">
+
+    <img data-img-key="denim-top-stitch-thread-486" src="images/sewing-thread/denim-486.jpg" alt="Denim Top Stitch 486">
+
+    <img data-img-key="denim-top-stitch-thread-488" src="images/sewing-thread/denim-488.jpg" alt="Denim Top Stitch 488">
+
+    <img data-img-key="denim-top-stitch-thread-514" src="images/sewing-thread/denim-514.jpg" alt="Denim Top Stitch 514">
+
+    <img data-img-key="denim-top-stitch-thread-628" src="images/sewing-thread/denim-628.jpg" alt="Denim Top Stitch 628">
+
+    <img data-img-key="denim-top-stitch-thread-634" src="images/sewing-thread/denim-634.jpg" alt="Denim Top Stitch 634">
+
+    <img data-img-key="denim-top-stitch-thread-638" src="images/sewing-thread/denim-638.jpg" alt="Denim Top Stitch 638">
+
+    <img data-img-key="denim-top-stitch-thread-553" src="images/sewing-thread/denim-553.jpg" alt="Denim Top Stitch 553">
+
+    <img data-img-key="denim-top-stitch-thread-555" src="images/sewing-thread/denim-555.jpg" alt="Denim Top Stitch 555">
+
+    <img data-img-key="denim-top-stitch-thread-566" src="images/sewing-thread/denim-566.jpg" alt="Denim Top Stitch 566">
+
+    <img data-img-key="denim-top-stitch-thread-307" src="images/sewing-thread/denim-307.jpg" alt="Denim Top Stitch 307">
+
+    <img data-img-key="denim-top-stitch-thread-315" src="images/sewing-thread/denim-315.jpg" alt="Denim Top Stitch 315">
+
+    <img data-img-key="denim-top-stitch-thread-612" src="images/sewing-thread/denim-612.jpg" alt="Denim Top Stitch 612">
+
+    <img data-img-key="denim-top-stitch-thread-614" src="images/sewing-thread/denim-614.jpg" alt="Denim Top Stitch 614">
+
+    <img data-img-key="denim-top-stitch-thread-642" src="images/sewing-thread/denim-642.jpg" alt="Denim Top Stitch 642">
+
+    <img data-img-key="denim-top-stitch-thread-651" src="images/sewing-thread/denim-651.jpg" alt="Denim Top Stitch 651">
+
+    <img data-img-key="denim-top-stitch-thread-493" src="images/sewing-thread/denim-493.jpg" alt="Denim Top Stitch 493">
+
+    <img data-img-key="denim-top-stitch-thread-506" src="images/sewing-thread/denim-506.jpg" alt="Denim Top Stitch 506">
+
+    <img data-img-key="denim-top-stitch-thread-508" src="images/sewing-thread/denim-508.jpg" alt="Denim Top Stitch 508">
+
+    <img data-img-key="denim-top-stitch-thread-04" src="images/sewing-thread/denim-04.jpg" alt="Denim Top Stitch 04">
+
+    <img data-img-key="denim-top-stitch-thread-122" src="images/sewing-thread/denim-122.jpg" alt="Denim Top Stitch 122">
+
+    <img data-img-key="denim-top-stitch-thread-148" src="images/sewing-thread/denim-148.jpg" alt="Denim Top Stitch 148">
+
+    <img data-img-key="denim-top-stitch-thread-149" src="images/sewing-thread/denim-149.jpg" alt="Denim Top Stitch 149">
+
+    <img data-img-key="denim-top-stitch-thread-138" src="images/sewing-thread/denim-138.jpg" alt="Denim Top Stitch 138">
+
+    <img data-img-key="denim-top-stitch-thread-153" src="images/sewing-thread/denim-153.jpg" alt="Denim Top Stitch 153">
+
+    <img data-img-key="denim-top-stitch-thread-156" src="images/sewing-thread/denim-156.jpg" alt="Denim Top Stitch 156">
+
+    <img data-img-key="denim-top-stitch-thread-197" src="images/sewing-thread/denim-197.jpg" alt="Denim Top Stitch 197">
+
+    <img data-img-key="denim-top-stitch-thread-204" src="images/sewing-thread/denim-204.jpg" alt="Denim Top Stitch 204">
+
+    <img data-img-key="denim-top-stitch-thread-255" src="images/sewing-thread/denim-255.jpg" alt="Denim Top Stitch 255">
+
+    <img data-img-key="denim-top-stitch-thread-233" src="images/sewing-thread/denim-233.jpg" alt="Denim Top Stitch 233">
+
+    <img data-img-key="denim-top-stitch-thread-162" src="images/sewing-thread/denim-162.jpg" alt="Denim Top Stitch 162">
+
+    <img data-img-key="denim-top-stitch-thread-169" src="images/sewing-thread/denim-169.jpg" alt="Denim Top Stitch 169">
+
+    <img data-img-key="denim-top-stitch-thread-529" src="images/sewing-thread/denim-529.jpg" alt="Denim Top Stitch 529">
+
+    <img data-img-key="denim-top-stitch-thread-178" src="images/sewing-thread/denim-178.jpg" alt="Denim Top Stitch 178">
+
+    <img data-img-key="denim-top-stitch-thread-539" src="images/sewing-thread/denim-539.jpg" alt="Denim Top Stitch 539">
+
+    <img data-img-key="denim-top-stitch-thread-182" src="images/sewing-thread/denim-182.jpg" alt="Denim Top Stitch 182">
+
+    <img data-img-key="denim-top-stitch-thread-541" src="images/sewing-thread/denim-541.jpg" alt="Denim Top Stitch 541">
+
+    <img data-img-key="denim-top-stitch-thread-583" src="images/sewing-thread/denim-583.jpg" alt="Denim Top Stitch 583">
+
+    <img data-img-key="denim-top-stitch-thread-584" src="images/sewing-thread/denim-584.jpg" alt="Denim Top Stitch 584">
+
+    <img data-img-key="denim-top-stitch-thread-588" src="images/sewing-thread/denim-588.jpg" alt="Denim Top Stitch 588">
+
+    <img data-img-key="denim-top-stitch-thread-254" src="images/sewing-thread/denim-254.jpg" alt="Denim Top Stitch 254">
+
+    <img data-img-key="denim-top-stitch-thread-258" src="images/sewing-thread/denim-258.jpg" alt="Denim Top Stitch 258">
+
+    <img data-img-key="denim-top-stitch-thread-262" src="images/sewing-thread/denim-262.jpg" alt="Denim Top Stitch 262">
+
+    <img data-img-key="denim-top-stitch-thread-263" src="images/sewing-thread/denim-263.jpg" alt="Denim Top Stitch 263">
+
+    <img data-img-key="denim-top-stitch-thread-267" src="images/sewing-thread/denim-267.jpg" alt="Denim Top Stitch 267">
+
+    <img data-img-key="denim-top-stitch-thread-018" src="images/sewing-thread/denim-018.jpg" alt="Denim Top Stitch 018">
+
+    <img data-img-key="denim-top-stitch-thread-283" src="images/sewing-thread/denim-283.jpg" alt="Denim Top Stitch 283">
+
+    <img data-img-key="denim-top-stitch-thread-285" src="images/sewing-thread/denim-285.jpg" alt="Denim Top Stitch 285">
+
+    <img data-img-key="denim-top-stitch-thread-340" src="images/sewing-thread/denim-340.jpg" alt="Denim Top Stitch 340">
+
+    <img data-img-key="denim-top-stitch-thread-351" src="images/sewing-thread/denim-351.jpg" alt="Denim Top Stitch 351">
+
+    <img data-img-key="denim-top-stitch-thread-066" src="images/sewing-thread/denim-066.jpg" alt="Denim Top Stitch 066">
+
+    <img data-img-key="denim-top-stitch-thread-363" src="images/sewing-thread/denim-363.jpg" alt="Denim Top Stitch 363">
+
+    <img data-img-key="denim-top-stitch-thread-365" src="images/sewing-thread/denim-365.jpg" alt="Denim Top Stitch 365">
+
+    <img data-img-key="denim-top-stitch-thread-377" src="images/sewing-thread/denim-377.jpg" alt="Denim Top Stitch 377">
+
+    <img data-img-key="denim-top-stitch-thread-660" src="images/sewing-thread/denim-660.jpg" alt="Denim Top Stitch 660">
+
+</div>
+
+
+
+<header>
+
+    <div class="logo">FAWZ <span>Haberdashery</span></div>
+
+    <nav>
+
+        <a href="home.html">Home</a>
+
+        <a href="category-index.html">Categories</a>
+
+        <a href="all-products.html">All Products</a>
+
+        <a href="demo_cart.html">View Cart</a>
+
+    </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+    <h1>Sewing Thread</h1>
+
+    <div class="toolbar">
+
+        <input id="searchBox" placeholder="Search thread...">
+
+    </div>
+
+</section>
+
+
+
+<main>
+
+    <div class="section-heading">
+
+        <h3>All Threads</h3>
+
+        <span id="itemCount" class="hidden">0 categories</span>
+
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+
+</main>
+
+
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-x" onclick="closeModal()">×</span>
+
+
+
+        <!-- LEFT: Product Preview Image -->
+
+        <div class="modal-left">
+
+            <img id="modalImg" src="" alt="Product Preview">
+
+        </div>
+
+
+
+        <!-- RIGHT: Controls & Options -->
+
+        <div class="modal-middle">
+
+            <h2 id="modalTitle">Product</h2><div id="packingInfo" style="background:#f5f5f5;padding:12px 16px;border-radius:12px;margin:15px 0;font-size:0.85rem;color:#555;border-left:3px solid var(--fawz-red);"></div>
+
+
+
+            <div id="sizeGroup" class="variant-group" style="display:none;">
+
+                <label id="sizeLabel">Select Type</label>
+
+                <select id="sizeSelect" class="variant-select"></select>
+
+            </div>
+
+
+
+            <div id="colorGroup" class="variant-group" style="display:none;">
+
+                <label>Select Colour</label>
+
+                <div id="colorGrid" class="color-grid"></div>
+
+            </div>
+
+
+
+            <div class="variant-group">
+
+                <label>Quantity</label>
+
+                <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+
+                <input type="number" id="qty" class="qty-input" value="1" min="1">
+
+            </div>
+
+
+
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+// ============================================================
+
+// IMAGE BANK UTILITY FUNCTIONS
+
+// ============================================================
+
+function getImageFromBank(key) {
+
+    const imgEl = document.querySelector(`#htmlImageBank img[data-img-key="${key}"]`);
+
+    return imgEl ? imgEl.getAttribute('src') : null;
+
+}
+
+
+
+// ============================================================
+
+// SEWING THREAD DATA & CONFIGURATION
+
+// ============================================================
+
+
+
+const cottonAndConeCodes = [
+
+    "101", "104", "108", "110", "387", "394", "402", "465", "474", "476", 
+
+    "481", "483", "486", "488", "514", "628", "634", "638", "553", "555", 
+
+    "566", "307", "315", "612", "614", "642", "651", "493", "506", "508", 
+
+    "04", "122", "148", "149", "138", "153", "156", "197", "204", "255", 
+
+    "233", "162", "169", "529", "178", "539", "182", "541", "583", "584", 
+
+    "588", "254", "258", "262", "263", "267", "018", "283", "285", "340", 
+
+    "351", "066", "363", "365", "377", "660"
+
+];
+
+
+
+const highTenacity9PlyColors = [
+
+    "Beige", "Dusty Blue", "Bottle", "Brown", "Maroon", "Emerald", 
+
+    "Powder", "Rust", "Navy", "Black", "Purple", "Cerise", 
+
+    "Gray", "Cream", "Silver", "Yellow", "Red", "White"
+
+];
+
+
+
+function getExactSwatchImage(color) {
+
+    if (!currentCategory) return null;
+
+
+
+    let imageSrc = null;
+
+    if (currentSize) {
+
+        imageSrc = getImageFromBank(`${currentCategory.productId}-${currentSize}-${color}`);
+
+    }
+
+    if (!imageSrc) {
+
+        imageSrc = getImageFromBank(`${currentCategory.productId}-${color}`);
+
+    }
+
+    return imageSrc || getImageFromBank(currentCategory.defaultImageKey);
+
+}
+
+
+
+const categories = [
+
+    {
+
+        name: "Small Cotton",
+
+        defaultImageKey: "small-cotton",
+
+        productId: "small-cotton",
+
+        hasSizes: true,
+
+        hasColors: true,
+
+        sizeLabel: "Select Quality",
+
+        sizeOptions: ["FAWZ Quality", "B Quality"]
+
+    },
+
+    {
+
+        name: "Cones",
+
+        defaultImageKey: "cones",
+
+        productId: "cones",
+
+        hasSizes: true,
+
+        hasColors: true,
+
+        sizeLabel: "Select Quality",
+
+        sizeOptions: ["FAWZ Quality", "B Quality"]
+
+    },
+
+    {
+
+        name: "Polyester Sewing Thread",
+
+        defaultImageKey: "polyester-sewing-thread",
+
+        productId: "polyester-sewing-thread",
+
+        hasSizes: true,
+
+        hasColors: true,
+
+        sizeLabel: "Select Length",
+
+        sizeOptions: ["1000Y", "3000Y"]
+
+    },
+
+    {
+
+        name: "High Tenacity Thread",
+
+        defaultImageKey: "high-tenacity-thread",
+
+        productId: "high-tenacity-thread",
+
+        hasSizes: true,
+
+        hasColors: true,
+
+        sizeLabel: "Select Ply",
+
+        sizeOptions: ["3 Ply", "6 Ply", "9 Ply"]
+
+    },
+
+    {
+
+        name: "Embroidery Thread",
+
+        defaultImageKey: "embroidery-thread",
+
+        productId: "embroidery-thread",
+
+        hasSizes: true,
+
+        hasColors: true,
+
+        sizeLabel: "Select Type",
+
+        sizeOptions: ["Plain Colours", "Variegated"],
+
+        colorOptions: [
+
+            "243", "244", "245", "396", "336", "386", "338", "340", 
+
+            "206", "384", "129", "136", "354", "347", "368", "380", 
+
+            "294", "205", "485", "310", "175", "179", "168", "154", 
+
+            "267", "188", "118", "427", "F159", "F158", "F157"
+
+        ]
+
+    },
+
+    {
+
+        name: "Denim Top Stitch Thread",
+
+        defaultImageKey: "denim-top-stitch-thread",
+
+        productId: "denim-top-stitch-thread",
+
+        hasSizes: false,
+
+        hasColors: true
+
+    }
+
+];
+
+
+
+let currentCategory = null;
+
+let currentSize = null;
+
+let currentColor = null;
+
+
+
+function renderCategories() {
+
+    const grid = document.getElementById('productGrid');
+
+    grid.innerHTML = '';
+
+
+
+    categories.forEach(cat => {
+
+        const card = document.createElement('div');
+
+        card.className = 'product-card';
+
+        card.onclick = () => openModal(cat);
+
+
+
+        const imgSrc = getImageFromBank(cat.defaultImageKey);
+
+
+
+        card.innerHTML = `
+
+            <div class="product-img-wrap">
+
+                <img src="${imgSrc}" alt="${cat.name}">
+
+            </div>
+
+            <div class="product-info">
+
+                <h4>${cat.name}</h4>
+
+            </div>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+
+function updateThreadPackingInfo() {
+ if (!currentCategory) return;
+ const id = currentCategory.productId;
+ let info = '';
+ if (id === 'small-cotton') info = 'Packed: 10 per box.';
+ if (id === 'cones') info = currentSize === 'B Quality' ? 'Packed: 12 cones per box; 120 cones per carton.' : 'Packed: 12 cones per box.';
+ if (id === 'polyester-sewing-thread') info = currentSize === '1000Y' ? '1,000 metres per cone. Packed: 10 cones per box.' : '3,000 yards per cone. Packed: 6 cones per pack.';
+ if (id === 'high-tenacity-thread') info = 'Packed: 10 cones per box; 120 cones per carton.';
+ if (id === 'embroidery-thread') info = 'Packed: 12 cones per box; 10 boxes per carton.';
+ if (id === 'denim-top-stitch-thread') info = 'Packed: 12 per box.';
+ document.getElementById('packingInfo').textContent = info;
+}
+
+function updateModalImage() {
+ updateThreadPackingInfo();
+
+    if (!currentCategory) return;
+
+
+
+    let resolvedSrc = null;
+
+
+
+    // 1. Check for specific product + size/packaging + color combination key
+
+    if (currentSize && currentColor) {
+
+        resolvedSrc = getImageFromBank(`${currentCategory.productId}-${currentSize}-${currentColor}`);
+
+    }
+
+
+
+    // 2. Check for specific product + color key
+
+    if (!resolvedSrc && currentColor) {
+
+        resolvedSrc = getImageFromBank(`${currentCategory.productId}-${currentColor}`);
+
+    }
+
+
+
+    // 3. Check for specific product + size/packaging key
+
+    if (!resolvedSrc && currentSize) {
+
+        resolvedSrc = getImageFromBank(`${currentCategory.productId}-${currentSize}`);
+
+    }
+
+
+
+    // 4. Fallback to category default image
+
+    if (!resolvedSrc) {
+
+        resolvedSrc = getImageFromBank(currentCategory.defaultImageKey);
+
+    }
+
+
+
+    const modalImg = document.getElementById('modalImg');
+
+    if (resolvedSrc && modalImg.src !== resolvedSrc) {
+
+        modalImg.style.opacity = '0.3';
+
+        setTimeout(() => {
+
+            modalImg.src = resolvedSrc;
+
+            modalImg.style.opacity = '1';
+
+        }, 120);
+
+    }
+
+}
+
+
+
+function openModal(category) {
+
+    currentCategory = category;
+
+    currentColor = null;
+
+    currentSize = null;
+
+    window.fawzCurrentProductId = category.productId;
+
+
+
+    document.getElementById('modalTitle').innerText = category.name;
+
+    document.getElementById('qty').value = 1;
+
+
+
+    const sizeGroup = document.getElementById('sizeGroup');
+
+    const sizeSelect = document.getElementById('sizeSelect');
+
+
+
+    if (category.hasSizes && category.sizeOptions) {
+
+        sizeGroup.style.display = 'block';
+
+        document.getElementById('sizeLabel').innerText = category.sizeLabel || 'Select Option';
+
+
+
+        sizeSelect.innerHTML = category.sizeOptions.map(sz => {
+
+            return `<option value="${sz}">${category.productId === "polyester-sewing-thread" ? (sz === "1000Y" ? "1,000 metres" : "3,000 yards") : sz}</option>`;
+
+        }).join('');
+
+
+
+        sizeSelect.onchange = (e) => { 
+
+            currentSize = e.target.value;
+
+            window.fawzCurrentProductId = currentCategory.productId;
+
+            renderColors();
+
+            updateModalImage();
+
+        };
+
+        currentSize = category.sizeOptions[0];
+
+    } else {
+
+        sizeGroup.style.display = 'none';
+
+    }
+
+
+
+    renderColors();
+
+    updateModalImage();
+
+    document.getElementById('productModal').style.display = 'flex';
+
+}
+
+
+
+function renderColors() {
+
+    const colorGroup = document.getElementById('colorGroup');
+
+    const colorGrid = document.getElementById('colorGrid');
+
+
+
+    if (!currentCategory.hasColors) {
+
+        colorGroup.style.display = 'none';
+
+        return;
+
+    }
+
+
+
+    colorGroup.style.display = 'block';
+
+    colorGrid.innerHTML = '';
+
+
+
+    let activeColorList = [];
+
+
+
+    if (currentCategory.colorOptions) {
+
+        activeColorList = currentCategory.colorOptions;
+
+    } else if (currentCategory.productId === "small-cotton" || currentCategory.productId === "cones") {
+
+        activeColorList = cottonAndConeCodes;
+
+    } else if (currentCategory.productId === "high-tenacity-thread") {
+
+        if (currentSize === "3 Ply" || currentSize === "6 Ply") {
+
+            activeColorList = ["Black"];
+
+        } else {
+
+            activeColorList = highTenacity9PlyColors;
+
+        }
+
+    } else {
+
+        activeColorList = cottonAndConeCodes;
+
+    }
+
+
+
+    activeColorList.forEach((color, index) => {
+
+        const colorDiv = document.createElement('div');
+
+        colorDiv.className = 'color-option';
+
+        colorDiv.setAttribute('data-color', color);
+
+        const exactColorImage = getExactSwatchImage(color);
+
+        colorDiv.innerHTML = `
+
+            <span class="color-swatch" style="background-image:url('${exactColorImage || ''}')" aria-hidden="true"></span>
+
+            <span class="color-name">${color}</span>
+
+        `;
+
+
+
+        colorDiv.onclick = () => {
+
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+
+            colorDiv.classList.add('active');
+
+            currentColor = color;
+
+            updateModalImage();
+
+        };
+
+
+
+        if (index === 0) {
+
+            colorDiv.classList.add('active');
+
+            currentColor = color;
+
+        }
+
+
+
+        colorGrid.appendChild(colorDiv);
+
+    });
+
+}
+
+
+
+function addToCart() {
+
+    let productName = currentCategory.name;
+
+    if (currentSize) productName += ` - ${currentSize}`;
+
+    if (currentColor) productName += ` (${currentColor})`;
+
+
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    cart.push({
+
+        product: productName,
+
+        category: "Sewing Thread",
+
+        size: currentSize || 'Standard',
+
+        color: currentColor || null,
+
+        qty: qty,
+
+        tier: window.userTier || 'tier_1'
+
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    alert(`Added to cart: ${productName} x${qty}`);
+
+    closeModal();
+
+}
+
+
+
+function closeModal() {
+
+    document.getElementById('productModal').style.display = 'none';
+
+}
+
+
+
+function filterProducts() {
+
+    const search = document.getElementById('searchBox').value.toLowerCase();
+
+    const cards = document.querySelectorAll('.product-card');
+
+    cards.forEach(card => {
+
+        const text = card.innerText.toLowerCase();
+
+        card.classList.toggle('hidden', !text.includes(search));
+
+    });
+
+}
+
+
+
+document.getElementById('searchBox')?.addEventListener('input', filterProducts);
+
+window.onclick = (e) => { if (e.target === document.getElementById('productModal')) closeModal(); };
+
+
+
+renderCategories();
+
+</script>
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+
+</html>

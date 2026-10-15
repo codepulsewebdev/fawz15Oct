@@ -1,0 +1,1 @@
+(function(){let timer;const reset=()=>{clearTimeout(timer);timer=setTimeout(()=>{if(window.FawzSite?.auth?.isAuthenticated())window.FawzSite.auth.logout()},30*60*1000)};addEventListener('fawz:site-ready',e=>{if(!e.detail.authenticated)return;['pointerdown','keydown','scroll','touchstart'].forEach(name=>addEventListener(name,reset,{passive:true}));reset()})})();
