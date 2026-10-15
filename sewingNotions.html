@@ -1,0 +1,2760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<title>Fawz Haberdashery</title>
+<script src="fawz-security.js" defer></script>
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+:root {
+    --fawz-red: #e31e24;
+    --fawz-dark: #1a1a1a;
+    --fawz-grey: #f8f8f8;
+    --border: #eeeeee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #fff;
+    color: var(--fawz-dark);
+    overflow-x: hidden;
+}
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--fawz-red);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.logo {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+}
+.logo span { color: var(--fawz-red); }
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+nav a {
+    color: var(--fawz-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.hero {
+    padding: 46px 5% 24px;
+    max-width: 1300px;
+    margin: auto;
+}
+.hero h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin: 0;
+    text-transform: uppercase;
+}
+.toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+.toolbar input {
+    padding: 13px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-width: 260px;
+    font-size: 1rem;
+    background: #fff;
+}
+main {
+    padding: 15px 5% 70px;
+    max-width: 1300px;
+    margin: auto;
+}
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 6px solid var(--fawz-red);
+    padding-left: 14px;
+    margin-bottom: 20px;
+}
+.section-heading h3 {
+    font-size: 1.6rem;
+    margin: 0;
+    text-transform: uppercase;
+}
+.section-heading span {
+    background: #fff3f3;
+    color: var(--fawz-red);
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 6px 11px;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+.product-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+    transition: 0.25s;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+}
+.product-img-wrap {
+    height: 200px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+}
+.product-img-wrap img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+.no-image-icon {
+    font-size: 3rem;
+    color: #ccc;
+}
+.product-info {
+    padding: 16px;
+    text-align: center;
+}
+.product-info h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+}
+.product-info p {
+    font-size: 0.75rem;
+    color: #777;
+    margin: 0;
+}
+.hidden { display: none !important; }
+
+/* Hide section heading from users but keep in code */
+.section-heading.hidden-section {
+    display: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(3px);
+    padding: 20px;
+}
+.modal-content {
+    background: #fff;
+    margin: auto;
+    width: 90%;
+    max-width: 1100px;
+    height: 85%;
+    max-height: 85vh;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+}
+.close-x {
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #aaa;
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+.modal-left {
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+}
+.modal-left img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.modal-left .no-image-icon {
+    font-size: 4rem;
+    color: #ccc;
+}
+.modal-right {
+    padding: 28px 32px;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.modal-right h2 {
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+    font-size: 1.5rem;
+}
+.modal-desc {
+    background: #f5f5f5;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 15px 0;
+    font-size: 0.85rem;
+    color: #555;
+    border-left: 3px solid var(--fawz-red);
+}
+.variant-group {
+    margin: 18px 0;
+}
+.variant-group label {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #555;
+    letter-spacing: 1px;
+}
+.variant-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    background: #fff;
+    cursor: pointer;
+}
+.qty-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f8f8f8;
+    margin: 8px 0 12px;
+}
+#price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 15px 0 20px;
+    color: var(--fawz-red);
+}
+.btn-add {
+    width: 100%;
+    background: var(--fawz-red);
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    transition: background 0.2s;
+    margin-top: auto;
+}
+.btn-add:hover { background: #c41a1f; }
+
+@media (max-width: 1100px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } }
+@media (max-width: 500px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } .product-img-wrap { height: 140px; } .product-info h4 { font-size: 0.85rem; } }
+@media (max-width: 700px) { .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; } .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; } .modal-right { padding: 20px; } }
+
+.cart-link { position: relative; }
+.cart-badge { position: absolute; top: -8px; right: -8px; background: var(--fawz-red); color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+</style>
+<link rel="stylesheet" href="fawz-packing-info.css">
+
+<style>
+/* Approved FAWZ packing-description presentation */
+#fawzPackingInfo.fawz-packing-info {
+    display: block;
+    background: #f1f1f1;
+    color: #e31e24;
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin: 14px 0 28px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    font-weight: 500;
+}
+#fawzPackingInfo.fawz-packing-info[hidden] {
+    display: none;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+    <div class="logo">Fawz <span>Haberdashery</span></div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="category-index.html">Categories</a>
+        <a href="all-products.html">All Products</a>
+        <a href="demo_cart.html" class="cart-link">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Sewing Notions</h1>
+    <div class="toolbar">
+        <input id="searchBox" placeholder="Search notions...">
+    </div>
+</section>
+
+<main>
+    <!-- ===== SECTION 1: PRESS STUDS ===== -->
+    <div class="section-heading"><h3>Press Studs</h3><span id="pressStudsCount">0 items</span></div>
+    <div class="product-grid" id="pressStudsGrid"></div>
+
+    <!-- ===== SECTION 2: HOOK & EYES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Hook & Eyes</h3><span id="hookEyesCount">0 items</span></div>
+    <div class="product-grid" id="hookEyesGrid"></div>
+
+    <!-- ===== SECTION 3: FABRIC MARKERS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Fabric Markers</h3><span id="fabricMarkersCount">0 items</span></div>
+    <div class="product-grid" id="fabricMarkersGrid"></div>
+
+    <!-- ===== SECTION 4: THREAD NIPPERS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Thread Nippers</h3><span id="threadNippersCount">0 items</span></div>
+    <div class="product-grid" id="threadNippersGrid"></div>
+
+    <!-- ===== SECTION 5: TAILORS CHALK ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Tailors Chalk</h3><span id="tailorsChalkCount">0 items</span></div>
+    <div class="product-grid" id="tailorsChalkGrid"></div>
+
+    <!-- ===== SECTION 6: BIAS MAKERS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Bias Makers</h3><span id="biasMakersCount">0 items</span></div>
+    <div class="product-grid" id="biasMakersGrid"></div>
+
+    <!-- ===== SECTION 7: SEAM RIPPERS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Seam Rippers</h3><span id="seamRippersCount">0 items</span></div>
+    <div class="product-grid" id="seamRippersGrid"></div>
+
+    <!-- ===== SECTION 8: TAPE MEASURES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Tape Measures</h3><span id="tapeMeasuresCount">0 items</span></div>
+    <div class="product-grid" id="tapeMeasuresGrid"></div>
+
+    <!-- ===== SECTION 9: HOTFIX ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Hotfix</h3><span id="hotfixCount">0 items</span></div>
+    <div class="product-grid" id="hotfixGrid"></div>
+
+    <!-- ===== SECTION 10: CUTTERS & BLADES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Cutters & Blades</h3><span id="cuttersCount">0 items</span></div>
+    <div class="product-grid" id="cuttersGrid"></div>
+
+    <!-- ===== SECTION 11: SNAP BUTTON KITS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Snap Button Kits</h3><span id="snapKitsCount">0 items</span></div>
+    <div class="product-grid" id="snapKitsGrid"></div>
+
+    <!-- ===== SECTION 12: TAGGING ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Tagging</h3><span id="taggingCount">0 items</span></div>
+    <div class="product-grid" id="taggingGrid"></div>
+
+    <!-- ===== SECTION 13: SEWING BOXES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Sewing Boxes</h3><span id="sewingBoxesCount">0 items</span></div>
+    <div class="product-grid" id="sewingBoxesGrid"></div>
+
+    <!-- ===== SECTION 14: THIMBLES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Thimbles</h3><span id="thimblesCount">0 items</span></div>
+    <div class="product-grid" id="thimblesGrid"></div>
+
+    <!-- ===== SECTION 15: TRACING WHEELS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Tracing Wheels</h3><span id="tracingWheelsCount">0 items</span></div>
+    <div class="product-grid" id="tracingWheelsGrid"></div>
+
+    <!-- ===== SECTION 16: TRACING PAPER ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Tracing Paper</h3><span id="tracingPaperCount">0 items</span></div>
+    <div class="product-grid" id="tracingPaperGrid"></div>
+
+    <!-- ===== SECTION 17: MAGNETIC SEAM GUIDES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Magnetic Seam Guides</h3><span id="magneticSeamGuidesCount">0 items</span></div>
+    <div class="product-grid" id="magneticSeamGuidesGrid"></div>
+
+    <!-- ===== SECTION 18: SEWING AWLS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Sewing Awls</h3><span id="sewingAwlsCount">0 items</span></div>
+    <div class="product-grid" id="sewingAwlsGrid"></div>
+
+    <!-- ===== SECTION 19: BRACE CLIPS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Brace Clips</h3><span id="braceClipsCount">0 items</span></div>
+    <div class="product-grid" id="braceClipsGrid"></div>
+
+    <!-- ===== SECTION 20: BEAD STRETCH CORD ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Bead Stretch Cord</h3><span id="beadStretchCount">0 items</span></div>
+    <div class="product-grid" id="beadStretchGrid"></div>
+
+    <!-- ===== SECTION 21: BUCKLES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Buckles</h3><span id="bucklesCount">0 items</span></div>
+    <div class="product-grid" id="bucklesGrid"></div>
+
+    <!-- ===== SECTION 22: GLUE GUNS & GLUE ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Glue Guns & Glue</h3><span id="glueCount">0 items</span></div>
+    <div class="product-grid" id="glueGrid"></div>
+
+    <!-- ===== SECTION 23: TWEEZERS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Tweezers</h3><span id="tweezersCount">0 items</span></div>
+    <div class="product-grid" id="tweezersGrid"></div>
+
+    <!-- ===== SECTION 24: NEEDLE THREADERS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Needle Threaders</h3><span id="needleThreadersCount">0 items</span></div>
+    <div class="product-grid" id="needleThreadersGrid"></div>
+
+    <!-- ===== SECTION 25: PIN CUSHIONS & CASES ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Pin Cushions & Cases</h3><span id="pinCushionsCount">0 items</span></div>
+    <div class="product-grid" id="pinCushionsGrid"></div>
+
+    <!-- ===== SECTION 26: OTHER SEWING NOTIONS ===== -->
+    <div class="section-heading" style="margin-top: 50px;"><h3>Other Sewing Notions</h3><span id="balanceCount">0 items</span></div>
+    <div class="product-grid" id="balanceGrid"></div>
+</main>
+
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-x" onclick="closeModal()">&times;</span>
+        <div class="modal-left" id="modalLeft"><img id="modalImg" src="" alt=""></div>
+        <div class="modal-right">
+            <h2 id="modalTitle">Product</h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+            <div id="modalDesc" class="modal-desc"></div>
+            <div id="variantGroup" class="variant-group" style="display:none;">
+                <label id="variantLabel">Select Option</label>
+                <div id="variantSelectContainer"></div>
+            </div>
+            <label>Quantity</label>
+            <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="updatePrice()">
+            <div id="price">Price on request — Contact us for quote</div>
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// SEWING NOTIONS - ALL 26 SECTIONS
+// ============================================================
+
+// ===== SECTION 1: PRESS STUDS =====
+const pressStudsProducts = [
+    {
+        "id": "silver-ps",
+        "name": "Nickel Silver Press Studs",
+        "image": "images/press/silver ps0.jpg",
+        "description": "Nickel silver press studs. Available in sizes 0-6. Durable and rust-resistant. Packing: 20 Cards/Box.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Size 0",
+                "image": "images/press/silver ps0.jpg"
+            },
+            {
+                "name": "Size 1",
+                "image": "images/press/silver ps1.jpg"
+            },
+            {
+                "name": "Size 2",
+                "image": "images/press/silver ps2.jpg"
+            },
+            {
+                "name": "Size 3",
+                "image": "images/press/silver ps3.jpg"
+            },
+            {
+                "name": "Size 4",
+                "image": "images/press/silver ps4.jpg"
+            },
+            {
+                "name": "Size 5",
+                "image": "images/press/silver ps5.jpg"
+            },
+            {
+                "name": "Size 6",
+                "image": "images/press/silver ps6.jpg"
+            }
+        ]
+    },
+    {
+        "id": "brass-bulk-ps",
+        "name": "Bulk Pack - Nickel Silver Press Studs",
+        "image": "images/press/brass bulk ps0.jpg",
+        "description": "Bulk pack nickel silver press studs. Available in sizes 0-5. Bulk pricing for larger quantities. Box packing.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Size 0",
+                "image": "images/press/brass bulk ps0.jpg"
+            },
+            {
+                "name": "Size 1",
+                "image": "images/press/brass bulk ps1.jpg"
+            },
+            {
+                "name": "Size 2",
+                "image": "images/press/brass bulk ps2.jpg"
+            },
+            {
+                "name": "Size 3",
+                "image": "images/press/brass bulk ps3.jpg"
+            },
+            {
+                "name": "Size 4",
+                "image": "images/press/brass bulk ps4.jpg"
+            },
+            {
+                "name": "Size 5",
+                "image": "images/press/brass bulk ps5.jpg"
+            }
+        ]
+    },
+    {
+        "id": "plastic-ps",
+        "name": "Plastic Press Studs",
+        "image": "images/press/plastic ps0.jpg",
+        "description": "Plastic press studs. Available in sizes 0-6. Lightweight and ideal for delicate fabrics. Packing: 20 Cards/Box.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Size 0",
+                "image": "images/press/plastic ps0.jpg"
+            },
+            {
+                "name": "Size 1",
+                "image": "images/press/plastic ps1.jpg"
+            },
+            {
+                "name": "Size 2",
+                "image": "images/press/plastic ps2.jpg"
+            },
+            {
+                "name": "Size 3",
+                "image": "images/press/plastic ps3.jpg"
+            },
+            {
+                "name": "Size 4",
+                "image": "images/press/plastic ps4.jpg"
+            },
+            {
+                "name": "Size 5",
+                "image": "images/press/plastic ps5.jpg"
+            },
+            {
+                "name": "Size 6",
+                "image": "images/press/plastic ps6.jpg"
+            }
+        ]
+    },
+    {
+        "id": "black-ps",
+        "name": "Black Press Studs",
+        "image": "images/press/black ps0.jpg",
+        "description": "Black press studs. Available in sizes 0-6. Ideal for dark fabrics and garments. Packing: 20 Cards/Box.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Size 0",
+                "image": "images/press/black ps0.jpg"
+            },
+            {
+                "name": "Size 1",
+                "image": "images/press/black ps1.jpg"
+            },
+            {
+                "name": "Size 2",
+                "image": "images/press/black ps2.jpg"
+            },
+            {
+                "name": "Size 3",
+                "image": "images/press/black ps3.jpg"
+            },
+            {
+                "name": "Size 4",
+                "image": "images/press/black ps4.jpg"
+            },
+            {
+                "name": "Size 5",
+                "image": "images/press/black ps5.jpg"
+            },
+            {
+                "name": "Size 6",
+                "image": "images/press/black ps6.jpg"
+            }
+        ]
+    },
+    {
+        "id": "black-bulk-ps",
+        "name": "Bulk Pack - Black Press Studs",
+        "image": "images/press/black bulk ps0.jpg",
+        "description": "Bulk pack black press studs. Available in sizes 0-6. Bulk pricing for larger quantities. Box packing.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Size 0",
+                "image": "images/press/black bulk ps0.jpg"
+            },
+            {
+                "name": "Size 1",
+                "image": "images/press/black bulk ps1.jpg"
+            },
+            {
+                "name": "Size 2",
+                "image": "images/press/black bulk ps2.jpg"
+            },
+            {
+                "name": "Size 3",
+                "image": "images/press/black bulk ps3.jpg"
+            },
+            {
+                "name": "Size 4",
+                "image": "images/press/black bulk ps4.jpg"
+            },
+            {
+                "name": "Size 5",
+                "image": "images/press/black bulk ps5.jpg"
+            },
+            {
+                "name": "Size 6",
+                "image": "images/press/black bulk ps6.jpg"
+            }
+        ]
+    },
+    {
+        "id": "magnetic-press-studs-retail",
+        "name": "Magnetic Press Studs Retail Pack",
+        "image": "images/press/magnetic etail pack.jpg",
+        "description": "Magnetic press studs retail pack. Strong magnetic closure. Available in sizes: 10-15mm, 15-20mm, and 20-25mm. Retail packaging.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "10-15mm",
+                "image": "images/press/magnetic etail pack.jpg"
+            },
+            {
+                "name": "15-20mm",
+                "image": "images/press/magnetic reatail pack 2.jpg"
+            },
+            {
+                "name": "20-25mm",
+                "image": "images/press/sew magnetic button.jpg"
+            }
+        ]
+    },
+    {
+        "id": "gold-magnetic-sew-on",
+        "name": "Gold Magnetic Sew On Button",
+        "image": "images/press/gold sew magnetic button.jpg",
+        "description": "Gold magnetic sew on button. Strong magnetic closure with sew-in attachment. Perfect for handbags, jackets, and accessories. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "silver-magnetic-sew-on",
+        "name": "Silver Magnetic Sew On Button",
+        "image": "images/press/sew magnetic burron 2.jpg",
+        "description": "Silver magnetic sew on button. Strong magnetic closure with sew-in attachment. Perfect for handbags, jackets, and accessories. Carded packaging.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "25mm × 10mm",
+                "image": "images/press/sew magnetic burron 2.jpg"
+            },
+            {
+                "name": "20mm × 10mm",
+                "image": "images/press/sew magnetic button 3.jpg"
+            }
+        ]
+    }
+];
+
+// ===== SECTION 2: HOOK & EYES =====
+const hookEyesProducts = [
+    {
+        id: "silver-hook-eyes-bulk",
+        name: "Silver Hook & Eyes - Bulk Pack",
+        image: "images/Hook and eyes/hook and eyes silver 1.jpg",
+        description: "Bulk pack silver hook and eye fasteners. Available in sizes 1, 2, and 3. Bulk pricing for larger quantities. Box packing.",
+        hasVariants: true,
+        variants: [
+            { name: "Size 1", image: "images/Hook and eyes/hook and eyes silver 1.jpg" },
+            { name: "Size 2", image: "images/Hook and eyes/hook and eyes silver 2.jpg" },
+            { name: "Size 3", image: null }
+        ]
+    },
+    {
+        id: "silver-hook-eyes-single",
+        name: "Silver Hook & Eyes - Single Pack",
+        image: "images/Hook and eyes/single hook and eyes silver 1.jpg",
+        description: "Single pack silver hook and eye fasteners. Available in sizes 1, 2, and 3. Carded packaging.",
+        hasVariants: true,
+        variants: [
+            { name: "Size 1", image: "images/Hook and eyes/single hook and eyes silver 1.jpg" },
+            { name: "Size 2", image: "images/Hook and eyes/single hook and eyes silver 2.jpg" },
+            { name: "Size 3", image: "images/Hook and eyes/single hook and eyes silver 3.jpg" }
+        ]
+    },
+    {
+        id: "black-hook-eyes-bulk",
+        name: "Black Hook & Eyes - Bulk Pack",
+        image: "images/Hook and eyes/hook and eyes bulk 1.jpg",
+        description: "Bulk pack black hook and eye fasteners. Available in sizes 1, 2, and 3. Bulk pricing for larger quantities. Box packing.",
+        hasVariants: true,
+        variants: [
+            { name: "Size 1", image: "images/Hook and eyes/hook and eyes bulk 1.jpg" },
+            { name: "Size 2", image: "images/Hook and eyes/hook and eyes bulk 2.jpg" },
+            { name: "Size 3", image: "images/Hook and eyes/hook and eyes bulk 3.jpg" }
+        ]
+    },
+    {
+        id: "black-hook-eyes-single",
+        name: "Black Hook & Eyes - Single Pack",
+        image: "images/Hook and eyes/hook and eyes single 1.jpg",
+        description: "Single pack black hook and eye fasteners. Available in sizes 1, 2, and 3. Carded packaging.",
+        hasVariants: true,
+        variants: [
+            { name: "Size 1", image: "images/Hook and eyes/hook and eyes single 1.jpg" },
+            { name: "Size 2", image: "images/Hook and eyes/hook and eyes single 2.jpg" },
+            { name: "Size 3", image: "images/Hook and eyes/hook and eyes single 3.jpg" }
+        ]
+    },
+    {
+        id: "trouser-hook-bar-single",
+        name: "Trouser Hook & Bar - Single",
+        image: "images/Hook and eyes/trouser hook and bar.jpg",
+        description: "Single pack trouser hook and bar fasteners. Essential for waistband closures. Carded packaging.",
+        hasVariants: false
+    },
+    {
+        id: "trouser-hook-bar-bulk",
+        name: "Trouser Hook & Bar - Bulk Pack",
+        image: "images/Hook and eyes/trouser hook and bar bulk.jpg",
+        description: "Bulk pack trouser hook and bar fasteners. Bulk pricing available. Box packing.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 3: FABRIC MARKERS =====
+const fabricMarkersProducts = [
+    {
+        id: "kearing-permanent",
+        name: "Kearing Permanent Fabric Markers",
+        image: "images/Fabric markers/non pack 12.jpg",
+        description: "Kearing permanent fabric markers. Available in 6 pack and 12 pack. Permanent ink that won't wash out. Ideal for fabric marking.",
+        hasVariants: true,
+        variants: [
+            { name: "6 Pack", image: "images/Fabric markers/6 pack.jpg" },
+            { name: "12 Pack", image: "images/Fabric markers/non pack 12.jpg" }
+        ]
+    },
+    {
+        id: "kearing-non-permanent",
+        name: "Kearing Non-Permanent Fabric Markers",
+        image: "images/Fabric markers/non pack 12.jpg",
+        description: "Kearing non-permanent fabric markers. Available in 6 pack and 12 pack. Washes out easily. Perfect for temporary markings.",
+        hasVariants: true,
+        variants: [
+            { name: "6 Pack", image: "images/Fabric markers/6 pack.jpg" },
+            { name: "12 Pack", image: "images/Fabric markers/non pack 12.jpg" }
+        ]
+    },
+    {
+        id: "erasable-fabric-marker",
+        name: "Erasable Fabric Marker",
+        image: "images/Fabric markers/fabric marker.jpg",
+        description: "Erasable fabric marker. Ideal for detailed fabric work and temporary marking. Easy to remove. Carded packaging.",
+        hasVariants: false
+    },
+    {
+        id: "water-erasable-fabric-marker",
+        name: "Water Erasable Fabric Marker",
+        image: "images/Fabric markers/washable.jpg",
+        description: "Water erasable fabric marker. Easily removes with water. Perfect for temporary marking on fabrics. Carded packaging.",
+        hasVariants: false
+    },
+    {
+        id: "auto-disappear",
+        name: "Auto Disappear Fabric Marker",
+        image: "images/Fabric markers/auto disapper.jpg",
+        description: "Auto disappear fabric marker. Ink fades away naturally over time. Ideal for temporary markings. No residue left behind. Carded packaging.",
+        hasVariants: false
+    },
+    {
+        id: "eraser-pen",
+        name: "Eraser Pen",
+        image: "images/Fabric markers/eraser pen blue.jpg",
+        description: "Eraser pen for removing fabric marker marks. Easy to use. Essential for correcting marking errors. Carded packaging.",
+        hasVariants: false
+    },
+    {
+        id: "dressmaker-pencils",
+        name: "Dressmaker Pencils",
+        image: "images/Fabric markers/dressmaker pencils.jpg",
+        description: "Dressmaker pencils for marking fabric. Essential tool for sewing and tailoring. Available in assorted colours.",
+        hasVariants: false
+    },
+    {
+        id: "assorted-colour-pack",
+        name: "Assorted Colour Pack",
+        image: "images/Fabric markers/assorted colour pack.jpg",
+        description: "Assorted colour fabric markers. Variety of colours for creative fabric projects. Packed in assorted sets.",
+        hasVariants: false
+    },
+    {
+        id: "water-erasable-pen-bulk",
+        name: "Water Erasable Pen Bulk Pack",
+        image: "images/Fabric markers/water.jpg",
+        description: "Water erasable pen bulk pack. Easily removes with water. Ideal for temporary markings in bulk quantities. Box packing.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 4: THREAD NIPPERS =====
+const threadNippersProducts = [
+    {
+        "id": "thread-nippers-plastic",
+        "name": "Plastic Thread Nippers",
+        "image": "images/Thread nippers/tread nippers plastic.jpg",
+        "description": "Plastic thread nippers. Lightweight and durable. Packed in a box. Ideal for cutting threads in sewing and crafting.",
+        "hasVariants": false
+    },
+    {
+        "id": "thread-nippers-plastic-loose",
+        "name": "Plastic Thread Nipper Loose",
+        "image": "images/Thread nippers/Thread nippers plastic loose.jpg",
+        "description": "Plastic thread nipper. Precision-ground blades for accurate cutting. Essential sewing tool.",
+        "hasVariants": false
+    },
+    {
+        "id": "thread-nippers-metal",
+        "name": "Metal Thread Nippers",
+        "image": "images/Thread nippers/thread nippers metal.jpg",
+        "description": "Metal thread nippers. Heavy duty construction for professional use. Sharp blades for clean cuts. Perfect for garment making. Box packing.",
+        "hasVariants": false
+    },
+    {
+        "id": "thread-nippers-metal-loose",
+        "name": "Steel Thread Nipper Loose",
+        "image": "images/Thread nippers/Thread nippers metal loose.jpg",
+        "description": "Steel thread nipper. Precision-ground blades for accurate cutting. Essential sewing tool.",
+        "hasVariants": false
+    },
+    {
+        "id": "thread-nippers-stainless",
+        "name": "Stainless Steel Thread Nippers",
+        "image": "images/Thread nippers/stainless steel.jpg",
+        "description": "Stainless steel thread nippers. Rust-resistant and durable. Precision ground blades for accurate cutting. Essential sewing tool. Box packing.",
+        "hasVariants": false
+    },
+    {
+        "id": "thread-nippers-tc800",
+        "name": "Thread Nippers TC800",
+        "image": "images/Thread nippers/thread nippers tc800.jpg",
+        "description": "Thread nippers TC800. Available in assorted colours. Ergonomic design for comfortable use. Perfect for sewing and embroidery work. 12 per pack.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Assorted Colours",
+                "image": "images/Thread nippers/thread nippers tc800.jpg"
+            }
+        ]
+    },
+    {
+        "id": "thread-nippers-with-cap",
+        "name": "Thread Nippers with Cap",
+        "image": "images/Thread nippers/thread nippers with cap.jpg",
+        "description": "Thread nippers with protective cap. Keep blades safe when not in use. Compact and portable design. Ideal for sewing kits. Carded packaging.",
+        "hasVariants": false
+    }
+];
+
+// ===== SECTION 5: TAILORS CHALK =====
+const tailorsChalkProducts = [
+    {
+        "id": "tailors-chalk-white-assorted",
+        "name": "Tailors Chalk - Assorted",
+        "image": "images/Tailors chalk/tailers chalk white assorted.jpg",
+        "description": "White assorted tailors chalk. Perfect for marking fabric. Easily brushes off. Essential for sewing and tailoring. 10 per Box.",
+        "hasVariants": false
+    },
+    {
+        "id": "tailors-chalk-white",
+        "name": "Tailors Chalk - White",
+        "image": "images/Tailors chalk/white.jpg",
+        "description": "White tailors chalk. Classic marking tool for sewing and tailoring. Easily visible on dark fabrics. Brushes off cleanly. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "tailors-chalk-4pc-box",
+        "name": "Tailors Chalk 4pc with Box",
+        "image": "images/Tailors chalk/tailers chalk4pc and box.jpg",
+        "description": "Tailors chalk set. 4 pieces with storage box. Convenient for keeping chalk organized. Ideal for professional use. Box packing.",
+        "hasVariants": false
+    },
+    {
+        "id": "tailors-chalk-a",
+        "name": "Tailors Chalk - Assorted Colours",
+        "image": "images/Tailors chalk/assorted colours 10 per box.jpg",
+        "description": "Assorted colours tailors chalk. Variety of colours for different fabric types. Perfect for marking and tailoring.",
+        "hasVariants": false
+    },
+    {
+        "id": "tailors-chalk-12-pack",
+        "name": "Tailors Chalk - 12 Pack",
+        "image": "images/Tailors chalk/12 pack.jpg",
+        "description": "Tailors chalk 12 pack. Bulk pack for frequent use. White chalk. Perfect for professional tailors and seamstresses. Box packing.",
+        "hasVariants": false
+    },
+    {
+        "id": "tailors-chalk-assorted-carded",
+        "name": "Tailors Chalk Assorted Carded",
+        "image": "images/Tailors chalk/Tailors chalk assorted carded.jpg",
+        "description": "Assorted colours tailors chalk in carded packaging. For marking fabric during sewing and tailoring.",
+        "hasVariants": false
+    },
+    {
+        "id": "tailors-chalk-carded",
+        "name": "Tailors Chalk - Carded",
+        "image": "images/Tailors chalk/tailers chalk carded.jpg",
+        "description": "Tailors chalk carded. Single card with chalk piece. Convenient for retail display. Ideal for quick marking. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "tailors-chalk-auto-disappear",
+        "name": "Tailors Chalk - Auto Disappear",
+        "image": "images/Tailors chalk/auto dissapear.jpg",
+        "description": "Auto disappear tailors chalk. Marks fade away naturally over time. Perfect for temporary markings. No residue left behind. Carded packaging.",
+        "hasVariants": false
+    }
+];
+
+// ===== SECTION 6: BIAS MAKERS =====
+const biasMakersProducts = [
+    {
+        id: "bias-maker-sizes",
+        name: "Bias Maker",
+        image: "images/Bias/6mm.jpg",
+        description: "Bias maker for creating perfect bias tape. Available in 6mm, 9mm, 12mm, 18mm, and 25mm sizes. Easy to use. Essential for quilting and garment making.",
+        hasVariants: true,
+        variants: [
+            { name: "6mm", image: "images/Bias/6mm.jpg" },
+            { name: "9mm", image: "images/Bias/9mm.jpg" },
+            { name: "12mm", image: "images/Bias/12mm.jpg" },
+            { name: "18mm", image: "images/Bias/18mm.jpg" },
+            { name: "25mm", image: "images/Bias/25mm.jpg" }
+        ]
+    },
+    {
+        id: "bias-maker-set",
+        name: "Bias Maker Set",
+        image: "images/Bias/bias maker 5pc set.jpg",
+        description: "Bias maker set. Available in 4 piece and 5 piece sets. Complete set for sewing projects. Carded packaging.",
+        hasVariants: true,
+        variants: [
+            { name: "4pc Set", image: null },
+            { name: "5pc Set", image: "images/Bias/bias maker 5pc set.jpg" }
+        ]
+    },
+    {
+        id: "bias-maker-kit",
+        name: "Bias Maker Kit",
+        image: "images/Bias/bias maker 5pc kit.jpg",
+        description: "Bias maker kit. Available in 4 piece and 5 piece kits. Complete set with storage case. Box packaging.",
+        hasVariants: true,
+        variants: [
+            { name: "4pc Kit", image: "images/Bias/bias maker 4pc kit.jpg" },
+            { name: "5pc Kit", image: "images/Bias/bias maker 5pc kit.jpg" }
+        ]
+    }
+];
+
+// ===== SECTION 7: SEAM RIPPERS =====
+const seamRippersProducts = [
+    {
+        "id": "seam-ripper-small",
+        "name": "Seam Ripper Small",
+        "image": "images/seam/seam small.jpg",
+        "description": "Small seam ripper. Perfect for precision seam removal and detailed work. Essential sewing tool. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "seam-ripper-large",
+        "name": "Seam Ripper Large",
+        "image": "images/seam/seam large.jpg",
+        "description": "Large seam ripper. Ideal for quick seam removal and heavier fabrics. Comfortable grip for easy use. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "seam-ripper-carded-small",
+        "name": "Seam Ripper - Carded Small",
+        "image": "images/seam/seam carded small.jpg",
+        "description": "Small seam ripper on card. Convenient retail packaging. Perfect for sewing kits and craft projects. Carded.",
+        "hasVariants": false
+    },
+    {
+        "id": "seam-ripper-carded-large",
+        "name": "Seam Ripper - Carded Large",
+        "image": "images/seam/seam carded large.jpg",
+        "description": "Large seam ripper on card. Convenient retail packaging. Ideal for professional tailoring and home sewing. Carded.",
+        "hasVariants": false
+    },
+    {
+        "id": "soft-grip-sg01-item",
+        "name": "Soft Grip Seam Ripper SG01 - Item",
+        "image": "images/seam/soft grip sg01 itrm.jpg",
+        "description": "Soft grip seam ripper SG01. Ergonomic comfort grip for easy use. Single item packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "soft-grip-sg01-box",
+        "name": "Soft Grip Seam Ripper SG01 - Box",
+        "image": "images/seam/soft grip sg01 box.jpg",
+        "description": "Soft grip seam ripper SG01. Ergonomic comfort grip. Packed in a box. Ideal for retail display. Box packing.",
+        "hasVariants": false
+    },
+    {
+        "id": "soft-grip-sg02-item",
+        "name": "Soft Grip Seam Ripper SG02 - Item",
+        "image": "images/seam/soft grip sg02.jpg",
+        "description": "Soft grip seam ripper SG02. Ergonomic design for comfortable use. Single item packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "soft-grip-sg02-box",
+        "name": "Soft Grip Seam Ripper SG02 - Box",
+        "image": "images/seam/soft grip sg02 box.jpg",
+        "description": "Soft grip seam ripper SG02. Ergonomic design. Packed in a box. Perfect for professional use. Box packing.",
+        "hasVariants": false
+    },
+    {
+        "id": "seam-ripper-sg03-item",
+        "name": "Seam Ripper SG03 - Item",
+        "image": "images/seam/seam ripper sg03 item.jpg",
+        "description": "Seam ripper SG03. Professional quality. Single item packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "seam-ripper-sg03-carded",
+        "name": "Seam Ripper SG03 - Carded",
+        "image": "images/seam/seam ripper sg03 carded.jpg",
+        "description": "Seam ripper SG03 on card. Professional quality. Convenient retail packaging. Carded.",
+        "hasVariants": false
+    },
+    {
+        "id": "seam-ripper-needle-threader",
+        "name": "Seam Ripper & Needle Threader",
+        "image": "images/seam/seam ripper needle threader.jpg",
+        "description": "2-in-1 seam ripper and needle threader. Essential combo tool for sewing and tailoring. Carded packaging.",
+        "hasVariants": false
+    }
+];
+
+// ===== SECTION 8: TAPE MEASURES =====
+const tapeMeasuresProducts = [
+    {
+        "id": "tape-measure-150cm-white",
+        "name": "Tape Measure 150cm White Carded",
+        "image": "images/Tape measures/150 white.jpg",
+        "description": "White tape measure. 150cm length. Flexible and durable. Perfect for sewing and tailoring. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-white",
+        "name": "White Tape Measure Loose",
+        "image": "images/Tape measures/white.jpg",
+        "description": "White tape measure. Classic design. Flexible and durable. Perfect for all sewing projects.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-150cm-pink",
+        "name": "Tape Measure 150cm Pink Carded",
+        "image": "images/Tape measures/150cm pink.jpg",
+        "description": "Pink tape measure. 150cm length. Flexible and durable. Ideal for sewing and craft projects. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-150cm-carded",
+        "name": "Tape Measure 150cm Assorted Carded",
+        "image": "images/Tape measures/150cm carded.jpg",
+        "description": "150cm tape measure in assorted colours on card. Convenient retail packaging. Perfect for sewing kits.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-150cm",
+        "name": "Tape Measure 150cm Loose",
+        "image": "images/Tape measures/tape measure 150cm.jpg",
+        "description": "Standard tape measure. 150cm length. Flexible and durable. Essential sewing tool.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-300cm",
+        "name": "Tape Measure 300cm",
+        "image": "images/Tape measures/300cm.jpg",
+        "description": "Tape measure. 300cm length. Extra long for larger measurements. Essential for tailoring. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-rectangle",
+        "name": "Rectangle Tape Measure",
+        "image": "images/Tape measures/rectangle tap meaure.jpg",
+        "description": "Rectangle tape measure. Compact design. Easy to carry and store. Perfect for sewing kits. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-packed-assorted",
+        "name": "Packed Assorted Colours",
+        "image": "images/Tape measures/packed assorted colours.jpg",
+        "description": "Assorted colours tape measures in pack. Variety of colours. Perfect for sewing and craft projects. Packed.",
+        "hasVariants": false
+    },
+    {
+        "id": "tape-measure-assorted-10-box",
+        "name": "Assorted Colours 10 Box",
+        "image": "images/Tape measures/assorted colours 10 box.jpg",
+        "description": "Assorted colours tape measures. 10 per box. Bulk packaging. Ideal for retail and professional use. Box packing.",
+        "hasVariants": false
+    }
+];
+
+// ===== SECTION 9: HOTFIX =====
+const hotfixProducts = [
+    {
+        "id": "hotfix-size-10",
+        "name": "Hotfix - Size 10",
+        "image": "images/Hot fix/crystal10.jpg",
+        "description": "Hotfix crystals in Size 10. Available in multiple colours. Bulk pack.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Crystal",
+                "image": "images/Hot fix/crystal10.jpg"
+            },
+            {
+                "name": "Sapphire",
+                "image": "images/Hot fix/sapphire10.jpg"
+            },
+            {
+                "name": "Black",
+                "image": "images/Hot fix/black10.jpg"
+            },
+            {
+                "name": "Topaz",
+                "image": "images/Hot fix/topaz10.jpg"
+            },
+            {
+                "name": "Red",
+                "image": "images/Hot fix/red10.jpg"
+            },
+            {
+                "name": "Rainbow",
+                "image": "images/Hot fix/rainbow10.jpg"
+            },
+            {
+                "name": "Coral",
+                "image": "images/Hot fix/coral10.jpg"
+            },
+            {
+                "name": "Amethyst",
+                "image": "images/Hot fix/amethyst10.jpg"
+            },
+            {
+                "name": "Diamond",
+                "image": "images/Hot fix/diamond10.jpg"
+            },
+            {
+                "name": "Aquamarine",
+                "image": "images/Hot fix/aquamarine10.jpg"
+            },
+            {
+                "name": "Emerald",
+                "image": "images/Hot fix/emerald10.jpg"
+            },
+            {
+                "name": "Opal",
+                "image": "images/Hot fix/opal10.jpg"
+            }
+        ]
+    },
+    {
+        "id": "hotfix-size-16",
+        "name": "Hotfix - Size 16",
+        "image": "images/Hot fix/sapphire16.jpg",
+        "description": "Hotfix crystals in Size 16. Available in multiple colours. Bulk pack.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Crystal",
+                "image": "images/Hot fix/crystal16.jpg"
+            },
+            {
+                "name": "Sapphire",
+                "image": "images/Hot fix/sapphire16.jpg"
+            },
+            {
+                "name": "Black",
+                "image": "images/Hot fix/black16.jpg"
+            },
+            {
+                "name": "Topaz",
+                "image": "images/Hot fix/topaz16.jpg"
+            },
+            {
+                "name": "Red",
+                "image": "images/Hot fix/red16.jpg"
+            },
+            {
+                "name": "Rainbow",
+                "image": "images/Hot fix/rainbow16.jpg"
+            },
+            {
+                "name": "Coral",
+                "image": "images/Hot fix/coral16.jpg"
+            },
+            {
+                "name": "Amethyst",
+                "image": "images/Hot fix/amethyst16.jpg"
+            },
+            {
+                "name": "Diamond",
+                "image": "images/Hot fix/diamond16.jpg"
+            },
+            {
+                "name": "Aquamarine",
+                "image": "images/Hot fix/aquamarine16.jpg"
+            },
+            {
+                "name": "Emerald",
+                "image": "images/Hot fix/emerald16.jpg"
+            },
+            {
+                "name": "Opal",
+                "image": "images/Hot fix/opal16.jpg"
+            }
+        ],
+        "coverImage": "images/Hot fix/sapphire16.jpg"
+    },
+    {
+        "id": "hotfix-size-20",
+        "name": "Hotfix - Size 20",
+        "image": "images/Hot fix/crystal20.jpg",
+        "description": "Hotfix crystals in Size 20. Available in multiple colours. Bulk pack.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Crystal",
+                "image": "images/Hot fix/crystal20.jpg"
+            },
+            {
+                "name": "Sapphire",
+                "image": "images/Hot fix/sapphire20.jpg"
+            },
+            {
+                "name": "Black",
+                "image": "images/Hot fix/black20.jpg"
+            },
+            {
+                "name": "Topaz",
+                "image": "images/Hot fix/topaz20.jpg"
+            },
+            {
+                "name": "Red",
+                "image": "images/Hot fix/red20.jpg"
+            },
+            {
+                "name": "Rainbow",
+                "image": "images/Hot fix/rainbow20.jpg"
+            },
+            {
+                "name": "Coral",
+                "image": "images/Hot fix/coral20.jpg"
+            },
+            {
+                "name": "Amethyst",
+                "image": "images/Hot fix/amethyst20.jpg"
+            },
+            {
+                "name": "Diamond",
+                "image": "images/Hot fix/diamond20.jpg"
+            },
+            {
+                "name": "Aquamarine",
+                "image": "images/Hot fix/aquamarine20.jpg"
+            },
+            {
+                "name": "Emerald",
+                "image": "images/Hot fix/emerald20.jpg"
+            },
+            {
+                "name": "Opal",
+                "image": "images/Hot fix/opal20.jpg"
+            }
+        ]
+    },
+    {
+        "id": "hotfix-gold-chain",
+        "name": "Hotfix Gold Chain",
+        "image": "images/Hot fix/gold.jpg",
+        "description": "Hotfix gold chain. 10 yards per roll. Perfect for garment decoration.",
+        "hasVariants": false
+    },
+    {
+        "id": "hotfix-silver-chain",
+        "name": "Hotfix Silver Chain",
+        "image": "images/Hot fix/silver.jpg",
+        "description": "Hotfix silver chain. 10 yards per roll. Perfect for garment decoration.",
+        "hasVariants": false
+    },
+    {
+        "id": "hotfix-applicator",
+        "name": "Hot Fix Applicator Combo",
+        "image": "images/Hot fix/hf combo pink.jpg",
+        "description": "Hot Fix applicator combo. Available in Pink, Black, Grey, and Lilac. For applying hotfix crystals.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Pink",
+                "image": "images/Hot fix/hf combo pink.jpg"
+            },
+            {
+                "name": "Black",
+                "image": "images/Hot fix/hf combo black.jpg"
+            },
+            {
+                "name": "Grey",
+                "image": "images/Hot fix/hf combo grey.jpg"
+            },
+            {
+                "name": "Lilac",
+                "image": "images/Hot fix/hf combo lilac.jpg"
+            }
+        ]
+    },
+    {
+        "id": "hotfix-applicator-loose",
+        "name": "Hot Fix Applicator Loose",
+        "image": "images/Hot fix/hf applicatoir pink.jpg",
+        "description": "Loose hot fix applicator. Available in Pink, Black, Grey and Lilac. For applying hotfix crystals.",
+        "hasVariants": true,
+        "variants": [
+            {
+                "name": "Pink",
+                "image": "images/Hot fix/hf applicatoir pink.jpg"
+            },
+            {
+                "name": "Black",
+                "image": "images/Hot fix/hf applicator black.jpg"
+            },
+            {
+                "name": "Grey",
+                "image": "images/Hot fix/hf applicator grey.jpg"
+            },
+            {
+                "name": "Lilac",
+                "image": "images/Hot fix/hf applicator lilac.jpg"
+            }
+        ]
+    },
+    {
+        "id": "double-head-hot-fix-pen",
+        "name": "Double Head Hotfix Pen",
+        "image": "",
+        "description": "Double head hotfix pen for applying hotfix crystals. Ergonomic design for easy use.",
+        "hasVariants": false
+    }
+];
+
+// ===== SECTION 10: CUTTERS & BLADES =====
+const cuttersProducts = [
+    {
+        id: "a4-black-mat",
+        name: "A4 Black Cutting Mat",
+        image: "images/cutting mats/a4 black.jpg",
+        description: "A4 black cutting mat. Self-healing surface for smaller cutting projects. Durable and long-lasting.",
+        hasVariants: false
+    },
+    {
+        id: "a1-green-mat",
+        name: "A1 Green Cutting Mat",
+        image: "images/cutting mats/a1 green.jpg",
+        description: "A1 green cutting mat. Self-healing surface for large cutting projects. Ideal for quilting and fabric cutting.",
+        hasVariants: false
+    },
+    {
+        id: "a3-pink-mat",
+        name: "A3 Pink Cutting Mat",
+        image: "images/cutting mats/a3 pink.jpg",
+        description: "A3 pink cutting mat. Self-healing surface for fabric and craft cutting. Compact and portable.",
+        hasVariants: false
+    },
+    {
+        id: "combo-a3-pink",
+        name: "A3 Pink Combo",
+        image: "images/cutting mats/pink combo.jpg",
+        description: "A3 pink combo set. Includes cutting tools and accessories. Complete kit for craft projects.",
+        hasVariants: false
+    },
+    {
+        id: "combo-a4-black",
+        name: "A4 Black Combo",
+        image: "images/cutting mats/black combo.jpg",
+        description: "A4 black combo set. Includes cutting tools and accessories. Complete kit for craft projects.",
+        hasVariants: false
+    },
+    {
+        id: "replacement-blades",
+        name: "Replacement Blades",
+        image: "images/cutting mats/replacement 45mm.jpg",
+        description: "Replacement blades for rotary cutters. Available in 28mm, 45mm (3 blade), 45mm (18 blade), and 60mm. Box packing.",
+        hasVariants: true,
+        variants: [
+            { name: "28mm", image: "images/cutting mats/repacement blade28mm.jpg" },
+            { name: "45mm (3 blade)", image: "images/cutting mats/replacement 45mm.jpg" },
+            { name: "45mm (18 blade)", image: "images/cutting mats/replacement blade 45mm per pack.jpg" },
+            { name: "60mm", image: "images/cutting mats/replacement blade 60mm.jpg" }
+        ]
+    },
+    {
+        id: "rotary-cutter-28mm",
+        name: "28mm Rotary Cutter",
+        image: "images/cutting mats/rotart cutter 28mm.jpg",
+        description: "28mm rotary cutter. Precision cutting for small curves and detailed work. Ergonomic handle.",
+        hasVariants: false
+    },
+    {
+        id: "rotary-cutter-45mm",
+        name: "45mm Rotary Cutter",
+        image: "images/cutting mats/rotary cutter 45mm.jpg",
+        description: "45mm rotary cutter. Standard size for quilting and fabric cutting. Sharp blade for clean cuts.",
+        hasVariants: false
+    },
+    {
+        id: "rotary-cutter-60mm",
+        name: "60mm Rotary Cutter",
+        image: "images/cutting mats/rotary cutter 60mm.jpg",
+        description: "60mm rotary cutter. Large size for heavy fabric and multiple layers. Comfort grip handle.",
+        hasVariants: false
+    },
+    {
+        id: "comfort-loop-rotary-45mm",
+        name: "Comfort Loop Rotary 45mm",
+        image: "images/cutting mats/comfort loop rotary 45mm.jpg",
+        description: "45mm comfort loop rotary cutter. Ergonomic loop handle for comfortable extended use. Ideal for quilting.",
+        hasVariants: false
+    },
+    {
+        id: "craft-knife",
+        name: "Craft Knife",
+        image: "images/cutting mats/craft knife.jpg",
+        description: "Craft knife for precision cutting. Ideal for paper, cardboard, and detailed craft work. Includes blades.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 11: SNAP BUTTON KITS =====
+const snapKitsProducts = [
+    {
+        id: "snap-button-kit-small",
+        name: "Snap Button Kit Small",
+        image: "images/Snap button kits/snap button kit small small.jpg",
+        description: "Snap button kit small. Available in Pink and Grey. Complete kit for easy snap button installation. Carded packaging.",
+        hasVariants: true,
+        variants: [
+            { name: "Pink", image: "images/Snap button kits/snap button kit small small.jpg" },
+            { name: "Grey", image: "images/Snap button kits/snap button kit small grey.jpg" }
+        ]
+    },
+    {
+        id: "snap-button-kit-large",
+        name: "Snap Button Kit Large",
+        image: "images/Snap button kits/snap button kit large pink.jpg",
+        description: "Snap button kit large. Available in Pink and Green. Complete kit for larger snap button applications. Carded packaging.",
+        hasVariants: true,
+        variants: [
+            { name: "Pink", image: "images/Snap button kits/snap button kit large pink.jpg" },
+            { name: "Green", image: "images/Snap button kits/snap button kit large green.jpg" }
+        ]
+    },
+    {
+        id: "ring-fasteners",
+        name: "Ring Fasteners",
+        image: "images/Snap button kits/ring fasteners.jpg",
+        description: "Ring fasteners for snap button installation. Durable metal rings for secure fastening. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "snap-fasteners",
+        name: "Snap Fasteners",
+        image: "images/Snap button kits/snap fasteners.jpg",
+        description: "Snap fasteners for clothing, bags, and craft projects. Easy to install with snap button tool. Box packing.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 12: TAGGING =====
+const taggingProducts = [
+    {
+        id: "tagging-pins",
+        name: "Tagging Pins",
+        image: "images/Tagging/10mm.jpg",
+        description: "Tagging pins for garment tagging. Select Colour (White or Black) first, then choose Size from 10mm to 100mm. Box packing available. ITEM NO: TG03",
+        hasColorSize: true,
+        colors: ["White", "Black"],
+        sizes: ["10mm", "15mm", "20mm", "25mm", "30mm", "35mm", "40mm", "50mm", "65mm", "75mm", "100mm"]
+    },
+    {
+        id: "tagging-gun-tg01",
+        name: "Tagging Gun TG01",
+        image: "images/Tagging/tagging gun tg01.jpg",
+        description: "Tagging gun TG01. Green colour. Box packing. For attaching tags to garments. ITEM NO: TG01.",
+        hasVariants: false
+    },
+    {
+        id: "tagging-gun-tg02",
+        name: "Tagging Gun TG02",
+        image: "images/Tagging/tagging gun th02.jpg",
+        description: "Tagging gun TG02. Orange colour. Box packing. For attaching tags to garments.",
+        hasVariants: false
+    },
+    {
+        id: "tagging-gun-carded",
+        name: "Tagging Gun TG03",
+        image: "images/Tagging/tagging gun carded.jpg",
+        description: "Tagging gun carded. Carded packaging. ITEM NO: TG03. For attaching tags to garments.",
+        hasVariants: false
+    },
+    {
+        id: "tagging-gun-needles",
+        name: "Tagging Gun Needles",
+        image: "images/Tagging/tagging gun needles.jpg",
+        description: "Tagging gun needles. 5 needles per card. 6 cards per box. Replacement needles for tagging guns. Box packing.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 13: SEWING BOXES =====
+const sewingBoxesProducts = [
+    {
+        id: "metal-sewing-box-rectangle",
+        name: "Metal Sewing Box Rectangle",
+        image: "images/Sewing box/metal sewing box rectangle.jpg",
+        description: "Rectangle metal sewing box. Spacious and sturdy for all sewing supplies. Durable metal construction.",
+        hasVariants: false
+    },
+    {
+        id: "metal-sewing-box-heart",
+        name: "Metal Sewing Box Heart",
+        image: "images/Sewing box/metal sewing box heart.jpg",
+        description: "Metal sewing box in heart shape. Decorative and functional for sewing storage. Perfect gift item.",
+        hasVariants: false
+    },
+    {
+        id: "metal-sewing-box-round",
+        name: "Metal Sewing Box Round",
+        image: "images/Sewing box/metal sewing box round.jpg",
+        description: "Round metal sewing box. Vintage style with durable metal construction. Classic design.",
+        hasVariants: false
+    },
+    {
+        id: "item-587",
+        name: "Item 587",
+        image: "images/Sewing box/item 587.jpg",
+        description: "Sewing box Item 587. Durable sewing box with secure closure and handle. Spacious storage.",
+        hasVariants: false
+    },
+    {
+        id: "item-400",
+        name: "Item 400",
+        image: "images/Sewing box/item 400.jpg",
+        description: "Sewing box Item 400. Premium quality sewing box with multiple compartments. Sturdy construction.",
+        hasVariants: false
+    },
+    {
+        id: "item-200",
+        name: "Item 200",
+        image: "images/Sewing box/item 200.jpg",
+        description: "Sewing box Item 200. Compact and portable storage solution for sewing essentials. Lightweight.",
+        hasVariants: false
+    },
+    {
+        id: "item-235",
+        name: "Item 235",
+        image: "images/Sewing box/item 235.jpg",
+        description: "Sewing box Item 235. Spacious sewing box with organized compartments. Perfect for home use.",
+        hasVariants: false
+    },
+    {
+        id: "item-300",
+        name: "Item 300",
+        image: "images/Sewing box/item 300.jpg",
+        description: "Sewing box Item 300. Large capacity sewing box for all your sewing supplies. Sturdy handle.",
+        hasVariants: false
+    },
+    {
+        id: "item-677",
+        name: "Item 677",
+        image: "images/Sewing box/item 677.jpg",
+        description: "Sewing box Item 677. Multi-purpose sewing box with easy carry handle. Organized storage.",
+        hasVariants: false
+    },
+    {
+        id: "item-700",
+        name: "Item 700",
+        image: "images/Sewing box/item 700.jpg",
+        description: "Sewing box Item 700. Professional sewing box with ample storage space. Premium quality.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 14: THIMBLES =====
+const thimblesProducts = [
+    {
+        id: "thimble-1",
+        name: "Metal Thimble-3's",
+        image: "images/Thimbles/0001.jpg",
+        description: "Metal thimble for hand sewing. Protects finger when pushing needle through fabric. Available in various sizes. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "thimble-2",
+        name: "Rubber Thimble-2's",
+        image: "images/Thimbles/0002.jpg",
+        description: "Thimble with textured grip surface for better needle control. Essential for hand sewing and quilting. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "thimble-3",
+        name: "Open side Plastic Thimble-3's",
+        image: "images/Thimbles/0003.jpg",
+        description: "Adjustable thimble that fits most finger sizes. Provides comfort and protection during hand sewing. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "thimble-4",
+        name: "Plastic Thimble-4's",
+        image: "images/Thimbles/0004.jpg",
+        description: "Decorative thimble with elegant design. Protects finger while adding style to your sewing kit. Carded.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 15: TRACING WHEELS =====
+const tracingWheelsProducts = [
+    {
+        "id": "tracing-wheel-plastic",
+        "name": "Plastic Tracing Wheels Assorted Carded",
+        "image": "images/Tracing wheels/plastic tracing wheel.jpg",
+        "description": "Assorted plastic tracing wheels in carded packaging. For transferring pattern markings onto fabric.",
+        "hasVariants": false
+    },
+    {
+        "id": "tracing-wheel-plastic-assorted",
+        "name": "Plastic Tracing Wheels Assorted Loose",
+        "image": "images/Tracing wheels/plastic tracing wheels assorted.jpg",
+        "description": "Assorted plastic tracing wheels supplied loose. For pattern marking and transferring.",
+        "hasVariants": false
+    },
+    {
+        "id": "tracing-wheel-wooden-carded",
+        "name": "Wooden Tracing Wheel Carded",
+        "image": "images/Tracing wheels/wooden tracing wheel carded.jpg",
+        "description": "Wooden tracing wheel on card. Classic design for pattern marking. Carded packaging.",
+        "hasVariants": false
+    },
+    {
+        "id": "tracing-wheel-wooden",
+        "name": "Wooden Tracing Wheel Loose",
+        "image": "images/Tracing wheels/wooded tracing wheel.jpg",
+        "description": "Wooden tracing wheel. Traditional tool for transferring pattern markings. Durable wooden handle.",
+        "hasVariants": false
+    },
+    {
+        "id": "tracing-wheel-needle-point",
+        "name": "Needle Point Tracing Wheel",
+        "image": "images/Tracing wheels/Needle point tracing wheel.jpg",
+        "description": "Needle point tracing wheel for transferring pattern markings onto fabric.",
+        "hasVariants": false
+    }
+];
+
+// ===== SECTION 16: TRACING PAPER =====
+const tracingPaperProducts = [
+    {
+        id: "tracing-paper",
+        name: "Tracing Paper",
+        image: "images/Tracing paper/Tracing paper.jpg",
+        description: "Tracing paper for pattern drafting and transferring designs. Essential for sewing and tailoring. Packed.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 17: MAGNETIC SEAM GUIDES =====
+const magneticSeamGuidesProducts = [
+    {
+        id: "magnetic-seam-guide-large",
+        name: "Magnetic Seam Guide Large",
+        image: "images/Magnetic seam guides/magnetic seam guide large.jpg",
+        description: "Large magnetic seam guide for sewing machines. Attaches to needle plate to keep fabric aligned for straight stitching. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "magnetic-seam-guide-small",
+        name: "Magnetic Seam Guide Small",
+        image: "images/Magnetic seam guides/magnetic seam guide small.jpg",
+        description: "Small magnetic seam guide for sewing machines. Attaches to needle plate for consistent seam allowances. Box packing.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 18: SEWING AWLS =====
+const sewingAwlsProducts = [
+    {
+        id: "sewing-awl-type-a",
+        name: "Sewing Awl Type A",
+        image: "images/Sewing awls/sewing awl type a.jpg",
+        description: "Sewing awl type A. 6 per box. For punching holes in leather, canvas, and heavy fabrics. Ideal for shoe repair and leatherwork.",
+        hasVariants: false
+    },
+    {
+        id: "sewing-awl-type-b",
+        name: "Sewing Awl Type B",
+        image: "images/Sewing awls/sewing awl type b.jpg",
+        description: "Sewing awl type B. 6 per box. For stitching and hole punching in heavy materials. Essential for saddlery and canvas work.",
+        hasVariants: false
+    },
+    {
+        id: "sewing-awl-type-c",
+        name: "Sewing Awl Type C",
+        image: "images/Sewing awls/sewing awl type c.jpg",
+        description: "Sewing awl type C. 6 per box. Multi-purpose awl for hole punching and hand stitching. Suitable for leather, canvas, and upholstery.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 19: BRACE CLIPS =====
+const braceClipsProducts = [
+    {
+        id: "brace-clips",
+        name: "Brace Clips",
+        image: "images/Brace clips/blue.jpg",
+        description: "Brace clips for suspenders and braces. Available in Plastic (Blue, Pink, White) and Metal (Gold, Silver). Select material first, then colour. Box packing.",
+        hasColorMaterial: true,
+        materials: [
+            {
+                name: "Plastic",
+                colors: [
+                    { name: "Blue", image: "images/Brace clips/blue.jpg" },
+                    { name: "Pink", image: "images/Brace clips/pink.jpg" },
+                    { name: "White", image: "images/Brace clips/white.jpg" }
+                ]
+            },
+            {
+                name: "Metal",
+                colors: [
+                    { name: "Gold", image: "images/Brace clips/gold.jpg" },
+                    { name: "Silver", image: "images/Brace clips/silver.jpg" }
+                ]
+            }
+        ]
+    }
+];
+
+// ===== SECTION 20: BEAD STRETCH CORD =====
+const beadStretchProducts = [
+    {
+        id: "bead-stretch-cord",
+        name: "Bead Stretch Cord",
+        image: "images/Bead stretch cord/crystal tec .5.jpg",
+        description: "Bead stretch cord for jewellery making and beading projects. Available in sizes 0.5mm, 0.6mm, 0.7mm, 0.8mm, and 1.0mm. Strong and stretchy. Per roll.",
+        hasVariants: true,
+        variants: [
+            { name: "0.5mm", image: "images/Bead stretch cord/crystal tec .5.jpg" },
+            { name: "0.6mm", image: "images/Bead stretch cord/crystal tec .6.jpg" },
+            { name: "0.7mm", image: "images/Bead stretch cord/crystal tec .7.jpg" },
+            { name: "0.8mm", image: "images/Bead stretch cord/crystal tec .8.jpg" },
+            { name: "1.0mm", image: "images/Bead stretch cord/bead stretch cord 1.0.jpg" },
+            { name: "1.0mm Colours", image: "images/Bead stretch cord/crystal tec 1.0.jpg" }
+        ]
+    }
+];
+
+// ===== SECTION 21: BUCKLES =====
+const bucklesProducts = [
+    {
+        id: "waistcoat-buckle-silver",
+        name: "Waistcoat Buckle Silver",
+        image: "images/Buckles/waist coat buckle silver (2).jpg",
+        description: "Silver waistcoat buckle. 25mm size. Perfect for waistcoats, braces, and formal wear. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "waistcoat-buckle-gold",
+        name: "Waistcoat Buckle Gold",
+        image: "images/Buckles/waist coat buckle gold.jpg",
+        description: "Gold waistcoat buckle. 25mm size. Perfect for waistcoats, braces, and formal wear. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "waistcoat-buckle-bulk-silver",
+        name: "Waistcoat Buckle Bulk Silver",
+        image: "images/Buckles/waist coat buckle bulk silver.jpg",
+        description: "Silver waistcoat buckle bulk pack. 25mm size. Bulk pricing for larger quantities. Ideal for wholesale and manufacturing. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "waistcoat-buckle-bulk-gold",
+        name: "Waistcoat Buckle Bulk Gold",
+        image: "images/Buckles/waist coat buckle bulk gold.jpg",
+        description: "Gold waistcoat buckle bulk pack. 25mm size. Bulk pricing for larger quantities. Ideal for wholesale and manufacturing. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "buckle-silver",
+        name: "Buckle Silver",
+        image: "images/Buckles/buckle silver.jpg",
+        description: "Standard silver buckle. 25mm size. Versatile buckle for various garment and accessory applications. Box packing.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 22: GLUE GUNS & GLUE =====
+const glueProducts = [
+    {
+        id: "glue-gun",
+        name: "Glue Gun",
+        image: "images/Glue guns and glue/glue gun small.jpg",
+        description: "Glue gun for hot melt adhesive. Available in Small and Large sizes. Ideal for craft, repair, and DIY projects. Box packing.",
+        hasVariants: true,
+        variants: [
+            { name: "Small", image: "images/Glue guns and glue/glue gun small.jpg" },
+            { name: "Large", image: "images/Glue guns and glue/glue gun large.jpg" }
+        ]
+    },
+    {
+        id: "glue-sticks-glitter",
+        name: "Glitter Glue Sticks",
+        image: "images/Glue guns and glue/glue sticks glitter 5.jpg",
+        description: "Glitter glue sticks for hot glue guns. Available in 5 pack and 8 pack. Adds sparkle to craft projects. Packed.",
+        hasVariants: true,
+        variants: [
+            { name: "5 Pack", image: "images/Glue guns and glue/glue sticks glitter 5.jpg" },
+            { name: "8 Pack", image: "images/Glue guns and glue/glue sticks glitter 8.jpg" }
+        ]
+    },
+    {
+        id: "glue-sticks-clear",
+        name: "Clear Glue Sticks",
+        image: "images/Glue guns and glue/glue sticks clear 5.jpg",
+        description: "Clear glue sticks for hot glue guns. Available in 5 pack and 8 pack. Transparent adhesive for clean finishes. Packed.",
+        hasVariants: true,
+        variants: [
+            { name: "5 Pack", image: "images/Glue guns and glue/glue sticks clear 5.jpg" },
+            { name: "8 Pack", image: "images/Glue guns and glue/glue sticks clear 8.jpg" }
+        ]
+    },
+    {
+        id: "fabric-glue",
+        name: "Fabric Glue",
+        image: "images/Glue guns and glue/fabric glue 50ml.jpg",
+        description: "Fabric glue for bonding fabrics. Available in 50ml and 100ml. Washable and flexible when dry. Tube packing.",
+        hasVariants: true,
+        variants: [
+            { name: "50ml", image: "images/Glue guns and glue/fabric glue 50ml.jpg" },
+            { name: "100ml", image: "images/Glue guns and glue/fabric glue 100ml.jpg" }
+        ]
+    },
+    {
+        id: "white-craft-glue",
+        name: "White Craft Glue",
+        image: "images/Glue guns and glue/white craft glue 50ml.jpg",
+        description: "White craft glue for general purpose bonding. Available in 50ml and 100ml. Dries clear. Ideal for paper, wood, and fabric. Tube packing.",
+        hasVariants: true,
+        variants: [
+            { name: "50ml", image: "images/Glue guns and glue/white craft glue 50ml.jpg" },
+            { name: "100ml", image: "images/Glue guns and glue/white craft glue 100ml.jpg" }
+        ]
+    },
+    {
+        id: "glitter-glue",
+        name: "Glitter Glue",
+        image: "images/Glue guns and glue/glitter glue fine 20ml.jpg",
+        description: "Glitter glue for decorative projects. Available in Fine and Chunky. Adds sparkle and texture to crafts. Tube packing.",
+        hasVariants: true,
+        variants: [
+            { name: "Fine 20ml", image: "images/Glue guns and glue/glitter glue fine 20ml.jpg" },
+            { name: "Chunky 20ml", image: "images/Glue guns and glue/glitter glue chunky 20ml.jpg" }
+        ]
+    }
+];
+
+// ===== SECTION 23: TWEEZERS =====
+const tweezersProducts = [
+    {
+        id: "tweezers-4pc",
+        name: "Tweezers 4pc Set",
+        image: "images/Tweezers/tweezers 4pc.jpg",
+        description: "Tweezers 4 piece set. Includes various tip styles for precision work. Essential for sewing and crafting.",
+        hasVariants: false
+    },
+    {
+        id: "tweezers-fine-point-curved",
+        name: "Tweezers Fine Point Curved Tip",
+        image: "images/Tweezers/tweezers fine point curved tip.jpg",
+        description: "Fine point curved tip tweezers. Precision instrument for detailed sewing and craft work. Ideal for threading and handling small components. 12 Cards per Box.",
+        hasVariants: false
+    },
+    {
+        id: "tweezers-fine-point-straight",
+        name: "Tweezers Fine Point Straight Tip",
+        image: "images/Tweezers/tweezers fine point straight tip.jpg",
+        description: "Fine point straight tip tweezers. Precision instrument for detailed sewing and craft work. Perfect for intricate tasks. 12 Cards per Box.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 24: NEEDLE THREADERS =====
+const needleThreadersProducts = [
+    {
+        id: "needle-threader-2-card",
+        name: "Needle Threader carded",
+        image: "images/Needle threaders/needle threader 2 on card.jpg",
+        description: "Needle threader. 2 pieces per card. Essential tool for threading needles easily. Perfect for hand sewing and embroidery. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "needle-threader-flower",
+        name: "Needle Threader Flower",
+        image: "images/Needle threaders/needle threader flower.jpg",
+        description: "Flower design needle threader. Decorative and functional. Makes threading needles quick and easy. Perfect for hand sewing projects. Carded.",
+        hasVariants: false
+    }
+];
+
+// ===== SECTION 25: PIN CUSHIONS & CASES =====
+const pinCushionsProducts = [
+    {
+        id: "magnetic-cushion-item",
+        name: "Magnetic Cushion",
+        image: "images/Pin cushion and cases/magnetic cushion item.jpg",
+        description: "Magnetic cushion for holding pins and needles securely. Strong magnet keeps pins in place. Essential for sewing and quilting.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-floral",
+        name: "Pin Cushion Floral",
+        image: "images/Pin cushion and cases/pin cushion floral.jpg",
+        description: "Floral design pin cushion. Decorative and functional. Perfect for holding pins and needles while sewing.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-wrist",
+        name: "Pin Cushion Wrist",
+        image: "images/Pin cushion and cases/pin cushion wrist.jpg",
+        description: "Wrist pin cushion. Wears on wrist for easy access to pins while sewing. Comfortable and convenient.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-strawberry",
+        name: "Pin Cushion Strawberry",
+        image: "images/Pin cushion and cases/pin cushion strawberry.jpg",
+        description: "Strawberry shaped pin cushion. Classic design with emery for sharpening pins. Essential sewing accessory.",
+        hasVariants: false
+    },
+    {
+        id: "magnetic-pin-case",
+        name: "Magnetic Pin Case",
+        image: "images/Pin cushion and cases/magnetic pin case.jpg",
+        description: "Magnetic pin case for storing and organizing pins. Strong magnet holds pins securely. Compact and portable.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-pumpkin-box",
+        name: "Pin Cushion Pumpkin Box",
+        image: "images/Pin cushion and cases/pin cushion pumpkin box.jpg",
+        description: "Pumpkin shaped pin cushion with box. Decorative and functional. Perfect for holding pins and needles.",
+        hasVariants: false
+    },
+    {
+        id: "magnetic-pin-holder",
+        name: "Magnetic Pin Holder",
+        image: "images/Pin cushion and cases/magnetic pin holder.jpg",
+        description: "Magnetic pin holder for keeping pins organized and within reach. Strong magnet for secure holding.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-tomato",
+        name: "Pin Cushion Tomato",
+        image: "images/Pin cushion and cases/pin cushion tomato.jpg",
+        description: "Tomato shaped pin cushion. Classic sewing accessory with emery for sharpening pins. Durable and long-lasting.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-floral-box",
+        name: "Pin Cushion Floral Box",
+        image: "images/Pin cushion and cases/pin cushion floral box.jpg",
+        description: "Floral pin cushion with box. Decorative design with storage box. Perfect for sewing kits and gift sets.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-pumpkin",
+        name: "Pin Cushion Pumpkin",
+        image: "images/Pin cushion and cases/pin cushion pumpkin.jpg",
+        description: "Pumpkin shaped pin cushion. Decorative and functional. Ideal for seasonal sewing projects and everyday use.",
+        hasVariants: false
+    },
+    {
+        id: "pin-cushion-round",
+        name: "Pin Cushion Round",
+        image: "images/Pin cushion and cases/pin cushion round.jpg",
+        description: "Round pin cushion. Classic design for holding pins and needles. Essential for any sewing kit.",
+        hasVariants: false
+    }
+];
+
+
+// ===== SECTION 26: OTHER SEWING NOTIONS =====
+const balanceProducts = [
+    {
+        id: "bees-wax",
+        name: "Bees Wax",
+        image: "images/Sewing notions balance/bees wax.jpg",
+        description: "Bees wax for conditioning thread. Strengthens thread and prevents tangling. Essential for hand sewing and embroidery. Box packing.",
+        hasVariants: false
+    },
+    {
+        id: "loop-turner",
+        name: "Loop Turner",
+        image: "images/Sewing notions balance/loop turner.jpg",
+        description: "Loop turner for turning fabric tubes and straps. Essential for making belts, handles, and garment details. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "quilting-craft-clips",
+        name: "Quilting & Craft Clips",
+        image: "images/Sewing notions balance/quilting and craft clips.jpg",
+        description: "Quilting and craft clips for holding fabric layers together. Alternative to pins. Perfect for quilting and sewing projects. Packed.",
+        hasVariants: false
+    },
+    {
+        id: "wool-comb-fluff-remover-black",
+        name: "Wool Comb Fluff Remover Black",
+        image: "images/Sewing notions balance/wool comb fluff remover black.jpg",
+        description: "Wool comb fluff remover in black. Removes pills and fluff from fabric. Essential for garment care and maintenance. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "elastic-threader",
+        name: "Elastic Threader",
+        image: "images/Sewing notions balance/elastic threader.jpg",
+        description: "Elastic threader for threading elastic through casings. Makes inserting elastic quick and easy. Essential for waistbands and cuffs. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "pattern-hooks",
+        name: "Pattern Hooks",
+        image: "images/Sewing notions balance/pattern hooks.jpg",
+        description: "Pattern hooks for hanging and storing patterns. Keeps patterns organized and wrinkle-free. Essential for sewing rooms. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "seam-marker-set",
+        name: "Seam Marker Set",
+        image: "images/Sewing notions balance/seam marker set.jpg",
+        description: "Seam marker set for marking seams and hems. Includes multiple markers for accurate sewing. Essential for tailoring. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "wool-comb-fluff-remover-shell",
+        name: "Wool Comb Fluff Remover Shell",
+        image: "images/Sewing notions balance/wool comb fluff remover shell.jpg",
+        description: "Wool comb fluff remover in shell design. Removes pills and fluff from fabric. Compact and easy to use. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "hooked-needle",
+        name: "Hooked Needle",
+        image: "images/Sewing notions balance/hooked needle.jpg",
+        description: "Hooked needle for pulling threads and elastic through casings. Essential for sewing and craft projects. Carded.",
+        hasVariants: false
+    },
+    {
+        id: "quilt-craft-clip",
+        name: "Quilt Craft Clip",
+        image: "images/Sewing notions balance/quilt craft clip.jpg",
+        description: "Quilt craft clip for holding fabric layers together. Perfect for quilting, sewing, and craft projects. Packed.",
+        hasVariants: false
+    },
+    {
+        id: "sewing-charms",
+        name: "Sewing Charms",
+        image: "images/Sewing notions balance/sewing charms.jpg",
+        description: "Sewing charms for decorating sewing projects. Assorted designs. Perfect for adding personality to garments and accessories. Packed.",
+        hasVariants: false
+    }
+];
+
+// ============================================================
+// MODAL & CART LOGIC
+// ============================================================
+let currentProduct = null;
+let currentVariant = null;
+let currentColor = null;
+let currentSize = null;
+let currentMaterial = null;
+
+function renderSection(gridId, products, countId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    products.forEach((product) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openModal(product);
+
+        let displayImage = product.coverImage || product.image;
+        if (!product.coverImage && product.hasVariants && product.variants && product.variants.length > 0) {
+            displayImage = product.variants[0].image || product.image;
+        } else if (product.hasColorMaterial && product.materials && product.materials.length > 0) {
+            displayImage = product.materials[0].colors[0].image || product.image;
+        }
+
+        const imageHtml = displayImage ?
+            `<img src="${displayImage}" alt="${product.name}" onerror="this.parentElement.innerHTML='<div class=\'no-image-icon\'>🧵</div>';">` :
+            '<div class="no-image-icon">🧵</div>';
+
+        const infoText = (product.hasVariants || product.hasColorSize || product.hasColorMaterial) ? 'Options available' : 'Available';
+
+        card.innerHTML = `
+            <div class="product-img-wrap">${imageHtml}</div>
+            <div class="product-info">
+                <h4>${product.name}</h4>
+                <p>${infoText}</p>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+    if (countId) document.getElementById(countId).innerText = products.length + ' items';
+}
+
+function openModal(product) {
+    currentProduct = product;
+    currentVariant = null;
+    currentColor = null;
+    currentSize = null;
+    currentMaterial = null;
+
+    document.getElementById('modalTitle').innerText = product.name;
+    document.getElementById('modalDesc').innerHTML = product.description;
+
+    const modalImg = document.getElementById('modalImg');
+    const modalLeft = document.getElementById('modalLeft');
+    const existingNoImg = modalLeft.querySelector('.no-image-icon');
+    if (existingNoImg) existingNoImg.remove();
+
+    let displayImage = product.image;
+    if (product.hasVariants && product.variants && product.variants.length > 0) {
+        displayImage = product.variants[0].image || product.image;
+        currentVariant = product.variants[0];
+    } else if (product.hasColorMaterial && product.materials && product.materials.length > 0) {
+        displayImage = product.materials[0].colors[0].image || product.image;
+    }
+
+    if (displayImage) {
+        modalImg.src = displayImage;
+        modalImg.style.display = 'block';
+        modalImg.onerror = function() {
+            modalImg.style.display = 'none';
+            const noImgDiv = document.createElement('div');
+            noImgDiv.className = 'no-image-icon';
+            noImgDiv.innerHTML = '🧵';
+            modalLeft.appendChild(noImgDiv);
+        };
+    } else {
+        modalImg.style.display = 'none';
+        const noImgDiv = document.createElement('div');
+        noImgDiv.className = 'no-image-icon';
+        noImgDiv.innerHTML = '🧵';
+        modalLeft.appendChild(noImgDiv);
+    }
+
+    document.getElementById('qty').value = 1;
+
+    const variantGroup = document.getElementById('variantGroup');
+    let variantContainer = document.getElementById('variantSelectContainer');
+    if (!variantContainer) {
+        const oldSelect = document.getElementById('variantSelect');
+        if (oldSelect) {
+            variantContainer = document.createElement('div');
+            variantContainer.id = 'variantSelectContainer';
+            oldSelect.parentNode.replaceChild(variantContainer, oldSelect);
+        }
+    }
+
+    if (product.hasColorSize) {
+        variantGroup.style.display = 'block';
+        document.getElementById('variantLabel').innerText = 'Select Colour & Size';
+        variantContainer.innerHTML = `
+            <label style="display:block;margin:10px 0 5px;font-weight:700;font-size:0.85rem;">Colour</label>
+            <select id="colorSelect" class="variant-select" style="margin-bottom:15px;">
+                ${product.colors.map(c => `<option value="${c}">${c}</option>`).join('')}
+            </select>
+            <label style="display:block;margin:10px 0 5px;font-weight:700;font-size:0.85rem;">Size</label>
+            <select id="sizeSelect" class="variant-select">
+                ${product.sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+            </select>
+        `;
+        const colorSelect = document.getElementById('colorSelect');
+        const sizeSelect = document.getElementById('sizeSelect');
+
+        function updateColorSizeVariant() {
+            currentColor = colorSelect.value;
+            currentSize = sizeSelect.value;
+            // Update image based on selected size
+            const sizeValue = currentSize.replace('mm', '');
+            const imagePath = `images/Tagging/${sizeValue}mm.jpg`;
+            modalImg.src = imagePath;
+            modalImg.style.display = 'block';
+            modalImg.onerror = function() {
+                // Fallback to default if specific size image not found
+                modalImg.src = "images/Tagging/10mm.jpg";
+            };
+            const existingIcon = modalLeft.querySelector('.no-image-icon');
+            if (existingIcon) existingIcon.remove();
+        }
+
+        colorSelect.onchange = updateColorSizeVariant;
+        sizeSelect.onchange = updateColorSizeVariant;
+        updateColorSizeVariant();
+
+    } else if (product.hasColorMaterial) {
+        variantGroup.style.display = 'block';
+        document.getElementById('variantLabel').innerText = 'Select Material & Colour';
+
+        variantContainer.innerHTML = `
+            <label style="display:block;margin:10px 0 5px;font-weight:700;font-size:0.85rem;">Material</label>
+            <select id="materialSelect" class="variant-select" style="margin-bottom:15px;">
+                ${product.materials.map((m, idx) => `<option value="${idx}">${m.name}</option>`).join('')}
+            </select>
+            <label style="display:block;margin:10px 0 5px;font-weight:700;font-size:0.85rem;">Colour</label>
+            <select id="colorSelect" class="variant-select">
+                ${product.materials[0].colors.map(c => `<option value="${c.name}" data-image="${c.image}">${c.name}</option>`).join('')}
+            </select>
+        `;
+
+        const materialSelect = document.getElementById('materialSelect');
+        const colorSelect = document.getElementById('colorSelect');
+
+        function updateMaterialColors() {
+            const materialIdx = parseInt(materialSelect.value);
+            const material = product.materials[materialIdx];
+            colorSelect.innerHTML = material.colors.map(c =>
+                `<option value="${c.name}" data-image="${c.image}">${c.name}</option>`
+            ).join('');
+            colorSelect.dispatchEvent(new Event('change'));
+        }
+
+        function updateColorImage() {
+            const selectedOption = colorSelect.options[colorSelect.selectedIndex];
+            const image = selectedOption.dataset.image;
+            currentMaterial = product.materials[parseInt(materialSelect.value)].name;
+            currentColor = colorSelect.value;
+
+            if (image) {
+                modalImg.src = image;
+                modalImg.style.display = 'block';
+                modalImg.onerror = function() {
+                    modalImg.style.display = 'none';
+                    if (!modalLeft.querySelector('.no-image-icon')) {
+                        const noImgDiv = document.createElement('div');
+                        noImgDiv.className = 'no-image-icon';
+                        noImgDiv.innerHTML = '🧵';
+                        modalLeft.appendChild(noImgDiv);
+                    }
+                };
+                const existingIcon = modalLeft.querySelector('.no-image-icon');
+                if (existingIcon) existingIcon.remove();
+            }
+        }
+
+        materialSelect.onchange = function() {
+            updateMaterialColors();
+            updateColorImage();
+        };
+        colorSelect.onchange = updateColorImage;
+
+        updateMaterialColors();
+        updateColorImage();
+
+    } else if (product.hasVariants && product.variants && product.variants.length > 0) {
+        variantGroup.style.display = 'block';
+        document.getElementById('variantLabel').innerText = 'Select Option';
+        variantContainer.innerHTML = `
+            <select id="variantSelect" class="variant-select">
+                ${product.variants.map((v, idx) => `<option value="${idx}">${v.name}</option>`).join('')}
+            </select>
+        `;
+        const variantSelect = document.getElementById('variantSelect');
+        variantSelect.onchange = function() {
+            const idx = parseInt(this.value);
+            currentVariant = product.variants[idx];
+            const variantImage = currentVariant.image || product.image;
+            if (variantImage) {
+                modalImg.src = variantImage;
+                modalImg.style.display = 'block';
+                modalImg.onerror = function() {
+                    modalImg.style.display = 'none';
+                    if (!modalLeft.querySelector('.no-image-icon')) {
+                        const noImgDiv = document.createElement('div');
+                        noImgDiv.className = 'no-image-icon';
+                        noImgDiv.innerHTML = '🧵';
+                        modalLeft.appendChild(noImgDiv);
+                    }
+                };
+                const existingIcon = modalLeft.querySelector('.no-image-icon');
+                if (existingIcon) existingIcon.remove();
+            } else {
+                modalImg.style.display = 'none';
+                if (!modalLeft.querySelector('.no-image-icon')) {
+                    const noImgDiv = document.createElement('div');
+                    noImgDiv.className = 'no-image-icon';
+                    noImgDiv.innerHTML = '🧵';
+                    modalLeft.appendChild(noImgDiv);
+                }
+            }
+        };
+        variantSelect.dispatchEvent(new Event('change'));
+    } else {
+        variantGroup.style.display = 'none';
+    }
+
+    document.getElementById('productModal').style.display = 'flex';
+}
+
+function updatePrice() {
+    document.getElementById('price').innerHTML = 'Price on request — Contact us for quote';
+}
+
+function addToCart() {
+    if (!currentProduct) return;
+    let productName = currentProduct.name;
+    if (currentProduct.hasColorSize) {
+        productName += ' - ' + currentColor + ' - ' + currentSize;
+    } else if (currentProduct.hasColorMaterial) {
+        productName += ' - ' + currentMaterial + ' - ' + currentColor;
+    } else if (currentVariant) {
+        productName += ' - ' + currentVariant.name;
+    }
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.push({
+        id: currentProduct.id
+            + (currentVariant ? '-' + currentVariant.name.replace(/\s/g, '') : '')
+            + (currentColor ? '-' + currentColor : '')
+            + (currentSize ? '-' + currentSize : '')
+            + (currentMaterial ? '-' + currentMaterial : ''),
+        product: productName,
+        category: "Sewing Notions",
+        variant: currentVariant?.name || null,
+        color: currentColor || null,
+        size: currentSize || null,
+        material: currentMaterial || null,
+        qty: qty,
+        price: 0,
+        unitPrice: 0,
+        total: 0,
+        timestamp: Date.now()
+    });
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+        badge.textContent = cart.length;
+        badge.classList.add('visible');
+    }
+
+    alert('✓ Added to cart:\n' + productName + '\nQuantity: ' + qty + '\nPrice: Contact us for quote');
+    closeModal();
+}
+
+function closeModal() {
+    document.getElementById('productModal').style.display = 'none';
+}
+
+function filterProducts() {
+    const search = document.getElementById('searchBox').value.toLowerCase();
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.classList.toggle('hidden', !card.innerText.toLowerCase().includes(search));
+    });
+}
+
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+        if (cart.length > 0) {
+            badge.textContent = cart.length;
+            badge.classList.add('visible');
+        } else {
+            badge.classList.remove('visible');
+        }
+    }
+}
+
+// Render all 26 sections
+renderSection('pressStudsGrid', pressStudsProducts, 'pressStudsCount');
+renderSection('hookEyesGrid', hookEyesProducts, 'hookEyesCount');
+renderSection('fabricMarkersGrid', fabricMarkersProducts, 'fabricMarkersCount');
+renderSection('threadNippersGrid', threadNippersProducts, 'threadNippersCount');
+renderSection('tailorsChalkGrid', tailorsChalkProducts, 'tailorsChalkCount');
+renderSection('biasMakersGrid', biasMakersProducts, 'biasMakersCount');
+renderSection('seamRippersGrid', seamRippersProducts, 'seamRippersCount');
+renderSection('tapeMeasuresGrid', tapeMeasuresProducts, 'tapeMeasuresCount');
+renderSection('hotfixGrid', hotfixProducts, 'hotfixCount');
+renderSection('cuttersGrid', cuttersProducts, 'cuttersCount');
+renderSection('snapKitsGrid', snapKitsProducts, 'snapKitsCount');
+renderSection('taggingGrid', taggingProducts, 'taggingCount');
+renderSection('sewingBoxesGrid', sewingBoxesProducts, 'sewingBoxesCount');
+renderSection('thimblesGrid', thimblesProducts, 'thimblesCount');
+renderSection('tracingWheelsGrid', tracingWheelsProducts, 'tracingWheelsCount');
+renderSection('tracingPaperGrid', tracingPaperProducts, 'tracingPaperCount');
+renderSection('magneticSeamGuidesGrid', magneticSeamGuidesProducts, 'magneticSeamGuidesCount');
+renderSection('sewingAwlsGrid', sewingAwlsProducts, 'sewingAwlsCount');
+renderSection('braceClipsGrid', braceClipsProducts, 'braceClipsCount');
+renderSection('beadStretchGrid', beadStretchProducts, 'beadStretchCount');
+renderSection('bucklesGrid', bucklesProducts, 'bucklesCount');
+renderSection('glueGrid', glueProducts, 'glueCount');
+renderSection('tweezersGrid', tweezersProducts, 'tweezersCount');
+renderSection('needleThreadersGrid', needleThreadersProducts, 'needleThreadersCount');
+renderSection('pinCushionsGrid', pinCushionsProducts, 'pinCushionsCount');
+renderSection('balanceGrid', balanceProducts, 'balanceCount');
+
+document.getElementById('searchBox')?.addEventListener('input', filterProducts);
+window.onclick = (e) => { if (e.target === document.getElementById('productModal')) closeModal(); };
+updateCartBadge();
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Migrate modal variant select to container div if needed
+    const variantGroup = document.getElementById('variantGroup');
+    const oldSelect = document.getElementById('variantSelect');
+    if (variantGroup && oldSelect && !document.getElementById('variantSelectContainer')) {
+        const container = document.createElement('div');
+        container.id = 'variantSelectContainer';
+        oldSelect.parentNode.replaceChild(container, oldSelect);
+    }
+
+    const cartLink = document.querySelector('nav a[href="demo_cart.html"]');
+    if (cartLink && !cartLink.querySelector('.cart-badge')) {
+        cartLink.classList.add('cart-link');
+        const badge = document.createElement('span');
+        badge.className = 'cart-badge';
+        badge.id = 'cartBadge';
+        badge.textContent = '0';
+        cartLink.appendChild(badge);
+        updateCartBadge();
+    }
+});
+</script>
+<script src="fawz-site.js"></script>
+<script src="fawz-secure-pricing.js"></script>
+<script src="fawz-inactivity.js"></script>
+<script src="fawz-content-protection.js"></script>
+<!-- Packing quantities are managed by the verified page-specific map below. -->
+<script>
+(() => {
+    const notionsPackingDescriptions = {
+        "silver-ps": "20 cards per box.",
+        "plastic-ps": "20 cards per box.",
+        "black-ps": "20 cards per box.",
+        "magnetic-press-studs-retail": "5 sets per retail pack; 10 per box.",
+        "silver-hook-eyes-single": "24 cards per box.",
+        "black-hook-eyes-single": "24 cards per box.",
+        "trouser-hook-bar-single": "3 sets per card; 24 cards per box.",
+        "trouser-hook-bar-bulk": "4 pieces per set; 144 sets per box.",
+        "water-erasable-fabric-marker": "12 cards per box.",
+        "auto-disappear": "12 cards per box.",
+        "thread-nippers-plastic": "12 per box.",
+        "thread-nippers-metal": "12 per box.",
+        "thread-nippers-stainless": "6 cards per box.",
+        "thread-nippers-tc800": "12 per pack.",
+        "thread-nippers-with-cap": "12 per box.",
+        "tailors-chalk-white-assorted": "10 pieces per box; 60 boxes per carton.",
+        "tailors-chalk-4pc-box": "10 sets per box.",
+        "tailors-chalk-carded": "10 cards per box.",
+        "tailors-chalk-auto-disappear": "20 per box.",
+        "seam-ripper-small": "50 per box.",
+        "seam-ripper-large": "50 per box.",
+        "seam-ripper-carded-small": "10 per box.",
+        "seam-ripper-carded-large": "10 per box.",
+        "soft-grip-sg01-box": "12 per box.",
+        "soft-grip-sg02-box": "12 per box.",
+        "seam-ripper-sg03-carded": "12 per box.",
+        "tape-measure-150cm-carded": "10 cards per box.",
+        "tape-measure-150cm-pink": "12 per box.",
+        "tape-measure-300cm": "12 per box.",
+        "tape-measure-packed-assorted": "10 per box.",
+        "tape-measure-assorted-10-box": "10 per box.",
+        "hotfix-gold-chain": "10 yards per roll.",
+        "hotfix-silver-chain": "10 yards per roll.",
+        "tagging-pins": "5,000 pieces per box.",
+        "tagging-gun-needles": "5 needles per card; 6 cards per box.",
+        "thimble-1": "3 per card; 10 cards per box.",
+        "thimble-2": "2 per card; 6 cards per box.",
+        "thimble-3": "3 per card; 6 cards per box.",
+        "thimble-4": "4 per card; 10 cards per box.",
+        "tracing-wheel-wooden-carded": "12 cards per box.",
+        "tracing-wheel-wooden": "24 per box.",
+        "tracing-paper": "5 colours per pack; 50 packs per box.",
+        "magnetic-seam-guide-large": "6 cards per box.",
+        "magnetic-seam-guide-small": "6 cards per box.",
+        "sewing-awl-type-a": "6 per box.",
+        "sewing-awl-type-b": "6 per box.",
+        "sewing-awl-type-c": "6 per box.",
+        "brace-clips": "1 pair per retail pack; 10 per box.",
+        "waistcoat-buckle-silver": "Packing options: 50, 100 or 200 pieces.",
+        "waistcoat-buckle-gold": "Packing options: 50, 100 or 200 pieces.",
+        "buckle-silver": "Packing options: 50, 100 or 200 pieces.",
+        "fabric-glue": "10 per box.",
+        "white-craft-glue": "6 per pack.",
+        "tweezers-fine-point-curved": "12 cards per box.",
+        "tweezers-fine-point-straight": "12 cards per box.",
+        "needle-threader-2-card": "2 per card; 24 cards per box.",
+        "needle-threader-flower": "10 cards per box.",
+        "bees-wax": "12 cards per box.",
+        "elastic-threader": "3 pieces per card.",
+        "pattern-hooks": "2 per pack; 6 packs per box.",
+        "sewing-charms": "9-piece pack; 10 per box.",
+        "soft-grip-sg01-item": "Sold individually — one piece per unit.",
+        "soft-grip-sg02-item": "Sold individually — one piece per unit.",
+        "seam-ripper-sg03-item": "Sold individually — one piece per unit.",
+        "seam-ripper-needle-threader": "Sold individually — one piece per unit.",
+        "glue-gun": "Sold individually — one piece per unit.",
+        "hotfix-applicator": "Sold individually — one piece per unit.",
+        "double-head-hot-fix-pen": "Sold individually — one piece per unit.",
+        "a4-black-mat": "Sold individually — one piece per unit.",
+        "a1-green-mat": "Sold individually — one piece per unit.",
+        "a3-pink-mat": "Sold individually — one piece per unit.",
+        "combo-a3-pink": "Sold individually — one combo per unit.",
+        "combo-a4-black": "Sold individually — one combo per unit.",
+        "rotary-cutter-28mm": "Sold individually — one piece per unit.",
+        "rotary-cutter-45mm": "Sold individually — one piece per unit.",
+        "rotary-cutter-60mm": "Sold individually — one piece per unit.",
+        "comfort-loop-rotary-45mm": "Sold individually — one piece per unit.",
+        "craft-knife": "Sold individually — one piece per unit.",
+        "snap-button-kit-small": "Sold individually — one kit per unit.",
+        "snap-button-kit-large": "Sold individually — one kit per unit.",
+        "ring-fasteners": "Sold individually — one kit per unit.",
+        "snap-fasteners": "Sold individually — one kit per unit.",
+        "tagging-gun-tg01": "Sold individually — one piece per unit.",
+        "tagging-gun-tg02": "Sold individually — one piece per unit.",
+        "tagging-gun-carded": "Sold individually — one piece per unit.",
+        "metal-sewing-box-rectangle": "Sold individually — one piece per unit.",
+        "metal-sewing-box-heart": "Sold individually — one piece per unit.",
+        "metal-sewing-box-round": "Sold individually — one piece per unit.",
+        "item-587": "Sold individually — one piece per unit.",
+        "item-400": "Sold individually — one piece per unit.",
+        "item-200": "Sold individually — one piece per unit.",
+        "item-235": "Sold individually — one piece per unit.",
+        "item-300": "Sold individually — one piece per unit.",
+        "item-677": "Sold individually — one piece per unit.",
+        "item-700": "Sold individually — one piece per unit.",
+        "magnetic-cushion-item": "Sold individually — one piece per unit.",
+        "pin-cushion-floral": "Sold individually — one piece per unit.",
+        "pin-cushion-wrist": "Sold individually — one piece per unit.",
+        "pin-cushion-strawberry": "Sold individually — one piece per unit.",
+        "magnetic-pin-case": "Sold individually — one piece per unit.",
+        "pin-cushion-pumpkin-box": "Sold individually — one piece per unit.",
+        "magnetic-pin-holder": "Sold individually — one piece per unit.",
+        "pin-cushion-tomato": "Sold individually — one piece per unit.",
+        "pin-cushion-floral-box": "Sold individually — one piece per unit.",
+        "pin-cushion-pumpkin": "Sold individually — one piece per unit.",
+        "pin-cushion-round": "Sold individually — one piece per unit.",
+        "tape-measure-150cm-white": "10 per box.",
+        "thread-nippers-plastic-loose": "6 per box.",
+        "thread-nippers-metal-loose": "6 per box.",
+        "hotfix-applicator-loose": "Sold individually — one piece per unit.",
+        "tracing-wheel-plastic": "12 cards per box.",
+        "tracing-wheel-plastic-assorted": "24 per box.",
+        "tracing-wheel-needle-point": "6 per box.",
+        "waistcoat-buckle-bulk-silver": "Packing options: 50, 100 or 200 pieces.",
+        "waistcoat-buckle-bulk-gold": "Packing options: 50, 100 or 200 pieces."
+};
+    const notionsVariantPackingDescriptions = {
+        "kearing-permanent": {
+                "6 Pack": "6 markers per pack.",
+                "12 Pack": "12 markers per pack."
+        },
+        "replacement-blades": {
+                "28mm": "6 per pack."
+        }
+};
+
+    function selectedVariantName() {
+        const select = document.querySelector('#variantSelectContainer select');
+        return select ? select.options[select.selectedIndex]?.text : null;
+    }
+
+    function showNotionsPackingDescription() {
+        const productId = currentProduct?.id;
+        if (!productId) return;
+
+        let text = notionsPackingDescriptions[productId] || '';
+        const variantMap = notionsVariantPackingDescriptions[productId];
+        if (variantMap) {
+            const variantName = selectedVariantName();
+            text = (variantName && variantMap[variantName]) || '';
+        }
+
+        const box = document.getElementById('fawzPackingInfo');
+        if (!box) return;
+        box.textContent = text;
+        box.hidden = !text;
+    }
+
+    const originalOpenModal = openModal;
+    openModal = function (product) {
+        originalOpenModal(product);
+        showNotionsPackingDescription();
+    };
+
+    document.addEventListener('click', () => setTimeout(showNotionsPackingDescription, 0));
+    document.addEventListener('change', (event) => {
+        if (event.target.closest('#variantSelectContainer')) {
+            setTimeout(showNotionsPackingDescription, 0);
+        }
+    });
+})();
+</script>
+
+<!-- Keep Sewing Notions front-card images visible after shared FAWZ scripts load. -->
+<script>
+(function protectSewingNotionsCardImages() {
+    const sections = [
+        ['pressStudsGrid', pressStudsProducts],
+        ['hookEyesGrid', hookEyesProducts],
+        ['fabricMarkersGrid', fabricMarkersProducts],
+        ['threadNippersGrid', threadNippersProducts],
+        ['tailorsChalkGrid', tailorsChalkProducts],
+        ['biasMakersGrid', biasMakersProducts],
+        ['seamRippersGrid', seamRippersProducts],
+        ['tapeMeasuresGrid', tapeMeasuresProducts],
+        ['hotfixGrid', hotfixProducts],
+        ['cuttersGrid', cuttersProducts],
+        ['snapKitsGrid', snapKitsProducts],
+        ['taggingGrid', taggingProducts],
+        ['sewingBoxesGrid', sewingBoxesProducts],
+        ['thimblesGrid', thimblesProducts],
+        ['tracingWheelsGrid', tracingWheelsProducts],
+        ['tracingPaperGrid', tracingPaperProducts],
+        ['magneticSeamGuidesGrid', magneticSeamGuidesProducts],
+        ['sewingAwlsGrid', sewingAwlsProducts],
+        ['braceClipsGrid', braceClipsProducts],
+        ['beadStretchGrid', beadStretchProducts],
+        ['bucklesGrid', bucklesProducts],
+        ['glueGrid', glueProducts],
+        ['tweezersGrid', tweezersProducts],
+        ['needleThreadersGrid', needleThreadersProducts],
+        ['pinCushionsGrid', pinCushionsProducts],
+        ['balanceGrid', balanceProducts]
+    ];
+
+    function firstWorkingCandidate(product) {
+        if (product.coverImage) return product.coverImage;
+        if (product.hasVariants && Array.isArray(product.variants)) {
+            const variant = product.variants.find(v => v && v.image);
+            if (variant) return variant.image;
+        }
+        if (product.hasColorMaterial && Array.isArray(product.materials)) {
+            for (const material of product.materials) {
+                const colour = (material.colors || []).find(c => c && c.image);
+                if (colour) return colour.image;
+            }
+        }
+        return product.image || '';
+    }
+
+    function restoreCardImages() {
+        sections.forEach(([gridId, products]) => {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+            const cards = grid.querySelectorAll('.product-card');
+
+            products.forEach((product, index) => {
+                const card = cards[index];
+                if (!card) return;
+                const wrap = card.querySelector('.product-img-wrap');
+                if (!wrap) return;
+
+                const wantedSrc = firstWorkingCandidate(product);
+                if (!wantedSrc) return;
+
+                let img = wrap.querySelector('img');
+                if (!img) {
+                    wrap.innerHTML = '';
+                    img = document.createElement('img');
+                    img.alt = product.name;
+                    wrap.appendChild(img);
+                }
+
+                if (img.getAttribute('src') !== wantedSrc) img.setAttribute('src', wantedSrc);
+                img.style.setProperty('display', 'block', 'important');
+                img.style.setProperty('visibility', 'visible', 'important');
+                img.style.setProperty('opacity', '1', 'important');
+            });
+        });
+    }
+
+    restoreCardImages();
+    document.addEventListener('DOMContentLoaded', restoreCardImages);
+    window.addEventListener('load', restoreCardImages);
+    setTimeout(restoreCardImages, 0);
+    setTimeout(restoreCardImages, 100);
+    setTimeout(restoreCardImages, 500);
+
+    const observer = new MutationObserver(() => restoreCardImages());
+    observer.observe(document.documentElement, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        attributeFilter: ['src', 'style', 'class']
+    });
+})();
+</script>
+
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<title>Scissors | Fawz Haberdashery</title>
+<script src="fawz-security.js" defer></script>
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+:root {
+    --fawz-red: #e31e24;
+    --fawz-dark: #1a1a1a;
+    --fawz-grey: #f8f8f8;
+    --border: #eeeeee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #fff;
+    color: var(--fawz-dark);
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--fawz-red);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.logo {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+}
+.logo span { color: var(--fawz-red); }
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+nav a {
+    color: var(--fawz-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.hero {
+    padding: 46px 5% 24px;
+    max-width: 1300px;
+    margin: auto;
+}
+.hero h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin: 0;
+    text-transform: uppercase;
+}
+.hero p {
+    color: #666;
+    max-width: 900px;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+.toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+.toolbar input {
+    padding: 13px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-width: 260px;
+    font-size: 1rem;
+    background: #fff;
+}
+main {
+    padding: 15px 5% 70px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+/* ===== CATEGORY MAIN GRID (4 cards) ===== */
+.category-main-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+.category-main-card {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,.05);
+    transition: .3s ease;
+    text-align: center;
+}
+.category-main-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 18px 36px rgba(0,0,0,.12);
+}
+.category-main-card .img-wrap {
+    height: 200px;
+    background: #fcfcfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+    padding: 20px;
+}
+.category-main-card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.category-main-card h3 {
+    margin: 18px 0 18px;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    color: var(--fawz-dark);
+}
+
+/* ===== MODAL ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(5px);
+    padding: 30px 12px;
+    overflow-y: auto;
+}
+.close-x {
+    position: absolute;
+    right: 22px;
+    top: 16px;
+    font-size: 32px;
+    cursor: pointer;
+    color: #999;
+    z-index: 10;
+    line-height: 1;
+}
+.close-x:hover { color: var(--fawz-red); }
+
+.category-modal-content {
+    background: #fff;
+    margin: auto;
+    max-width: 1100px;
+    border-radius: 20px;
+    padding: 35px 25px 40px;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,.3);
+}
+.category-modal-header {
+    margin-bottom: 25px;
+    border-left: 6px solid var(--fawz-red);
+    padding-left: 15px;
+}
+.category-modal-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.sub-product-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,.04);
+    transition: .2s ease;
+}
+.sub-product-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 8px 20px rgba(0,0,0,.1);
+}
+.sub-product-img {
+    height: 150px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+    padding: 12px;
+}
+.sub-product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.sub-product-info {
+    padding: 12px;
+    text-align: center;
+}
+.sub-product-info h4 {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.25;
+}
+
+/* ===== DETAIL MODAL ===== */
+.modal-content {
+    background: #fff;
+    margin: auto;
+    max-width: 980px;
+    min-height: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,.24);
+    position: relative;
+}
+.modal-left {
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    border-right: 1px solid var(--border);
+    position: relative;
+}
+.modal-left img {
+    width: 100%;
+    height: 100%;
+    max-height: 430px;
+    object-fit: contain;
+}
+.modal-right {
+    padding: 42px 36px;
+}
+.modal-right h2 {
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+}
+.modal-meta {
+    color: #666;
+    font-size: .92rem;
+    word-break: break-all;
+}
+label {
+    display: block;
+    margin: 22px 0 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: .75rem;
+    color: #555;
+}
+input, .option-select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--fawz-grey);
+}
+.btn-add {
+    width: 100%;
+    background: var(--fawz-red);
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 17px;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+.btn-add:hover { background: #b3161a; }
+
+.cart-link { position: relative; }
+.cart-badge { position: absolute; top: -8px; right: -8px; background: var(--fawz-red); color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+@media (max-width: 1024px) {
+    .category-main-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+    .category-main-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .category-main-card .img-wrap { height: 140px; }
+    .category-main-card h3 { font-size: 1rem; margin: 12px 0; }
+    .modal-content { grid-template-columns: 1fr; max-height: 92vh; overflow: auto; }
+    .modal-left { min-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; }
+    .modal-right { padding: 20px; }
+    .category-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Fawz <span>Haberdashery</span></div>
+    <nav>
+        <a href="home(1).html#hero-section">Home</a>
+        <a href="category-index.html">Categories</a>
+        <a href="all-products.html">All Products</a>
+        <a href="demo_cart.html">View Cart</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Scissors</h1>
+    <p>Browse our premium scissors collection. Click a category to view all options.</p>
+    <div class="toolbar">
+        <input id="searchBox" placeholder="Search scissors...">
+    </div>
+</section>
+
+<main>
+    <!-- 4 MAIN CATEGORY BLOCKS -->
+    <div class="category-main-grid">
+        <!-- FAWZ -->
+        <div class="category-main-card" onclick="openCategoryModal('fawz')">
+            <div class="img-wrap">
+                <img src="images/Scissors/prem4mm.jpg" alt="Fawz Scissors">
+            </div>
+            <h3>FAWZ</h3>
+        </div>
+
+        <!-- EMBROIDERY -->
+        <div class="category-main-card" onclick="openCategoryModal('embroidery')">
+            <div class="img-wrap">
+                <img src="images/Scissors/preEmbroidery.jpg" alt="Embroidery Scissors">
+            </div>
+            <h3>Embroidery</h3>
+        </div>
+
+        <!-- OFFICE -->
+        <div class="category-main-card" onclick="openCategoryModal('office')">
+            <div class="img-wrap">
+                <img src="images/Scissors/office.jpg" alt="Office Scissors">
+            </div>
+            <h3>Office</h3>
+        </div>
+
+        <!-- ALL SCISSORS -->
+        <div class="category-main-card" onclick="openCategoryModal('all')">
+            <div class="img-wrap">
+                <img src="images/Scissors/giftBox.jpg" alt="All Scissors">
+            </div>
+            <h3>All Scissors</h3>
+        </div>
+        <div class="category-main-card" onclick="openCategoryModal('sets')">
+            <div class="img-wrap"><img src="images/Scissors/2pcBlue.jpg" alt="Scissor Sets"></div>
+            <h3>Scissor Sets</h3>
+        </div>
+        <div class="category-main-card" onclick="openCategoryModal('pinking')">
+            <div class="img-wrap"><img src="images/Scissors/pinkingSheers.jpg" alt="Pinking Shears"></div>
+            <h3>Pinking Shears</h3>
+        </div>
+    </div>
+<section id="scissorSearchResults" hidden style="padding:0 5% 30px"><h2>Matching scissors</h2><div id="scissorSearchGrid" class="category-grid"></div><p id="scissorSearchEmpty" hidden>No matching scissors found.</p></section>
+</main>
+
+<!-- MODAL 1: CATEGORY GRID OVERVIEW -->
+<div id="categoryGridModal" class="modal">
+    <div class="category-modal-content">
+        <span class="close-x" onclick="closeCategoryModal()">&times;</span>
+        <div class="category-modal-header">
+            <h2 id="catModalTitle">Category</h2><input id="categorySearchBox" class="option-select" type="search" placeholder="Search this category..." aria-label="Search this scissors category" oninput="filterCategoryProducts()">
+        </div>
+        <div class="category-grid" id="categoryGridContainer">
+            <!-- Sub product blocks inject dynamically -->
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 2: ITEM OPTION SELECTOR & QUANTITY -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-x" onclick="closeProductModal()">&times;</span>
+        <div class="modal-left">
+            <img id="modalImg" src="" alt="Product Detail Image">
+        </div>
+        <div class="modal-right">
+            <h2 id="modalTitle">Product Title</h2>
+            <div id="packingInfo" style="background:#f5f5f5;padding:12px 16px;border-radius:12px;margin:15px 0;font-size:0.85rem;color:#555;border-left:3px solid var(--fawz-red);">Sold individually — one piece per unit.</div>
+            <p class="modal-meta" id="modalMeta">Product ID details</p>
+            <label for="variantSelect">Choose Option / Size:</label>
+            <select id="variantSelect" class="option-select" onchange="updateVariant()"></select>
+            <label for="qtyInput">Quantity:</label>
+            <input type="number" id="qtyInput" value="1" min="1" style="margin-bottom:20px;">
+            <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+            <button class="btn-add" onclick="addToCart()">Add to Order</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==================== SCISSORS DATA ====================
+const categoryData = {
+    "fawz": {
+        title: "FAWZ Scissors",
+        groups: [
+        ]
+    },
+    "embroidery": {
+        title: "Embroidery Scissors",
+        groups: [
+            "embroidery-straight",
+            "embroidery-curved",
+            "embroidery-stork-gold",
+            "embroidery-stork-silver",
+            "embroidery-stork-blue",
+            "embroidery-stork-green",
+            "embroidery-stork-pink",
+            "embroidery-basic"
+        ]
+    },
+    "office": {
+        title: "Office Scissors",
+        groups: [
+            "office-7-5",
+            "office-8-5",
+            "office-9-5",
+            "office-10-5"
+        ]
+    },
+    "all": {
+        title: "All Scissors",
+        groups: [
+            "embroidery-straight",
+            "embroidery-curved",
+            "embroidery-stork-gold",
+            "embroidery-stork-silver",
+            "embroidery-stork-blue",
+            "embroidery-stork-green",
+            "embroidery-stork-pink",
+            "embroidery-basic",
+            "office-7-5",
+            "office-8-5",
+            "office-9-5",
+            "office-10-5",
+            "pinking-shears",
+            "gift-box"
+        ]
+    }
+};
+
+const productGroups = {
+    // ===== FAWZ =====
+
+    // ===== EMBROIDERY =====
+    "embroidery-straight": {
+        title: "Embroidery Straight",
+        category: "Embroidery",
+        img: "images/Scissors/preEmbroidery.jpg",
+        options: [
+            { name: "Embroidery Straight", productId: "embroidery-straight", img: "images/Scissors/preEmbroidery.jpg" }
+        ]
+    },
+    "embroidery-curved": {
+        title: "Embroidery Curved",
+        category: "Embroidery",
+        img: "images/Scissors/proEmbroideryCurve.jpg",
+        options: [
+            { name: "Embroidery Curved", productId: "embroidery-curved", img: "images/Scissors/proEmbroideryCurve.jpg" }
+        ]
+    },
+    "embroidery-stork-gold": {
+        title: "Stork Embroidery Gold",
+        category: "Embroidery",
+        img: "images/Scissors/storkEmbroideryGold.jpg",
+        options: [
+            { name: "Stork Embroidery Gold", productId: "embroidery-stork-gold", img: "images/Scissors/storkEmbroideryGold.jpg" }
+        ]
+    },
+    "embroidery-stork-silver": {
+        title: "Stork Embroidery Silver",
+        category: "Embroidery",
+        img: "images/Scissors/storkEmbroidery.jpg",
+        options: [
+            { name: "Stork Embroidery Silver", productId: "embroidery-stork-silver", img: "images/Scissors/storkEmbroidery.jpg" }
+        ]
+    },
+    "embroidery-stork-blue": {
+        title: "Stork Embroidery Blue",
+        category: "Embroidery",
+        img: "images/Scissors/storkEmbroideryBlue.jpg",
+        options: [
+            { name: "Stork Embroidery Blue", productId: "embroidery-stork-blue", img: "images/Scissors/storkEmbroideryBlue.jpg" }
+        ]
+    },
+    "embroidery-stork-green": {
+        title: "Stork Embroidery Green",
+        category: "Embroidery",
+        img: "images/Scissors/storkEmbroideryGreen.jpg",
+        options: [
+            { name: "Stork Embroidery Green", productId: "embroidery-stork-green", img: "images/Scissors/storkEmbroideryGreen.jpg" }
+        ]
+    },
+    "embroidery-stork-pink": {
+        title: "Stork Embroidery Pink",
+        category: "Embroidery",
+        img: "images/Scissors/storkEmbroideryPink.jpg",
+        options: [
+            { name: "Stork Embroidery Pink", productId: "embroidery-stork-pink", img: "images/Scissors/storkEmbroideryPink.jpg" }
+        ]
+    },
+    "embroidery-basic": {
+        title: "Basic Embroidery",
+        category: "Embroidery",
+        img: "images/Scissors/basicEmbroidery.jpg",
+        options: [
+            { name: "Basic Embroidery", productId: "embroidery-basic", img: "images/Scissors/basicEmbroidery.jpg" }
+        ]
+    },
+
+    // ===== OFFICE =====
+    "office-7-5": {
+        title: "Office 7.5 inch",
+        category: "Office",
+        img: "images/Scissors/office.jpg",
+        options: [
+            { name: "Office 7.5 inch", productId: "office-7-5inch", img: "images/Scissors/office.jpg" }
+        ]
+    },
+    "office-8-5": {
+        title: "Office 8.5 inch",
+        category: "Office",
+        img: "images/Scissors/item11 (2).jpg",
+        options: [
+            { name: "Office 8.5 inch", productId: "office-8-5inch", img: "images/Scissors/item11 (2).jpg" }
+        ]
+    },
+    "office-9-5": {
+        title: "Office 9.5 inch",
+        category: "Office",
+        img: "images/Scissors/item21Lrg.jpg",
+        options: [
+            { name: "Office 9.5 inch", productId: "office-9-5inch", img: "images/Scissors/item21Lrg.jpg" }
+        ]
+    },
+    "office-10-5": {
+        title: "Office 10.5 inch",
+        category: "Office",
+        img: "images/Scissors/item21.jpg",
+        options: [
+            { name: "Office 10.5 inch", productId: "office-10-5inch", img: "images/Scissors/item21.jpg" }
+        ]
+    },
+
+    // ===== EXTRA =====
+    "pinking-shears": {
+        title: "Pinking Shears",
+        category: "All Scissors",
+        img: "images/Scissors/pinkingSheers.jpg",
+        options: [
+            { name: "Pinking Shears", productId: "pinking-shears", img: "images/Scissors/pinkingSheers.jpg" }
+        ]
+    },
+    "gift-box": {
+        title: "Gift Box Set",
+        category: "All Scissors",
+        img: "images/Scissors/giftBox.jpg",
+        options: [
+            { name: "Gift Box Set", productId: "gift-box", img: "images/Scissors/giftBox.jpg" }
+        ]
+    }
+};
+
+// Additional scissors matched to the supplied image filenames.
+Object.assign(productGroups, {
+    "scissors-image-2pcblue": {
+        "title": "2 Piece Blue",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/2pcBlue.jpg",
+        "options": [
+            {
+                "name": "2 Piece Blue",
+                "productId": "scissors-2pcblue",
+                "img": "images/Scissors/2pcBlue.jpg"
+            }
+        ]
+    },
+    "scissors-image-3pcorange": {
+        "title": "3 Piece Orange",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/3pcOrange.jpg",
+        "options": [
+            {
+                "name": "3 Piece Orange",
+                "productId": "scissors-3pcorange",
+                "img": "images/Scissors/3pcOrange.jpg"
+            }
+        ]
+    },
+    "scissors-image-4pcblue": {
+        "title": "4 Piece Blue",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/4pcBlue.jpg",
+        "options": [
+            {
+                "name": "4 Piece Blue",
+                "productId": "scissors-4pcblue",
+                "img": "images/Scissors/4pcBlue.jpg"
+            }
+        ]
+    },
+    "scissors-image-4pcyellow": {
+        "title": "4 Piece Yellow",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/4pcYellow.jpg",
+        "options": [
+            {
+                "name": "4 Piece Yellow",
+                "productId": "scissors-4pcyellow",
+                "img": "images/Scissors/4pcYellow.jpg"
+            }
+        ]
+    },
+    "scissors-image-basicmed": {
+        "title": "Basic Medium",
+        "category": "FAWZ",
+        "img": "images/Scissors/basicMed.jpg",
+        "options": [
+            {
+                "name": "Basic Medium",
+                "productId": "scissors-basicmed",
+                "img": "images/Scissors/basicMed.jpg"
+            }
+        ]
+    },
+    "scissors-image-embroidery": {
+        "title": "Embroidery",
+        "category": "Embroidery",
+        "img": "images/Scissors/embroidery.jpg",
+        "options": [
+            {
+                "name": "Embroidery",
+                "productId": "scissors-embroidery",
+                "img": "images/Scissors/embroidery.jpg"
+            }
+        ]
+    },
+    "scissors-image-2pcpink": {
+        "title": "2 Piece Pink",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/2pcPink.jpg",
+        "options": [
+            {
+                "name": "2 Piece Pink",
+                "productId": "scissors-2pcpink",
+                "img": "images/Scissors/2pcPink.jpg"
+            }
+        ]
+    },
+    "scissors-image-3pcred": {
+        "title": "3 Piece Red",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/3pcRed.jpg",
+        "options": [
+            {
+                "name": "3 Piece Red",
+                "productId": "scissors-3pcred",
+                "img": "images/Scissors/3pcRed.jpg"
+            }
+        ]
+    },
+    "scissors-image-4pcgrey": {
+        "title": "4 Piece Grey",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/4pcGrey.jpg",
+        "options": [
+            {
+                "name": "4 Piece Grey",
+                "productId": "scissors-4pcgrey",
+                "img": "images/Scissors/4pcGrey.jpg"
+            }
+        ]
+    },
+    "scissors-image-comfortseries": {
+        "title": "Comfort Series",
+        "category": "FAWZ",
+        "img": "images/Scissors/comfortSeries.jpg",
+        "options": [
+            {
+                "name": "Comfort Series",
+                "productId": "scissors-comfortseries",
+                "img": "images/Scissors/comfortSeries.jpg"
+            }
+        ]
+    },
+    "scissors-image-item11": {
+        "title": "KDP 11 inch",
+        "category": "FAWZ",
+        "img": "images/Scissors/item11.jpg",
+        "options": [
+            {
+                "name": "KDP 11 inch",
+                "productId": "fawz-kdp-11inch",
+                "img": "images/Scissors/item11.jpg"
+            }
+        ]
+    },
+    "scissors-image-2pcyellow": {
+        "title": "2 Piece Yellow",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/2pcYellow.jpg",
+        "options": [
+            {
+                "name": "2 Piece Yellow",
+                "productId": "scissors-2pcyellow",
+                "img": "images/Scissors/2pcYellow.jpg"
+            }
+        ]
+    },
+    "scissors-image-3pcwhite": {
+        "title": "3 Piece White",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/3pcWhite.jpg",
+        "options": [
+            {
+                "name": "3 Piece White",
+                "productId": "scissors-3pcwhite",
+                "img": "images/Scissors/3pcWhite.jpg"
+            }
+        ]
+    },
+    "scissors-image-4pcpink": {
+        "title": "4 Piece Pink",
+        "category": "Scissor Sets",
+        "img": "images/Scissors/4pcPink.jpg",
+        "options": [
+            {
+                "name": "4 Piece Pink",
+                "productId": "scissors-4pcpink",
+                "img": "images/Scissors/4pcPink.jpg"
+            }
+        ]
+    },
+    "scissors-image-basiclrg": {
+        "title": "Basic 9.5 inch",
+        "category": "FAWZ",
+        "img": "images/Scissors/basicLrg.jpg",
+        "options": [
+            {
+                "name": "Basic 9.5 inch",
+                "productId": "fawz-basic-9-5inch",
+                "img": "images/Scissors/basicLrg.jpg"
+            }
+        ]
+    },
+    "scissors-image-embroiderey4": {
+        "title": "Embroidery 4",
+        "category": "Embroidery",
+        "img": "images/Scissors/embroiderey4.jpg",
+        "options": [
+            {
+                "name": "Embroidery 4",
+                "productId": "scissors-embroiderey4",
+                "img": "images/Scissors/embroiderey4.jpg"
+            }
+        ]
+    },
+    "scissors-image-goldseries": {
+        "title": "Gold Series",
+        "category": "FAWZ",
+        "img": "images/Scissors/goldSeries.jpg",
+        "options": [
+            {
+                "name": "Gold Series",
+                "productId": "scissors-goldseries",
+                "img": "images/Scissors/goldSeries.jpg"
+            }
+        ]
+    },
+    "scissors-image-item11lrg": {
+        "title": "KDP 12 inch",
+        "category": "FAWZ",
+        "img": "images/Scissors/item11Lrg.jpg",
+        "options": [
+            {
+                "name": "KDP 12 inch",
+                "productId": "fawz-kdp-12inch",
+                "img": "images/Scissors/item11Lrg.jpg"
+            }
+        ]
+    },
+    "scissors-image-item55": {
+        "title": "Item 55",
+        "category": "FAWZ",
+        "img": "images/Scissors/item55.jpg",
+        "options": [
+            {
+                "name": "Item 55",
+                "productId": "scissors-item55",
+                "img": "images/Scissors/item55.jpg"
+            }
+        ]
+    },
+    "scissors-image-classic-series-10-brown": {
+        "title": "Classic Series 10 Brown",
+        "category": "FAWZ",
+        "img": "images/Scissors/classic series 10 brown.jpg",
+        "options": [
+            {
+                "name": "Classic Series 10 Brown",
+                "productId": "scissors-classic-series-10-brown",
+                "img": "images/Scissors/classic series 10 brown.jpg"
+            }
+        ]
+    },
+    "scissors-image-item55lrg": {
+        "title": "Item 55Lrg",
+        "category": "FAWZ",
+        "img": "images/Scissors/item55Lrg.jpg",
+        "options": [
+            {
+                "name": "Item 55Lrg",
+                "productId": "scissors-item55lrg",
+                "img": "images/Scissors/item55Lrg.jpg"
+            }
+        ]
+    },
+    "scissors-image-pinkingsheers1": {
+        "title": "Pinking Shears 1",
+        "category": "Pinking Shears",
+        "img": "images/Scissors/pinkingSheers1.jpg",
+        "options": [
+            {
+                "name": "Pinking Shears 1",
+                "productId": "scissors-pinkingsheers1",
+                "img": "images/Scissors/pinkingSheers1.jpg"
+            }
+        ]
+    },
+    "scissors-image-basic-pink": {
+        "title": "Basic Pink",
+        "category": "FAWZ",
+        "img": "images/Scissors/basic pink.jpg",
+        "options": [
+            {
+                "name": "Basic Pink",
+                "productId": "scissors-basic-pink",
+                "img": "images/Scissors/basic pink.jpg"
+            }
+        ]
+    },
+    "scissors-image-classic-series-10-red": {
+        "title": "Classic Series 10 Red",
+        "category": "FAWZ",
+        "img": "images/Scissors/classic series 10 red.jpg",
+        "options": [
+            {
+                "name": "Classic Series 10 Red",
+                "productId": "scissors-classic-series-10-red",
+                "img": "images/Scissors/classic series 10 red.jpg"
+            }
+        ]
+    },
+    "scissors-image-pinkinsheersblack": {
+        "title": "Pinking Shears Black",
+        "category": "Pinking Shears",
+        "img": "images/Scissors/pinkinSheersBlack.jpg",
+        "options": [
+            {
+                "name": "Pinking Shears Black",
+                "productId": "scissors-pinkinsheersblack",
+                "img": "images/Scissors/pinkinSheersBlack.jpg"
+            }
+        ]
+    },
+    "scissors-image-premiumfp950": {
+        "title": "Premium FP950",
+        "category": "FAWZ",
+        "img": "images/Scissors/premiumFP950.jpg",
+        "options": [
+            {
+                "name": "Premium FP950",
+                "productId": "scissors-premiumfp950",
+                "img": "images/Scissors/premiumFP950.jpg"
+            }
+        ]
+    },
+    "scissors-image-basic-yellow": {
+        "title": "Basic Yellow",
+        "category": "FAWZ",
+        "img": "images/Scissors/basic yellow.jpg",
+        "options": [
+            {
+                "name": "Basic Yellow",
+                "productId": "scissors-basic-yellow",
+                "img": "images/Scissors/basic yellow.jpg"
+            }
+        ]
+    },
+    "scissors-image-classic-series-10-white": {
+        "title": "Classic Series 10 White",
+        "category": "FAWZ",
+        "img": "images/Scissors/classic series 10 white.jpg",
+        "options": [
+            {
+                "name": "Classic Series 10 White",
+                "productId": "scissors-classic-series-10-white",
+                "img": "images/Scissors/classic series 10 white.jpg"
+            }
+        ]
+    },
+    "scissors-image-classic-series-10": {
+        "title": "Classic Series 10",
+        "category": "FAWZ",
+        "img": "images/Scissors/classic series 10.jpg",
+        "options": [
+            {
+                "name": "Classic Series 10",
+                "productId": "scissors-classic-series-10",
+                "img": "images/Scissors/classic series 10.jpg"
+            }
+        ]
+    },
+    "scissors-image-kdp10": {
+        "title": "KDP 10",
+        "category": "FAWZ",
+        "img": "images/Scissors/KDP10.jpg",
+        "options": [
+            {
+                "name": "KDP 10",
+                "productId": "scissors-kdp10",
+                "img": "images/Scissors/KDP10.jpg"
+            }
+        ]
+    },
+    "scissors-image-office-8-5inch": {
+        "title": "Office 8.5 Inch",
+        "category": "Office",
+        "img": "images/Scissors/office 8.5inch.jpg",
+        "options": [
+            {
+                "name": "Office 8.5 Inch",
+                "productId": "scissors-office-8-5inch",
+                "img": "images/Scissors/office 8.5inch.jpg"
+            }
+        ]
+    },
+    "scissors-image-soft-grip-series-8-5inch": {
+        "title": "Soft Grip Series 8.5 Inch",
+        "category": "FAWZ",
+        "img": "images/Scissors/Soft grip series 8.5inch.jpg",
+        "options": [
+            {
+                "name": "Soft Grip Series 8.5 Inch",
+                "productId": "scissors-soft-grip-series-8-5inch",
+                "img": "images/Scissors/Soft grip series 8.5inch.jpg"
+            }
+        ]
+    },
+    "scissors-image-coral-b": {
+        "title": "Coral B",
+        "category": "FAWZ",
+        "img": "images/Scissors/CORAL B.jpg",
+        "options": [
+            {
+                "name": "Coral B",
+                "productId": "scissors-coral-b",
+                "img": "images/Scissors/CORAL B.jpg"
+            }
+        ]
+    },
+    "scissors-image-kdp11": {
+        "title": "KDP 11",
+        "category": "FAWZ",
+        "img": "images/Scissors/KDP11.jpg",
+        "options": [
+            {
+                "name": "KDP 11",
+                "productId": "scissors-kdp11",
+                "img": "images/Scissors/KDP11.jpg"
+            }
+        ]
+    },
+    "scissors-image-office-9-5": {
+        "title": "Office 9.5",
+        "category": "Office",
+        "img": "images/Scissors/office 9.5.jpg",
+        "options": [
+            {
+                "name": "Office 9.5",
+                "productId": "scissors-office-9-5",
+                "img": "images/Scissors/office 9.5.jpg"
+            }
+        ]
+    },
+    "scissors-image-soft-grip-series-9-5inch": {
+        "title": "Soft Grip Series 9.5 Inch",
+        "category": "FAWZ",
+        "img": "images/Scissors/soft grip series 9.5inch.jpg",
+        "options": [
+            {
+                "name": "Soft Grip Series 9.5 Inch",
+                "productId": "scissors-soft-grip-series-9-5inch",
+                "img": "images/Scissors/soft grip series 9.5inch.jpg"
+            }
+        ]
+    },
+    "scissors-image-kdp9": {
+        "title": "KDP 9",
+        "category": "FAWZ",
+        "img": "images/Scissors/KDP9.jpg",
+        "options": [
+            {
+                "name": "KDP 9",
+                "productId": "scissors-kdp9",
+                "img": "images/Scissors/KDP9.jpg"
+            }
+        ]
+    },
+    "scissors-image-kdp12": {
+        "title": "KDP 12",
+        "category": "FAWZ",
+        "img": "images/Scissors/KDP12.jpg",
+        "options": [
+            {
+                "name": "KDP 12",
+                "productId": "scissors-kdp12",
+                "img": "images/Scissors/KDP12.jpg"
+            }
+        ]
+    },
+    "scissors-image-office-10inch": {
+        "title": "Office 10 Inch",
+        "category": "Office",
+        "img": "images/Scissors/office 10inch.jpg",
+        "options": [
+            {
+                "name": "Office 10 Inch",
+                "productId": "scissors-office-10inch",
+                "img": "images/Scissors/office 10inch.jpg"
+            }
+        ]
+    }
+});
+categoryData.sets = {title: "Scissor Sets", groups: []};
+categoryData.pinking = {title: "Pinking Shears", groups: []};
+categoryData.fawz.groups.push(...["scissors-image-basicmed","office-8-5","scissors-image-comfortseries","scissors-image-item11","scissors-image-basiclrg","scissors-image-goldseries","scissors-image-item11lrg","office-10-5","scissors-image-item55","scissors-image-classic-series-10-brown","office-9-5","scissors-image-item55lrg","scissors-image-basic-pink","scissors-image-classic-series-10-red","scissors-image-premiumfp950","scissors-image-basic-yellow","scissors-image-classic-series-10-white","scissors-image-classic-series-10","scissors-image-kdp10","scissors-image-soft-grip-series-8-5inch","scissors-image-coral-b","scissors-image-kdp11","scissors-image-soft-grip-series-9-5inch","scissors-image-kdp9","scissors-image-kdp12"]);
+categoryData.embroidery.groups.push(...["scissors-image-embroidery","scissors-image-embroiderey4"]);
+categoryData.office.groups.push(...["scissors-image-office-8-5inch","scissors-image-office-9-5","scissors-image-office-10inch"]);
+categoryData.sets.groups.push(...["scissors-image-2pcblue","scissors-image-3pcorange","scissors-image-4pcblue","scissors-image-4pcyellow","scissors-image-2pcpink","scissors-image-3pcred","scissors-image-4pcgrey","gift-box","scissors-image-2pcyellow","scissors-image-3pcwhite","scissors-image-4pcpink"]);
+categoryData.pinking.groups.push(...["pinking-shears","scissors-image-pinkingsheers1","scissors-image-pinkinsheersblack"]);
+categoryData.all.groups.push(...["scissors-image-2pcblue","scissors-image-3pcorange","scissors-image-4pcblue","scissors-image-4pcyellow","scissors-image-basicmed","scissors-image-embroidery","scissors-image-2pcpink","scissors-image-3pcred","scissors-image-4pcgrey","scissors-image-comfortseries","scissors-image-item11","scissors-image-2pcyellow","scissors-image-3pcwhite","scissors-image-4pcpink","scissors-image-basiclrg","scissors-image-embroiderey4","scissors-image-goldseries","scissors-image-item11lrg","scissors-image-item55","scissors-image-classic-series-10-brown","scissors-image-item55lrg","scissors-image-pinkingsheers1","scissors-image-basic-pink","scissors-image-classic-series-10-red","scissors-image-pinkinsheersblack","scissors-image-premiumfp950","scissors-image-basic-yellow","scissors-image-classic-series-10-white","scissors-image-classic-series-10","scissors-image-kdp10","scissors-image-office-8-5inch","scissors-image-soft-grip-series-8-5inch","scissors-image-coral-b","scissors-image-kdp11","scissors-image-office-9-5","scissors-image-soft-grip-series-9-5inch","scissors-image-kdp9","scissors-image-kdp12","scissors-image-office-10inch"]);
+
+
+// Keep matching styles together in All Scissors.
+categoryData.all.groups = [
+    "embroidery-straight",
+    "embroidery-curved",
+    "embroidery-stork-gold",
+    "embroidery-stork-silver",
+    "embroidery-stork-blue",
+    "embroidery-stork-green",
+    "embroidery-stork-pink",
+    "embroidery-basic",
+    "scissors-image-embroidery",
+    "scissors-image-embroiderey4",
+    
+    "scissors-image-item11",
+    "scissors-image-item11lrg",
+    "scissors-image-kdp10",
+    "scissors-image-kdp11",
+    "scissors-image-kdp9",
+    "scissors-image-kdp12",
+    "office-7-5",
+    "office-8-5",
+    "office-9-5",
+    "office-10-5",
+    "scissors-image-office-8-5inch",
+    "scissors-image-office-9-5",
+    "scissors-image-office-10inch",
+    "scissors-image-basicmed",
+    "scissors-image-comfortseries",
+    "scissors-image-basiclrg",
+    "scissors-image-goldseries",
+    "scissors-image-item55",
+    "scissors-image-classic-series-10-brown",
+    "scissors-image-item55lrg",
+    "scissors-image-basic-pink",
+    "scissors-image-classic-series-10-red",
+    "scissors-image-premiumfp950",
+    "scissors-image-basic-yellow",
+    "scissors-image-classic-series-10-white",
+    "scissors-image-classic-series-10",
+    "scissors-image-soft-grip-series-8-5inch",
+    "scissors-image-coral-b",
+    "scissors-image-soft-grip-series-9-5inch",
+    "gift-box",
+    "scissors-image-2pcblue",
+    "scissors-image-3pcorange",
+    "scissors-image-4pcblue",
+    "scissors-image-4pcyellow",
+    "scissors-image-2pcpink",
+    "scissors-image-3pcred",
+    "scissors-image-4pcgrey",
+    "scissors-image-2pcyellow",
+    "scissors-image-3pcwhite",
+    "scissors-image-4pcpink",
+    "pinking-shears",
+    "scissors-image-pinkingsheers1",
+    "scissors-image-pinkinsheersblack"
+];
+
+// ==================== SCRIPT LOGIC ====================
+let currentGroup = null;
+let selectedProduct = null;
+
+function openCategoryModal(catKey) {
+    const cat = categoryData[catKey];
+    if (!cat) return;
+
+    document.getElementById('catModalTitle').textContent = cat.title;
+    const container = document.getElementById('categoryGridContainer');
+    container.innerHTML = '';
+    document.getElementById('categorySearchBox').value = '';
+
+    cat.groups.forEach(groupId => {
+        const group = productGroups[groupId];
+        if (!group) return;
+
+        const subCard = document.createElement('div');
+        subCard.className = 'sub-product-card';
+        subCard.dataset.searchText = scissorSearchText(group);
+        subCard.onclick = () => openProductModal(groupId);
+        
+        subCard.innerHTML = `
+            <div class="sub-product-img">
+                <img src="${group.img}" data-scissor-src="${group.img}" alt="${group.title}">
+            </div>
+            <div class="sub-product-info">
+                <h4>${group.title}</h4>
+            </div>
+        `;
+        container.appendChild(subCard);
+    });
+
+    document.getElementById('categoryGridModal').style.display = 'block';
+}
+
+function closeCategoryModal() {
+    document.getElementById('categoryGridModal').style.display = 'none';
+}
+
+function openProductModal(groupId) {
+    closeCategoryModal();
+    currentGroup = productGroups[groupId];
+    if (!currentGroup) return;
+
+    document.getElementById('modalTitle').textContent = currentGroup.title;
+    document.getElementById('modalMeta').textContent = `Category: ${currentGroup.category}`;
+    
+    const select = document.getElementById('variantSelect');
+    select.innerHTML = '';
+    
+    currentGroup.options.forEach((opt, idx) => {
+        const option = document.createElement('option');
+        option.value = idx;
+        option.textContent = opt.name;
+        select.appendChild(option);
+    });
+
+    select.selectedIndex = 0;
+    updateVariant();
+    document.getElementById('productModal').style.display = 'block';
+}
+
+function updateVariant() {
+    const select = document.getElementById('variantSelect');
+    const idx = parseInt(select.value);
+    selectedProduct = currentGroup.options[idx];
+    
+    if (selectedProduct) {
+        document.getElementById('modalImg').dataset.scissorSrc = selectedProduct.img;
+        document.getElementById('modalImg').src = selectedProduct.img;
+        window.fawzCurrentProductId = selectedProduct.productId;
+        document.getElementById('modalImg').onerror = null;
+    }
+}
+
+function closeProductModal() {
+    document.getElementById('productModal').style.display = 'none';
+}
+
+function addToCart() {
+    if (!selectedProduct || !currentGroup) {
+        alert("Please select a product first.");
+        return;
+    }
+    
+    const qty = parseInt(document.getElementById('qtyInput').value) || 1;
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.push({
+        name: selectedProduct.name,
+        productId: selectedProduct.productId,
+        category: currentGroup.category,
+        qty: qty,
+        image: selectedProduct.img
+    });
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+        badge.textContent = cart.length;
+        badge.classList.add('visible');
+    }
+    
+    alert(`Added ${qty} x ${selectedProduct.name} to your cart successfully!`);
+    closeProductModal();
+}
+
+function scissorSearchText(group) {
+    return [group.title, group.category, ...group.options.map(opt => opt.name + ' ' + opt.productId)].join(' ').toLowerCase().replace(/[^a-z0-9]+/g, ' ');
+}
+function matchesScissorSearch(text, query) {
+    return query.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/).every(word => text.includes(word));
+}
+function filterCategoryProducts() {
+    const query = document.getElementById('categorySearchBox').value.trim();
+    document.querySelectorAll('#categoryGridContainer .sub-product-card').forEach(card => {
+        card.hidden = !!query && !matchesScissorSearch(card.dataset.searchText, query);
+        card.style.display = card.hidden ? 'none' : '';
+    });
+}
+function filterProducts() {
+    const query = document.getElementById('searchBox').value.trim();
+    const results = document.getElementById('scissorSearchResults');
+    const grid = document.getElementById('scissorSearchGrid');
+    document.querySelector('.category-main-grid').style.display = query ? 'none' : '';
+    results.hidden = !query;
+    grid.textContent = '';
+    if (!query) return;
+    categoryData.all.groups.forEach(id => {
+        const group = productGroups[id];
+        if (!matchesScissorSearch(scissorSearchText(group), query)) return;
+        const card = document.createElement('div');
+        card.className = 'sub-product-card';
+        card.onclick = () => openProductModal(id);
+        const imageBox = document.createElement('div');
+        imageBox.className = 'sub-product-img';
+        const image = document.createElement('img');
+        image.src = group.img; image.dataset.scissorSrc = group.img; image.alt = group.title;
+        imageBox.appendChild(image);
+        const info = document.createElement('div'); info.className = 'sub-product-info';
+        const title = document.createElement('h4'); title.textContent = group.title;
+        info.appendChild(title); card.append(imageBox, info); grid.appendChild(card);
+    });
+    document.getElementById('scissorSearchEmpty').hidden = grid.children.length > 0;
+}
+
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+        if (cart.length > 0) {
+            badge.textContent = cart.length;
+            badge.classList.add('visible');
+        } else {
+            badge.classList.remove('visible');
+        }
+    }
+}
+
+document.getElementById('searchBox').addEventListener('input', filterProducts);
+
+window.addEventListener('click', e => { 
+    if(e.target === document.getElementById('categoryGridModal')) closeCategoryModal();
+    if(e.target === document.getElementById('productModal')) closeProductModal(); 
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cartLink = document.querySelector('nav a[href="demo_cart.html"]');
+    if (cartLink && !cartLink.querySelector('.cart-badge')) {
+        cartLink.classList.add('cart-link');
+        const badge = document.createElement('span');
+        badge.className = 'cart-badge';
+        badge.id = 'cartBadge';
+        badge.textContent = '0';
+        cartLink.appendChild(badge);
+    }
+    updateCartBadge();
+});
+// Keep scissor images visible if a shared script changes their presentation.
+document.querySelectorAll('.category-main-card img').forEach(img => {
+    img.dataset.scissorSrc = img.getAttribute('src');
+});
+function keepScissorImagesVisible() {
+    document.querySelectorAll('.category-main-card img, .sub-product-img img, #modalImg').forEach(img => {
+        const src = img.dataset.scissorSrc;
+        if (!src) return;
+        if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+        for (const [property, value] of [['opacity','1'], ['visibility','visible'], ['display','block']]) {
+            if (img.style.getPropertyValue(property) !== value || img.style.getPropertyPriority(property) !== 'important') {
+                img.style.setProperty(property, value, 'important');
+            }
+        }
+    });
+}
+keepScissorImagesVisible();
+const scissorImageObserver = new MutationObserver(keepScissorImagesVisible);
+scissorImageObserver.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['src','style','class','data-scissor-src']});
+window.addEventListener('load', keepScissorImagesVisible);
+</script>
+<script src="fawz-site.js"></script>
+<script src="fawz-secure-pricing.js"></script>
+<script src="fawz-inactivity.js"></script>
+<script src="fawz-content-protection.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>
