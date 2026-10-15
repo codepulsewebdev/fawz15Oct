@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Zips | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+:root {
+    --fawz-red: #e31e24;
+    --fawz-dark: #1a1a1a;
+    --fawz-grey: #f8f8f8;
+    --border: #eeeeee;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #fff;
+    color: var(--fawz-dark);
+    overflow-x: hidden;
+}
+header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--fawz-red);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.logo {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+}
+.logo span { color: var(--fawz-red); }
+nav { display: flex; gap: 16px; flex-wrap: wrap; }
+nav a {
+    color: var(--fawz-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+.hero {
+    padding: 46px 5% 24px;
+    max-width: 1300px;
+    margin: auto;
+}
+.hero h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin: 0;
+    text-transform: uppercase;
+}
+.toolbar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+.toolbar input {
+    padding: 13px 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-width: 260px;
+    font-size: 1rem;
+    background: #fff;
+}
+main {
+    padding: 15px 5% 70px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+/* Category Grid & Cards */
+.category-grid, .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+.category-card, .product-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.04);
+    transition: 0.25s;
+}
+.category-card:hover, .product-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--fawz-red);
+    box-shadow: 0 15px 32px rgba(0,0,0,0.10);
+}
+.card-img-wrap, .product-img-wrap {
+    height: 180px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+}
+.card-img-wrap img, .product-img-wrap img {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+}
+.no-image-icon {
+    font-size: 3rem;
+    color: #ccc;
+}
+.card-info, .product-info {
+    padding: 18px 16px;
+    text-align: center;
+}
+.card-info h3, .product-info h4 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.hidden { display: none !important; }
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(3px);
+    padding: 20px;
+}
+
+/* Category Section Modal */
+.section-modal-content {
+    background: #fff;
+    margin: auto;
+    width: 90%;
+    max-width: 1100px;
+    height: 85%;
+    max-height: 85vh;
+    border-radius: 20px;
+    overflow-y: auto;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+    padding: 35px 30px;
+}
+.section-modal-header {
+    border-left: 6px solid var(--fawz-red);
+    padding-left: 14px;
+    margin-bottom: 25px;
+}
+.section-modal-header h2 {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--fawz-dark);
+}
+
+/* Product Detail Modal */
+.modal-content {
+    background: #fff;
+    margin: auto;
+    width: 90%;
+    max-width: 1100px;
+    height: 85%;
+    max-height: 85vh;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+}
+.close-x {
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #aaa;
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.close-x:hover { color: var(--fawz-red); background: #fff; }
+.modal-left {
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+}
+.modal-left img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.modal-left .no-image-icon {
+    font-size: 4rem;
+    color: #ccc;
+}
+.modal-right {
+    padding: 28px 32px;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.modal-right h2 {
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    color: var(--fawz-red);
+    font-size: 1.5rem;
+}
+.modal-desc {
+    background: #f5f5f5;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 15px 0;
+    font-size: 0.85rem;
+    color: #555;
+    border-left: 3px solid var(--fawz-red);
+}
+.variant-group {
+    margin: 18px 0;
+}
+.variant-group label {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #555;
+    letter-spacing: 1px;
+}
+.variant-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    background: #fff;
+    cursor: pointer;
+}
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+    overflow: visible;
+}
+.color-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid #e5e5e5;
+    background: #fff;
+}
+.color-option:hover {
+    border-color: var(--fawz-red);
+    background: #fff5f5;
+}
+.color-option.active {
+    border-color: var(--fawz-red);
+    background: #fff0f0;
+}
+.color-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+.color-name {
+    font-size: 0.7rem;
+    color: #333;
+    text-transform: capitalize;
+}
+.packaging-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.packaging-option {
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    background: #f5f5f5;
+    border: 2px solid transparent;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.packaging-option:hover {
+    background: var(--fawz-red);
+    color: white;
+}
+.packaging-option.active {
+    border-color: var(--fawz-red);
+    background: var(--fawz-red);
+    color: white;
+}
+.qty-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #f8f8f8;
+    margin: 8px 0 12px;
+}
+#price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 15px 0 20px;
+    color: var(--fawz-red);
+}
+.btn-add {
+    width: 100%;
+    background: var(--fawz-red);
+    border: none;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    transition: background 0.2s;
+    margin-top: auto;
+}
+.btn-add:hover { background: #c41a1f; }
+
+.cart-link { position: relative; }
+.cart-badge { position: absolute; top: -8px; right: -8px; background: var(--fawz-red); color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+@media (max-width: 1100px) { .category-grid, .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .category-grid, .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } }
+@media (max-width: 500px) { .category-grid, .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } .card-img-wrap, .product-img-wrap { height: 140px; } .card-info h3, .product-info h4 { font-size: 0.85rem; } }
+@media (max-width: 700px) { .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; } .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; } .modal-right { padding: 20px; } }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Fawz <span>Haberdashery</span></div>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="category-index.html">Categories</a>
+        <a href="all-products.html">All Products</a>
+        <a href="demo_cart.html" class="cart-link">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Zips</h1>
+    <div class="toolbar">
+        <input id="searchBox" placeholder="Search zip categories...">
+    </div>
+</section>
+
+<main>
+    <!-- CATEGORY BLOCKS GRID -->
+    <div class="category-grid" id="categoryGrid"></div>
+</main>
+
+<!-- SECTION / CATEGORY MODAL -->
+<div id="sectionModal" class="modal">
+    <div class="section-modal-content">
+        <span class="close-x" onclick="closeSectionModal()">&times;</span>
+        <div class="section-modal-header">
+            <h2 id="sectionModalTitle">Category</h2>
+        </div>
+        <div class="product-grid" id="sectionProductGrid"></div>
+    </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-x" onclick="closeProductModal()">&times;</span>
+        <div class="modal-left" id="modalLeft">
+            <img id="modalImg" src="" alt="">
+        </div>
+        <div class="modal-right">
+            <h2 id="modalTitle">Product</h2>
+            <div id="modalDesc" class="modal-desc"></div>
+            <div id="sizeGroup" class="variant-group" style="display:none;">
+                <label id="sizeLabel">Select Size</label>
+                <select id="sizeSelect" class="variant-select"></select>
+            </div>
+            <div id="packagingGroup" class="variant-group" style="display:none;">
+                <label>Packaging</label>
+                <div id="packagingOptions" class="packaging-options"></div>
+            </div>
+            <div id="colorGroup" class="variant-group" style="display:none;">
+                <label>Select Colour</label>
+                <div id="colorGrid" class="color-grid"></div>
+            </div>
+            <label>Quantity (packs)</label>
+            <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="updatePrice()">
+            <div id="price">Price on request — Contact us for quote</div>
+            <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// ZIP COLOURS WITH IMAGE PATHS - EXACT FORMAT FROM YOU
+// ============================================================
+const COLOR_IMAGES = {
+    "white": "images/zips/101 white.jpg",
+    "cream": "images/zips/104 cream.jpg",
+    "gold": "images/zips/112 gold.jpg",
+    "mustard": "images/zips/116 mustard.jpg",
+    "yellow": "images/zips/110 yellow.jpg",
+    "khaki": "images/zips/128 It khaki.jpg",
+    "lt khaki": "images/zips/128 It khaki.jpg",
+    "dk khaki": "images/zips/130 dk khaki.jpg",
+    "dusty": "images/zips/137 dusty.jpg",
+    "baby pink": "images/zips/133 baby pink.jpg",
+    "rose": "images/zips/138 rose.jpg",
+    "peach": "images/zips/155 peach.jpg",
+    "orange": "images/zips/157 orange.jpg",
+    "red": "images/zips/162 red.jpg",
+    "lilac": "images/zips/167 lilac.jpg",
+    "purple": "images/zips/170 purple.jpg",
+    "maroon": "images/zips/177 maroon.jpg",
+    "grape": "images/zips/193 grape.jpg",
+    "turq": "images/zips/208 turq.jpg",
+    "royal": "images/zips/223 royal.jpg",
+    "lime": "images/zips/231 lime.jpg",
+    "emerald": "images/zips/243 emerald.jpg",
+    "mint": "images/zips/248 mint.jpg",
+    "bottle": "images/zips/273 bottle.jpg",
+    "rust": "images/zips/285 rust.jpg",
+    "dk brown": "images/zips/304 dk brown.jpg",
+    "beige": "images/zips/308 beige.jpg",
+    "dk grey": "images/zips/312 dk grey.jpg",
+    "lt grey": "images/zips/316 lt grey.jpg",
+    "navy": "images/zips/330 navy.jpg",
+    "powder": "images/zips/331 powder.jpg",
+    "black": "images/zips/322 black.jpg",
+    "brown": "images/zips/304 dk brown.jpg",
+    "light grey": "images/zips/316 lt grey.jpg",
+    "dark grey": "images/zips/312 dk grey.jpg",
+    "cerise": "images/zips/285 rust.jpg"
+};
+
+// Colour hex values for swatches
+const COLOR_HEX = {
+    "white": "#ffffff", "black": "#1a1a1a", "cream": "#FFFDD0", "gold": "#c9973a",
+    "mustard": "#e8b820", "yellow": "#e8d020", "khaki": "#C3B091", "lt khaki": "#C3B091",
+    "dk khaki": "#A89070", "dusty": "#d4b8a0", "baby pink": "#f5b0c0", "rose": "#e8a0b0",
+    "peach": "#f5c8b0", "orange": "#e07820", "red": "#cc1c1c", "lilac": "#c8a0d8",
+    "purple": "#6b2fa0", "maroon": "#7B1C1C", "grape": "#5a2d7a", "turq": "#30b0b0",
+    "royal": "#2850b0", "lime": "#70c820", "emerald": "#1a8050", "mint": "#70c8a0",
+    "bottle": "#1a4a2e", "rust": "#b85820", "dk brown": "#5a3018", "beige": "#d4b896",
+    "dk grey": "#555555", "lt grey": "#b8b8b8", "navy": "#1b2d6e", "powder": "#b0c8e8",
+    "brown": "#7B4C27", "light grey": "#b8b8b8", "dark grey": "#555555", "cerise": "#d0185a"
+};
+
+// MAIN IMAGE PATHS
+const MAIN_IMAGES = {
+    "no3": "images/zips/101 white.jpg",
+    "trouser": "images/zips/101 white.jpg",
+    "invisible": "images/zips/101 white.jpg",
+    "denim": "images/zips/101 white.jpg",
+    "no5": "images/zips/101 white.jpg",
+    "fancy": "images/zips/101 white.jpg",
+    "chunky": "images/zips/101 white.jpg",
+    "upholstery": "images/zips/101 white.jpg"
+};
+
+const NO3_COLOURS = ["white", "cream", "gold", "mustard", "yellow", "khaki", "dk khaki", "dusty", "baby pink", "rose", "peach", "orange", "red", "lilac", "purple", "maroon", "grape", "turq", "royal", "lime", "emerald", "mint", "bottle", "rust", "dk brown", "beige", "dk grey", "lt grey", "navy", "powder", "black"];
+const TROUSER_COLOURS = ["white", "black", "navy", "brown", "beige", "royal", "khaki", "dk grey", "bottle", "maroon"];
+const INVISIBLE_COLOURS = ["white", "black", "cream", "gold", "brown", "navy", "maroon", "orange", "red", "royal", "beige", "bottle", "khaki", "lt grey", "dk grey"];
+const DENIM_COLOURS = ["white", "black", "navy", "brown", "beige", "royal", "khaki", "dk grey", "bottle", "maroon"];
+const NO5_COLOURS = ["white", "black", "red", "maroon", "brown", "powder", "royal", "navy", "beige", "lt grey", "dk grey", "gold", "emerald", "bottle", "purple", "cerise"];
+const FANCY_COLOURS = ["red", "gold", "white", "black", "baby pink", "purple", "bottle", "maroon"];
+const CHUNKY_COLOURS = ["white", "black", "red", "maroon", "brown", "royal", "navy", "beige", "gold", "lt grey", "bottle", "cerise"];
+const UPHOLSTERY_COLOURS = ["white", "cream", "brown", "beige", "black", "maroon", "navy"];
+
+const SIZES = {
+    "no3": ["15cm", "20cm", "25cm", "30cm", "35cm", "40cm", "45cm", "50cm", "55cm", "65cm"],
+    "trouser": ["20cm"],
+    "invisible": ["20cm", "50cm"],
+    "denim": ["10cm", "20cm"],
+    "no5": ["65cm", "75cm", "85cm", "120cm", "150cm"],
+    "fancy": ["75cm"],
+    "chunky": ["50cm", "65cm", "75cm", "85cm"],
+    "upholstery": ["No.3 (100 yards/roll)", "No.5 (50 yards/roll)", "No.10 (50 yards/roll)"]
+};
+
+// CATEGORY DEFINITIONS
+const ZIP_CATEGORIES = [
+    {
+        id: "closed_end",
+        title: "Closed End",
+        image: MAIN_IMAGES.no3,
+        products: [
+            { 
+                id: "no3", 
+                name: "No.3 Closed End Zips", 
+                image: MAIN_IMAGES.no3, 
+                description: "No.3 closed end zips. Auto lock with FAWZ logo on slider. Available in all colours. Sizes: 15cm - 65cm.",
+                hasColors: true, 
+                colors: NO3_COLOURS, 
+                packaging: ["With header cards", "Loose (100's/pack)"],
+                sizes: SIZES.no3
+            }
+        ]
+    },
+    {
+        id: "trouser",
+        title: "Trouser",
+        image: MAIN_IMAGES.trouser,
+        products: [
+            { 
+                id: "trouser", 
+                name: "Trouser Zips", 
+                image: MAIN_IMAGES.trouser, 
+                description: "Trouser zips. Size: 20cm. Available in: White, Black, Navy, Brown, Beige, Royal, Khaki, Dk Grey, Bottle, Maroon.",
+                hasColors: true, 
+                colors: TROUSER_COLOURS, 
+                packaging: ["With header cards", "Loose (100's/pack)"],
+                sizes: SIZES.trouser
+            }
+        ]
+    },
+    {
+        id: "invisible",
+        title: "Invisible",
+        image: MAIN_IMAGES.invisible,
+        products: [
+            { 
+                id: "invisible", 
+                name: "Invisible Zips", 
+                image: MAIN_IMAGES.invisible, 
+                description: "Invisible zips for concealed zipper applications. Available in: White, Black, Cream, Gold, Brown, Navy, Maroon, Orange, Red, Royal, Beige, Bottle, Khaki, Lt Grey, Dk Grey.",
+                hasColors: true, 
+                colors: INVISIBLE_COLOURS, 
+                packaging: ["With header cards", "Packet of 100"],
+                sizes: SIZES.invisible
+            }
+        ]
+    },
+    {
+        id: "denim",
+        title: "Denim",
+        image: MAIN_IMAGES.denim,
+        products: [
+            { 
+                id: "denim", 
+                name: "Denim Zips", 
+                image: MAIN_IMAGES.denim, 
+                description: "Denim zips. Brass quality. Semi auto lock. Available in: White, Black, Navy, Brown, Beige, Royal, Khaki, Dk Grey, Bottle, Maroon.",
+                hasColors: true, 
+                colors: DENIM_COLOURS, 
+                packaging: ["With header cards", "Loose (100's/pack)"],
+                sizes: SIZES.denim
+            }
+        ]
+    },
+    {
+        id: "open_end",
+        title: "Open End",
+        image: MAIN_IMAGES.no5,
+        products: [
+            { 
+                id: "no5", 
+                name: "No.5 Open End Zips", 
+                image: MAIN_IMAGES.no5, 
+                description: "No.5 open end zips. Available in: White, Black, Red, Maroon, Brown, Powder, Royal, Navy, Beige, Lt Grey, Dk Grey, Gold, Emerald, Bottle, Purple, Cerise.",
+                hasColors: true, 
+                colors: NO5_COLOURS, 
+                packaging: ["Packets of 50s"],
+                sizes: SIZES.no5
+            }
+        ]
+    },
+    {
+        id: "fancy",
+        title: "Fancy",
+        image: MAIN_IMAGES.fancy,
+        products: [
+            { 
+                id: "fancy", 
+                name: "Fancy Zip Open End", 
+                image: MAIN_IMAGES.no5, 
+                description: "Fancy open end zip. Decorative zip for fashion garments. Size: 75cm.",
+                hasColors: true, 
+                colors: FANCY_COLOURS, 
+                packaging: ["20 yards per roll"],
+                sizes: SIZES.fancy
+            }
+        ]
+    },
+    {
+        id: "chunky",
+        title: "Chunky Open End",
+        image: MAIN_IMAGES.chunky,
+        products: [
+            { 
+                id: "chunky", 
+                name: "No.5 Chunky Open End Zips", 
+                image: MAIN_IMAGES.chunky, 
+                description: "No.5 chunky open end zips. Heavy duty. Available in: White, Black, Red, Maroon, Brown, Royal, Navy, Beige, Gold, Grey, Bottle, Cerise.",
+                hasColors: true, 
+                colors: CHUNKY_COLOURS, 
+                packaging: ["With header cards"],
+                sizes: SIZES.chunky
+            }
+        ]
+    },
+    {
+        id: "upholstery",
+        title: "Upholstery Chain",
+        image: MAIN_IMAGES.upholstery,
+        products: [
+            { 
+                id: "upholstery", 
+                name: "Upholstery Chain Zips", 
+                image: MAIN_IMAGES.upholstery, 
+                description: "Upholstery chain zips. Auto lock slider. Available in: White, Cream, Brown, Beige, Black, Maroon, Navy. Chain Zip No.3, No.5 and No.10 are also sold per yard.",
+                hasColors: true, 
+                colors: UPHOLSTERY_COLOURS, 
+                packaging: ["Per roll"],
+                sizes: SIZES.upholstery
+            }
+        ]
+    }
+];
+
+// ============================================================
+// RENDER CATEGORY BLOCKS
+// ============================================================
+function renderCategories() {
+    const grid = document.getElementById('categoryGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    ZIP_CATEGORIES.forEach(cat => {
+        const card = document.createElement('div');
+        card.className = 'category-card';
+        card.onclick = () => openSectionModal(cat);
+
+        card.innerHTML = `
+            <div class="card-img-wrap">
+                <img src="${cat.image}" alt="${cat.title}" onerror="this.parentElement.innerHTML='<div class=\\'no-image-icon\\'>🧵</div>';">
+            </div>
+            <div class="card-info">
+                <h3>${cat.title}</h3>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// ============================================================
+// SECTION MODAL LOGIC
+// ============================================================
+function openSectionModal(category) {
+    document.getElementById('sectionModalTitle').innerText = category.title;
+    const grid = document.getElementById('sectionProductGrid');
+    grid.innerHTML = '';
+
+    category.products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openProductModal(product);
+
+        card.innerHTML = `
+            <div class="product-img-wrap">
+                <img src="${product.image}" alt="${product.name}" onerror="this.parentElement.innerHTML='<div class=\\'no-image-icon\\'>🧵</div>';">
+            </div>
+            <div class="product-info">
+                <h4>${product.name}</h4>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+    document.getElementById('sectionModal').style.display = 'flex';
+}
+
+function closeSectionModal() {
+    document.getElementById('sectionModal').style.display = 'none';
+}
+
+// ============================================================
+// PRODUCT DETAIL MODAL LOGIC
+// ============================================================
+let currentProduct = null;
+let currentSize = null;
+let currentColor = null;
+let currentPackaging = null;
+
+function openProductModal(product) {
+    currentProduct = product;
+    currentSize = null;
+    currentColor = null;
+    currentPackaging = null;
+
+    document.getElementById('modalTitle').innerText = product.name;
+    document.getElementById('modalDesc').innerHTML = product.description;
+
+    const modalImg = document.getElementById('modalImg');
+    modalImg.src = product.image;
+    modalImg.style.display = 'block';
+
+    const modalLeft = document.getElementById('modalLeft');
+    const existingIcon = modalLeft.querySelector('.no-image-icon');
+    if (existingIcon) existingIcon.remove();
+
+    document.getElementById('qty').value = 1;
+
+    const sizeGroup = document.getElementById('sizeGroup');
+    const packagingGroup = document.getElementById('packagingGroup');
+    const colorGroup = document.getElementById('colorGroup');
+
+    // Sizes
+    if (product.sizes && product.sizes.length > 0) {
+        sizeGroup.style.display = 'block';
+        document.getElementById('sizeLabel').innerText = 'Select Size';
+        const sizeSelect = document.getElementById('sizeSelect');
+        sizeSelect.innerHTML = product.sizes.map(sz => `<option value="${sz}">${sz}</option>`).join('');
+        sizeSelect.onchange = function() {
+            currentSize = this.value;
+        };
+        currentSize = product.sizes[0];
+    } else {
+        sizeGroup.style.display = 'none';
+    }
+
+    // Packaging
+    if (product.packaging && product.packaging.length > 0) {
+        packagingGroup.style.display = 'block';
+        const packagingContainer = document.getElementById('packagingOptions');
+        packagingContainer.innerHTML = product.packaging.map(pack => `
+            <div class="packaging-option" data-pack="${pack}">${pack}</div>
+        `).join('');
+
+        document.querySelectorAll('.packaging-option').forEach(opt => {
+            opt.onclick = () => {
+                document.querySelectorAll('.packaging-option').forEach(o => o.classList.remove('active'));
+                opt.classList.add('active');
+                currentPackaging = opt.dataset.pack;
+            };
+        });
+        const firstPack = document.querySelector('.packaging-option');
+        if (firstPack) {
+            firstPack.classList.add('active');
+            currentPackaging = product.packaging[0];
+        }
+    } else {
+        packagingGroup.style.display = 'none';
+    }
+
+    // Colors
+    if (product.hasColors && product.colors) {
+        colorGroup.style.display = 'block';
+        const colorGrid = document.getElementById('colorGrid');
+        const sortedColors = [...product.colors].sort();
+        colorGrid.innerHTML = sortedColors.map(col => `
+            <div class="color-option" data-color="${col}" onclick="selectColor('${col}')">
+                <div class="color-swatch" style="background: ${COLOR_HEX[col] || '#ccc'};"></div>
+                <span class="color-name">${col}</span>
+            </div>
+        `).join('');
+        if (sortedColors.length > 0) {
+            selectColor(sortedColors[0]);
+        }
+    } else {
+        colorGroup.style.display = 'none';
+    }
+
+    document.getElementById('productModal').style.display = 'flex';
+}
+
+function selectColor(colorName) {
+    currentColor = colorName;
+    document.querySelectorAll('.color-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.color === colorName);
+    });
+
+    const modalImg = document.getElementById('modalImg');
+    const imagePath = COLOR_IMAGES[colorName];
+    if (imagePath) {
+        modalImg.src = imagePath;
+        modalImg.style.display = 'block';
+        const modalLeft = document.getElementById('modalLeft');
+        const existingIcon = modalLeft.querySelector('.no-image-icon');
+        if (existingIcon) existingIcon.remove();
+    }
+}
+
+function updatePrice() {
+    document.getElementById('price').innerHTML = 'Price on request — Contact us for quote';
+}
+
+function addToCart() {
+    if (!currentProduct) return;
+
+    let productName = currentProduct.name;
+    if (currentSize) productName += ` - ${currentSize}`;
+    if (currentColor) productName += ` (${currentColor})`;
+    if (currentPackaging) productName += ` [${currentPackaging}]`;
+
+    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.push({
+        product: productName,
+        category: "Zips",
+        size: currentSize || null,
+        color: currentColor || null,
+        packaging: currentPackaging || null,
+        qty: qty,
+        price: 0,
+        unitPrice: 0,
+        total: 0,
+        timestamp: Date.now()
+    });
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+        badge.textContent = cart.length;
+        badge.classList.add('visible');
+    }
+
+    alert(`✓ Added to cart:\n${productName}\nQuantity: ${qty} pack(s)\nPrice: Contact us for quote`);
+    closeProductModal();
+}
+
+function closeProductModal() {
+    document.getElementById('productModal').style.display = 'none';
+}
+
+function filterCategories() {
+    const search = document.getElementById('searchBox').value.toLowerCase();
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.classList.toggle('hidden', !card.innerText.toLowerCase().includes(search));
+    });
+}
+
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const badge = document.getElementById('cartBadge');
+    if (badge) {
+        if (cart.length > 0) {
+            badge.textContent = cart.length;
+            badge.classList.add('visible');
+        } else {
+            badge.classList.remove('visible');
+        }
+    }
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+renderCategories();
+
+document.getElementById('searchBox')?.addEventListener('input', filterCategories);
+window.onclick = (e) => { 
+    if (e.target === document.getElementById('productModal')) closeProductModal();
+    if (e.target === document.getElementById('sectionModal')) closeSectionModal();
+};
+updateCartBadge();
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cartLink = document.querySelector('nav a[href="demo_cart.html"]');
+    if (cartLink && !cartLink.querySelector('.cart-badge')) {
+        cartLink.classList.add('cart-link');
+        const badge = document.createElement('span');
+        badge.className = 'cart-badge';
+        badge.id = 'cartBadge';
+        badge.textContent = '0';
+        cartLink.appendChild(badge);
+        updateCartBadge();
+    }
+});
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-modal-navigation.js"></script>
+</body>
+</html>
