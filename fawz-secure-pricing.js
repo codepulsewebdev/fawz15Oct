@@ -36,7 +36,7 @@ function show(price){
     element.textContent=price==null?'':`R ${Number(price).toFixed(2)}`;
   });
 }
-function validId(value){value=String(value||'').trim();return /^[A-Za-z0-9._-]{1,180}$/.test(value)?value:''}
+function validId(value){value=String(value||'').trim();return value.length>0&&value.length<=180&&!/[\x00-\x1f\x7f]/.test(value)&&!value.includes('${')?value:''}
 function domId(){
   const explicit=document.querySelector('#modalProductId,[data-current-product-id]');
   if(explicit){const value=explicit.dataset.currentProductId||explicit.textContent;const clean=validId(value);if(clean)return clean}

@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
-<title>Knitting &amp; Crochet | Fawz Haberdashery</title>
-<script src="fawz-security.js" defer></script>
+<title>Ribbons | Fawz Haberdashery</title>
 <link rel="stylesheet" href="global-images.css">
 
 <style>
@@ -80,10 +77,7 @@ main {
     max-width: 1300px;
     margin: auto;
 }
-.category-group {
-    margin-bottom: 50px;
-}
-.group-heading {
+.section-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -91,22 +85,14 @@ main {
     padding-left: 14px;
     margin-bottom: 20px;
 }
-.group-heading h3 {
+.section-heading h3 {
     font-size: 1.6rem;
     margin: 0;
     text-transform: uppercase;
-    color: var(--fawz-dark);
-}
-.group-heading span {
-    background: #fff3f3;
-    color: var(--fawz-red);
-    font-weight: 800;
-    border-radius: 999px;
-    padding: 6px 11px;
 }
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
 }
 .product-card {
@@ -136,10 +122,6 @@ main {
     max-height: 85%;
     object-fit: contain;
 }
-.no-image-icon {
-    font-size: 3rem;
-    color: #ccc;
-}
 .product-info {
     padding: 16px;
     text-align: center;
@@ -147,13 +129,8 @@ main {
 .product-info h4 {
     font-size: 1rem;
     font-weight: 800;
-    margin: 0 0 6px;
-    text-transform: uppercase;
-}
-.product-info p {
-    font-size: 0.75rem;
-    color: #777;
     margin: 0;
+    text-transform: uppercase;
 }
 .hidden { display: none !important; }
 
@@ -255,6 +232,46 @@ main {
     background: #fff;
     cursor: pointer;
 }
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+.color-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+.color-option:hover {
+    border-color: var(--fawz-red);
+    background: #fff5f5;
+}
+.color-option.active {
+    border-color: var(--fawz-red);
+    background: #fff0f0;
+}
+.color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+.color-name {
+    font-size: 0.8rem;
+    color: #333;
+    text-transform: capitalize;
+    flex-shrink: 0;
+}
 .qty-input {
     width: 100%;
     padding: 14px;
@@ -262,13 +279,7 @@ main {
     border-radius: 12px;
     font-size: 1rem;
     background: #f8f8f8;
-    margin: 8px 0 12px;
-}
-#price {
-    font-size: 1.8rem;
-    font-weight: 900;
-    margin: 15px 0 20px;
-    color: var(--fawz-red);
+    margin: 8px 0 20px;
 }
 .btn-add {
     width: 100%;
@@ -291,10 +302,49 @@ main {
     .modal-content { grid-template-columns: 1fr; height: 90%; max-height: 90vh; }
     .modal-left { min-height: 160px; max-height: 200px; border-right: 0; border-bottom: 1px solid var(--border); padding: 20px; }
     .modal-right { padding: 20px; }
+    .color-grid { grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); }
 }
 </style>
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
+
+<div id="imageBank" class="hidden" aria-hidden="true">
+    <img id="img-satin-default" src="images/Ribbons/Satin Ribbon - Cover Picture .jpg" alt="Satin Ribbons Default">
+    <img id="img-metallic-default" src="images/home-covers/a2628cb3-ffdf-4e28-8678-1c7731cc4477.png" alt="Metallic Ribbons Default">
+
+    <img id="img-ribbon-gold-001" src="images/ribbons/001-Gold.jpg" alt="Gold 001 Ribbon">
+    <img id="img-ribbon-white" src="images/ribbons/01-White.jpg" alt="White Ribbon">
+    <img id="img-ribbon-yellow" src="images/ribbons/05-Yellow.jpg" alt="Yellow Ribbon">
+    <img id="img-ribbon-black" src="images/ribbons/07-Black.jpg" alt="Black Ribbon">
+    <img id="img-ribbon-powder" src="images/ribbons/08-Powder.jpg" alt="Powder Ribbon">
+    <img id="img-ribbon-royal" src="images/ribbons/09-Royal.jpg" alt="Royal Ribbon">
+    <img id="img-ribbon-red" src="images/ribbons/11-Red.jpg" alt="Red Ribbon">
+    <img id="img-ribbon-dusty" src="images/ribbons/12-Dusty.jpg" alt="Dusty Ribbon">
+    <img id="img-ribbon-gold-16" src="images/ribbons/16-Gold.jpg" alt="Gold 16 Ribbon">
+    <img id="img-ribbon-dark-brown" src="images/ribbons/17-DkBrown.jpg" alt="Dark Brown Ribbon">
+    <img id="img-ribbon-metallic-silver" src="images/ribbons/17-MetallicSilver.jpg" alt="Metallic Silver Ribbon">
+    <img id="img-ribbon-mint" src="images/ribbons/18-Mint.jpg" alt="Mint Ribbon">
+    <img id="img-ribbon-emerald" src="images/ribbons/19-Emerald.jpg" alt="Emerald Ribbon">
+    <img id="img-ribbon-bottle" src="images/ribbons/20-Bottle.jpg" alt="Bottle Ribbon">
+    <img id="img-ribbon-lime" src="images/ribbons/21-Lime.jpg" alt="Lime Ribbon">
+    <img id="img-ribbon-metallic-gold" src="images/ribbons/21-MetalicGold.jpg" alt="Metallic Gold Ribbon">
+    <img id="img-ribbon-maroon" src="images/ribbons/22-Maroon.jpg" alt="Maroon Ribbon">
+    <img id="img-ribbon-peach" src="images/ribbons/24-Peach.jpg" alt="Peach Ribbon">
+    <img id="img-ribbon-navy" src="images/ribbons/0025.jpg" alt="Navy Ribbon">
+    <img id="img-ribbon-orange" src="images/ribbons/28-Orange.jpg" alt="Orange Ribbon">
+    <img id="img-ribbon-cream" src="images/ribbons/0029.jpg" alt="Cream Ribbon">
+    <img id="img-ribbon-light-brown" src="images/ribbons/31-LtBrown.jpg" alt="Light Brown Ribbon">
+    <img id="img-ribbon-light-grey" src="images/ribbons/33-LtGrey.jpg" alt="Light Grey Ribbon">
+    <img id="img-ribbon-turq" src="images/ribbons/55-Turq.jpg" alt="Turq Ribbon">
+    <img id="img-ribbon-purple" src="images/ribbons/56-Purple.jpg" alt="Purple Ribbon">
+    <img id="img-ribbon-copper" src="images/ribbons/65-Copper.jpg" alt="Copper Ribbon">
+    <img id="img-ribbon-olive" src="images/ribbons/66-Olive.jpg" alt="Olive Ribbon">
+    <img id="img-ribbon-bronze" src="images/ribbons/67-Bronze.jpg" alt="Bronze Ribbon">
+    <img id="img-ribbon-old-gold" src="images/ribbons/68-OldGold.jpg" alt="Old Gold Ribbon">
+    <img id="img-ribbon-cerise" src="images/ribbons/cerise.jpg" alt="Cerise Ribbon">
+    <img id="img-ribbon-dark-grey" src="images/ribbons/dkgrey.jpg" alt="Dark Grey Ribbon">
+</div>
 
 <header>
     <div class="logo">Fawz <span>Haberdashery</span></div>
@@ -307,13 +357,18 @@ main {
 </header>
 
 <section class="hero">
-    <h1>Knitting &amp; Crochet</h1>
+    <h1>Ribbons</h1>
     <div class="toolbar">
-        <input id="searchBox" placeholder="Search knitting, crochet, cross stitch...">
+        <input id="searchBox" placeholder="Search ribbons...">
     </div>
 </section>
 
-<main id="mainContent"></main>
+<main>
+    <div class="section-heading">
+        <h3>All Ribbons</h3>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+</main>
 
 <div id="productModal" class="modal">
     <div class="modal-content">
@@ -324,475 +379,205 @@ main {
         <div class="modal-right">
             <h2 id="modalTitle">Product</h2>
             <div id="modalDesc" class="modal-desc"></div>
-            <div id="variantGroup" class="variant-group" style="display:none;">
-                <label id="variantLabel">Select Option</label>
-                <select id="variantSelect" class="variant-select"></select>
+            <div id="sizeGroup" class="variant-group" style="display:none;">
+                <label id="sizeLabel">Select Size</label>
+                <select id="sizeSelect" class="variant-select"></select>
             </div>
-            <label>Quantity</label>
-            <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="updatePrice()">
-            <div id="price">R 0.00</div>
+            <div id="colorGroup" class="variant-group" style="display:none;">
+                <label>Select Colour</label>
+                <div id="colorGrid" class="color-grid"></div>
+            </div>
+            <label>Quantity (Rolls)</label>
+            <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+            <input type="number" id="qty" class="qty-input" value="1" min="1">
             <button class="btn-add" onclick="addToCart()">Add to Cart</button>
         </div>
     </div>
 </div>
 
 <script>
-// ============================================================
-// KNITTING & CROCHET - Based on PDF Catalog
-// Sections: 1. Knitting, 2. Crochet, 3. Cross Stitch
-// ============================================================
-
-// Image paths from your images
-const IMAGES = {
-    // General images
-    box: "images/knittingandcrochet/box.jpg",
-    boxset: "images/knittingandcrochet/boxset.jpg",
-    led: "images/knittingandcrochet/LED.jpg",
-    pinkBagSet: "images/knittingandcrochet/pink BagSet.jpg",
-    plasticHandle: "images/knittingandcrochet/plasticHandle.jpg",
-    purpleBag: "images/knittingandcrochet/purpleBag.jpg",
-    accessories: "images/knittingandcrochet/accessories.jpg",
-    needles2: "images/knittingandcrochet/needles2.jpg",
-    sets: "images/knittingandcrochet/sets.jpg"
+const COLOR_MAP = {
+    "white": "#ffffff", "cream": "#FFFDD0", "peach": "#FFDAB9", "red": "#cc1c1c",
+    "old gold": "#CFB53B", "gold": "#c9973a", "black": "#1a1a1a", "powder": "#b0c8e8",
+    "mint": "#98FB98", "royal": "#2850b0", "olive": "#808000", "navy": "#1b2d6e",
+    "bottle": "#1a4a2e", "copper": "#B87333", "emerald": "#1a8050", "light brown": "#CD853F",
+    "dark brown": "#8B4513", "purple": "#6b2fa0", "bronze": "#CD7F32", "orange": "#e07820", 
+    "dusty": "#C9A9A9", "maroon": "#7B1C1C", "cerise": "#DE3163", "metallic gold": "#D4AF37", 
+    "metallic silver": "#C0C0C0", "turq": "#40E0D0", "lime": "#32CD32", "light grey": "#D3D3D3",
+    "dark grey": "#A9A9A9"
 };
 
-// ===== SECTION 1: KNITTING =====
-const knittingProducts = [
-    {
-        name: "Knitting Needles - Pairs",
-        image: IMAGES.needles2,
-        description: "Straight knitting needles. Length: 30cm. 10 pairs per box. Sizes: 2.50mm to 12.00mm.",
-        hasVariants: true,
-        variants: [
-            { name: "2.50-3.75mm 10 pairs", price: 53.41 },
-            { name: "4.00-5.00mm 10 pairs", price: 63.41 },
-            { name: "5.50-6.50mm 10 pairs", price: 77.88 },
-            { name: "7.00-7.50mm 10 pairs", price: 91.78 },
-            { name: "8.00-9.00mm 10 pairs", price: 109.31 },
-            { name: "10.00mm 10 pairs", price: 124.65 },
-            { name: "12.00mm 10 pairs", price: 149.62 }
-        ]
-    },
-    {
-        name: "Bamboo Knitting Needles",
-        image: IMAGES.needles2,
-        description: "Bamboo knitting needles. Length: 30cm. Per box.",
-        hasVariants: true,
-        variants: [
-            { name: "2.50-3.50mm/Box", price: 43.08 },
-            { name: "4.00-5.50mm/Box", price: 54.24 },
-            { name: "6.00-8.00mm/Box", price: 62.17 },
-            { name: "9-10mm/Box", price: 73.23 },
-            { name: "12mm/Box", price: 84.22 }
-        ]
-    },
-    {
-        name: "Circular Knitting Needles",
-        image: IMAGES.needles2,
-        description: "Circular knitting needles. 10 pairs per pack.",
-        hasVariants: true,
-        variants: [
-            { name: "2.50-3.50mm 10 pairs", price: 51.20 },
-            { name: "4.00-5.00mm 10 pairs", price: 56.89 },
-            { name: "5.50-7.00mm 10 pairs", price: 69.22 },
-            { name: "8.00-9.00mm 10 pairs", price: 79.65 },
-            { name: "10.00mm 10 pairs", price: 66.79 }
-        ]
-    },
-    {
-        name: "Crystal Knitting Needles",
-        image: IMAGES.sets,
-        description: "Crystal knitting needles. Length: 25cm and 35cm. Per pair.",
-        hasVariants: true,
-        variants: [
-            { name: "25cm 4-5mm Pair", price: 48.56 },
-            { name: "25cm 6-8mm Pair", price: 76.78 },
-            { name: "25cm 9-10mm Pair", price: 93.46 },
-            { name: "25cm 12mm Pair", price: 127.39 },
-            { name: "35cm 4-5mm Pair", price: 56.07 },
-            { name: "35cm 6-8mm Pair", price: 80.61 },
-            { name: "35cm 9-10mm Pair", price: 102.96 },
-            { name: "35cm 12mm Pair", price: 139.35 }
-        ]
-    },
-    {
-        name: "Double Point Needles",
-        image: IMAGES.needles2,
-        description: "Double point knitting needles. 20cm length.",
-        hasVariants: true,
-        variants: [
-            { name: "2.5mm", price: 35.00 }
-        ]
-    },
-    {
-        name: "Knitting Looms",
-        image: IMAGES.box,
-        description: "Knitting looms for circular and long knitting projects.",
-        hasVariants: true,
-        variants: [
-            { name: "Knitting Loom Long", price: 152.46 },
-            { name: "Knitting Loom Round", price: 152.46 },
-            { name: "Knitting Loom Small Round", price: 39.35 },
-            { name: "Miracle Knitting Loom", price: 39.35 }
-        ]
-    },
-    {
-        name: "Knitting Accessories",
-        image: IMAGES.accessories,
-        description: "Essential knitting accessories.",
-        hasVariants: true,
-        variants: [
-            { name: "Needle Storage Case 42cm", price: 36.30 },
-            { name: "Knit Markers Assorted", price: 7.79 },
-            { name: "Knitting Gauge", price: 3.84 },
-            { name: "Row Counter 2s", price: 9.80 },
-            { name: "Stitch Holder Red", price: 3.51 },
-            { name: "Plastic Wool Needles", price: 23.36 }
-        ]
-    },
-    {
-        name: "Embroidery Kit",
-        image: IMAGES.boxset,
-        description: "Complete embroidery kit. 215 pieces.",
-        price: 356.05
-    },
-    {
-        name: "Embroidery Punch Pen",
-        image: IMAGES.purpleBag,
-        description: "Embroidery punch pen tool.",
-        price: 28.80
-    }
+const COLOR_IMAGE_BANK_MAP = {
+    "gold": "img-ribbon-gold-001",
+    "white": "img-ribbon-white",
+    "black": "img-ribbon-black",
+    "powder": "img-ribbon-powder",
+    "royal": "img-ribbon-royal",
+    "red": "img-ribbon-red",
+    "dusty": "img-ribbon-dusty",
+    "dark brown": "img-ribbon-dark-brown",
+    "metallic silver": "img-ribbon-metallic-silver",
+    "mint": "img-ribbon-mint",
+    "emerald": "img-ribbon-emerald",
+    "bottle": "img-ribbon-bottle",
+    "lime": "img-ribbon-lime",
+    "metallic gold": "img-ribbon-metallic-gold",
+    "maroon": "img-ribbon-maroon",
+    "peach": "img-ribbon-peach",
+    "navy": "img-ribbon-navy",
+    "orange": "img-ribbon-orange",
+    "cream": "img-ribbon-cream",
+    "light brown": "img-ribbon-light-brown",
+    "light grey": "img-ribbon-light-grey",
+    "turq": "img-ribbon-turq",
+    "purple": "img-ribbon-purple",
+    "copper": "img-ribbon-copper",
+    "olive": "img-ribbon-olive",
+    "bronze": "img-ribbon-bronze",
+    "old gold": "img-ribbon-old-gold",
+    "cerise": "img-ribbon-cerise",
+    "dark grey": "img-ribbon-dark-grey"
+};
+
+const satinColors = [
+    "white", "cream", "peach", "red", "old gold", "gold", "black", "powder", "mint", "royal",
+    "olive", "navy", "bottle", "copper", "emerald", "light brown", "dark brown", "purple", 
+    "bronze", "orange", "dusty", "maroon", "cerise", "turq", "lime", "light grey", "dark grey"
 ];
 
-// ===== SECTION 2: CROCHET =====
-const crochetProducts = [
-    {
-        name: "Crochet Hook Set - Bag",
-        image: IMAGES.pinkBagSet,
-        description: "Crochet hook set in bag. 10pc Premium Bag or 100pcs Pink Bag, depending on selected option.",
-        hasVariants: true,
-        variants: [
-            { name: "10pc Bag - Premium", price: 90.00 },
-            { name: "Bag 100pcs Pink", price: 163.13 }
-        ]
-    },
-    {
-        name: "Crochet Hook Set - ALB",
-        image: IMAGES.purpleBag,
-        description: "ALB crochet hook set. 22 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "22pc Set", price: 83.45 }
-        ]
-    },
-    {
-        name: "Crochet Hook Set - ALC",
-        image: IMAGES.purpleBag,
-        description: "ALC crochet hook set. 12 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "12pc Set", price: 55.64 }
-        ]
-    },
-    {
-        name: "Crochet Hook Set - Bag Set",
-        image: IMAGES.pinkBagSet,
-        description: "Crochet hook bag set.",
-        hasVariants: true,
-        variants: [
-            { name: "Bag Set", price: 80.66 }
-        ]
-    },
-    {
-        name: "Bamboo Crochet Hooks",
-        image: IMAGES.needles2,
-        description: "Bamboo crochet hook set. 12 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "12pc Set", price: 56.41 }
-        ]
-    },
-    {
-        name: "Bamboo Crochet Bag Set",
-        image: IMAGES.purpleBag,
-        description: "Bamboo crochet hook bag set. 20 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "20pc Bag Set", price: 139.06 }
-        ]
-    },
-    {
-        name: "Crystal Crochet Hooks",
-        image: IMAGES.sets,
-        description: "Crystal crochet hook set. 9 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "9pc Set", price: 36.17 }
-        ]
-    },
-    {
-        name: "Floral Soft Touch Crochet Hooks",
-        image: IMAGES.pinkBagSet,
-        description: "Floral soft touch crochet hooks. 12 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "12pc Set", price: 160.00 }
-        ]
-    },
-    {
-        name: "Multi Colour LED Crochet Hooks",
-        image: IMAGES.led,
-        description: "Light up crochet hooks. Multi colour LED.",
-        hasVariants: true,
-        variants: [
-            { name: "LED Set", price: 248.58 }
-        ]
-    },
-    {
-        name: "Plastic Crochet Hooks",
-        image: IMAGES.plasticHandle,
-        description: "Plastic crochet hook set. 7 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "7pc Set", price: 107.00 }
-        ]
-    },
-    {
-        name: "Plastic Box Crochet Kit",
-        image: IMAGES.box,
-        description: "Crochet hook kit in plastic box.",
-        hasVariants: true,
-        variants: [
-            { name: "Plastic Box Kit", price: 155.36 }
-        ]
-    },
-    {
-        name: "Plastic Handle Crochet Hooks",
-        image: IMAGES.plasticHandle,
-        description: "Plastic handle crochet hooks. 12 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "12pc Set", price: 58.41 }
-        ]
-    },
-    {
-        name: "Rubber Grip Crochet Hooks",
-        image: IMAGES.accessories,
-        description: "Rubber grip crochet hooks. 9 pieces per set.",
-        hasVariants: true,
-        variants: [
-            { name: "9pc Set", price: 68.15 }
-        ]
-    },
-    {
-        name: "Grey Crochet Hooks - 10s",
-        image: IMAGES.needles2,
-        description: "Grey crochet hooks. 10 pieces per box. Sizes: 2.00mm to 7.00mm.",
-        hasVariants: true,
-        variants: [
-            { name: "2.00mm", price: 34.08 },
-            { name: "2.50mm", price: 34.08 },
-            { name: "3.00mm", price: 34.08 },
-            { name: "3.50mm", price: 34.08 },
-            { name: "4.00mm", price: 37.91 },
-            { name: "4.50mm", price: 37.91 },
-            { name: "5.00mm", price: 37.91 },
-            { name: "5.50mm", price: 47.29 },
-            { name: "6.00mm", price: 47.29 },
-            { name: "6.50mm", price: 50.57 },
-            { name: "7.00mm", price: 54.36 }
-        ]
-    },
-    {
-        name: "Silver Crochet Hooks - 10s",
-        image: IMAGES.needles2,
-        description: "Silver crochet hooks. 10 pieces per box. Sizes: 0.60mm to 2.00mm.",
-        hasVariants: true,
-        variants: [
-            { name: "0.60mm", price: 25.02 },
-            { name: "0.75mm", price: 25.02 },
-            { name: "1.00mm", price: 25.02 },
-            { name: "1.25mm", price: 25.02 },
-            { name: "1.50mm", price: 25.02 },
-            { name: "1.75mm", price: 25.02 },
-            { name: "2.00mm", price: 25.02 }
-        ]
-    }
-];
+const metallicColors = ["metallic gold", "metallic silver"];
 
-// ===== SECTION 3: CROSS STITCH =====
-const crossStitchProducts = [
+const products = [
     {
-        name: "Cross Stitch Kit",
-        image: IMAGES.boxset,
-        description: "Complete cross stitch kit with patterns, threads, needles, and fabric.",
-        price: 0,
-        isPOR: true
+        name: "Satin Ribbons",
+        defaultImageBankId: "img-satin-default",
+        description: "High quality satin ribbons. Perfect for gift wrapping, crafting, and decorations. 3mm comes in 150 yards per roll. All other sizes come in 30 yards per roll.",
+        sizes: ["3mm x 150yds", "6mm x 30yds", "9mm x 30yds", "15mm x 30yds", "25mm x 30yds", "38mm x 30yds", "50mm x 30yds"],
+        colors: satinColors,
+        packaging: "Per roll"
     },
     {
-        name: "Embroidery Threads Set",
-        image: IMAGES.box,
-        description: "Assorted embroidery thread set. Full range of colours.",
-        price: 0,
-        isPOR: true
-    },
-    {
-        name: "Cross Stitch Fabric",
-        image: IMAGES.accessories,
-        description: "Aida cross stitch fabric. Various counts available.",
-        price: 0,
-        isPOR: true
-    },
-    {
-        name: "Embroidery Hoops",
-        image: IMAGES.sets,
-        description: "Wooden embroidery hoops for cross stitch.",
-        price: 0,
-        isPOR: true
+        name: "Metallic Ribbons",
+        defaultImageBankId: "img-metallic-default",
+        description: "Metallic finish ribbons. Perfect for gift wrapping, crafts, and festive decorations. 3mm comes in 150 yards per roll. All other sizes come in 30 yards per roll.",
+        sizes: ["3mm x 150yds", "6mm x 30yds", "9mm x 30yds", "15mm x 30yds", "25mm x 30yds", "38mm x 30yds", "50mm x 30yds"],
+        colors: metallicColors,
+        packaging: "Per roll"
     }
 ];
 
 let currentProduct = null;
-let currentVariant = null;
-let currentPrice = 0;
+let currentSize = null;
+let currentColor = null;
 
-function renderCategory(title, products, container) {
-    if (products.length === 0) return;
+function getBankSrc(id) {
+    const imgEl = document.getElementById(id);
+    return imgEl ? imgEl.src : '';
+}
+
+function renderProducts() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
     
-    const groupDiv = document.createElement('div');
-    groupDiv.className = 'category-group';
-    groupDiv.innerHTML = `
-        <div class="group-heading">
-            <h3>${title}</h3>
-            <span>${products.length} items</span>
-        </div>
-        <div class="product-grid" id="grid-${title.replace(/\s/g, '')}"></div>
-    `;
-    container.appendChild(groupDiv);
-    
-    const grid = groupDiv.querySelector(`.product-grid`);
     products.forEach(prod => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.onclick = () => openModal(prod);
-        
-        const imageHtml = prod.image ? 
-            `<img src="${prod.image}" alt="${prod.name}">` : 
-            '<div class="no-image-icon">🧵</div>';
-        
-        let priceText = '';
-        if (prod.isPOR) {
-            priceText = 'Price on request';
-        } else if (prod.hasVariants) {
-            priceText = `${prod.variants.length} options`;
-        } else if (prod.price !== undefined) {
-            priceText = `R${prod.price.toFixed(2)}`;
-        }
-        
         card.innerHTML = `
             <div class="product-img-wrap">
-                ${imageHtml}
+                <img src="${getBankSrc(prod.defaultImageBankId)}" alt="${prod.name}">
             </div>
             <div class="product-info">
                 <h4>${prod.name}</h4>
-                <p>${priceText}</p>
             </div>
         `;
         grid.appendChild(card);
     });
 }
 
-function renderAllCategories() {
-    const main = document.getElementById('mainContent');
-    main.innerHTML = '';
-    
-    renderCategory('Knitting', knittingProducts, main);
-    renderCategory('Crochet', crochetProducts, main);
-    renderCategory('Cross Stitch', crossStitchProducts, main);
-}
-
 function openModal(product) {
     currentProduct = product;
-    currentVariant = null;
-    currentPrice = product.price || 0;
+    currentSize = null;
+    currentColor = null;
     
     document.getElementById('modalTitle').innerText = product.name;
-    document.getElementById('modalDesc').innerHTML = product.description || '';
+    document.getElementById('modalDesc').innerHTML = `${product.description}<br><strong>Packaging:</strong> ${product.packaging}`;
     
-    const modalImg = document.getElementById('modalImg');
-    if (product.image) {
-        modalImg.src = product.image;
-        modalImg.style.display = 'block';
-    } else {
-        modalImg.style.display = 'none';
-    }
-    
+    document.getElementById('modalImg').src = getBankSrc(product.defaultImageBankId);
     document.getElementById('qty').value = 1;
     
-    const variantGroup = document.getElementById('variantGroup');
+    const sizeGroup = document.getElementById('sizeGroup');
+    const colorGroup = document.getElementById('colorGroup');
     
-    if (product.hasVariants && product.variants) {
-        variantGroup.style.display = 'block';
-        document.getElementById('variantLabel').innerText = 'Select Option';
-        const variantSelect = document.getElementById('variantSelect');
-        variantSelect.innerHTML = product.variants.map((v, idx) => 
-            `<option value="${idx}" data-price="${v.price}">${v.name} - R${v.price.toFixed(2)}</option>`
-        ).join('');
-        variantSelect.onchange = () => {
-            const idx = variantSelect.value;
-            currentVariant = product.variants[idx];
-            currentPrice = currentVariant.price;
-            updatePrice();
+    if (product.sizes) {
+        sizeGroup.style.display = 'block';
+        document.getElementById('sizeLabel').innerText = 'Select Size';
+        const sizeSelect = document.getElementById('sizeSelect');
+        sizeSelect.innerHTML = product.sizes.map(sz => `<option value="${sz}">${sz}</option>`).join('');
+        sizeSelect.onchange = () => {
+            currentSize = sizeSelect.value;
         };
-        currentVariant = product.variants[0];
-        currentPrice = currentVariant.price;
+        currentSize = product.sizes[0];
     } else {
-        variantGroup.style.display = 'none';
-        if (product.isPOR) {
-            currentPrice = 0;
-        }
+        sizeGroup.style.display = 'none';
     }
     
-    updatePrice();
+    if (product.colors && product.colors.length > 0) {
+        colorGroup.style.display = 'block';
+        const colorGrid = document.getElementById('colorGrid');
+        const sortedColors = [...product.colors].sort();
+        colorGrid.innerHTML = sortedColors.map(col => `
+            <div class="color-option" data-color="${col}" onclick="selectColor('${col}')">
+                <div class="color-swatch" style="background: ${COLOR_MAP[col] || '#ccc'};"></div>
+                <span class="color-name">${col}</span>
+            </div>
+        `).join('');
+        if (sortedColors.length > 0) selectColor(sortedColors[0]);
+    } else {
+        colorGroup.style.display = 'none';
+    }
+    
     document.getElementById('productModal').style.display = 'flex';
 }
 
-function updatePrice() {
-    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
-    if (currentPrice === 0 || currentPrice === undefined) {
-        document.getElementById('price').innerHTML = `Price on request`;
-    } else {
-        document.getElementById('price').innerHTML = `R${(currentPrice * qty).toFixed(2)}`;
+function selectColor(colorName) {
+    currentColor = colorName;
+    
+    document.querySelectorAll('.color-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.color === colorName);
+    });
+
+    const imageBankId = COLOR_IMAGE_BANK_MAP[colorName] || currentProduct.defaultImageBankId;
+    const newSrc = getBankSrc(imageBankId);
+    
+    if (newSrc) {
+        document.getElementById('modalImg').src = newSrc;
     }
 }
 
 function addToCart() {
     if (!currentProduct) return;
-    
     let productName = currentProduct.name;
-    if (currentVariant) {
-        productName += ` - ${currentVariant.name}`;
-    }
+    if (currentSize) productName += ` - ${currentSize}`;
+    if (currentColor) productName += ` (${currentColor})`;
     
     const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
-    
-    if (currentPrice === 0 || currentPrice === undefined) {
-        alert(`Please contact us for pricing on ${productName}`);
-        return;
-    }
-    
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    const activeImageBankId = COLOR_IMAGE_BANK_MAP[currentColor] || currentProduct.defaultImageBankId;
+
     cart.push({
         product: productName,
-        category: "Knitting & Crochet",
-        variant: currentVariant ? currentVariant.name : null,
-        qty: qty,
-        price: currentPrice,
-        unitPrice: currentPrice,
-        total: currentPrice * qty,
+        category: "Ribbons",
+        size: currentSize || 'Standard',
+        color: currentColor || null,
+        imageBankId: activeImageBankId,
+        imageSrc: getBankSrc(activeImageBankId),
+        qty: qty
     });
+    
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`Added to cart: ${productName} x${qty}`);
+    window.FawzCartNotice.show(`Added to cart: ${productName} x${qty}`);
     closeModal();
 }
 
@@ -803,28 +588,16 @@ function closeModal() {
 function filterProducts() {
     const search = document.getElementById('searchBox').value.toLowerCase();
     const cards = document.querySelectorAll('.product-card');
-    const groups = document.querySelectorAll('.category-group');
-    
     cards.forEach(card => {
         const text = card.innerText.toLowerCase();
         card.classList.toggle('hidden', !text.includes(search));
-    });
-    
-    groups.forEach(group => {
-        const visibleCards = group.querySelectorAll('.product-card:not(.hidden)').length;
-        group.style.display = visibleCards === 0 ? 'none' : 'block';
     });
 }
 
 document.getElementById('searchBox')?.addEventListener('input', filterProducts);
 window.onclick = (e) => { if (e.target === document.getElementById('productModal')) closeModal(); };
 
-renderAllCategories();
+renderProducts();
 </script>
-<script src="fawz-site.js"></script>
-<script src="fawz-secure-pricing.js"></script>
-<script src="fawz-inactivity.js"></script>
-<script src="fawz-content-protection.js"></script>
-<script src="fawz-modal-navigation.js"></script>
-</body>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script></body>
 </html>

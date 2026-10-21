@@ -69,6 +69,7 @@ input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius
 
 
 <link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 <header>
@@ -847,7 +848,7 @@ function addToCart() {
   });
   
   localStorage.setItem('cart', JSON.stringify(cart));
-  alert(`Added ${qty} x ${selectedProduct.name} to your cart successfully!`);
+  window.FawzCartNotice.show(`Added ${qty} x ${selectedProduct.name} to your cart successfully!`);
   closeProductModal();
 }
 

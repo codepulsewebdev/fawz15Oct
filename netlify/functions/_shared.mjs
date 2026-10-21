@@ -27,7 +27,8 @@ export const clearCookies = () => ['fawz_session=; Path=/; HttpOnly; Secure; Sam
 export const csrfToken = () => crypto.randomBytes(24).toString('base64url');
 export const validTier = (tier) => ['A', 'B', 'C', 'D', 'E'].includes(tier);
 export const cleanText = (value, max = 300) => String(value ?? '').replace(/[<>]/g, '').trim().slice(0, max);
-export const cleanProductId = (value) => /^[A-Za-z0-9._-]{1,180}$/.test(String(value || '')) ? String(value) : '';
+export const cleanProductId = (value) => {const id=String(value||'').trim();return id.length>0&&id.length<=180&&!/[\x00-\x1f\x7f]/.test(id)&&!id.includes('${')?id:''};
+export const productKey = (id) => encodeURIComponent(id);
 export const cleanPrice = (value) => {
   if (value === '' || value == null) return null;
   const price = Number(value);
@@ -40,13 +41,14 @@ export const profileData = (uid, data = {}) => ({
   displayName: data.displayName || data.display_name || '',
   tier: data.tier || data.price_tier || 'A',
   role: data.role || 'approved_user',
+  internalStaff: data.internalStaff===true || data.role==='staff',
   approved: data.approved ?? data.admin_approved ?? false,
   disabled: Boolean(data.disabled || data.disabled_at),
   mustChangePassword: Boolean(data.mustChangePassword ?? data.must_change_password),
   address: data.address || '',
   phone: data.phone || ''
 });
-export const clientUser = (user) => ({ id: user.id, email: user.email, displayName: user.displayName, role: user.role, mustChangePassword: user.mustChangePassword, address: user.address, phone: user.phone });
+export const clientUser = (user) => ({ id: user.id, email: user.email, displayName: user.displayName, role: user.role, internalStaff: user.internalStaff, mustChangePassword: user.mustChangePassword, address: user.address, phone: user.phone });
 export async function currentUser(event, { admin = false, approved = true } = {}) {
   const token = cookies(event).fawz_session;
   if (!token) throw Object.assign(new Error('Please log in.'), { statusCode: 401 });

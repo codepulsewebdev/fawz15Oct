@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hook & Loop | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+
+<style>
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+.logo span{color:var(--fawz-red)}
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+.hero p{color:#666;max-width:900px;line-height:1.6}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.toolbar input,.toolbar select,.variant-select{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:240px;font-size:1rem;background:#fff}
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+.product-section{margin:32px 0 54px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;border-left:6px solid var(--fawz-red);padding-left:14px;margin-bottom:18px}
+.section-heading h3{font-size:1.6rem;margin:0;text-transform:uppercase}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.product-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s}
+.product-card:hover{transform:translateY(-4px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+.product-img-wrap{height:190px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;padding:14px}
+.product-info{padding:15px}
+.category-pill{display:inline-block;font-size:.72rem;font-weight:900;text-transform:uppercase;background:#f2f2f2;border-radius:999px;padding:5px 8px;color:#555}
+.product-info h4{font-size:1rem;margin:12px 0 8px;line-height:1.3}
+.product-id{font-size:.76rem;color:#777;word-break:break-all;margin:0 0 8px}
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);padding:30px 12px}
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:520px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:5}
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border)}
+.modal-left img{max-width:100%;max-height:430px;object-fit:contain}
+.modal-right{padding:42px 36px}
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all}
+label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+input{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+#qty{margin-bottom:24px}
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px}
+.btn-add:hover{background:#b3161a}
+.hidden{display:none!important}
+
+/* Color Picker Swatches Table Layout */
+.color-swatch-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px}
+.color-swatch-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;cursor:pointer;background:#fff;transition:.2s;font-size:.9rem;font-weight:600}
+.color-swatch-item:hover{border-color:var(--fawz-red)}
+.color-swatch-item.active{border:2px solid var(--fawz-red);background:#fff3f3;color:var(--fawz-red)}
+.color-square{width:18px;height:18px;border-radius:4px;border:1px solid rgba(0,0,0,.15);flex-shrink:0}
+
+@media(max-width:760px){
+header{align-items:flex-start;flex-direction:column}
+nav a{margin:0 14px 0 0}
+.modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}
+.modal-left{min-height:260px;border-right:0;border-bottom:1px solid var(--border)}
+}
+</style>
+
+
+
+<link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
+</head>
+
+<body>
+<!-- Image Bank for Hook & Loop Items (Each Size & Color Combo Has Its Own Image Element) -->
+<div id="imageBank" style="display:none;">
+
+  <!-- Group 1: Standard Hook & Loop 25m Roll -->
+  <img id="img_hook-loop-16mm-white-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-16mm-black-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-20mm-white-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-20mm-black-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-25mm-white-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-25mm-black-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-38mm-white-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-38mm-black-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-50mm-white-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-50mm-black-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-100mm-white-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_hook-loop-100mm-black-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-510x510.jpg" alt="">
+
+  <!-- Group 2: Adhesive Hook & Loop Dots -->
+  <img id="img_hook-loop-dots-10mm-18s-white" src="images/Hook & Loop (Velcro)/Hook & Loop Dots White/10mm.jpg" alt="">
+  <img id="img_hook-loop-dots-10mm-18s-black" src="images/Hook & Loop (Velcro)/Hook & Loop Dots Black/black10mm.jpg" alt="">
+  <img id="img_hook-loop-dots-15mm-12s-white" src="images/Hook & Loop (Velcro)/Hook & Loop Dots White/15mm.jpg" alt="">
+  <img id="img_hook-loop-dots-15mm-12s-black" src="images/Hook & Loop (Velcro)/Hook & Loop Dots Black/black15mm.jpg" alt="">
+  <img id="img_hook-loop-dots-20mm-10s-white" src="images/Hook & Loop (Velcro)/Hook & Loop Dots White/20mm.jpg" alt="">
+  <img id="img_hook-loop-dots-20mm-10s-black" src="images/Hook & Loop (Velcro)/Hook & Loop Dots Black/black20mm.jpg" alt="">
+  <img id="img_hook-loop-dots-25mm-8s-white" src="images/Hook & Loop (Velcro)/Hook & Loop Dots White/25mm.jpg" alt="">
+  <img id="img_hook-loop-dots-25mm-8s-black" src="images/Hook & Loop (Velcro)/Hook & Loop Dots Black/black25mm.jpg" alt="">
+
+  <!-- Group 3: Auto Adhesive Hook & Loop 25m Roll -->
+  <img id="img_auto-adhesive-hook-loop-20mm-white-25m" src="images/Hook & Loop (Velcro)/AUTO-ADHESIVE-HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_auto-adhesive-hook-loop-20mm-black-25m" src="images/Hook & Loop (Velcro)/AUTO-ADHESIVE-HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_auto-adhesive-hook-loop-25mm-white-25m" src="images/Hook & Loop (Velcro)/AUTO-ADHESIVE-HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_auto-adhesive-hook-loop-25mm-black-25m" src="images/Hook & Loop (Velcro)/AUTO-ADHESIVE-HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_auto-adhesive-hook-loop-50mm-white-25m" src="images/Hook & Loop (Velcro)/AUTO-ADHESIVE-HOOK-AND-LOOP-510x510.jpg" alt="">
+  <img id="img_auto-adhesive-hook-loop-50mm-black-25m" src="images/Hook & Loop (Velcro)/AUTO-ADHESIVE-HOOK-AND-LOOP-510x510.jpg" alt="">
+
+  <!-- Group 4: Colored Hook & Loop 25m Roll -->
+  <img id="img_hook-loop-beige-25mm-25m" src="images/Hook & Loop (Velcro)/beige.jpg" alt="">
+  <img id="img_hook-loop-beige-38mm-25m" src="images/Hook & Loop (Velcro)/beige.jpg" alt="">
+  <img id="img_hook-loop-beige-50mm-25m" src="images/Hook & Loop (Velcro)/beige.jpg" alt="">
+  <img id="img_hook-loop-beige-100mm-25m" src="images/Hook & Loop (Velcro)/beige.jpg" alt="">
+
+  <img id="img_hook-loop-military-green-25mm-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-MILITARY-GREEN-510x510.jpg" alt="">
+  <img id="img_hook-loop-military-green-38mm-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-MILITARY-GREEN-510x510.jpg" alt="">
+  <img id="img_hook-loop-military-green-50mm-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-MILITARY-GREEN-510x510.jpg" alt="">
+  <img id="img_hook-loop-military-green-100mm-25m" src="images/Hook & Loop (Velcro)/HOOK-AND-LOOP-MILITARY-GREEN-510x510.jpg" alt="">
+
+  <img id="img_hook-loop-grey-25mm-25m" src="images/Hook & Loop (Velcro)/grey.jpg" alt="">
+  <img id="img_hook-loop-grey-38mm-25m" src="images/Hook & Loop (Velcro)/grey.jpg" alt="">
+  <img id="img_hook-loop-grey-50mm-25m" src="images/Hook & Loop (Velcro)/grey.jpg" alt="">
+  <img id="img_hook-loop-grey-100mm-25m" src="images/Hook & Loop (Velcro)/grey.jpg" alt="">
+
+  <img id="img_hook-loop-navy-25mm-25m" src="images/Hook & Loop (Velcro)/navy.jpg" alt="">
+  <img id="img_hook-loop-navy-38mm-25m" src="images/Hook & Loop (Velcro)/navy.jpg" alt="">
+  <img id="img_hook-loop-navy-50mm-25m" src="images/Hook & Loop (Velcro)/navy.jpg" alt="">
+  <img id="img_hook-loop-navy-100mm-25m" src="images/Hook & Loop (Velcro)/navy.jpg" alt="">
+</div>
+
+<header>
+  <div class="logo">Fawz <span>Haberdashery</span></div>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="all-products.html">All Products</a>
+    <a href="demo_cart.html">View Cart</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Hook & Loop</h1>
+
+  <div class="toolbar">
+    <input id="searchBox" placeholder="Search products or options...">
+    <select id="categoryFilter">
+      <option value="">All categories</option>
+      <option value="Hook & Loop">Hook & Loop</option>
+    </select>
+  </div>
+</section>
+
+<main>
+
+<section class="product-section" data-category-section="Hook & Loop">
+  <div class="section-heading"><h3>Hook & Loop Fasteners</h3></div>
+  <div class="product-grid">
+
+    <!-- Group 1: Hook & Loop 25m Roll -->
+    <article class="product-card" data-parent-id="hook-and-loop-25m-roll" data-category="Hook & Loop" onclick="openProduct('hook-and-loop-25m-roll')">
+      <div class="product-img-wrap"><img id="cover-hook-and-loop-25m-roll" src="" alt="Hook & Loop 25m Roll" loading="lazy"></div>
+      <div class="product-info">
+        <span class="category-pill">Hook & Loop</span>
+        <h4>Hook & Loop 25m Roll</h4>
+        <p class="product-id">Choose options inside</p>
+      </div>
+    </article>
+
+    <!-- Group 2: Adhesive Hook & Loop Dots -->
+    <article class="product-card" data-parent-id="adhesive-hook-and-loop-dots" data-category="Hook & Loop" onclick="openProduct('adhesive-hook-and-loop-dots')">
+      <div class="product-img-wrap"><img id="cover-adhesive-hook-and-loop-dots" src="" alt="Adhesive Hook & Loop Dots" loading="lazy"></div>
+      <div class="product-info">
+        <span class="category-pill">Hook & Loop</span>
+        <h4>Adhesive Hook & Loop Dots</h4>
+        <p class="product-id">Choose options inside</p>
+      </div>
+    </article>
+
+    <!-- Group 3: Auto Adhesive Hook & Loop -->
+    <article class="product-card" data-parent-id="auto-adhesive-hook-and-loop" data-category="Hook & Loop" onclick="openProduct('auto-adhesive-hook-and-loop')">
+      <div class="product-img-wrap"><img id="cover-auto-adhesive-hook-and-loop" src="" alt="Auto Adhesive Hook & Loop" loading="lazy"></div>
+      <div class="product-info">
+        <span class="category-pill">Hook & Loop</span>
+        <h4>Auto Adhesive Hook & Loop</h4>
+        <p class="product-id">Choose options inside</p>
+      </div>
+    </article>
+
+    <!-- Group 4: Colored Hook & Loop 25m Roll -->
+    <article class="product-card" data-parent-id="colored-hook-and-loop-25m" data-category="Hook & Loop" onclick="openProduct('colored-hook-and-loop-25m')">
+      <div class="product-img-wrap"><img id="cover-colored-hook-and-loop-25m" src="" alt="Colored Hook & Loop" loading="lazy"></div>
+      <div class="product-info">
+        <span class="category-pill">Hook & Loop</span>
+        <h4>Colored Hook & Loop</h4>
+        <p class="product-id">Choose options inside</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+</main>
+
+<!-- Modal Template -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close-x" onclick="closeModal()">&times;</span>
+    <div class="modal-left"><img id="modalImg" src="" alt=""></div>
+    <div class="modal-right">
+      <h2 id="modalTitle">Product</h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+      <p class="modal-meta" id="modalDesc"></p>
+      <p class="modal-meta" id="modalCategory"></p>
+      <p class="modal-meta">Product ID: <strong id="modalProductId"></strong></p>
+      <div id="variantFields"></div>
+      <label>Quantity</label>
+      <div class="firebase-price fawz-secure-price" data-current-price aria-live="polite">Loading price…</div>
+      <input type="number" id="qty" value="1" min="1">
+      <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SIZES_STANDARD = ["16mm", "20mm", "25mm", "38mm", "50mm", "100mm"];
+const SIZES_AUTO = ["20mm", "25mm", "50mm"];
+const COLORS_STANDARD = ["White", "Black"];
+
+// Hex mappings for colored visual swatches
+const COLOR_HEX_MAP = {
+  "Beige": "#f5f5dc",
+  "Military Green": "#4b5320",
+  "Grey": "#808080",
+  "Navy": "#000080"
+};
+
+function build25mRollVariants(prefix, sizesList) {
+  const list = [];
+  sizesList.forEach(size => {
+    COLORS_STANDARD.forEach(color => {
+      const pId = `${prefix}-${size.toLowerCase()}-${color.toLowerCase()}-25m`;
+      list.push({
+        size,
+        color,
+        productId: pId,
+        name: `Hook & Loop ${size} ${color} - 25m Roll`,
+        imgKey: `img_${pId}`
+      });
+    });
+  });
+  return list;
+}
+
+const PRODUCT_GROUPS = [
+  {
+    id: "hook-and-loop-25m-roll",
+    title: "Hook & Loop 25m Roll",
+    category: "Hook & Loop",
+    desc: "Standard 25m roll. Select width and colour.",
+    fields: [
+      { key: "size", label: "Select Size", options: SIZES_STANDARD },
+      { key: "color", label: "Select Colour", options: COLORS_STANDARD }
+    ],
+    variants: build25mRollVariants("hook-loop", SIZES_STANDARD)
+  },
+  {
+    id: "adhesive-hook-and-loop-dots",
+    title: "Adhesive Hook & Loop Dots",
+    category: "Hook & Loop",
+    desc: "Self-adhesive hook & loop dots. Select size and colour.",
+    fields: [
+      { key: "size", label: "Select Size", options: ["10mm (18s)", "15mm (12s)", "20mm (10s)", "25mm (8s)"] },
+      { key: "color", label: "Select Colour", options: COLORS_STANDARD }
+    ],
+    variants: [
+      { size: "10mm (18s)", color: "White", productId: "hook-loop-dots-10mm-18s-white", name: "Adhesive Dots 10mm White (18s)", imgKey: "img_hook-loop-dots-10mm-18s-white" },
+      { size: "10mm (18s)", color: "Black", productId: "hook-loop-dots-10mm-18s-black", name: "Adhesive Dots 10mm Black (18s)", imgKey: "img_hook-loop-dots-10mm-18s-black" },
+      { size: "15mm (12s)", color: "White", productId: "hook-loop-dots-15mm-12s-white", name: "Adhesive Dots 15mm White (12s)", imgKey: "img_hook-loop-dots-15mm-12s-white" },
+      { size: "15mm (12s)", color: "Black", productId: "hook-loop-dots-15mm-12s-black", name: "Adhesive Dots 15mm Black (12s)", imgKey: "img_hook-loop-dots-15mm-12s-black" },
+      { size: "20mm (10s)", color: "White", productId: "hook-loop-dots-20mm-10s-white", name: "Adhesive Dots 20mm White (10s)", imgKey: "img_hook-loop-dots-20mm-10s-white" },
+      { size: "20mm (10s)", color: "Black", productId: "hook-loop-dots-20mm-10s-black", name: "Adhesive Dots 20mm Black (10s)", imgKey: "img_hook-loop-dots-20mm-10s-black" },
+      { size: "25mm (8s)", color: "White", productId: "hook-loop-dots-25mm-8s-white", name: "Adhesive Dots 25mm White (8s)", imgKey: "img_hook-loop-dots-25mm-8s-white" },
+      { size: "25mm (8s)", color: "Black", productId: "hook-loop-dots-25mm-8s-black", name: "Adhesive Dots 25mm Black (8s)", imgKey: "img_hook-loop-dots-25mm-8s-black" }
+    ]
+  },
+  {
+    id: "auto-adhesive-hook-and-loop",
+    title: "Auto Adhesive Hook & Loop",
+    category: "Hook & Loop",
+    desc: "Self-adhesive hook & loop 25m rolls. Select width and colour.",
+    fields: [
+      { key: "size", label: "Select Size", options: SIZES_AUTO },
+      { key: "color", label: "Select Colour", options: COLORS_STANDARD }
+    ],
+    variants: build25mRollVariants("auto-adhesive-hook-loop", SIZES_AUTO)
+  },
+  {
+    id: "colored-hook-and-loop-25m",
+    title: "Colored Hook & Loop",
+    category: "Hook & Loop",
+    desc: "Specialty colour 25m rolls. Select colour and width.",
+    useCustomColorPicker: true,
+    fields: [
+      { key: "color", label: "Select Colour", options: ["Beige", "Military Green", "Grey", "Navy"] },
+      { key: "size", label: "Select Size", options: ["25mm", "38mm", "50mm", "100mm"] }
+    ],
+    variants: (function(){
+      const colors = ["Beige", "Military Green", "Grey", "Navy"];
+      const sizes = ["25mm", "38mm", "50mm", "100mm"];
+      const list = [];
+      colors.forEach(color => {
+        sizes.forEach(size => {
+          const colorSlug = color.toLowerCase().replace(/\s+/g, '-');
+          const pId = `hook-loop-${colorSlug}-${size.toLowerCase()}-25m`;
+          list.push({
+            color,
+            size,
+            productId: pId,
+            name: `Hook & Loop 25m - ${color} ${size}`,
+            imgKey: `img_${pId}`
+          });
+        });
+      });
+      return list;
+    })()
+  }
+];
+
+let activeGroup = null;
+let selectedProduct = null;
+
+function byId(id){ return document.getElementById(id); }
+function getGroup(id){ return PRODUCT_GROUPS.find(p => p.id === id); }
+
+function getBankImgSrc(imgKey) {
+  const bankEl = byId(imgKey);
+  return bankEl ? bankEl.getAttribute('src') : '';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  PRODUCT_GROUPS.forEach(group => {
+    const targetImg = byId('cover-' + group.id);
+    if (targetImg && group.variants && group.variants.length > 0) {
+      const firstVariantKey = group.variants[0].imgKey;
+      targetImg.src = getBankImgSrc(firstVariantKey);
+    }
+  });
+});
+
+function openProduct(parentId){
+  activeGroup = getGroup(parentId);
+  if(!activeGroup) return;
+
+  byId('modalTitle').textContent = activeGroup.title;
+  byId('modalDesc').textContent = activeGroup.desc || '';
+  byId('modalCategory').textContent = activeGroup.category;
+  
+  byId('qty').value = 1;
+
+  renderVariantFields();
+  byId('productModal').style.display = 'block';
+  resolveSelectedVariant();
+}
+
+function renderVariantFields(){
+  const wrap = byId('variantFields');
+  wrap.innerHTML = '';
+
+  (activeGroup.fields || []).forEach(field => {
+    const label = document.createElement('label');
+    label.textContent = field.label;
+    wrap.appendChild(label);
+
+    // Custom visual swatch grid for Hook & Loop Colors
+    if (field.key === 'color' && activeGroup.useCustomColorPicker) {
+      const grid = document.createElement('div');
+      grid.className = 'color-swatch-grid';
+
+      const hiddenSelect = document.createElement('select');
+      hiddenSelect.id = 'field_' + field.key;
+      hiddenSelect.className = 'hidden';
+
+      field.options.forEach((opt, index) => {
+        const option = document.createElement('option');
+        option.value = opt;
+        option.textContent = opt;
+        hiddenSelect.appendChild(option);
+
+        const item = document.createElement('div');
+        item.className = 'color-swatch-item' + (index === 0 ? ' active' : '');
+        item.dataset.color = opt;
+
+        const sq = document.createElement('span');
+        sq.className = 'color-square';
+        sq.style.backgroundColor = COLOR_HEX_MAP[opt] || '#ccc';
+
+        const txt = document.createElement('span');
+        txt.textContent = opt;
+
+        item.appendChild(sq);
+        item.appendChild(txt);
+
+        item.onclick = function() {
+          grid.querySelectorAll('.color-swatch-item').forEach(el => el.classList.remove('active'));
+          item.classList.add('active');
+          hiddenSelect.value = opt;
+          resolveSelectedVariant();
+        };
+
+        grid.appendChild(item);
+      });
+
+      wrap.appendChild(grid);
+      wrap.appendChild(hiddenSelect);
+    } else {
+      const select = document.createElement('select');
+      select.className = 'variant-select';
+      select.id = 'field_' + field.key;
+      select.onchange = resolveSelectedVariant;
+
+      field.options.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt;
+        option.textContent = opt;
+        select.appendChild(option);
+      });
+
+      wrap.appendChild(select);
+    }
+  });
+}
+
+function resolveSelectedVariant(){
+  if(!activeGroup) return;
+
+  const chosen = {};
+  (activeGroup.fields || []).forEach(field => {
+    chosen[field.key] = byId('field_' + field.key)?.value || '';
+  });
+
+  selectedProduct = activeGroup.variants.find(v =>
+    Object.keys(chosen).every(k => String(v[k] || '') === String(chosen[k] || ''))
+  ) || activeGroup.variants[0];
+
+  if(!selectedProduct) return;
+
+  selectedProduct.category = activeGroup.category;
+  selectedProduct.parentName = activeGroup.title;
+
+  window.fawzCurrentProductId = selectedProduct.productId;
+  window.fawzCurrentProductName = selectedProduct.name;
+
+  byId('modalProductId').textContent = selectedProduct.productId;
+  
+  // Update image specifically based on selected variant's imgKey
+  const finalImgKey = selectedProduct.imgKey;
+  byId('modalImg').src = getBankImgSrc(finalImgKey);
+}
+
+function closeModal(){
+  byId('productModal').style.display = 'none';
+}
+
+function addToCart(){
+  if(!selectedProduct) return;
+
+  const qty = Math.max(parseInt(byId('qty').value || '1',10) || 1, 1);
+
+  const options = {};
+  (activeGroup.fields || []).forEach(field => {
+    options[field.key] = byId('field_' + field.key)?.value || '';
+  });
+
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  cart.push({
+    product: selectedProduct.name,
+    parentProduct: activeGroup.title,
+    productId: selectedProduct.productId,
+    category: activeGroup.category,
+    size: options.size || 'Standard',
+    color: options.color || '',
+    options,
+    qty
+  });
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  window.FawzCartNotice.show('Added to cart: ' + selectedProduct.name);
+}
+
+function filterProducts(){
+  const q = byId('searchBox').value.toLowerCase().trim();
+  const c = byId('categoryFilter').value;
+
+  document.querySelectorAll('.product-section').forEach(sec => {
+    let visible = 0;
+
+    sec.querySelectorAll('.product-card').forEach(card => {
+      const group = getGroup(card.dataset.parentId);
+      const variantText = group ? JSON.stringify(group).toLowerCase() : '';
+      const text = (card.textContent + ' ' + variantText).toLowerCase();
+      const ok = (!q || text.includes(q)) && (!c || card.dataset.category === c);
+
+      card.classList.toggle('hidden', !ok);
+      if(ok) visible++;
+    });
+
+    sec.classList.toggle('hidden', visible === 0);
+  });
+}
+
+byId('searchBox').addEventListener('input', filterProducts);
+byId('categoryFilter').addEventListener('change', filterProducts);
+
+window.onclick = e => {
+  if(e.target === byId('productModal')) closeModal();
+};
+</script>
+
+
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-packing-info.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

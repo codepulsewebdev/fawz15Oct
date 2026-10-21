@@ -100,6 +100,7 @@ main { padding: 15px 5% 70px; max-width: 1300px; margin: auto; }
 }
 </style>
 <link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 
@@ -852,7 +853,7 @@ function addToCart() {
     });
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`Success: Added ${item.title} to your cart.`);
+    window.FawzCartNotice.show(`Success: Added ${item.title} to your cart.`);
     closeModal();
 }
 

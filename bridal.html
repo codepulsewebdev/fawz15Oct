@@ -554,6 +554,7 @@ main {
 
 <link rel="stylesheet" href="fawz-packing-info.css">
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body>
@@ -1043,7 +1044,7 @@ function addToCart() {
 
 
 
-    alert(`✓ Added to cart:\n${combinedName}\nQuantity: ${qty}`);
+    window.FawzCartNotice.show(`✓ Added to cart:\n${combinedName}\nQuantity: ${qty}`);
 
     closeModal();
 

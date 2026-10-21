@@ -338,6 +338,7 @@ main {
 }
 </style>
 <link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 
@@ -858,27 +859,27 @@ const safetyPinPackingText = {
     "safety-loose-silver-000---19mm": "Packing: 1,728 pieces.",
     "safety-loose-silver-00---23mm":  "Packing: 1,728 pieces.",
     "safety-loose-silver-0---28mm":   "Packing: 1,728 pieces.",
-    "safety-loose-silver-1---32mm":   "Packing: 864 pieces.",
-    "safety-loose-silver-2---38mm":   "Packing: 864 pieces.",
-    "safety-loose-silver-3---48mm":   "Packing: 432 pieces.",
-    "safety-loose-silver-4---50mm":   "Packing: 432 pieces.",
+    "safety-loose-silver-1---32mm":   "Packing: 72 pieces.",
+    "safety-loose-silver-2---38mm":   "Packing: 72 pieces.",
+    "safety-loose-silver-3---48mm":   "Packing: 36 pieces.",
+    "safety-loose-silver-4---50mm":   "Packing: 36 pieces.",
 
     "safety-loose-gold-000---19mm":   "Packing: 1,728 pieces.",
     "safety-loose-gold-00---23mm":    "Packing: 1,728 pieces.",
     "safety-loose-gold-0---28mm":     "Packing: 1,728 pieces.",
-    "safety-loose-gold-1---32mm":     "Packing: 864 pieces.",
-    "safety-loose-gold-2---38mm":     "Packing: 864 pieces.",
-    "safety-loose-gold-3---48mm":     "Packing: 432 pieces.",
-    "safety-loose-gold-4---50mm":     "Packing: 432 pieces.",
+    "safety-loose-gold-1---32mm":     "Packing: 72 pieces.",
+    "safety-loose-gold-2---38mm":     "Packing: 72 pieces.",
+    "safety-loose-gold-3---48mm":     "Packing: 36 pieces.",
+    "safety-loose-gold-4---50mm":     "Packing: 36 pieces.",
 
     "safety-carded-silver-assorted":  "Packing: 12 cards per box • 12 pins per card.",
     "safety-carded-gold-assorted":    "Packing: 12 cards per box • 12 pins per card.",
 
-    "blanket-70-carded-silver":       "Packing: 12 cards.",
-    "blanket-70-carded-gold":         "Packing: 12 cards.",
+    "blanket-70-carded-silver":       "Packing: 12 cards per box.",
+    "blanket-70-carded-gold":         "Packing: 12 cards per box.",
     "blanket-70-loose-silver":        "Packing: 100 pieces.",
-    "blanket-70-loose-gold":          "Packing: 100 pieces.",
-    "blanket-100-loose-gold":         "Packing: 100 pieces.",
+    "blanket-70-loose-gold":          "Packing: 144 pieces.",
+    "blanket-100-loose-gold":         "Packing: 144 pieces.",
     "blanket-100-loose-silver":       "Packing: 100 pieces."
 };
 
@@ -957,7 +958,7 @@ function addToCart() {
     });
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`Added: ${activeItem.title} (${currentOpt.name}) x${qty} to cart list.`);
+    window.FawzCartNotice.show(`Added: ${activeItem.title} (${currentOpt.name}) x${qty} to cart list.`);
     closeModal();
 }
 

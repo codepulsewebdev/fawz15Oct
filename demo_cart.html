@@ -5,18 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Form / Cart | Fawz Haberdashery</title>
 <link rel="stylesheet" href="global-images.css">
-<!-- EmailJS SDK -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-  (function(){
-    emailjs.init({
-      publicKey: "RTmO1qTUSJEMsJa1w"
-    });
-  })();
-</script>
-<!-- html2pdf library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
 :root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#999;}
 *{box-sizing:border-box}
@@ -48,7 +36,7 @@ main{padding:10px 5% 60px;max-width:1100px;margin:auto}
 .pad-field:last-child{margin-bottom:0}
 .pad-field label{font-weight:700;white-space:nowrap;color:#444}
 .pad-field input{flex-grow:1;border:none;border-bottom:1px dotted #666;background:transparent;padding:2px 4px;font-size:.85rem;outline:none}
-.order-no-val{color:var(--fawz-red);font-weight:900;font-size:1.1rem}
+.order-no-val{color:var(--fawz-red);font-weight:900;font-size:.95rem}
 
 .pad-table-wrap{overflow-x:auto}
 .pad-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.85rem}
@@ -91,6 +79,7 @@ main{padding:10px 5% 60px;max-width:1100px;margin:auto}
 
 
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body oncontextmenu="return false">
@@ -101,10 +90,11 @@ main{padding:10px 5% 60px;max-width:1100px;margin:auto}
 
 <section class="hero">
 <h1>Official Order Form</h1>
-<p>Selections persist automatically. Review items and submit your order directly to management.</p>
+<p id="staffOrderHint" hidden>Ordering on behalf of a customer</p>
 </section>
 
 <main>
+<p id="orderStatus" role="status" aria-live="polite"></p>
 <div class="order-pad" id="orderPadElement">
   <div class="pad-header">
     <div class="pad-brand">
@@ -121,13 +111,14 @@ main{padding:10px 5% 60px;max-width:1100px;margin:auto}
 
   <div class="pad-info-grid">
     <div class="pad-box">
-      <div class="pad-field"><label>Customer:</label><input type="text" id="custName" placeholder="Customer Name"></div>
-      <div class="pad-field"><label>Address:</label><input type="text" id="custAddr1" placeholder="Street Address"></div>
-      <div class="pad-field"><label></label><input type="text" id="custAddr2" placeholder="Subtown / City"></div>
-      <div class="pad-field"><label>Tel:</label><input type="text" id="custTel" placeholder="Phone Number"></div>
+      <div class="pad-field"><label>Customer:</label><input maxlength="160" autocomplete="off" aria-label="Customer name" type="text" id="custName" placeholder="Customer Name"></div>
+      <div class="pad-field"><label>Address:</label><input maxlength="350" autocomplete="off" aria-label="Customer street address" type="text" id="custAddr1" placeholder="Street Address"></div>
+      <div class="pad-field"><label></label><input maxlength="140" autocomplete="off" aria-label="Customer city" type="text" id="custAddr2" placeholder="Subtown / City"></div>
+      <div class="pad-field"><label>Tel:</label><input maxlength="50" autocomplete="off" aria-label="Customer telephone" type="tel" id="custTel" placeholder="Phone Number"></div>
+      <div class="pad-field"><label for="custEmail">Email:</label><input type="email" maxlength="200" autocomplete="off" id="custEmail" placeholder="Customer email (optional)"></div>
     </div>
     <div class="pad-box">
-      <div class="pad-field"><label>ORDER</label><span class="order-no-val" id="orderNoDisplay">No 0036101</span></div>
+      <div class="pad-field"><label>ORDER</label><span class="order-no-val" id="orderNoDisplay">Assigned on submission</span></div>
       <div class="pad-field"><label>Date:</label><input type="text" id="orderDate" placeholder="DD/MM/YYYY"></div>
       <div class="pad-field"><label>Reps Name:</label><input type="text" id="repName" placeholder="Sales Rep"></div>
       <div class="pad-field"><label>Reps Tel No.:</label><input type="text" id="repTel" placeholder="Rep Phone"></div>
@@ -178,66 +169,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadCartTable(){
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const tbody = document.getElementById('cartTableBody');
-  const grandTotalEl = document.getElementById('orderGrandTotal');
-
-  if(cart.length === 0){
-    tbody.innerHTML = '<tr><td colspan="5" class="empty-msg">Your cart is empty.</td></tr>';
-    grandTotalEl.textContent = '';
-    return;
-  }
-
-  let html = '';
-  let grandTotal = 0;
-
-  cart.forEach((item, index) => {
-    const unitPrice = Number(item.price !== undefined ? item.price : (item.unitPrice !== undefined ? item.unitPrice : (item.unit_price !== undefined ? item.unit_price : 0)));
-    const qty = parseInt(item.qty || item.quantity || 1, 10);
-    const itemTotal = unitPrice * qty;
-    grandTotal += itemTotal;
-
-    const prodName = item.product || item.name || item.title || 'Product Item';
-    const descLines = [
-      `<strong>${prodName}</strong>`,
-      item.category ? `Category: ${item.category}` : '',
-      item.gsm ? `GSM: ${item.gsm}` : '',
-      item.size ? `Size: ${item.size}` : '',
-      item.productId ? `ID: ${item.productId}` : ''
-    ].filter(Boolean).join('<br>');
-
-    html += `
-      <tr>
-        <td class="col-supplied"></td>
-        <td class="col-qty" style="text-align:center;">
-          <input type="number" min="1" value="${qty}" onchange="updateItemQty(${index}, this.value)">
-          <br><button class="btn-row-remove" onclick="removeCartItem(${index})">Remove</button>
-        </td>
-        <td class="col-desc">${descLines}</td>
-        <td class="col-price"></td>
-        <td class="col-check"></td>
-      </tr>
-    `;
+  let cart;try{cart=JSON.parse(localStorage.getItem('cart')||'[]')}catch{cart=[]}
+  if(!Array.isArray(cart))cart=[];
+  const tbody=document.getElementById('cartTableBody');tbody.replaceChildren();
+  if(!cart.length){const row=document.createElement('tr'),cell=document.createElement('td');cell.colSpan=5;cell.className='empty-msg';cell.textContent='Your cart is empty.';row.append(cell);tbody.append(row);return}
+  cart.forEach((item,index)=>{
+    const row=document.createElement('tr');for(let n=0;n<5;n++)row.append(document.createElement('td'));
+    const quantity=document.createElement('input');quantity.type='number';quantity.min='1';quantity.max='9999';quantity.value=Math.max(1,parseInt(item.qty||item.quantity||1,10)||1);quantity.setAttribute('aria-label','Quantity for '+(item.product||item.name||'product'));quantity.onchange=()=>updateItemQty(index,quantity.value);
+    const remove=document.createElement('button');remove.className='btn-row-remove';remove.textContent='Remove';remove.onclick=()=>removeCartItem(index);row.children[1].append(quantity,document.createElement('br'),remove);
+    const strong=document.createElement('strong');strong.textContent=item.product||item.name||item.title||'Product Item';row.children[2].append(strong);
+    for(const [label,value] of [['Category',item.category],['GSM',item.gsm],['Size',item.size],['Colour',item.color||item.colour],['Variant',item.variant],['ID',item.productId||item.id]])if(value){const line=document.createElement('div');line.textContent=label+': '+value;row.children[2].append(line)}
+    tbody.append(row);
   });
-
-  const minRows = 10;
-  const currentCount = cart.length;
-  if(currentCount < minRows){
-    for(let i = 0; i < (minRows - currentCount); i++){
-      html += `
-        <tr>
-          <td class="col-supplied">&nbsp;</td>
-          <td class="col-qty">&nbsp;</td>
-          <td class="col-desc">&nbsp;</td>
-          <td class="col-price">&nbsp;</td>
-          <td class="col-check">&nbsp;</td>
-        </tr>
-      `;
-    }
-  }
-
-  tbody.innerHTML = html;
-  grandTotalEl.textContent = '';
+  for(let n=cart.length;n<10;n++){const row=document.createElement('tr');for(let i=0;i<5;i++){const cell=document.createElement('td');cell.textContent=' ';row.append(cell)}tbody.append(row)}
 }
 
 function updateItemQty(index, newQty){
@@ -266,126 +210,39 @@ function downloadOrderPDF(){
   window.print();
 }
 
-function legacySubmitOrderDisabled(){
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  if(cart.length === 0){
-    alert('Your cart is empty. Please add items before submitting.');
-    return;
-  }
-
-  const custName = document.getElementById('custName').value.trim() || 'Not specified';
-  const custAddr = (document.getElementById('custAddr1').value.trim() + ' ' + document.getElementById('custAddr2').value.trim()).trim() || 'Not specified';
-  const custTel = document.getElementById('custTel').value.trim() || 'Not specified';
-  const orderDate = document.getElementById('orderDate').value.trim() || 'Not specified';
-  const repName = document.getElementById('repName').value.trim() || 'Not specified';
-  const repTel = document.getElementById('repTel').value.trim() || 'Not specified';
-  const courierCo = document.getElementById('courierCo').value.trim() || 'Not specified';
-  const orderNo = document.getElementById('orderNoDisplay').textContent;
-  const safeOrderNo = orderNo.replace(/\s+/g, '_');
-
-  let emailRowsHtml = '';
-  let grandTotal = 0;
-
-  cart.forEach((item) => {
-    const unitPrice = Number(item.price !== undefined ? item.price : (item.unitPrice !== undefined ? item.unitPrice : (item.unit_price !== undefined ? item.unit_price : 0)));
-    const qty = parseInt(item.qty || item.quantity || 1, 10);
-    const total = unitPrice * qty;
-    grandTotal += total;
-
-    const prodName = item.product || item.name || item.title || 'Product Item';
-    const descString = [
-      prodName,
-      item.category ? `Category: ${item.category}` : '',
-      item.gsm ? `GSM: ${item.gsm}` : '',
-      item.size ? `Size: ${item.size}` : '',
-      item.productId ? `ID: ${item.productId}` : ''
-    ].filter(Boolean).join(' | ');
-
-    emailRowsHtml += `
-      <tr>
-        <td style="border: 1px solid #999; padding: 8px; text-align: center;"></td>
-        <td style="border: 1px solid #999; padding: 8px; text-align: center;">${qty}</td>
-        <td style="border: 1px solid #999; padding: 8px; text-align: left;">${descString}</td>
-        <td style="border: 1px solid #999; padding: 8px; text-align: right;">R ${total.toFixed(2)}</td>
-        <td style="border: 1px solid #999; padding: 8px; text-align: center;"></td>
-      </tr>
-    `;
-  });
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Preparing Order & Sending...';
-
-  const element = document.getElementById('orderPadElement');
-  const opt = {
-    margin:       5,
-    filename:     `Order_${safeOrderNo}.pdf`,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
-
-  html2pdf().from(element).set(opt).outputPdf('datauristring').then((pdfDataUri) => {
-    const templateParams = {
-      to_email: "codepulsewebdev@gmail.com",
-      order_number: orderNo,
-      customer_name: custName,
-      customer_address: custAddr,
-      customer_tel: custTel,
-      order_date: orderDate,
-      rep_name: repName,
-      rep_tel: repTel,
-      courier_company: courierCo,
-      items_table_rows: emailRowsHtml,
-      grand_total: "R " + grandTotal.toFixed(2),
-      pdf_link: pdfDataUri,
-      order_filename: `Order_${safeOrderNo}.pdf`
-    };
-
-    emailjs.send('service_m4jtn1e', 'template_n50qcgl', templateParams)
-      .then(() => {
-        alert('Order successfully submitted and emailed with PDF download link!');
-        localStorage.removeItem('cart');
-        loadCartTable();
-        btn.disabled = false;
-        btn.textContent = 'Submit Order';
-      })
-      .catch((error) => {
-        console.error('EmailJS Error:', error);
-        alert('Failed to send order email. Please check your network connection.');
-        btn.disabled = false;
-        btn.textContent = 'Submit Order';
-      });
-  }).catch((err) => {
-    console.error('PDF Generation Error:', err);
-    alert('Could not generate order PDF package.');
-    btn.disabled = false;
-    btn.textContent = 'Submit Order';
-  });
-}
-
+let orderSubmitting=false;
+const customerIds=['custName','custAddr1','custAddr2','custTel','custEmail'];
+function isStaff(user){return user&&(user.role==='staff'||user.role==='admin'||user.internalStaff===true)}
+function clearCustomerDetails(){customerIds.forEach(id=>document.getElementById(id).value='');document.getElementById('courierCo').value=''}
 async function submitOrder(){
-  const cart=JSON.parse(localStorage.getItem('cart')||'[]');
-  if(!cart.length){alert('Your cart is empty. Please add items before submitting.');return}
-  const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Submitting Order...';
+  if(orderSubmitting)return;
+  const cart=JSON.parse(localStorage.getItem('cart')||'[]'),status=document.getElementById('orderStatus');
+  if(!cart.length){status.textContent='Your cart is empty. Please add items before submitting.';return}
+  const user=window.FawzSite?.auth.getCustomer();
+  if(!user){status.textContent='Please log in before submitting an order.';return}
+  const customer={name:document.getElementById('custName').value.trim(),address:[document.getElementById('custAddr1').value.trim(),document.getElementById('custAddr2').value.trim()].filter(Boolean).join(', '),phone:document.getElementById('custTel').value.trim(),email:document.getElementById('custEmail').value.trim()};
+  if(isStaff(user)){
+    for(const [key,id,label]of [['name','custName','customer name'],['address','custAddr1','delivery address'],['phone','custTel','customer telephone number']])if(!customer[key]){status.textContent='Please enter the '+label+' for this order.';document.getElementById(id).focus();return}
+    if(!document.getElementById('custEmail').reportValidity())return;
+  }
+  const btn=document.getElementById('submitBtn');orderSubmitting=true;btn.disabled=true;btn.textContent='Submitting Order…';status.textContent='';
   try{
-    if(!window.FawzSite?.orders)throw new Error('The order service is still loading. Please try again.');
-    const result=await window.FawzSite.orders.submit(cart);
+    const result=await window.FawzSite.orders.submit(cart,{customer,representativePhone:document.getElementById('repTel').value.trim(),courierCompany:document.getElementById('courierCo').value.trim()});
     document.getElementById('orderNoDisplay').textContent=result.orderNumber;
-    localStorage.removeItem('cart');loadCartTable();
-    alert(`Order ${result.orderNumber} submitted successfully.`);
-  }catch(error){alert(error.message||'The order could not be submitted.');}
-  finally{btn.disabled=false;btn.textContent='Submit Order'}
+    localStorage.removeItem('cart');loadCartTable();if(isStaff(user))clearCustomerDetails();
+    status.textContent='Order '+result.orderNumber+' submitted successfully.';
+    window.FawzCartNotice.show(result.orderNumber,{title:'Order submitted'});
+  }catch(error){status.textContent=error.message||'The order could not be submitted. Your items and customer details have been kept.'}
+  finally{orderSubmitting=false;btn.disabled=false;btn.textContent='Submit Order'}
 }
-
 addEventListener('fawz:site-ready',event=>{
   if(!event.detail.authenticated)return;
-  const user=event.detail.user;
-  document.getElementById('custName').value=user.displayName||'';
-  document.getElementById('custAddr1').value=user.address||'';
-  document.getElementById('custAddr2').value='';
-  document.getElementById('custTel').value=user.phone||'';
-  ['custName','custAddr1','custAddr2','custTel'].forEach(id=>document.getElementById(id).readOnly=true);
+  const user=event.detail.user,staff=isStaff(user);clearCustomerDetails();
+  document.getElementById('staffOrderHint').hidden=!staff;
+  if(!staff){document.getElementById('custName').value=user.displayName||'';document.getElementById('custAddr1').value=user.address||'';document.getElementById('custTel').value=user.phone||'';document.getElementById('custEmail').value=user.email||''}
+  customerIds.forEach(id=>document.getElementById(id).readOnly=!staff);
+  document.getElementById('repName').value=staff?user.displayName||'':'';document.getElementById('repName').readOnly=true;
+  document.getElementById('repTel').value=staff?user.phone||'':'';
 });
 
 (function(){
@@ -396,8 +253,9 @@ addEventListener('fawz:site-ready',event=>{
   }
   document.addEventListener('contextmenu', e => e.preventDefault());
   document.addEventListener('dragstart', e => e.preventDefault());
-  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('selectstart',e=>{if(!e.target.closest('input,textarea'))e.preventDefault()});
   document.addEventListener('keydown', e => {
+    if(e.target.closest('input,textarea'))return;
     const k = e.key.toLowerCase();
     if(
       e.key === 'PrintScreen' ||

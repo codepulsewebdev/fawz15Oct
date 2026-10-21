@@ -95,6 +95,7 @@ label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;f
 
 <link rel="stylesheet" href="fawz-packing-info.css">
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body>
@@ -1238,7 +1239,7 @@ function addToCart(){
 
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  document.getElementById('afterAdd').style.display = 'block';
+  window.FawzCartNotice.show('Added to cart: '+selectedProduct.name);closeModal();
 
 }
 

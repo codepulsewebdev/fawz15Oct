@@ -76,6 +76,7 @@ nav a{margin:0 14px 0 0}
 
 
 <link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body>
@@ -778,7 +779,7 @@ function addToCart(){
   });
 
   localStorage.setItem('cart', JSON.stringify(cart));
-  alert('Added to cart: ' + selectedProduct.name);
+  window.FawzCartNotice.show('Added to cart: ' + selectedProduct.name);
 }
 
 function filterProducts(){

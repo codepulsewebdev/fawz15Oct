@@ -118,6 +118,7 @@ input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius
 
 <script src="fawz-security.js" defer></script>
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body>
@@ -2795,7 +2796,7 @@ function addToCart(){
 
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  alert('Added to cart: ' + selectedProduct.name);
+  window.FawzCartNotice.show('Added to cart: ' + selectedProduct.name);
 
 }
 

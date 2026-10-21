@@ -317,6 +317,7 @@ main {
 }
 </style>
 <link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 
@@ -547,7 +548,7 @@ function addToCart() {
     cart.push({ id: `${currentProduct.name}-${currentSize}-${currentColor}`.replace(/\s+/g, ""), product: productName, category: "Plastic Fasteners", size: currentSize, color: currentColor, qty: quantity, packing: "100 pieces per pack", timestamp: Date.now() });
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartBadge();
-    alert(`✓ Added to cart:\n${productName}\nQuantity: ${quantity} pack(s)`);
+    window.FawzCartNotice.show(`✓ Added to cart:\n${productName}\nQuantity: ${quantity} pack(s)`);
     closeProductModal();
 }
 

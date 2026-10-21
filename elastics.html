@@ -135,6 +135,7 @@ img[hidden]{display:none!important}
 
 <link rel="stylesheet" href="fawz-packing-info.css">
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body>
@@ -1143,7 +1144,7 @@ function addToCart() {
 
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  alert(`Added ${qty} x ${productName} to your cart successfully!`);
+  window.FawzCartNotice.show(`Added ${qty} x ${productName} to your cart successfully!`);
 
   closeProductModal();
 

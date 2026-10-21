@@ -152,17 +152,15 @@
       }
 
       case 'allPins.html':
-        if (/quilting pins 45mm/.test(title)) return note('20s (per box)');
-        if (/glass & crystal head pins/.test(title)) return note('100 pins per box, 12 boxes per pack');
-        if (/glass & pearl head pins/.test(title)) return note(/pearl/.test(choice) ? '50 pins per plastic box, 12 boxes per pack' : '75 pins per plastic box, 12 boxes per pack');
-        if (/diamond head pins/.test(title)) {
-          const n = /64mm/.test(choice) ? 25 : /55mm/.test(choice) ? 50 : 100;
-          return note(`${n} pins per box, 12 boxes per pack`);
+        if (/quilting pins 45mm/.test(title)) return note('20 tubs per box');
+        if (/glass & crystal head pins/.test(title)) return note('12 tubs per box');
+        if (/glass & pearl head pins/.test(title)) {
+          return note(/pearl/.test(choice) ? '50 pins per plastic box, 12 boxes per pack' : '12 tubs per box');
         }
-        if (title === 'berry pins') return note(/carded/.test(choice) ? cards(12) : '36s (per box)');
-        if (title === 'berry pins heart/leaf') return note('36s (per box)');
-        if (title === 'hat pins - small') return note(cards(36));
-        if (title === 'hat pins - large') return note(cards(24));
+        if (/diamond head pins/.test(title)) return note('12 tubs per box');
+        if (/^berry pins/.test(title)) return note(/carded/.test(choice) ? '12 cards per box' : '36 per box');
+        if (title === 'hat pins - small') return note('36 cards per box');
+        if (title === 'hat pins - large') return note('24 cards per box');
         return null;
 
       case 'sewingNotions.html': {

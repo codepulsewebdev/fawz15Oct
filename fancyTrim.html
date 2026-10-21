@@ -25,6 +25,7 @@ main{padding:15px 5% 70px;max-width:1300px;margin:auto}.product-section{margin:3
 
 
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 <header><div class="logo">Fawz <span>Haberdashery</span></div><nav><a href="home.html">Home</a><a href="all-products.html">All Products</a><a href="demo_cart.html">View Cart</a></nav></header>
@@ -145,7 +146,7 @@ function addToCart(){
   const cart=JSON.parse(localStorage.getItem('cart')||'[]');
   cart.push({product:selectedProduct.name,productId:selectedProduct.productId,category:selectedProduct.category,design:selectedProduct.design,color:selectedProduct.color,roll:selectedProduct.roll,qty,price:unit,unitPrice:unit,total:unit*qty,image:getBankImage(selectedProduct.imgKey)});
   localStorage.setItem('cart',JSON.stringify(cart));
-  alert('Added to cart: '+selectedProduct.name);
+  window.FawzCartNotice.show('Added to cart: '+selectedProduct.name);
 }
 function closeModal(){document.getElementById('productModal').style.display='none';selectedGroup=null;selectedProduct=null;}
 function filterProducts(){

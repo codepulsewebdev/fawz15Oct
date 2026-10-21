@@ -636,6 +636,7 @@ main {
 
 </style>
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body>
@@ -1164,7 +1165,7 @@ function addToCart() {
 
     localStorage.setItem('cart', JSON.stringify(cart));
 
-    alert(`Added: ${activeItem.title} - ${selectedColorName} (Pack of ${selectedPack}) x${qty} to cart.`);
+    window.FawzCartNotice.show(`Added: ${activeItem.title} - ${selectedColorName} (Pack of ${selectedPack}) x${qty} to cart.`);
 
     closeModal();
 

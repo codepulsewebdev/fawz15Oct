@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><link rel="stylesheet" href="fawz-site.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buckles &amp; Brooch | Fawz Haberdashery</title>
+<link rel="stylesheet" href="global-images.css">
+<style>
+
+:root{--fawz-red:#e31e24;--fawz-dark:#1a1a1a;--fawz-grey:#f8f8f8;--border:#eeeeee;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#fff;color:var(--fawz-dark)}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--fawz-red);box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:1000;gap:20px}
+.logo{font-weight:900;text-transform:uppercase;letter-spacing:1px;font-size:1.2rem}
+.logo span{color:var(--fawz-red)}
+nav a{color:var(--fawz-dark);margin-left:18px;text-decoration:none;font-weight:700;font-size:.9rem}
+.hero{padding:46px 5% 24px;max-width:1300px;margin:auto}
+.hero h1{font-size:clamp(2rem,4vw,3.5rem);margin:0;text-transform:uppercase}
+.hero p{color:#666;max-width:900px;line-height:1.6}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.toolbar input,.toolbar select{padding:13px 14px;border:1px solid #ddd;border-radius:10px;min-width:240px;font-size:1rem;background:#fff}
+main{padding:15px 5% 70px;max-width:1300px;margin:auto}
+.product-section{margin:32px 0 54px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;border-left:6px solid var(--fawz-red);padding-left:14px;margin-bottom:18px}
+.section-heading h3{font-size:1.6rem;margin:0;text-transform:uppercase}
+.section-heading span{display:none}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.product-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.04);transition:.25s}
+.product-card:hover{transform:translateY(-4px);border-color:var(--fawz-red);box-shadow:0 15px 32px rgba(0,0,0,.10)}
+.product-img-wrap{height:190px;background:#fafafa;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border)}
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;padding:14px}
+.product-info{padding:15px}
+.category-pill{display:inline-block;font-size:.72rem;font-weight:900;text-transform:uppercase;background:#f2f2f2;border-radius:999px;padding:5px 8px;color:#555}
+.product-info h4{font-size:1rem;margin:12px 0 8px;line-height:1.3}
+.product-id{display:none}
+.firebase-price{display:none}
+.modal{display:none;position:fixed;z-index:2000;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);padding:30px 12px}
+.modal-content{background:#fff;margin:auto;max-width:980px;min-height:520px;display:grid;grid-template-columns:1fr 1.05fr;border-radius:18px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.24);position:relative}
+.close-x{position:absolute;right:22px;top:16px;font-size:32px;cursor:pointer;color:#999;z-index:5}
+.modal-left{background:#fafafa;display:flex;align-items:center;justify-content:center;padding:28px;border-right:1px solid var(--border)}
+.modal-left img{max-width:100%;max-height:430px;object-fit:contain}
+.modal-right{padding:42px 36px}
+.modal-right h2{margin:0 0 12px;text-transform:uppercase;color:var(--fawz-red)}
+.modal-meta{color:#666;font-size:.92rem;word-break:break-all}
+label{display:block;margin:22px 0 8px;font-weight:900;text-transform:uppercase;font-size:.75rem;color:#555}
+input,.option-select{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px;font-size:1rem;background:var(--fawz-grey)}
+#price{display:none}
+.btn-add{width:100%;background:var(--fawz-red);border:none;color:#fff;font-weight:900;text-transform:uppercase;padding:17px;border-radius:12px;cursor:pointer;letter-spacing:1px}
+.btn-add:hover{background:#b3161a}
+.hidden{display:none!important}
+#imageBank{display:none}
+@media(max-width:760px){header{align-items:flex-start;flex-direction:column} nav a{margin:0 14px 0 0}.modal-content{grid-template-columns:1fr;max-height:92vh;overflow:auto}.modal-left{min-height:260px;border-right:0;border-bottom:1px solid var(--border)}}
+
+</style>
+
+
+
+
+<link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
+</head>
+<body>
+<header><div class="logo">Fawz <span>Haberdashery</span></div><nav><a href="home.html">Home</a><a href="all-products.html">All Products</a><a href="demo_cart.html">View Cart</a></nav><a href="login.html" style="margin-left:12px;font-weight:900;color:#e31e24;text-decoration:none">Login</a></header>
+
+<section class="hero">
+<h1> Brooch</h1>
+<p>Brooch styles are grouped into section 1A, section 2B, and section 3C. Customers choose the exact style number inside the modal, and every style has its own image-bank slot so each option can show a different image.</p>
+<div class="toolbar">
+<input id="searchBox" placeholder="Search section, style, or product ID...">
+<select id="categoryFilter">
+<option value="">All sections</option>
+<option value="Section 1A">Section 1A</option>
+<option value="Section 2B">Section 2B</option>
+<option value="Section 3C">Section 3C</option>
+</select>
+</div>
+</section>
+
+<!-- HTML IMAGE BANK ONLY: paste the matching image path into each src below. Each style has its own marked slot. -->
+<div id="imageBank">
+<!-- SECTION 1A IMAGE SLOTS -->
+<img data-img-key="section-1a-style-23" src="images/Brooches/0026.jpg" alt="SECTION-1A Style 23">
+<img data-img-key="section-1a-style-24" src="images/Brooches/0027.jpg" alt="SECTION-1A Style 24">
+<img data-img-key="section-1a-style-25" src="images/Brooches/0028.jpg" alt="SECTION-1A Style 25">
+
+<!-- SECTION 2B IMAGE SLOTS -->
+<img data-img-key="section-2b-style-5" src="images/Brooches/0008.jpg" alt="SECTION-2B Style 5">
+<img data-img-key="section-2b-style-7" src="images/Brooches/0010.jpg" alt="SECTION-2B Style 7">
+<img data-img-key="section-2b-style-9" src="images/Brooches/0012.jpg" alt="SECTION-2B Style 9">
+<img data-img-key="section-2b-style-13" src="images/Brooches/0016.jpg" alt="SECTION-2B Style 13">
+<img data-img-key="section-2b-style-15" src="images/Brooches/0018.jpg" alt="SECTION-2B Style 15">
+<img data-img-key="section-2b-style-16" src="images/Brooches/0019.jpg" alt="SECTION-2B Style 16">
+<img data-img-key="section-2b-style-17" src="images/Brooches/0020.jpg" alt="SECTION-2B Style 17">
+<img data-img-key="section-2b-style-18" src="images/Brooches/0021.jpg" alt="SECTION-2B Style 18">
+<img data-img-key="section-2b-style-19" src="images/Brooches/0022.jpg" alt="SECTION-2B Style 19">
+<img data-img-key="section-2b-style-20" src="images/Brooches/0023.jpg" alt="SECTION-2B Style 20">
+<img data-img-key="section-2b-style-22" src="images/Brooches/0024.jpg" alt="SECTION-2B Style 22">
+
+<!-- SECTION 3C IMAGE SLOTS -->
+<img data-img-key="section-3c-style-1" src="images/Brooches/0004.jpg" alt="SECTION-3C Style 1">
+<img data-img-key="section-3c-style-2" src="images/Brooches/0005.jpg" alt="SECTION-3C Style 2">
+<img data-img-key="section-3c-style-3" src="images/Brooches/0006.jpg" alt="SECTION-3C Style 3">
+<img data-img-key="section-3c-style-4" src="images/Brooches/0007.jpg" alt="SECTION-3C Style 4">
+<img data-img-key="section-3c-style-6" src="images/Brooches/0009.jpg" alt="SECTION-3C Style 6">
+<img data-img-key="section-3c-style-8" src="images/Brooches/0011.jpg" alt="SECTION-3C Style 8">
+<img data-img-key="section-3c-style-10" src="images/Brooches/0013.jpg" alt="SECTION-3C Style 10">
+<img data-img-key="section-3c-style-11" src="images/Brooches/0014.jpg" alt="SECTION-3C Style 11">
+<img data-img-key="section-3c-style-12" src="images/Brooches/0015.jpg" alt="SECTION-3C Style 12">
+<img data-img-key="section-3c-style-14" src="images/Brooches/0017.jpg" alt="SECTION-3C Style 14">
+<img data-img-key="section-3c-style-21" src="images/Brooches/0024.jpg" alt="SECTION-3C Style 21">
+</div>
+
+<main>
+<section class="product-section" data-category-section="Section 1A">
+<div class="section-heading"><h3>Section 1A</h3><span></span></div>
+<div class="product-grid">
+<article class="product-card" data-group-id="section-1a" data-category="Section 1A" onclick="openProduct(this)">
+<div class="product-img-wrap"><img src="images/Brooches/0001.jpg" alt="Section 1A" loading="lazy"></div>
+<div class="product-info"><span class="category-pill">Section 1A</span><h4>Section 1A</h4><p class="product-id"></p><p class="firebase-price"></p></div>
+</article>
+</div>
+</section>
+
+
+<section class="product-section" data-category-section="Section 2B">
+<div class="section-heading"><h3>Section 2B</h3><span></span></div>
+<div class="product-grid">
+<article class="product-card" data-group-id="section-2b" data-category="Section 2B" onclick="openProduct(this)">
+<div class="product-img-wrap"><img src="images/Brooches/0002.jpg" alt="Section 2B" loading="lazy"></div>
+<div class="product-info"><span class="category-pill">Section 2B</span><h4>Section 2B</h4><p class="product-id"></p><p class="firebase-price"></p></div>
+</article>
+</div>
+</section>
+
+<section class="product-section" data-category-section="Section 3C">
+<div class="section-heading"><h3>Section 3C</h3><span></span></div>
+<div class="product-grid">
+<article class="product-card" data-group-id="section-3c" data-category="Section 3C" onclick="openProduct(this)">
+<div class="product-img-wrap"><img src="images/Brooches/0003.jpg" alt="Section 3C" loading="lazy"></div>
+<div class="product-info"><span class="category-pill">Section 3C</span><h4>Section 3C</h4><p class="product-id"></p><p class="firebase-price"></p></div>
+</article>
+</div>
+</section>
+</main>
+
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span class="close-x" onclick="closeModal()">&times;</span>
+<div class="modal-left"><img id="modalImg" src="" alt=""></div>
+<div class="modal-right">
+<h2 id="modalTitle">Product</h2>
+      <div id="fawzPackingInfo" class="fawz-packing-info" hidden aria-live="polite"></div>
+<p class="modal-meta" id="modalCategory"></p>
+<p class="modal-meta" style="display:none;">Product ID: <strong id="modalProductId"></strong></p>
+<label id="variantLabel" for="variantSelect">Style</label>
+<select id="variantSelect" class="option-select" onchange="selectVariant()"></select>
+<label>Quantity</label>
+<input type="number" id="qty" value="1" min="1" oninput="updateModalPrice()">
+<p id="price" style="display:none;"></p>
+<button class="btn-add" onclick="addToCart()">Add to Cart</button>
+</div>
+</div>
+</div>
+
+<script>
+const productGroups = {
+  "section-1a": {
+    "title": "Section 1A",
+    "category": "Section 1A",
+    "label": "Choose Style",
+    "imgKey": "section-1a-style-23",
+    "options": [
+      {
+        "name": "Section 1A - Style 23",
+        "productId": "section-1a-style-23",
+        "basePrice": 0,
+        "imgKey": "section-1a-style-23",
+        "category": "Section 1A"
+      },
+      {
+        "name": "Section 1A - Style 24",
+        "productId": "section-1a-style-24",
+        "basePrice": 0,
+        "imgKey": "section-1a-style-24",
+        "category": "Section 1A"
+      },
+      {
+        "name": "Section 1A - Style 25",
+        "productId": "section-1a-style-25",
+        "basePrice": 0,
+        "imgKey": "section-1a-style-25",
+        "category": "Section 1A"
+      }
+    ]
+  },
+  "section-2b": {
+    "title": "Section 2B",
+    "category": "Section 2B",
+    "label": "Choose style",
+    "imgKey": "section-2b-style-5",
+    "options": [
+      {
+        "name": "Section 2B - Style 5",
+        "productId": "section-2b-style-5",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-5",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 7",
+        "productId": "section-2b-style-7",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-7",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 9",
+        "productId": "section-2b-style-9",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-9",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 13",
+        "productId": "section-2b-style-13",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-13",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 15",
+        "productId": "section-2b-style-15",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-15",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 16",
+        "productId": "section-2b-style-16",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-16",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 17",
+        "productId": "section-2b-style-17",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-17",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 18",
+        "productId": "section-2b-style-18",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-18",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 19",
+        "productId": "section-2b-style-19",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-19",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 20",
+        "productId": "section-2b-style-20",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-20",
+        "category": "Section 2B"
+      },
+      {
+        "name": "Section 2B - Style 22",
+        "productId": "section-2b-style-22",
+        "basePrice": 0,
+        "imgKey": "section-2b-style-22",
+        "category": "Section 2B"
+      }
+    ]
+  },
+  "section-3c": {
+    "title": "Section 3C",
+    "category": "Section 3C",
+    "label": "Choose Style",
+    "imgKey": "section-3c-style-1",
+    "options": [
+      {
+        "name": "Section 3C - Style 1",
+        "productId": "section-3c-style-1",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-1",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 2",
+        "productId": "section-3c-style-2",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-2",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 3",
+        "productId": "section-3c-style-3",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-3",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 4",
+        "productId": "section-3c-style-4",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-4",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 6",
+        "productId": "section-3c-style-6",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-6",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 8",
+        "productId": "section-3c-style-8",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-8",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 10",
+        "productId": "section-3c-style-10",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-10",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 11",
+        "productId": "section-3c-style-11",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-11",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 12",
+        "productId": "section-3c-style-12",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-12",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 14",
+        "productId": "section-3c-style-14",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-14",
+        "category": "Section 3C"
+      },
+      {
+        "name": "Section 3C - Style 21",
+        "productId": "section-3c-style-21",
+        "basePrice": 0,
+        "imgKey": "section-3c-style-21",
+        "category": "Section 3C"
+      }
+    ]
+  }
+};
+
+let selectedGroup = null;
+let selectedProduct = null;
+
+function getBankImage(key){
+  const img = document.querySelector(`#imageBank img[data-img-key="${CSS.escape(key)}"]`);
+  return img ? img.getAttribute('src') : '';
+}
+
+function applyCardImages(){
+  document.querySelectorAll('[data-image-key]').forEach(img => {
+    const key = img.dataset.imageKey;
+    img.src = getBankImage(key);
+  });
+}
+
+function openProduct(card){
+  const groupId = card.dataset.groupId;
+  selectedGroup = productGroups[groupId];
+  if(!selectedGroup) return;
+
+  const variantSelect = document.getElementById('variantSelect');
+  variantSelect.innerHTML = selectedGroup.options.map((option,index)=>`<option value="${index}">${option.name}</option>`).join('');
+  document.getElementById('variantLabel').textContent = selectedGroup.label || 'Option';
+  document.getElementById('modalTitle').textContent = selectedGroup.title;
+  document.getElementById('modalCategory').textContent = selectedGroup.category;
+  document.getElementById('qty').value = 1;
+  document.getElementById('productModal').style.display = 'block';
+  selectVariant();
+}
+
+function selectVariant(){
+  if(!selectedGroup) return;
+  const index = Number(document.getElementById('variantSelect').value || 0);
+  const option = selectedGroup.options[index] || selectedGroup.options[0];
+
+  selectedProduct = {
+    productId: option.productId,
+    name: option.name,
+    category: selectedGroup.category,
+    basePrice: Number(option.basePrice || 0),
+    imgKey: option.imgKey || selectedGroup.imgKey
+  };
+
+  window.fawzCurrentProductId = selectedProduct.productId;
+  window.fawzCurrentProductName = selectedProduct.name;
+  document.getElementById('modalProductId').textContent = selectedProduct.productId;
+  document.getElementById('modalImg').src = getBankImage(selectedProduct.imgKey);
+  document.getElementById('modalImg').alt = selectedProduct.name;
+  updateModalPrice();
+}
+
+function closeModal(){document.getElementById('productModal').style.display='none'}
+
+async function updateModalPrice(){
+  const qty = Math.max(parseInt(document.getElementById('qty').value || '1',10) || 1, 1);
+  const priceEl = document.getElementById('price');
+  if(!selectedProduct){return;}
+  let unit = selectedProduct.basePrice;
+  try{
+    if(window.fawzFetchTierPrice) unit = await window.fawzFetchTierPrice(selectedProduct.productId);
+  }catch(e){
+    console.warn('Using workbook fallback price until Firebase is configured:', e);
+  }
+  window.fawzCurrentUnitPrice = unit;
+}
+
+function addToCart(){
+  if(!selectedProduct) return;
+  const qty = Math.max(parseInt(document.getElementById('qty').value || '1',10) || 1, 1);
+  const unit = Number(window.fawzCurrentUnitPrice || selectedProduct.basePrice || 0);
+  const optionText = document.getElementById('variantSelect').selectedOptions[0]?.textContent || 'Standard';
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  cart.push({
+    product: optionText,
+    productId: selectedProduct.productId,
+    category: selectedProduct.category,
+    size: optionText,
+    qty,
+    price: unit,
+    unitPrice: unit,
+    total: unit * qty,
+    image: getBankImage(selectedProduct.imgKey)
+  });
+  localStorage.setItem('cart', JSON.stringify(cart));
+  window.FawzCartNotice.show('Added to cart: ' + optionText);
+}
+
+function filterProducts(){
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  const c = document.getElementById('categoryFilter').value;
+  document.querySelectorAll('.product-card').forEach(card => {
+    const group = productGroups[card.dataset.groupId];
+    const haystack = JSON.stringify(group || {}).toLowerCase();
+    const matchesSearch = !q || haystack.includes(q) || card.textContent.toLowerCase().includes(q);
+    const matchesCategory = !c || card.dataset.category === c;
+    card.classList.toggle('hidden', !(matchesSearch && matchesCategory));
+  });
+  document.querySelectorAll('.product-section').forEach(section => {
+    const visibleCards = section.querySelectorAll('.product-card:not(.hidden)').length;
+    section.classList.toggle('hidden', visibleCards === 0);
+  });
+}
+
+document.getElementById('searchBox').addEventListener('input', filterProducts);
+document.getElementById('categoryFilter').addEventListener('change', filterProducts);
+window.addEventListener('click', e => {if(e.target === document.getElementById('productModal')) closeModal();});
+document.addEventListener('DOMContentLoaded', applyCardImages);
+</script>
+<script src="fawz-site.js"></script><script src="fawz-secure-pricing.js"></script><script src="fawz-inactivity.js"></script><script src="fawz-content-protection.js"></script><script src="fawz-packing-info.js"></script>
+<script src="fawz-modal-navigation.js"></script>
+</body>
+</html>

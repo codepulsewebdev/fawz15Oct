@@ -28,6 +28,7 @@ main{padding:15px 5% 70px;max-width:1300px;margin:auto}.product-section{margin:3
 
 
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body oncontextmenu="return false">
 <header>
@@ -203,7 +204,7 @@ function addToCart(){
     image: getBankImage(selectedProduct.imgKey)
   });
   localStorage.setItem('cart', JSON.stringify(cart));
-  alert('Added to cart: ' + selectedProduct.name);
+  window.FawzCartNotice.show('Added to cart: ' + selectedProduct.name);
 }
 
 function filterProducts(){

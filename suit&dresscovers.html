@@ -518,6 +518,7 @@ main {
 
 </style>
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 
 <body>
@@ -862,7 +863,7 @@ function addToCart() {
 
 
 
-    alert(`✓ Added to cart:\n${currentProduct.name}\nSize: ${currentProduct.length} x ${currentProduct.width}\nQuantity: ${qty}`);
+    window.FawzCartNotice.show(`✓ Added to cart:\n${currentProduct.name}\nSize: ${currentProduct.length} x ${currentProduct.width}\nQuantity: ${qty}`);
 
     closeModal();
 

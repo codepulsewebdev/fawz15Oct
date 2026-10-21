@@ -309,6 +309,7 @@ input, .option-select {
     .category-grid { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 
@@ -1227,7 +1228,7 @@ function addToCart() {
         badge.classList.add('visible');
     }
     
-    alert(`Added ${qty} x ${selectedProduct.name} to your cart successfully!`);
+    window.FawzCartNotice.show(`Added ${qty} x ${selectedProduct.name} to your cart successfully!`);
     closeProductModal();
 }
 

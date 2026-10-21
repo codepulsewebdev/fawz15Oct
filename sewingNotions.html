@@ -320,6 +320,7 @@ main {
 }
 </style>
 
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 
@@ -2407,7 +2408,7 @@ function addToCart() {
         badge.classList.add('visible');
     }
 
-    alert('✓ Added to cart:\n' + productName + '\nQuantity: ' + qty + '\nPrice: Contact us for quote');
+    window.FawzCartNotice.show('✓ Added to cart:\n' + productName + '\nQuantity: ' + qty + '\nPrice: Contact us for quote');
     closeModal();
 }
 

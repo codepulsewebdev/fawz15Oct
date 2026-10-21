@@ -31,6 +31,7 @@ nav{display:flex;align-items:center;gap:18px;flex-wrap:wrap}nav a{color:var(--fa
 @media(max-width:420px){.option-grid{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="fawz-packing-info.css">
+<script src="fawz-cart-notice.js" defer></script>
 </head>
 <body>
 
@@ -233,20 +234,12 @@ function selectOption(el, name, type){
 }
 
 function handleAddToCart(type){
-    const qty = Math.max(1, parseInt(document.getElementById(type === 'gold' ? 'goldQty' : 'silverQty').value) || 1);
-    if(type === 'gold'){
-        if(!selectedGoldDesign){
-            alert('Please select a gold design');
-            return;
-        }
-        console.log('Add To Cart (Gold):', selectedGoldDesign, 'Quantity:', qty);
-    } else if(type === 'silver'){
-        if(!selectedSilverDesign){
-            alert('Please select a silver design');
-            return;
-        }
-        console.log('Add To Cart (Silver):', selectedSilverDesign, 'Quantity:', qty);
-    }
+ const design=type==='gold'?selectedGoldDesign:selectedSilverDesign;
+ if(!design){alert('Please select a '+type+' design');return}
+ const qty=Math.max(1,parseInt(document.getElementById(type==='gold'?'goldQty':'silverQty').value)||1);
+ const productId='fancy-buckle-'+type+'-'+design.toLowerCase().replace(/\s+/g,'-');
+ const cart=JSON.parse(localStorage.getItem('cart')||'[]');cart.push({product:'Fancy Buckle '+type+' — '+design,productId,category:'Buckles',qty,variant:design,color:type});localStorage.setItem('cart',JSON.stringify(cart));
+ window.FawzCartNotice.show('Added to cart: Fancy Buckle '+type+' — '+design);closeModal(type+'Modal');
 }
 
 window.onclick = function(event){
