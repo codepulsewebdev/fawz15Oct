@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boning Bra Cups Shoulder Pads | Fawz Haberdashery</title>
@@ -761,7 +761,7 @@ function addToCart(){
     options[field.key] = byId('field_' + field.key)?.value || '';
   });
 
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
 
   cart.push({
     product: selectedProduct.name,
@@ -778,7 +778,7 @@ function addToCart(){
     total: unit * qty
   });
 
-  localStorage.setItem('cart', JSON.stringify(cart));
+  window.FawzCart.setItem('cart', JSON.stringify(cart));
   window.FawzCartNotice.show('Added to cart: ' + selectedProduct.name);
 }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Curtain Accessories | Fawz Haberdashery</title>
@@ -318,7 +318,7 @@ function addToCart(){
   const qty = Math.max(parseInt(document.getElementById('qty').value || '1',10) || 1, 1);
   const unit = Number(window.fawzCurrentUnitPrice || selectedProduct.basePrice || 0);
   const optionText = document.getElementById('variantSelect').selectedOptions[0]?.textContent || 'Standard';
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
   cart.push({
     product: optionText,
     productId: selectedProduct.productId,
@@ -330,7 +330,7 @@ function addToCart(){
     total: unit * qty,
     image: getBankImage(selectedProduct.imgKey)
   });
-  localStorage.setItem('cart', JSON.stringify(cart));
+  window.FawzCart.setItem('cart', JSON.stringify(cart));
   window.FawzCartNotice.show('Added to cart: ' + optionText);
 }
 

@@ -78,11 +78,12 @@ async function refresh(){
   if(id)await selectProduct(id);
 }
 function patchLatestCart(){
-  let cart;try{cart=JSON.parse(localStorage.getItem('cart')||'[]')}catch{return}
+  let cart;try{cart=JSON.parse(window.FawzCart.getItem('cart')||'[]')}catch{return}
   if(!Array.isArray(cart)||!cart.length)return;
+  const cartOwner=window.FawzCart.getOwner();
   const item=cart[cart.length-1],id=validId(item.productId||currentId);
   if(!id)return;
-  selectProduct(id).then(()=>{if(currentPrice==null)return;item.productId=id;item.price=currentPrice;item.unitPrice=currentPrice;item.unit_price=currentPrice;const qty=Number(item.qty||item.quantity||1);item.total=currentPrice*(Number.isFinite(qty)&&qty>0?qty:1);localStorage.setItem('cart',JSON.stringify(cart))});
+  selectProduct(id).then(()=>{if(currentPrice==null||!cartOwner||cartOwner!==window.FawzCart.getOwner())return;item.productId=id;item.price=currentPrice;item.unitPrice=currentPrice;item.unit_price=currentPrice;const qty=Number(item.qty||item.quantity||1);item.total=currentPrice*(Number.isFinite(qty)&&qty>0?qty:1);window.FawzCart.setItem('cart',JSON.stringify(cart))});
 }
 addEventListener('fawz:site-ready',event=>{
   if(!event.detail.authenticated)return;

@@ -2,7 +2,7 @@
 
 <html lang="en">
 
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 
 <meta charset="UTF-8">
 
@@ -1008,7 +1008,7 @@ function addToCart() {
 
     const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
 
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
 
 
 
@@ -1028,7 +1028,7 @@ function addToCart() {
 
     });
 
-    localStorage.setItem('cart', JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
 
 
 
@@ -1088,7 +1088,7 @@ function filterProducts() {
 
 function updateCartBadge() {
 
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
 
     const badge = document.getElementById('cartBadge');
 

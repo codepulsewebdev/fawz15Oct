@@ -26,7 +26,7 @@ Live accounts have not been created from this workspace: Firebase credentials we
 
 ## Verification
 
-All 13 automated checks pass, including all admin pages, product search/selection, customer separation, failed/successful checkout and repeatable staff setup. JavaScript syntax and ZIP integrity were checked. The browser preview stopped before interactive testing completed, so live browser and Firebase integration still require verification after deployment.
+All 18 automated checks pass, including all admin pages, product search/selection, customer separation, failed/successful checkout and repeatable staff setup. JavaScript syntax and ZIP integrity were checked. The browser preview stopped before interactive testing completed, so live browser and Firebase integration still require verification after deployment.
 
 ## Source limitations
 
@@ -34,3 +34,11 @@ The supplied archives contain no product image directory. Keep the existing imag
 Calabash assorted was not present in either supplied catalogue. Its requested 12-cards-per-box packing remains pending until that product is added; no unverified product or image was invented.
 
 To rebuild the admin catalogue after future product changes: npm run build-catalogue.
+
+## EmailJS notification update
+
+Order notifications now use the existing EmailJS Order Confirmation template with orders@fawzhabby.com as the default recipient. See EMAILJS-SETUP.md for the template and server settings. The admin shows email acceptance/failure and supports resending a saved order notification. The order remains saved if email fails. No live email delivery has been verified.
+
+## Styled order email and attached PDF
+
+Every notification now includes a styled HTML order table and a generated A4 PDF using the final order-form design: FAWZ header, customer/representative details and Supplied / Quantity / Description / Notes / Check columns. Long orders continue across numbered pages. The PDF is generated from the saved server order and attached on initial send and resend. Admin and the submission confirmation also offer the same PDF for download. EmailJS needs the Variable Attachment configured as described in EMAILJS-SETUP.md and an attachment-enabled subscription. No live inbox delivery has been verified.

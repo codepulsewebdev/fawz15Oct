@@ -14,7 +14,7 @@
   box.querySelector('a').hidden=Boolean(options.title);box.hidden=false;
   // Repeated additions reuse one small notice and restart its dismissal timer.
   timer=setTimeout(()=>{box.hidden=true},3200);
-  try{const cart=JSON.parse(localStorage.getItem('cart')||'[]');document.querySelectorAll('#cartBadge,.cart-badge').forEach(b=>{b.textContent=cart.length;b.classList.toggle('visible',cart.length>0)})}catch{}
+  try{const cart=JSON.parse(window.FawzCart.getItem('cart')||'[]');document.querySelectorAll('#cartBadge,.cart-badge').forEach(b=>{b.textContent=cart.length;b.classList.toggle('visible',cart.length>0)})}catch{}
  }
  window.FawzCartNotice={show};
 })();

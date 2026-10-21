@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Form / Cart | Fawz Haberdashery</title>
@@ -35,7 +35,8 @@ main{padding:10px 5% 60px;max-width:1100px;margin:auto}
 .pad-field{display:flex;align-items:baseline;margin-bottom:8px;font-size:.85rem;gap:8px}
 .pad-field:last-child{margin-bottom:0}
 .pad-field label{font-weight:700;white-space:nowrap;color:#444}
-.pad-field input{flex-grow:1;border:none;border-bottom:1px dotted #666;background:transparent;padding:2px 4px;font-size:.85rem;outline:none}
+.pad-field input{min-width:0;width:100%;-webkit-user-select:text;user-select:text;flex-grow:1;border:none;border-bottom:1px dotted #666;background:transparent;padding:2px 4px;font-size:.85rem;outline:none}
+.pad-field input:focus{background:#fff;border-bottom:2px solid var(--fawz-red);box-shadow:0 2px 0 #ffe5e6}
 .order-no-val{color:var(--fawz-red);font-weight:900;font-size:.95rem}
 
 .pad-table-wrap{overflow-x:auto}
@@ -64,6 +65,18 @@ main{padding:10px 5% 60px;max-width:1100px;margin:auto}
 .empty-msg{text-align:center;padding:30px;color:#777;font-weight:bold}
 .security-overlay{display:none;position:fixed;inset:0;z-index:999999;background:#111;color:#fff;align-items:center;justify-content:center;text-align:center;padding:30px;font-weight:900;font-size:1.3rem}
 
+.order-result{width:min(560px,calc(100% - 32px));max-height:90vh;overflow:auto;border:0;border-radius:20px;padding:0;box-shadow:0 24px 80px #0005;color:#202124}
+.order-result::backdrop{background:rgba(20,24,32,.65)}
+.order-result-content{padding:32px}
+.order-result-icon{display:grid;place-items:center;width:56px;height:56px;border-radius:16px;background:#fff0f0;color:#b50914;font-size:30px;font-weight:900;margin-bottom:18px}
+.order-result h2{font-size:26px;line-height:1.2;margin:0 0 14px}
+.order-result p{font-size:17px;line-height:1.6;margin:12px 0}
+.order-result-reason{padding:16px 18px;background:#fff5f5;border:1px solid #f2c3c5;border-left:4px solid #e31e24;border-radius:10px;overflow-wrap:anywhere;user-select:text}
+.order-result-reason strong{display:block;margin-bottom:4px}
+.order-result-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;align-items:center}
+.order-result-actions a{color:#b50914;font-weight:700}
+.order-result[data-kind="success"] .order-result-icon{background:#e9f7ee;color:#18703b}
+@media print{.order-result{display:none!important}}
 @media(max-width:850px){
   .pad-info-grid{grid-template-columns:1fr}
   .pad-contact{text-align:left}
@@ -153,6 +166,16 @@ main{padding:10px 5% 60px;max-width:1100px;margin:auto}
 </div>
 </main>
 
+<dialog class="order-result" id="orderResult" aria-labelledby="orderResultTitle" aria-describedby="orderResultMessage">
+  <div class="order-result-content">
+    <div class="order-result-icon" id="orderResultIcon" aria-hidden="true">!</div>
+    <h2 id="orderResultTitle"></h2>
+    <p id="orderResultMessage"></p>
+    <div class="order-result-reason" id="orderResultReasonBox"><strong>Reason</strong><span id="orderResultReason"></span></div>
+    <p id="orderResultNext"></p>
+    <div class="order-result-actions"><button class="btn-action" type="button" onclick="closeOrderResult()" autofocus>Back to order</button><a id="orderResultPdf" hidden>Download order PDF</a></div>
+  </div>
+</dialog>
 <div class="security-overlay" id="securityOverlay">Screen capture / restricted shortcut detected.</div>
 
 <script>
@@ -169,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadCartTable(){
-  let cart;try{cart=JSON.parse(localStorage.getItem('cart')||'[]')}catch{cart=[]}
+  let cart;try{cart=JSON.parse(window.FawzCart.getItem('cart')||'[]')}catch{cart=[]}
   if(!Array.isArray(cart))cart=[];
   const tbody=document.getElementById('cartTableBody');tbody.replaceChildren();
   if(!cart.length){const row=document.createElement('tr'),cell=document.createElement('td');cell.colSpan=5;cell.className='empty-msg';cell.textContent='Your cart is empty.';row.append(cell);tbody.append(row);return}
@@ -185,21 +208,21 @@ function loadCartTable(){
 }
 
 function updateItemQty(index, newQty){
-  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  let cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
   const qty = Math.max(parseInt(newQty, 10) || 1, 1);
   if(cart[index]){
     cart[index].qty = qty;
     const unitPrice = Number(cart[index].price !== undefined ? cart[index].price : (cart[index].unitPrice !== undefined ? cart[index].unitPrice : (cart[index].unit_price !== undefined ? cart[index].unit_price : 0)));
     cart[index].total = unitPrice * qty;
-    localStorage.setItem('cart', JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
     loadCartTable();
   }
 }
 
 function removeCartItem(index){
-  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  let cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
   cart.splice(index, 1);
-  localStorage.setItem('cart', JSON.stringify(cart));
+  window.FawzCart.setItem('cart', JSON.stringify(cart));
   loadCartTable();
 }
 
@@ -214,25 +237,51 @@ let orderSubmitting=false;
 const customerIds=['custName','custAddr1','custAddr2','custTel','custEmail'];
 function isStaff(user){return user&&(user.role==='staff'||user.role==='admin'||user.internalStaff===true)}
 function clearCustomerDetails(){customerIds.forEach(id=>document.getElementById(id).value='');document.getElementById('courierCo').value=''}
+let orderResultFocus=null;
+function showOrderResult({title,message,reason='',next='',kind='error',orderId=''}){
+  const dialog=document.getElementById('orderResult');orderResultFocus=document.activeElement;
+  dialog.dataset.kind=kind;document.getElementById('orderResultTitle').textContent=title;
+  document.getElementById('orderResultIcon').textContent=kind==='success'?'✓':'!';
+  document.getElementById('orderResultMessage').textContent=message;
+  document.getElementById('orderResultReason').textContent=reason;
+  document.getElementById('orderResultReasonBox').hidden=!reason;
+  document.getElementById('orderResultNext').textContent=next;
+  const pdf=document.getElementById('orderResultPdf');pdf.hidden=!orderId;
+  if(orderId)pdf.href='/api/order-pdf?orderId='+encodeURIComponent(orderId);
+  if(!dialog.open)dialog.showModal();
+}
+function closeOrderResult(){document.getElementById('orderResult').close();orderResultFocus?.focus()}
+function orderProblem(message,fieldId){
+  document.getElementById('orderStatus').textContent=message;
+  showOrderResult({title:'Order not submitted',message:'Please complete the order details.',reason:message,next:'Your items and customer details have been kept.'});
+  if(fieldId)orderResultFocus=document.getElementById(fieldId);
+}
 async function submitOrder(){
   if(orderSubmitting)return;
-  const cart=JSON.parse(localStorage.getItem('cart')||'[]'),status=document.getElementById('orderStatus');
-  if(!cart.length){status.textContent='Your cart is empty. Please add items before submitting.';return}
+  const cart=JSON.parse(window.FawzCart.getItem('cart')||'[]'),status=document.getElementById('orderStatus');
+  if(!cart.length){orderProblem('Your cart is empty. Please add items before submitting.');return}
   const user=window.FawzSite?.auth.getCustomer();
-  if(!user){status.textContent='Please log in before submitting an order.';return}
+  if(!user){orderProblem('Please log in before submitting an order.');return}
   const customer={name:document.getElementById('custName').value.trim(),address:[document.getElementById('custAddr1').value.trim(),document.getElementById('custAddr2').value.trim()].filter(Boolean).join(', '),phone:document.getElementById('custTel').value.trim(),email:document.getElementById('custEmail').value.trim()};
-  if(isStaff(user)){
-    for(const [key,id,label]of [['name','custName','customer name'],['address','custAddr1','delivery address'],['phone','custTel','customer telephone number']])if(!customer[key]){status.textContent='Please enter the '+label+' for this order.';document.getElementById(id).focus();return}
-    if(!document.getElementById('custEmail').reportValidity())return;
+  {
+    for(const [key,id,label]of [['name','custName','customer name'],['address','custAddr1','delivery address'],['phone','custTel','customer telephone number']])if(!customer[key]){orderProblem('Please enter the '+label+' for this order.',id);return}
+    if(!document.getElementById('custEmail').reportValidity()){orderProblem('Please enter a valid customer email address.','custEmail');return}
   }
   const btn=document.getElementById('submitBtn');orderSubmitting=true;btn.disabled=true;btn.textContent='Submitting Order…';status.textContent='';
   try{
     const result=await window.FawzSite.orders.submit(cart,{customer,representativePhone:document.getElementById('repTel').value.trim(),courierCompany:document.getElementById('courierCo').value.trim()});
     document.getElementById('orderNoDisplay').textContent=result.orderNumber;
-    localStorage.removeItem('cart');loadCartTable();if(isStaff(user))clearCustomerDetails();
-    status.textContent='Order '+result.orderNumber+' submitted successfully.';
-    window.FawzCartNotice.show(result.orderNumber,{title:'Order submitted'});
-  }catch(error){status.textContent=error.message||'The order could not be submitted. Your items and customer details have been kept.'}
+    window.FawzCart.removeItem('cart');loadCartTable();clearCustomerDetails();
+    status.textContent='Order '+result.orderNumber+' saved successfully.'+(result.emailed?' Email notification sent to FAWZ.':' The email notification was not sent. Management can view the saved order in Admin → Orders.');
+    if(result.orderId){const link=document.createElement('a');link.href='/api/order-pdf?orderId='+encodeURIComponent(result.orderId);link.textContent=' Download order PDF';status.append(document.createElement('br'),link)}
+    showOrderResult({
+      title:result.emailed?'Order submitted':'Order saved — email not sent',
+      message:'Order '+result.orderNumber+' has been saved successfully.'+(result.emailed?' FAWZ’s email service accepted the notification and PDF.':''),
+      reason:result.emailed?'':result.notificationError||'The email service did not accept the notification.',
+      next:result.emailed?'Management can view this order in Admin → Orders.':'Do not submit this order again. Management can view it in Admin → Orders and use Resend email after fixing the issue.',
+      kind:result.emailed?'success':'warning',orderId:result.orderId
+    });
+  }catch(error){const reason=error.message||'An unexpected error occurred.';status.textContent=reason;showOrderResult({title:'Order submission could not be confirmed',message:'We could not confirm that the order was saved.',reason,next:'Your items and customer details have been kept. Check Admin → Orders before trying again to avoid a duplicate order.'})}
   finally{orderSubmitting=false;btn.disabled=false;btn.textContent='Submit Order'}
 }
 addEventListener('fawz:site-ready',event=>{
@@ -240,7 +289,7 @@ addEventListener('fawz:site-ready',event=>{
   const user=event.detail.user,staff=isStaff(user);clearCustomerDetails();
   document.getElementById('staffOrderHint').hidden=!staff;
   if(!staff){document.getElementById('custName').value=user.displayName||'';document.getElementById('custAddr1').value=user.address||'';document.getElementById('custTel').value=user.phone||'';document.getElementById('custEmail').value=user.email||''}
-  customerIds.forEach(id=>document.getElementById(id).readOnly=!staff);
+  customerIds.forEach(id=>document.getElementById(id).readOnly=false);
   document.getElementById('repName').value=staff?user.displayName||'':'';document.getElementById('repName').readOnly=true;
   document.getElementById('repTel').value=staff?user.phone||'':'';
 });

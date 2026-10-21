@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fawz Haberdashery | Fancy Buckles Gold & Silver</title>
@@ -238,7 +238,7 @@ function handleAddToCart(type){
  if(!design){alert('Please select a '+type+' design');return}
  const qty=Math.max(1,parseInt(document.getElementById(type==='gold'?'goldQty':'silverQty').value)||1);
  const productId='fancy-buckle-'+type+'-'+design.toLowerCase().replace(/\s+/g,'-');
- const cart=JSON.parse(localStorage.getItem('cart')||'[]');cart.push({product:'Fancy Buckle '+type+' — '+design,productId,category:'Buckles',qty,variant:design,color:type});localStorage.setItem('cart',JSON.stringify(cart));
+ const cart=JSON.parse(window.FawzCart.getItem('cart')||'[]');cart.push({product:'Fancy Buckle '+type+' — '+design,productId,category:'Buckles',qty,variant:design,color:type});window.FawzCart.setItem('cart',JSON.stringify(cart));
  window.FawzCartNotice.show('Added to cart: Fancy Buckle '+type+' — '+design);closeModal(type+'Modal');
 }
 

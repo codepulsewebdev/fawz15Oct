@@ -34,14 +34,14 @@
 
   function safeCartStorage() {
     try {
-      const raw = localStorage.getItem('cart');
+      const raw = window.FawzCart.getItem('cart');
       if (!raw) return;
       const cart = JSON.parse(raw);
       if (!Array.isArray(cart)) throw new Error('Invalid cart');
       const clean = cart.slice(0, 250).filter((item) => item && typeof item === 'object');
-      if (clean.length !== cart.length) localStorage.setItem('cart', JSON.stringify(clean));
+      if (clean.length !== cart.length) window.FawzCart.setItem('cart', JSON.stringify(clean));
     } catch (_) {
-      localStorage.removeItem('cart');
+      window.FawzCart.removeItem('cart');
     }
   }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="fawz-account-cart.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -1211,7 +1211,7 @@ function addToCart() {
     
     const qty = parseInt(document.getElementById('qtyInput').value) || 1;
 
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     cart.push({
         name: selectedProduct.name,
         productId: selectedProduct.productId,
@@ -1220,7 +1220,7 @@ function addToCart() {
         image: selectedProduct.img
     });
     
-    localStorage.setItem('cart', JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
     
     const badge = document.getElementById('cartBadge');
     if (badge) {
@@ -1272,7 +1272,7 @@ function filterProducts() {
 }
 
 function updateCartBadge() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     const badge = document.getElementById('cartBadge');
     if (badge) {
         if (cart.length > 0) {

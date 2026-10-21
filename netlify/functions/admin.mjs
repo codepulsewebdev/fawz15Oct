@@ -1,3 +1,4 @@
+import { notifyOrder } from './_order-email.mjs';
 import { provisionStaff } from './_staff.mjs';
 import { auth, cleanPrice, cleanProductId, productKey, cleanText, currentUser, db, FieldValue, firebasePasswordLogin, handle, json, parseBody, requireCsrf, validTier } from './_shared.mjs';
 
@@ -28,6 +29,12 @@ export const handler = handle(async (event) => {
   requireCsrf(event);
   const body = parseBody(event);
   const action = body.action;
+  if(action==='retry-order-email'){
+    const orderId=String(body.orderId||'');if(!/^[A-Za-z0-9_-]{1,160}$/.test(orderId))throw new Error('Invalid order.');
+    const ref=db.collection('orders').doc(orderId),snap=await ref.get();if(!snap.exists)throw new Error('Order not found.');
+    const notification=await notifyOrder(snap.data());await ref.update({notification:{...notification,attemptedAt:FieldValue.serverTimestamp(),attemptedBy:admin.id}});
+    return json(200,{ok:true,notification});
+  }
   if (action === 'save-price') {
     const productId = cleanProductId(body.productId);
     if (!productId || !validTier(body.tier)) throw new Error('Invalid product or pricing group.');

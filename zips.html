@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Zips | Fawz Haberdashery</title>
@@ -832,7 +832,7 @@ function addToCart() {
 
     const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
 
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     cart.push({
         product: productName,
         category: "Zips",
@@ -845,7 +845,7 @@ function addToCart() {
         total: 0,
         timestamp: Date.now()
     });
-    localStorage.setItem('cart', JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
 
     const badge = document.getElementById('cartBadge');
     if (badge) {
@@ -869,7 +869,7 @@ function filterCategories() {
 }
 
 function updateCartBadge() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     const badge = document.getElementById('cartBadge');
     if (badge) {
         if (cart.length > 0) {

@@ -2,7 +2,7 @@
 
 <html lang="en">
 
-<head>
+<head><script src="fawz-account-cart.js"></script>
 
 <meta charset="UTF-8">
 
@@ -1120,7 +1120,7 @@ function addToCart() {
 
 
 
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
 
   cart.push({
 
@@ -1142,7 +1142,7 @@ function addToCart() {
 
 
 
-  localStorage.setItem('cart', JSON.stringify(cart));
+  window.FawzCart.setItem('cart', JSON.stringify(cart));
 
   window.FawzCartNotice.show(`Added ${qty} x ${productName} to your cart successfully!`);
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Plastic Fasteners | FAWZ Haberdashery</title>
@@ -544,9 +544,9 @@ function addToCart() {
     const quantity = Math.max(1, parseInt(document.getElementById("qty").value, 10) || 1);
     const productName = `${currentProduct.name} - ${currentSize}${currentColor ? ` (${currentColor})` : ""}`;
     let cart;
-    try { cart = JSON.parse(localStorage.getItem("cart") || "[]"); } catch (error) { cart = []; }
+    try { cart = JSON.parse(window.FawzCart.getItem('cart') || "[]"); } catch (error) { cart = []; }
     cart.push({ id: `${currentProduct.name}-${currentSize}-${currentColor}`.replace(/\s+/g, ""), product: productName, category: "Plastic Fasteners", size: currentSize, color: currentColor, qty: quantity, packing: "100 pieces per pack", timestamp: Date.now() });
-    localStorage.setItem("cart", JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
     updateCartBadge();
     window.FawzCartNotice.show(`✓ Added to cart:\n${productName}\nQuantity: ${quantity} pack(s)`);
     closeProductModal();
@@ -554,7 +554,7 @@ function addToCart() {
 
 function updateCartBadge() {
     let cart;
-    try { cart = JSON.parse(localStorage.getItem("cart") || "[]"); } catch (error) { cart = []; }
+    try { cart = JSON.parse(window.FawzCart.getItem('cart') || "[]"); } catch (error) { cart = []; }
     let badge = document.getElementById("cartBadge");
     const cartLink = document.querySelector('nav a[href="demo_cart.html"]');
     if (!badge && cartLink) { badge = document.createElement("span"); badge.id = "cartBadge"; badge.className = "cart-badge"; cartLink.classList.add("cart-link"); cartLink.appendChild(badge); }

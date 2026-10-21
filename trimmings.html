@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trimmings | FAWZ Haberdashery</title>
@@ -1315,7 +1315,7 @@ function addToCart() {
     if (currentColor) productName += ` [${colourLabel(currentColor)}]`;
     
     const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     cart.push({
         product: productName,
         productId: currentCategory.productId + (currentSize ? '-' + currentSize.replace(/\s/g, '') : '') + (currentColor ? '-' + currentColor : ''),
@@ -1329,7 +1329,7 @@ function addToCart() {
         total: currentPrice * qty,
         tier: window.userTier || 'tier_1'
     });
-    localStorage.setItem('cart', JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
     window.FawzCartNotice.show(`Added to cart: ${productName} x${qty}`);
 }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Craft & Bead Sets | Fawz Haberdashery</title>
@@ -1026,7 +1026,7 @@ function addToCart(){
   if(!selectedProduct) return;
 
   const qty = Math.max(parseInt(byId('qty').value || '1',10) || 1, 1);
-  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
 
   cart.push({
     product: selectedProduct.name,
@@ -1039,7 +1039,7 @@ function addToCart(){
     qty
   });
 
-  localStorage.setItem('cart', JSON.stringify(cart));
+  window.FawzCart.setItem('cart', JSON.stringify(cart));
   window.FawzCartNotice.show('Added to cart: ' + selectedProduct.name);
 }
 

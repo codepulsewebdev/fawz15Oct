@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tassels | FAWZ Haberdashery</title>
@@ -639,7 +639,7 @@ function addToCart() {
     const basePrice = activeItem.pricing[selectedSize] || 0;
     const computedPid = `tassel-${selectedSize.replace(' ', '')}-${selectedColorName}`.toLowerCase();
 
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     cart.push({
         product: `${activeItem.title} (${selectedSize} - ${selectedColorName})`,
         category: "Tassels",
@@ -653,7 +653,7 @@ function addToCart() {
         tier: window.userTier || 'tier_1'
     });
 
-    localStorage.setItem('cart', JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
     window.FawzCartNotice.show(`Added: ${activeItem.title} (${selectedSize} - ${selectedColorName}) x${qty} to cart.`);
     closeModal();
 }

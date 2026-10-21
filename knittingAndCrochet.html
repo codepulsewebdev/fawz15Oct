@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><script src="fawz-account-cart.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -782,7 +782,7 @@ function addToCart() {
         return;
     }
     
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     cart.push({
         product: productName,
         category: "Knitting & Crochet",
@@ -792,7 +792,7 @@ function addToCart() {
         unitPrice: currentPrice,
         total: currentPrice * qty,
     });
-    localStorage.setItem('cart', JSON.stringify(cart));
+    window.FawzCart.setItem('cart', JSON.stringify(cart));
     window.FawzCartNotice.show(`Added to cart: ${productName} x${qty}`);
     closeModal();
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head><link rel="stylesheet" href="fawz-site.css">
+<head><script src="fawz-account-cart.js"></script><link rel="stylesheet" href="fawz-site.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fawz Haberdashery | Retailer Ordering</title>
@@ -962,7 +962,7 @@
     <script>
         // Cart badge
         function updateHomeBadge() {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cart = JSON.parse(window.FawzCart.getItem('cart')) || [];
             const badge = document.getElementById("cartBadge");
             if (!badge) return;
             if (cart.length > 0) {
