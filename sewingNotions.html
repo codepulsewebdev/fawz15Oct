@@ -459,8 +459,13 @@ main {
                 <label id="variantLabel">Select Option</label>
                 <div id="variantSelectContainer"></div>
             </div>
-            <label>Quantity</label>
-            <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="updatePrice()">
+            <div id="packingGroup" class="variant-group">
+                <label for="packingSelect">Packing option</label>
+                <select id="packingSelect" class="variant-select" required></select>
+            </div>
+            <label id="qtyLabel" for="qty">Number of packs</label>
+            <input type="number" id="qty" class="qty-input" value="1" min="1" step="1" required oninput="updatePrice()">
+            <p id="packingSummary" aria-live="polite"></p>
             <div id="price">Price on request — Contact us for quote</div>
             <button class="btn-add" onclick="addToCart()">Add to Cart</button>
         </div>
@@ -2358,6 +2363,14 @@ function updatePrice() {
 
 function addToCart() {
     if (!currentProduct) return;
+    window.fawzNotionsPacking.sync();
+    const quantityInput = document.getElementById('qty');
+    if (!quantityInput.checkValidity() || !Number.isSafeInteger(Number(quantityInput.value))) {
+        quantityInput.reportValidity();
+        return;
+    }
+    const packing = window.fawzNotionsPacking.selected();
+    if (!packing) return;
     let productName = currentProduct.name;
     if (currentProduct.hasColorSize) {
         productName += ' - ' + currentColor + ' - ' + currentSize;
@@ -2366,7 +2379,8 @@ function addToCart() {
     } else if (currentVariant) {
         productName += ' - ' + currentVariant.name;
     }
-    const qty = Math.max(1, parseInt(document.getElementById('qty').value) || 1);
+    productName += ' — ' + packing.label;
+    const qty = Number(quantityInput.value);
 
     const cart = JSON.parse(window.FawzCart.getItem('cart') || '[]');
     cart.push({
@@ -2374,7 +2388,8 @@ function addToCart() {
             + (currentVariant ? '-' + currentVariant.name.replace(/\s/g, '') : '')
             + (currentColor ? '-' + currentColor : '')
             + (currentSize ? '-' + currentSize : '')
-            + (currentMaterial ? '-' + currentMaterial : ''),
+            + (currentMaterial ? '-' + currentMaterial : '')
+            + '-packing-' + packing.key,
         product: productName,
         category: "Sewing Notions",
         variant: currentVariant?.name || null,
@@ -2382,6 +2397,13 @@ function addToCart() {
         size: currentSize || null,
         material: currentMaterial || null,
         qty: qty,
+        packing: packing.label,
+        packingKey: packing.key,
+        packingUnit: packing.unit,
+        packQuantity: qty,
+        quantityPerPack: packing.quantityPerPack,
+        contentsUnit: packing.contentsUnit,
+        totalUnits: packing.quantityPerPack === null ? null : qty * packing.quantityPerPack,
         price: 0,
         unitPrice: 0,
         total: 0,
@@ -2619,6 +2641,128 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 };
 
+    function packingOption(label, unit, quantityPerPack = null, contentsUnit = null) {
+        return {
+            key: label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+            label,
+            unit,
+            quantityPerPack,
+            contentsUnit
+        };
+    }
+
+    function getPackingOptions(product, variant = null) {
+        const id = product.id;
+        const variantName = variant?.name || '';
+        const variantText = notionsVariantPackingDescriptions[id]?.[variantName];
+        const text = variantText || notionsPackingDescriptions[id] || '';
+
+        if (/Packing options:/i.test(text)) {
+            return [...text.matchAll(/\d[\d,]*/g)].map(match => {
+                const count = Number(match[0].replace(/,/g, ''));
+                return packingOption(`Pack — ${count} pieces`, 'pack', count, 'pieces');
+            });
+        }
+
+        if (/Sold individually|Sold per piece/i.test(text)) {
+            const unit = text.match(/one (piece|combo|kit)/i)?.[1] || 'piece';
+            return [packingOption(unit[0].toUpperCase() + unit.slice(1), unit, 1, unit === 'piece' ? 'pieces' : unit + 's')];
+        }
+
+        // Use the outer packing unit stated in the verified packing text.
+        // Inner contents remain in the label; they are not separate sale options.
+        const counts = [...text.matchAll(/(\d[\d,]*(?:\.\d+)?)\s*([a-zA-Z -]*?)\s+per\s+(retail pack|box|pack|card|roll|set|carton)\b/gi)];
+        if (counts.length) {
+            const outer = counts[counts.length - 1];
+            const count = Number(outer[1].replace(/,/g, ''));
+            const unit = outer[3].toLowerCase();
+            const contentsUnit = outer[2].trim() || (counts.length > 1 ? counts[counts.length - 2][3] + 's' : 'items');
+            const label = unit[0].toUpperCase() + unit.slice(1) + ' — ' + text.replace(/\.$/, '');
+            return [packingOption(label, unit, count, contentsUnit)];
+        }
+
+        // Some variants already specify their own pack/set contents.
+        const variantPack = variantName.match(/^(\d+)\s*(?:Pack|pc\s+(?:Set|Kit))\b/i);
+        if (variantPack) {
+            const count = Number(variantPack[1]);
+            const unit = /kit/i.test(variantName) ? 'kit' : /set/i.test(variantName) ? 'set' : 'pack';
+            return [packingOption(`${unit[0].toUpperCase() + unit.slice(1)} — ${variantName}`, unit, count, 'pieces')];
+        }
+        const bladeCount = variantName.match(/\((\d+)\s+blade\)/i);
+        if (bladeCount) {
+            const count = Number(bladeCount[1]);
+            return [packingOption(`Pack — ${count} blades`, 'pack', count, 'blades')];
+        }
+        if (id === 'tweezers-4pc') {
+            return [packingOption('4-piece set', 'set', 4, 'pieces')];
+        }
+        if (id === 'bead-stretch-cord') {
+            return [packingOption('Roll', 'roll')];
+        }
+
+        // Keep the existing packaging type where no numerical contents were supplied.
+        // Do not invent pack sizes or a box quantity for the 4-piece tweezers.
+        const description = product.description || '';
+        if (/bulk pack/i.test(description)) return [packingOption('Bulk pack', 'pack')];
+        if (/box pack|packed in a box/i.test(description)) return [packingOption('Box', 'box')];
+        if (/carded|on card|on a card/i.test(description)) return [packingOption('Card', 'card')];
+        if (/tube pack/i.test(description)) return [packingOption('Tube', 'tube')];
+        if (/retail pack/i.test(description)) return [packingOption('Retail pack', 'pack')];
+        if (/\bpacked\b|\bpackaging\b/i.test(description)) return [packingOption('Standard pack', 'pack')];
+        return [packingOption('Standard unit', 'unit')];
+    }
+
+    function selectedPacking() {
+        if (!currentProduct) return null;
+        const options = getPackingOptions(currentProduct, currentVariant);
+        const key = document.getElementById('packingSelect')?.value;
+        return options.find(option => option.key === key) || null;
+    }
+
+    function updatePackingSummary() {
+        const option = selectedPacking();
+        const summary = document.getElementById('packingSummary');
+        if (!option || !summary) return;
+        const input = document.getElementById('qty');
+        const count = Number(input.value);
+        if (!Number.isSafeInteger(count) || count < 1) {
+            summary.textContent = 'Enter a whole number of ' + option.unit + 's.';
+            return;
+        }
+        const total = option.quantityPerPack === null ? '' : ` — ${count * option.quantityPerPack} ${option.contentsUnit} total`;
+        summary.textContent = `${count} × ${option.label}${total}`;
+    }
+
+    function syncPackingSelector() {
+        if (!currentProduct) return;
+        const select = document.getElementById('packingSelect');
+        if (!select) return;
+        const options = getPackingOptions(currentProduct, currentVariant);
+        const context = JSON.stringify([currentProduct.id, currentVariant?.name || '', currentColor, currentSize, currentMaterial]);
+        const previousKey = select.dataset.context === context ? select.value : null;
+        const signature = JSON.stringify(options);
+        if (select.dataset.context !== context || select.dataset.options !== signature) {
+            select.replaceChildren();
+            options.forEach(option => {
+                const entry = document.createElement('option');
+                entry.value = option.key;
+                entry.textContent = option.label;
+                select.appendChild(entry);
+            });
+            select.dataset.context = context;
+            select.dataset.options = signature;
+            select.value = options.some(option => option.key === previousKey) ? previousKey : options[0].key;
+        }
+        const option = selectedPacking();
+        const plural = option.unit === 'box' ? 'boxes' : option.unit === 'piece' ? 'pieces' : option.unit + 's';
+        document.getElementById('qtyLabel').textContent = 'Number of ' + plural;
+        updatePackingSummary();
+    }
+
+    window.fawzNotionsPacking = { getOptions: getPackingOptions, selected: selectedPacking, sync: syncPackingSelector };
+    document.getElementById('packingSelect').addEventListener('change', updatePackingSummary);
+    document.getElementById('qty').addEventListener('input', updatePackingSummary);
+
     function selectedVariantName() {
         const select = document.querySelector('#variantSelectContainer select');
         return select ? select.options[select.selectedIndex]?.text : null;
@@ -2639,6 +2783,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!box) return;
         box.textContent = text;
         box.hidden = !text;
+        syncPackingSelector();
     }
 
     const originalOpenModal = openModal;
