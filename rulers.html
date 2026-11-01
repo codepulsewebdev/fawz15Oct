@@ -889,7 +889,7 @@ const products = [
 
         size: "30 cm", 
 
-        description: "Specialized transparent sweeping curvature modification tool.", 
+        description: "Transparent sleeve curve ruler.", 
 
         hasVariants: false
 
@@ -1037,7 +1037,7 @@ const products = [
 
     { 
 
-        name: "Seven Piece Set with Peg", 
+        name: "Seven Piece Set with Bag", 
 
         imgKey: "individual-seven-piece-set", 
 
@@ -1177,7 +1177,9 @@ function openModal(productIndex) {
 
     document.getElementById('modalTitle').innerText = currentProduct.name;
 
-    document.getElementById('modalDesc').innerHTML = `${currentProduct.description}<br><br><strong>Dimensions:</strong> ${currentProduct.size}<br><br><strong>Packing:</strong> All rulers are packed as singles.`;
+    document.getElementById('modalDesc').innerHTML = currentProduct.imgKey === 'individual-seven-piece-set'
+        ? currentProduct.description
+        : `${currentProduct.description}<br><br><strong>Dimensions:</strong> ${currentProduct.size}<br><br><strong>Packing:</strong> All rulers are packed as singles.`;
 
 
 
