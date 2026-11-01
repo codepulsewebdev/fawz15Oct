@@ -329,7 +329,7 @@ main {
     <nav>
         <a href="home.html">Home</a>
         <a href="category-index.html">Categories</a>
-        <a href="all-products.html">All Products</a>
+        <a href="home.html">All Products</a>
         <a href="demo_cart.html" class="cart-link">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></a>
     </nav>
 </header>
@@ -785,7 +785,7 @@ const fabricMarkersProducts = [
         id: "kearing-non-permanent",
         name: "Kearing Non-Permanent Fabric Markers",
         image: "images/Fabric markers/non pack 12.jpg",
-        description: "Kearing non-permanent fabric markers. Available in 6 pack and 12 pack. Washes out easily. Perfect for temporary markings.",
+        description: "Kearing Non-permanent fabric markers. Available in 6 pack and 12 pack. Washes out easily. Perfect for temporary markings.",
         hasVariants: true,
         variants: [
             { name: "6 Pack", image: "images/Fabric markers/6 pack.jpg" },
@@ -1815,14 +1815,14 @@ const beadStretchProducts = [
 const bucklesProducts = [
     {
         id: "waistcoat-buckle-silver",
-        name: "Waistcoat Buckle Silver",
+        name: "Waistcoat Buckles Carded Silver",
         image: "images/Buckles/waist coat buckle silver (2).jpg",
         description: "Silver waistcoat buckle. 25mm size. Perfect for waistcoats, braces, and formal wear. Box packing.",
         hasVariants: false
     },
     {
         id: "waistcoat-buckle-gold",
-        name: "Waistcoat Buckle Gold",
+        name: "Waistcoat Buckles Carded Gold",
         image: "images/Buckles/waist coat buckle gold.jpg",
         description: "Gold waistcoat buckle. 25mm size. Perfect for waistcoats, braces, and formal wear. Box packing.",
         hasVariants: false
@@ -1839,13 +1839,6 @@ const bucklesProducts = [
         name: "Waistcoat Buckle Bulk Gold",
         image: "images/Buckles/waist coat buckle bulk gold.jpg",
         description: "Gold waistcoat buckle bulk pack. 25mm size. Bulk pricing for larger quantities. Ideal for wholesale and manufacturing. Box packing.",
-        hasVariants: false
-    },
-    {
-        id: "buckle-silver",
-        name: "Buckle Silver",
-        image: "images/Buckles/buckle silver.jpg",
-        description: "Standard silver buckle. 25mm size. Versatile buckle for various garment and accessory applications. Box packing.",
         hasVariants: false
     }
 ];
@@ -1867,22 +1860,22 @@ const glueProducts = [
         id: "glue-sticks-glitter",
         name: "Glitter Glue Sticks",
         image: "images/Glue guns and glue/glue sticks glitter 5.jpg",
-        description: "Glitter glue sticks for hot glue guns. Available in 5 pack and 8 pack. Adds sparkle to craft projects. Packed.",
+        description: "Glitter glue sticks for hot glue guns. Small: 7mm, 8 sticks per card. Large: 11mm, 5 sticks per card. Adds sparkle to craft projects.",
         hasVariants: true,
         variants: [
-            { name: "5 Pack", image: "images/Glue guns and glue/glue sticks glitter 5.jpg" },
-            { name: "8 Pack", image: "images/Glue guns and glue/glue sticks glitter 8.jpg" }
+            { name: "5 Pack (11mm)", image: "images/Glue guns and glue/glue sticks glitter 5.jpg" },
+            { name: "8 Pack (7mm)", image: "images/Glue guns and glue/glue sticks glitter 8.jpg" }
         ]
     },
     {
         id: "glue-sticks-clear",
         name: "Clear Glue Sticks",
         image: "images/Glue guns and glue/glue sticks clear 5.jpg",
-        description: "Clear glue sticks for hot glue guns. Available in 5 pack and 8 pack. Transparent adhesive for clean finishes. Packed.",
+        description: "Clear glue sticks for hot glue guns. Small: 7mm, 8 sticks per card. Large: 11mm, 5 sticks per card. Transparent adhesive for clean finishes.",
         hasVariants: true,
         variants: [
-            { name: "5 Pack", image: "images/Glue guns and glue/glue sticks clear 5.jpg" },
-            { name: "8 Pack", image: "images/Glue guns and glue/glue sticks clear 8.jpg" }
+            { name: "5 Pack (11mm)", image: "images/Glue guns and glue/glue sticks clear 5.jpg" },
+            { name: "8 Pack (7mm)", image: "images/Glue guns and glue/glue sticks clear 8.jpg" }
         ]
     },
     {
@@ -2104,17 +2097,10 @@ const balanceProducts = [
         hasVariants: false
     },
     {
-        id: "hooked-needle",
-        name: "Hooked Needle",
-        image: "images/Sewing notions balance/hooked needle.jpg",
-        description: "Hooked needle for pulling threads and elastic through casings. Essential for sewing and craft projects. Carded.",
-        hasVariants: false
-    },
-    {
         id: "quilt-craft-clip",
         name: "Quilt Craft Clip",
         image: "images/Sewing notions balance/quilt craft clip.jpg",
-        description: "Quilt craft clip for holding fabric layers together. Perfect for quilting, sewing, and craft projects. Packed.",
+        description: "Quilt craft clip for holding fabric layers together. Perfect for quilting, sewing, and craft projects. Sold per piece.",
         hasVariants: false
     },
     {
@@ -2180,6 +2166,7 @@ function openModal(product) {
 
     document.getElementById('modalTitle').innerText = product.name;
     document.getElementById('modalDesc').innerHTML = product.description;
+    document.getElementById('modalDesc').hidden = product.id === 'hotfix-gold-chain' || product.id === 'hotfix-silver-chain';
 
     const modalImg = document.getElementById('modalImg');
     const modalLeft = document.getElementById('modalLeft');
@@ -2548,13 +2535,13 @@ document.addEventListener('DOMContentLoaded', function() {
         "brace-clips": "1 pair per retail pack; 10 per box.",
         "waistcoat-buckle-silver": "Packing options: 50, 100 or 200 pieces.",
         "waistcoat-buckle-gold": "Packing options: 50, 100 or 200 pieces.",
-        "buckle-silver": "Packing options: 50, 100 or 200 pieces.",
         "fabric-glue": "10 per box.",
         "white-craft-glue": "6 per pack.",
         "tweezers-fine-point-curved": "12 cards per box.",
         "tweezers-fine-point-straight": "12 cards per box.",
         "needle-threader-2-card": "2 per card; 24 cards per box.",
         "needle-threader-flower": "10 cards per box.",
+        "quilt-craft-clip": "Sold per piece.",
         "bees-wax": "12 cards per box.",
         "elastic-threader": "3 pieces per card.",
         "pattern-hooks": "2 per pack; 6 packs per box.",
@@ -2615,6 +2602,14 @@ document.addEventListener('DOMContentLoaded', function() {
         "waistcoat-buckle-bulk-gold": "Packing options: 50, 100 or 200 pieces."
 };
     const notionsVariantPackingDescriptions = {
+        "glue-sticks-glitter": {
+                "5 Pack (11mm)": "Large: 11mm; 5 sticks per card.",
+                "8 Pack (7mm)": "Small: 7mm; 8 sticks per card."
+        },
+        "glue-sticks-clear": {
+                "5 Pack (11mm)": "Large: 11mm; 5 sticks per card.",
+                "8 Pack (7mm)": "Small: 7mm; 8 sticks per card."
+        },
         "kearing-permanent": {
                 "6 Pack": "6 markers per pack.",
                 "12 Pack": "12 markers per pack."
